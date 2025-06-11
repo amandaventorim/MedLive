@@ -1,4 +1,4 @@
-CRIAR_TABELA = """
+CRIAR_TABELA_USUARIO = """
 CREATE TABLE IF NOT EXISTS usuario (
 idUsuario INTEGER PRIMARY KEY AUTOINCREMENT,
 nome TEXT NOT NULL,
@@ -10,14 +10,32 @@ dataNascimento TEXT NOT NULL
 );
 """
 
-INSERIR = """
-INSERT INTO cliente (nome, cpf, email, telefone, senha) 
-VALUES (?, ?, ?, ?, ?)
+INSERIR_USUARIO = """
+INSERT INTO usuario (nome, cpf, email, senha, genero, dataNascimento) 
+VALUES (?, ?, ?, ?, ?, ?)
 """
 
-OBTER_TODOS = """
+OBTER_TODOS_USUARIOS = """
 SELECT 
-id, nome, cpf, email, telefone, senha
-FROM cliente
-ORDER BY nome
-""" 
+idUsuario, nome, cpf, email, senha, genero, dataNascimento
+FROM usuario
+ORDER BY idUsuario
+"""
+
+OBTER_USUARIO_POR_ID = """
+SELECT
+idUsuario, nome, cpf, email, senha, genero, dataNascimento
+FROM usuario
+WHERE idUsuario = ?
+"""
+
+UPDATE_USUARIO = """
+UPDATE usuario
+SET nome = ?, cpf = ?, email = ?, senha = ?, genero = ?, dataNascimento = ?
+WHERE idUsuario = ?
+"""
+
+DELETAR_USUARIO = """
+DELETE FROM usuario
+WHERE idUsuario = ?
+"""
