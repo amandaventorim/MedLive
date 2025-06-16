@@ -7,4 +7,4 @@ class Paciente(Usuario):
     idPaciente: int
     endereco: str
     convenio: str
-    telefone: str
+    
