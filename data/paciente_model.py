@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from data.models.usuario_model import Usuario
+from data.usuario_model import Usuario
 
 
 @dataclass
