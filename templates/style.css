@@ -1,0 +1,206 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F5F5F5;
+}
+
+
+.navbar-custom {
+  background-color: #ffffff !important;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  height: 70px;              
+  overflow: hidden;          
+}
+
+
+.logo-img {
+  height: 80px;              
+  width: auto;
+  object-fit: contain;
+  margin-top: -10px;         
+}
+
+
+.navbar-custom .nav-link {
+  color: #001942 !important;
+  font-weight: 600;
+  margin-right: 1rem;
+}
+.navbar-custom .nav-link:hover {
+  color: #B31D1D !important;
+  text-decoration: underline;
+}
+
+
+.navbar-custom .navbar-brand span {
+  display: none;
+}
+
+
+.btn-criar-conta {
+  background-color: #001942;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: none;
+  text-decoration: none;
+}
+.btn-criar-conta:hover {
+  background-color: #010008;
+  color: #fff;
+}
+
+
+.btn-entrar {
+  background-color: #001942;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: none;
+}
+.btn-entrar:hover {
+  background-color: #010008;
+  color: #fff;
+}
+
+
+
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+.hero-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to left, rgba(245, 245, 245, 1), rgba(245, 245, 245, 0));
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+  z-index: 2;
+  max-width: 360px;
+  color: #001942;
+}
+
+
+.text-azul {
+  color: #001942;
+}
+
+
+.card-banner {
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  padding: 1rem;
+}
+
+
+.btn-danger {
+  background-color: #B31D1D;
+  border: none;
+  font-weight: bold;
+}
+.btn-danger:hover {
+  background-color: #8f0d18;
+}
+
+
+.card-info {
+  background-color: #001942;
+  border: none;
+  border-radius: 10px;
+  padding-top: 50px;
+  position: relative;
+  height: 240px;
+  margin-bottom: 30px;
+}
+.card-maior {
+  height: 260px;
+}
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #B31D1D;
+}
+.card-info .card-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0 10px;
+}
+
+
+.row.g-4 > .col-md-4 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+
+.bg-dark-custom {
+  background-color: #001942;
+}
+
+
+@media (max-width: 768px) {
+  .hero-banner {
+    height: auto;
+  }
+
+  .hero-banner::after {
+    display: none;
+  }
+
+  .hero-content {
+    position: static;
+    transform: none;
+    padding: 2rem;
+    text-align: center;
+    margin-top: -60px;
+  }
+
+  .card-banner {
+    margin: 20px auto 0;
+  }
+}
+
+.logo-img {
+  height: 55px;      
+  width: auto;       
+  object-fit: contain;
+}
+
