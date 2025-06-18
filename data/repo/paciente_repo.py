@@ -1,6 +1,8 @@
 from typing import Optional
 from data.model.paciente_model import Paciente
+from data.repo.usuario_repo import inserir_usuario
 from data.sql.paciente_sql import *
+from data.sql.usuario_sql import INSERIR_USUARIO
 from data.util import get_connection
 
 
@@ -20,6 +22,39 @@ def inserir_paciente(paciente: Paciente) -> Optional[int]:
             paciente.convenio
         ))
         return cursor.lastrowid
+
+def registrar_paciente_completo(paciente: Paciente) -> Optional[int]:
+    with get_connection() as conn:
+        try:
+            cursor = conn.cursor()
+            
+            # Inserir na tabela usuario
+            cursor.execute(INSERIR_USUARIO, (
+                paciente.nome,
+                paciente.cpf,
+                paciente.email,
+                paciente.senha,
+                paciente.genero,
+                paciente.dataNascimento
+            ))
+            id_usuario = cursor.lastrowid
+
+            # Inserir na tabela paciente
+            cursor.execute(INSERIR_PACIENTE, (
+                id_usuario,  # idPaciente = idUsuario
+                paciente.endereco,
+                paciente.convenio
+            ))
+
+            # Confirmar a transação
+            conn.commit()
+
+            return id_usuario
+        
+        except Exception as e:
+            print("Erro ao registrar paciente:", e)
+            conn.rollback()
+            return None
 
 
 def obter_todos_pacientes() -> list[Paciente]:
