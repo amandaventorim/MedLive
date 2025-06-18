@@ -14,13 +14,13 @@ VALUES (?, ?, ?)
 
 OBTER_TODOS_PACIENTES = """
 SELECT 
-p.idPaciente, u.nome, u.cpf, u.email, u.genero, u.dataNascimento, p.endereco, p.convenio
+p.idPaciente, u.nome, u.cpf, u.email, u.senha, u.genero, u.dataNascimento, p.endereco, p.convenio
 FROM paciente p
 JOIN usuario u ON p.idPaciente = u.idUsuario
 ORDER BY p.idPaciente
 """
 
-OBTER_PACIENTES_POR_ID = """
+OBTER_PACIENTE_POR_ID = """
 SELECT 
 p.idPaciente, u.nome, u.cpf, u.email, u.genero, u.dataNascimento, p.endereco, p.convenio
 FROM paciente p
@@ -29,9 +29,9 @@ WHERE p.idPaciente = ?
 """
 
 UPDATE_PACIENTE = """
-UPDATE paciente p
+UPDATE paciente
 SET endereco = ?, convenio = ?
-WHERE p.idPaciente = ?
+WHERE idPaciente = ?
 """
 
 DELETAR_PACIENTE = """

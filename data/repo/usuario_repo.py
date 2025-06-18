@@ -1,7 +1,7 @@
 from typing import Optional
-from usuario_model import Usuario
-from usuario_sql import *
-from util import get_connection
+from data.model.usuario_model import Usuario
+from data.sql.usuario_sql import *
+from data.util import get_connection
 
 def criar_tabela_usuario() -> bool:
     with get_connection() as conn:
@@ -74,28 +74,4 @@ def deletar_usuario(idUsuario: int) -> bool:
         return cursor.rowcount > 0
     
 
-criar_tabela_usuario()
-# inserir_usuario(Usuario(
-#     idUsuario = 0,
-#     nome="fernando Silva",
-#     cpf="12345678901",
-#     email="silva@gmail.com",
-#     senha="123", 
-#     genero="feminino",
-#     dataNascimento="1990-01-01"))
 
-# obter_todos_usuarios()
-# for usuario in obter_todos_usuarios():
-#     print(usuario)
-
-# print(obter_usuario_por_id(1))
-
-# print(atualizar_usuario(Usuario( nome="eros", 
-#     cpf="12345678901",
-#     email="eros@fmail",
-#     senha="123",
-#     genero="masculino",
-#     dataNascimento="1990-01-01",
-#     idUsuario=1)))
-
-# print(deletar_usuario(1))
