@@ -4,6 +4,8 @@ from data.model.paciente_model import Paciente
 from data.repo.paciente_repo import *
 from data.model.medico_model import Medico
 from data.repo.medico_repo import *
+from data.model.administrador_model import Administrador
+from data.repo.administrador_repo import *
 
 
 
@@ -11,6 +13,7 @@ from data.repo.medico_repo import *
 criar_tabela_usuario()
 criar_tabela_paciente()
 criar_tabela_medico()
+criar_tabela_administrador()    
 
 # Inserir usuário (dados comuns)
 # usuario = Usuario(
@@ -122,4 +125,34 @@ medico = Medico(
 # )))
 
 #deletar medico
-print(deletar_usuario_medico(21))
+# print(deletar_usuario_medico(21))
+
+
+# Criar novo administrador
+administrador = Administrador(
+    idAdministrador=0,  # será gerado automaticamente
+    idUsuario=0,
+    nome="Catarina",
+    cpf="99988877766",
+    email="fernanda.admin@email.com",
+    senha="admin123",
+    genero="Feminino",
+    dataNascimento="1985-10-12"
+)
+
+# # Inserir administrador (usuário + administrador)
+# id_admin = inserir_usuario_administrador(administrador)
+# print(f"✅ Administrador inserido com sucesso! ID: {id_admin}")
+
+# # Consultar todos os administradores
+# print("\n👩‍💼 Administradores no sistema:")
+# for a in obter_todos_administradores():
+#     print(a)
+
+# Consultar administrador por ID
+# print(obter_administrador_por_id(23))
+
+
+# Deletar administrador + usuário
+print("\n🗑️ Deletando administrador:")
+print(deletar_usuario_administrador(23))

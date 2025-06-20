@@ -1,6 +1,5 @@
 from typing import Optional
 from data.model.paciente_model import Paciente
-from data.repo.usuario_repo import inserir_usuario
 from data.sql.paciente_sql import *
 from data.sql.usuario_sql import *
 from data.util import get_connection
