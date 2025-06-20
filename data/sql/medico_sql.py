@@ -14,7 +14,7 @@ VALUES (?, ?, ?)
 
 OBTER_TODOS_MEDICOS = """
 SELECT 
-m.idMedico, u.nome, u.cpf,u.email, u.genero, u.dataNascimento, m.crm, m.statusProfissional
+m.idMedico, u.nome, u.cpf, u.email, u.senha, u.genero, u.dataNascimento, m.crm, m.statusProfissional
 FROM medico m
 JOIN usuario u ON m.idMedico = u.idUsuario
 ORDER BY m.idMedico
@@ -22,16 +22,16 @@ ORDER BY m.idMedico
 
 OBTER_MEDICOS_POR_ID = """
 SELECT 
-m.idMedico, u.nome, u.cpf,u.email, u.genero, u.dataNascimento, m.crm, m.statusProfissional
+m.idMedico, u.nome, u.cpf,u.email, u.senha, u.genero, u.dataNascimento, m.crm, m.statusProfissional
 FROM medico m
 JOIN usuario u ON m.idMedico = u.idUsuario
 WHERE m.idMedico = ?
 """
 
 UPDATE_MEDICO = """
-UPDATE medico m
+UPDATE medico
 SET crm = ?, statusProfissional = ?
-WHERE m.idMedico = ?
+WHERE idMedico = ?
 """
 
 DELETAR_MEDICO = """

@@ -2,7 +2,7 @@ from typing import Optional
 from data.model.paciente_model import Paciente
 from data.repo.usuario_repo import inserir_usuario
 from data.sql.paciente_sql import *
-from data.sql.usuario_sql import INSERIR_USUARIO
+from data.sql.usuario_sql import *
 from data.util import get_connection
 
 
@@ -12,7 +12,7 @@ def criar_tabela_paciente() -> bool:
         cursor.execute(CRIAR_TABELA_PACIENTE)
         return cursor.rowcount > 0
 
-
+#INSERIR APENAS PACIENTE
 def inserir_paciente(paciente: Paciente) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
@@ -22,40 +22,27 @@ def inserir_paciente(paciente: Paciente) -> Optional[int]:
             paciente.convenio
         ))
         return cursor.lastrowid
-
-def registrar_paciente_completo(paciente: Paciente) -> Optional[int]:
+    
+#INSERIR USUARIO PRIMEIRO E DEPOIS PACIENTE
+def inserir_usuario_paciente(paciente: Paciente) -> Optional[int]:
     with get_connection() as conn:
-        try:
-            cursor = conn.cursor()
-            
-            # Inserir na tabela usuario
-            cursor.execute(INSERIR_USUARIO, (
-                paciente.nome,
-                paciente.cpf,
-                paciente.email,
-                paciente.senha,
-                paciente.genero,
-                paciente.dataNascimento
+        cursor = conn.cursor()
+        cursor.execute(INSERIR_USUARIO, (
+            paciente.nome,
+            paciente.cpf,
+            paciente.email,
+            paciente.senha,
+            paciente.genero,
+            paciente.dataNascimento
             ))
-            id_usuario = cursor.lastrowid
+        id_paciente = cursor.lastrowid # idPaciente = idUsuario
 
-            # Inserir na tabela paciente
-            cursor.execute(INSERIR_PACIENTE, (
-                id_usuario,  # idPaciente = idUsuario
-                paciente.endereco,
-                paciente.convenio
+        cursor.execute(INSERIR_PACIENTE, (
+            id_paciente,  
+            paciente.endereco,
+            paciente.convenio
             ))
-
-            # Confirmar a transação
-            conn.commit()
-
-            return id_usuario
-        
-        except Exception as e:
-            print("Erro ao registrar paciente:", e)
-            conn.rollback()
-            return None
-
+        return id_paciente
 
 def obter_todos_pacientes() -> list[Paciente]:
     with get_connection() as conn:
@@ -86,6 +73,7 @@ def obter_paciente_por_id(idPaciente: int) -> Optional[Paciente]:
         if row:
             return Paciente(
                 idPaciente=row["idPaciente"],
+                idUsuario=row["idPaciente"],  
                 nome=row["nome"],
                 cpf=row["cpf"],
                 email=row["email"],
@@ -112,3 +100,12 @@ def deletar_paciente(idPaciente: int) -> bool:
         cursor = conn.cursor()
         cursor.execute(DELETAR_PACIENTE, (idPaciente,))
         return cursor.rowcount > 0
+    
+def deletar_usuario_paciente(idPaciente: int) -> bool:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(DELETAR_PACIENTE, (idPaciente,))
+        if cursor.rowcount > 0:
+            cursor.execute(DELETAR_USUARIO, (idPaciente,))
+        return cursor.rowcount > 0
+
