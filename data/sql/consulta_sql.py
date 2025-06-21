@@ -18,9 +18,7 @@ VALUES (?, ?, ?, ?, ?)
 
 OBTER_TODAS_CONSULTAS = """
 SELECT
-c.idConsulta, c.dataHora, c.queixa, c.conduta,
-m.idMedico, m.nome AS nomeMedico,
-p.idPaciente, p.nome AS nomePaciente
+c.idConsulta, c.dataHora, c.queixa, c.conduta, m.idMedico, p.idPaciente
 FROM consulta c
 JOIN medico m ON c.idMedico = m.idMedico
 JOIN paciente p ON c.idPaciente = p.idPaciente
@@ -29,9 +27,7 @@ ORDER BY c.idConsulta;
 
 OBTER_CONSULTA_POR_ID = """
 SELECT
-c.idConsulta, c.dataHora, c.queixa, c.conduta,
-m.idMedico, m.nome AS nomeMedico,
-p.idPaciente, p.nome AS nomePaciente
+c.idConsulta, c.dataHora, c.queixa, c.conduta, m.idMedico, p.idPaciente
 FROM consulta c
 JOIN medico m ON c.idMedico = m.idMedico
 JOIN paciente p ON c.idPaciente = p.idPaciente

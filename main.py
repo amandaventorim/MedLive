@@ -6,14 +6,25 @@ from data.model.medico_model import Medico
 from data.repo.medico_repo import *
 from data.model.administrador_model import Administrador
 from data.repo.administrador_repo import *
-
+from data.model.especialidade_model import Especialidade
+from data.repo.especialidade_repo import *
+from data.model.medicamento_model import Medicamento
+from data.repo.medicamento_repo import *
+from data.model.consulta_model import Consulta
+from data.repo.consulta_repo import *
+from data.model.entrada_prontuario_model import EntradaProntuario
+from data.repo.entrada_prontuario_repo import *
 
 
 # Criar tabelas
 criar_tabela_usuario()
 criar_tabela_paciente()
 criar_tabela_medico()
-criar_tabela_administrador()    
+criar_tabela_administrador()   
+criar_tabela_especialidade() 
+criar_tabela_medicamento()
+criar_tabela_consulta()
+criar_tabela_entrada_prontuario()
 
 # Inserir usuário (dados comuns)
 # usuario = Usuario(
@@ -153,6 +164,90 @@ administrador = Administrador(
 # print(obter_administrador_por_id(23))
 
 
-# Deletar administrador + usuário
-print("\n🗑️ Deletando administrador:")
-print(deletar_usuario_administrador(23))
+# # Deletar administrador + usuário
+# print("\n🗑️ Deletando administrador:")
+# print(deletar_usuario_administrador(23))
+
+# Inserir especialidade
+especialidade = Especialidade(
+    idEspecialidade=0,  # será gerado automaticamente
+    nome="Reumatologia",
+    descricao="Especialidade médica que se concentra no diagnóstico e tratamento de doenças reumáticas, como artrite, lupus e outras condições autoimunes."
+)
+# print(inserir_especialidade(especialidade))
+
+# print(obter_todas_especialidades())
+# print(obter_especialidade_por_id(1))
+# print(atualizar_especialidade(especialidade = Especialidade(
+#     idEspecialidade=1,  # ID da especialidade a ser atualizada
+#     nome="Endocrinologia",
+#     descricao="Especialidade médica que se concentra no diagnóstico e tratamento de distúrbios hormonais e metabólicos, como diabetes, problemas da tireoide e obesidade."
+# )))
+
+# print(deletar_especialidade(1))
+
+# print(inserir_medicamento(Medicamento(
+#     idMedicamento=0,  # será gerado automaticamente
+#     nome="BUscopan",
+# )))
+
+# print(obter_todos_medicamentos())
+# print(obter_medicamento_por_id(1))
+# print(atualizar_medicamento(Medicamento(
+#     idMedicamento=1,  # ID do medicamento a ser atualizado
+#     nome="Neosaldina"
+# )))
+# print(deletar_medicamento(1))
+
+# print(inserir_consulta(Consulta(
+#     idConsulta=0,  # será gerado automaticamente
+#     idMedico=20,  # ID do médico
+#     idPaciente=9,  # ID do paciente
+#     dataHora="2023-10-01 10:00:00",
+#     queixa="Dor de cabeça frequente",
+#     conduta="Prescrever analgésicos e solicitar exames"
+# )))
+
+# print(obter_todas_consultas())
+# print(obter_consulta_por_id(1))
+
+# print(atualizar_consulta(Consulta(
+#     idConsulta=1,  # ID da consulta a ser atualizada
+#     idMedico=20,  # ID do médico
+#     idPaciente=5,  # ID do paciente
+#     dataHora="2023-10-01 10:00:00",
+#     queixa="Perna quebrada",
+#     conduta="Prescrever analgésicos e solicitar exames"
+# )))
+
+# print(deletar_consulta(3))
+
+# print(inserir_entrada_prontuario(EntradaProntuario(
+#     idProntuario=0,  # será gerado automaticamente
+#     idConsulta=2,  # ID da consulta associada
+#     data="2023-10-01",
+#     queixaPrincipal="Dor no joelho",
+#     alergias="Nenhuma",
+#     solicitacoesExames="Raio-X do joelho",
+#     antecedentesFamiliares="Nenhum",
+#     fatoresAlivio="Repouso e compressa fria",
+#     fatoresPiora="Movimentação excessiva",
+#     fatoresPredecessores="Atividade física intensa"
+# )))
+
+# print(obter_todas_entradas_prontuario())
+# print(obter_entrada_prontuario_por_id(1))
+# print(atualizar_entrada_prontuario(EntradaProntuario(
+#     idProntuario=1,  # ID da entrada de prontuário a ser atualizada
+#     idConsulta=1,  # ID da consulta associada
+#     data="2023-10-01",
+#     queixaPrincipal="Dor na barriga",
+#     alergias="todas",
+#     solicitacoesExames="Raio-X do joelho",
+#     antecedentesFamiliares="Nenhum",
+#     fatoresAlivio="Repouso e compressa fria",
+#     fatoresPiora="Movimentação excessiva",
+#     fatoresPredecessores="Atividade física intensa"
+# )))
+
+# print(deletar_entrada_prontuario(2))
