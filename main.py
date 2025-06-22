@@ -14,7 +14,10 @@ from data.model.consulta_model import Consulta
 from data.repo.consulta_repo import *
 from data.model.entrada_prontuario_model import EntradaProntuario
 from data.repo.entrada_prontuario_repo import *
-
+from data.model.medico_especialidade_model import MedicoEspecialidade
+from data.repo.medico_especialidade_repo import *
+from data.model.item_receita_model import ItemReceita
+from data.repo.item_receita_repo import *   
 
 # Criar tabelas
 criar_tabela_usuario()
@@ -25,6 +28,8 @@ criar_tabela_especialidade()
 criar_tabela_medicamento()
 criar_tabela_consulta()
 criar_tabela_entrada_prontuario()
+criar_tabela_medico_especialidade()
+criar_tabela_item_receita()
 
 # Inserir usuário (dados comuns)
 # usuario = Usuario(
@@ -97,18 +102,18 @@ criar_tabela_entrada_prontuario()
 
 # deletar_usuario_paciente(19)
 
-medico = Medico(
-    idMedico=0,  # será gerado automaticamente
-    idUsuario=0,  # igual ao idMedico
-    nome="Guilherme",
-    cpf="44466677788",
-    email="carlos.medico@email.com",
-    senha="med123",
-    genero="Masculino",
-    dataNascimento="1980-06-25",
-    crm="CRM123456",
-    statusProfissional="Ativo"
-)
+# medico = Medico(
+#     idMedico=0,  # será gerado automaticamente
+#     idUsuario=0,  # igual ao idMedico
+#     nome="Guilherme",
+#     cpf="44466677788",
+#     email="carlos.medico@email.com",
+#     senha="med123",
+#     genero="Masculino",
+#     dataNascimento="1980-06-25",
+#     crm="CRM123456",
+#     statusProfissional="Ativo"
+# )
 
 # id_medico = inserir_usuario_medico(medico)
 # print(f"✅ Médico inserido com sucesso! ID: {id_medico}")
@@ -140,16 +145,16 @@ medico = Medico(
 
 
 # Criar novo administrador
-administrador = Administrador(
-    idAdministrador=0,  # será gerado automaticamente
-    idUsuario=0,
-    nome="Catarina",
-    cpf="99988877766",
-    email="fernanda.admin@email.com",
-    senha="admin123",
-    genero="Feminino",
-    dataNascimento="1985-10-12"
-)
+# administrador = Administrador(
+#     idAdministrador=0,  # será gerado automaticamente
+#     idUsuario=0,
+#     nome="Catarina",
+#     cpf="99988877766",
+#     email="fernanda.admin@email.com",
+#     senha="admin123",
+#     genero="Feminino",
+#     dataNascimento="1985-10-12"
+# )
 
 # # Inserir administrador (usuário + administrador)
 # id_admin = inserir_usuario_administrador(administrador)
@@ -169,11 +174,11 @@ administrador = Administrador(
 # print(deletar_usuario_administrador(23))
 
 # Inserir especialidade
-especialidade = Especialidade(
-    idEspecialidade=0,  # será gerado automaticamente
-    nome="Reumatologia",
-    descricao="Especialidade médica que se concentra no diagnóstico e tratamento de doenças reumáticas, como artrite, lupus e outras condições autoimunes."
-)
+# especialidade = Especialidade(
+#     idEspecialidade=0,  # será gerado automaticamente
+#     nome="Reumatologia",
+#     descricao="Especialidade médica que se concentra no diagnóstico e tratamento de doenças reumáticas, como artrite, lupus e outras condições autoimunes."
+# )
 # print(inserir_especialidade(especialidade))
 
 # print(obter_todas_especialidades())
@@ -251,3 +256,99 @@ especialidade = Especialidade(
 # )))
 
 # print(deletar_entrada_prontuario(2))
+
+# print(inserir_medico_especialidade(MedicoEspecialidade(
+#     idMedico=20,  # ID do médico)
+#     idEspecialidade=2,  # ID da especialidade
+#     dataHabilitacao="2023-10-01"
+# )))
+
+
+# print(inserir_medico_especialidade(MedicoEspecialidade(
+#     idMedico=25,  # ID do médico
+#     idEspecialidade=3,  # ID da especialidade
+#     dataHabilitacao="2023-10-01"
+# )))
+      
+
+# print(atualizar_medico_especialidade(MedicoEspecialidade(
+#     idMedico=24,  # ID do médico)
+#     idEspecialidade=2,  # ID da especialidade
+#     dataHabilitacao="2023-10-80"
+# )))
+
+# print(obter_todos_medicos_especialidades())
+# print(obter_medico_especialidade_por_id(20, 2))
+# print(deletar_medico_especialidade(25, 3))
+
+# print(inserir_item_receita(ItemReceita(
+#     idConsulta=2,  # ID da consulta associada
+#     idMedicamento=3,  # ID do medicamento
+#     descricao="Tomar 1 comprimido a cada 8 horas"
+# )))
+
+# print(obter_todos_itens_receita())  
+# print(obter_item_receita_por_id(1, 2))
+# print(atualizar_item_receita(ItemReceita(
+#     idConsulta=1,  # ID da consulta associada  
+#     idMedicamento=2,  # ID do medicamento
+#     descricao="Tomar 1 comprimido a cada 6 horas"
+# )))
+
+# print(deletar_item_receita(2, 3))
+
+from data.model.agenda_model import Agenda
+from data.repo.agenda_repo import *
+
+
+criar_tabela_agenda()
+
+# print(inserir_agenda(Agenda(
+#     idAgenda=0,  # será gerado automaticamente
+#     idMedico=24,  # ID de um médico existente
+#     dataHora="2025-06-21 10:00:00",
+#     disponivel=True
+# )))
+
+# Consultar todas as agendas
+# print(obter_todas_agendas())
+
+# Consultar agenda por ID
+# print(obter_agenda_por_id(1))
+
+# Atualizar agenda
+# print(atualizar_agenda(Agenda(
+#     idAgenda=1,  # ID da agenda a ser atualizada
+#     idMedico=20,
+#     dataHora="2025-06-21 17:00:00",
+#     disponivel=False
+# )))
+
+# Deletar agenda
+# print(deletar_agenda(3))
+
+# from data.model.agendamento_model import Agendamento
+# from data.repo.agendamento_repo import *
+
+# # Criar a tabela (executar apenas uma vez, normalmente no início)
+# criar_tabela_agendamento()
+
+
+# print(inserir_agendamento(Agendamento(
+#     idAgendamento=0,  # será gerado automaticamente
+#     idPaciente=5,  # ID de um paciente existente
+#     status="Pendente",
+#     dataAgendamento="2025-06-21 10:00:00"
+# )))
+
+# print(obter_todos_agendamentos())
+# print(obter_agendamento_por_id(1))
+
+# print(atualizar_agendamento(Agendamento(
+#     idAgendamento=1,  # ID do agendamento a ser atualizado
+#     idPaciente=15,  # ID do paciente associado
+#     status="Confirmado",
+#     dataAgendamento="2025-06-21 10:00:00"
+# )))
+
+# print(deletar_agendamento(2))

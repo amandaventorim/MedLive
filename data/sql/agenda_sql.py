@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS agenda (
     idAgenda INTEGER PRIMARY KEY AUTOINCREMENT,
     idMedico INTEGER NOT NULL,
     dataHora TEXT NOT NULL,
-    disponivel BOOLEAN NOT NULL
+    disponivel BOOLEAN NOT NULL,
     FOREIGN KEY (idMedico) REFERENCES medico(idMedico)
 );
 """

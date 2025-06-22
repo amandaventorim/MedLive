@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS agendamento (
 idAgendamento INTEGER PRIMARY KEY,
 idPaciente INTEGER NOT NULL,
 status TEXT NOT NULL,
-dataAgendamento TEXT NOT NULL
+dataAgendamento TEXT NOT NULL,
 FOREIGN KEY (idAgendamento) REFERENCES agenda(idAgenda),
 FOREIGN KEY (idPaciente) REFERENCES paciente(idPaciente)
 );
