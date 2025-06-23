@@ -1,164 +1,144 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MedLive - Consultas Online</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body style="background-color: #F5F5F5; margin: 0; padding: 0;">
-        <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="#">
-                    <img src="img/logo.png" alt="Logo MedLive" class="logo-img me-2">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedLive - Consultas Online</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body style="background-color: #F5F5F5; margin: 0; padding: 0;">
+    <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
+        <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand me-4" href="#">
+                    <img src="img/logo.png" alt="Logo MedLive" class="logo-img">
                 </a>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold" href="#">Página 1</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold" href="#">Página 2</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold" href="#">Página 3</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold" href="#">Página 4</a>
-                        </li>
-                    </ul>
-                    <div class="d-flex align-items-center">
-                        <a href="#" class="me-3 btn btn-criar-conta">Criar conta</a>
-                        <a href="#" class="btn btn-entrar">Entrar</a>
+                <ul class="navbar-nav d-flex flex-row gap-4">
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Pronto Atendimento</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Renovação de Receita</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Agendamento</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Contato</a></li>
+                </ul>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <a class="nav-link fw-bold d-flex align-items-center" href="#"><i
+                        class="bi bi-person me-1"></i>Entrar</a>
+                <a href="cadastro.html" class="btn btn-cadastrar">Cadastrar</a>
+            </div>
+
+        </div>
+    </nav>
+
+    <section class="hero-banner position-relative">
+        <img src="img/hero-image.jpg" alt="Consulta médica" class="hero-img">
+        <div class="hero-content" style="right: 10%;">
+            <div style="width: 800px;">
+                <h1 class="fw-bold text-azul mb-4" style="font-size: 3rem; text-align: left;">Consultas médicas
+                    <br>online, onde e quando
+                    <br>você precisar.
+                </h1>
+            </div>
+            <div class="card shadow p-3 card-banner"
+                style="text-align: left; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between;">
+                <h5 class="fw-bold text-dark fs-4">Explore a plataforma</h5>
+                <p class="text-secondary mb-3 fs-5">Clique aqui e tenha acesso a consultas online com profissionais de
+                    saúde.</p>
+                <a href="cadastro.html" class="btn btn-danger w-100">Cadastre-se já!</a>
+            </div>
+        </div>
+    </section>
+    <br>
+    <section class="py-5">
+        <div class="container text-center">
+            <h3 class="fw-bold mb-5">Conheça a
+                <span style="color: #001942;">Med</span><span style="color: #B31D1D;">Live</span>
+            </h3>
+            <br>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4 col-6 d-flex justify-content-center">
+                    <div class="card card-info card-maior">
+                        <div class="icon-circle">
+                            <img src="img/geek.png" alt="Ícone Atendimento" class="img-fluid" height="55px"
+                                width="55px">
+                        </div>
+                        <div class="card-body text-white">
+                            <p class="card-text">Atendimento médico remoto</p>
+                            <p>Evite filas e deslocamentos: realize consultas médicas por videoconferência, com
+                                qualidade, segurança e no conforto da sua casa. Cuide da sua saúde com mais
+                                flexibilidade e agilidade.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
-        <section class="hero-banner position-relative">
-            <img src="img/hero-image.jpg" alt="Consulta médica" class="hero-img">
-            <div class="hero-content">
-                <h2 class="fw-bold text-azul mb-4">
-                    Consultas médicas
-                    <br>
-                    online, onde e quando
-                    <br>
-                    você precisar.
-                </h2>
-                <div class="card shadow p-3 card-banner">
-                    <h5 class="fw-bold text-dark">Explore a plataforma</h5>
-                    <p class="text-secondary mb-3">Clique aqui e tenha acesso a consultas online com profissionais de saúde.</p>
-                    <a href="#" class="btn btn-danger w-100">Cadastre-se já!</a>
+                <div class="col-md-4 col-6 d-flex justify-content-center">
+                    <div class="card card-info card-maior">
+                        <div class="icon-circle">
+                            <img src="img/pagamento-em-dinheiro.png" alt="Ícone Pagamento" class="img-fluid"
+                                height="50px" width="50px">
+                        </div>
+                        <div class="card-body text-white">
+                            <p class="card-text">Pagamento 100% transparente</p>
+                            <p>Tenha total clareza sobre os valores antes mesmo de agendar. Sem taxas escondidas, com
+                                opções acessíveis para garantir que o atendimento médico esteja ao alcance de todos.</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
-        <section class="py-5">
-            <div class="container text-center">
-                <h3 class="fw-bold mb-5">Conheça a
-                    <span style="color: #001942;">Med</span><span style="color: #B31D1D;">Live</span>
-                </h3>
-                <br>
-                <div class="row g-4 justify-content-center">
-                    <div class="col-md-4 col-6 d-flex justify-content-center">
-                        <div class="card card-info card-maior">
-                            <div class="icon-circle">
-                                <img
-                                    src="img/geek.png"
-                                    alt="Ícone Atendimento"
-                                    class="img-fluid"
-                                    height="55px"
-                                    width="55px"
-                                >
-                            </div>
-                            <div class="card-body text-white">
-                                <p class="card-text">Atendimento médico remoto</p>
-                                <p>Evite filas e deslocamentos: realize consultas médicas por videoconferência, com qualidade, segurança e no conforto da sua casa. Cuide da sua saúde com mais flexibilidade e agilidade.</p>
-                            </div>
+                <div class="col-md-4 col-6 d-flex justify-content-center">
+                    <div class="card card-info card-maior">
+                        <div class="icon-circle">
+                            <img src="img/medico.png" alt="Ícone Especialidades" class="img-fluid" height="60px"
+                                width="60px">
+                        </div>
+                        <div class="card-body text-white">
+                            <p class="card-text">Acesso a diversas especialidades</p>
+                            <p>Tenha acesso rápido e seguro a profissionais de diversas especialidades, ampliando suas
+                                possibilidades de cuidado com a saúde e facilitando diagnósticos precisos, sem
+                                complicações.</p>
                         </div>
                     </div>
-                    <div class="col-md-4 col-6 d-flex justify-content-center">
-                        <div class="card card-info card-maior">
-                            <div class="icon-circle">
-                                <img
-                                    src="img/pagamento-em-dinheiro.png"
-                                    alt="Ícone Pagamento"
-                                    class="img-fluid"
-                                    height="50px"
-                                    width="50px"
-                                >
-                            </div>
-                            <div class="card-body text-white">
-                                <p class="card-text">Pagamento 100% transparente</p>
-                                <p>Tenha total clareza sobre os valores antes mesmo de agendar. Sem taxas escondidas, com opções acessíveis para garantir que o atendimento médico esteja ao alcance de todos.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 d-flex justify-content-center">
-                        <div class="card card-info card-maior">
-                            <div class="icon-circle">
-                                <img
-                                    src="img/medico.png"
-                                    alt="Ícone Especialidades"
-                                    class="img-fluid"
-                                    height="60px"
-                                    width="60px"
-                                >
-                            </div>
-                            <div class="card-body text-white">
-                                <p class="card-text">Acesso a diversas especialidades</p>
-                                <p>Tenha acesso rápido e seguro a profissionais de diversas especialidades, ampliando suas possibilidades de cuidado com a saúde e facilitando diagnósticos precisos, sem complicações.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 d-flex justify-content-center">
-                        <div class="card card-info card-maior">
-                            <div class="icon-circle">
-                                <img
-                                    src="img/calendario.png"
-                                    alt="Ícone Agendar"
-                                    class="img-fluid"
-                                    height="50px"
-                                    width="50px"
-                                >
-                            </div>
-                            <div class="card-body text-white">
-                                <p class="card-text">Agende consultas</p>
-                                <p>Escolha o melhor dia e horário para sua consulta de forma prática e intuitiva. Com poucos cliques, você organiza seu atendimento médico de acordo com a sua rotina, sem perder tempo.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 d-flex justify-content-center">
-                        <div class="card card-info card-maior">
-                            <div class="icon-circle">
-                                <img
-                                    src="img/medicamento.png"
-                                    alt="Ícone Receitas"
-                                    class="img-fluid"
-                                    height="55px"
-                                    width="55px"
-                                >
-                            </div>
-                            <div class="card-body text-white">
-                                <p class="card-text">Receitas digitais</p>
-                                <p>Acompanhe suas consultas passadas e futuras em um só lugar. Reagende, cancele ou consulte informações com poucos cliques, garantindo mais controle sobre seu atendimento.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
                 </div>
+                <div class="col-md-4 col-6 d-flex justify-content-center">
+                    <div class="card card-info card-maior">
+                        <div class="icon-circle">
+                            <img src="img/calendario.png" alt="Ícone Agendar" class="img-fluid" height="50px"
+                                width="50px">
+                        </div>
+                        <div class="card-body text-white">
+                            <p class="card-text">Agende consultas</p>
+                            <p>Escolha o melhor dia e horário para sua consulta de forma prática e intuitiva. Com poucos
+                                cliques, você organiza seu atendimento médico de acordo com a sua rotina, sem perder
+                                tempo.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-6 d-flex justify-content-center">
+                    <div class="card card-info card-maior">
+                        <div class="icon-circle">
+                            <img src="img/medicamento.png" alt="Ícone Receitas" class="img-fluid" height="55px"
+                                width="55px">
+                        </div>
+                        <div class="card-body text-white">
+                            <p class="card-text">Receitas digitais</p>
+                            <p>Acompanhe suas consultas passadas e futuras em um só lugar. Reagende, cancele ou consulte
+                                informações com poucos cliques, garantindo mais controle sobre seu atendimento.</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </section>
-        <footer class="bg-dark-custom text-center text-light py-3 mt-5">
-            <p class="mb-0">&copy; 2025 MedLive. Todos os direitos reservados.</p>
-        </footer>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+        </div>
+    </section>
+    <footer class="bg-dark-custom text-center text-light py-3 mt-5">
+        <p class="mb-0">&copy; 2025 MedLive. Todos os direitos reservados.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>
