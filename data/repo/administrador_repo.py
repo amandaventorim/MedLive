@@ -66,6 +66,7 @@ def obter_administrador_por_id(idAdministrador: int) -> Optional[Administrador]:
                 dataNascimento=row["dataNascimento"]
             )
         return None
+    
 
 
 def atualizar_administrador(administrador: Administrador) -> bool:
