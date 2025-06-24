@@ -11,18 +11,7 @@ def criar_tabela_paciente() -> bool:
         cursor.execute(CRIAR_TABELA_PACIENTE)
         return cursor.rowcount > 0
 
-#INSERIR APENAS PACIENTE
-def inserir_paciente(paciente: Paciente) -> Optional[int]:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(INSERIR_PACIENTE, (
-            paciente.idPaciente,
-            paciente.endereco,
-            paciente.convenio
-        ))
-        return cursor.lastrowid
     
-#INSERIR USUARIO PRIMEIRO E DEPOIS PACIENTE
 def inserir_usuario_paciente(paciente: Paciente) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
@@ -34,7 +23,7 @@ def inserir_usuario_paciente(paciente: Paciente) -> Optional[int]:
             paciente.genero,
             paciente.dataNascimento
             ))
-        id_paciente = cursor.lastrowid # idPaciente = idUsuario
+        id_paciente = cursor.lastrowid 
 
         cursor.execute(INSERIR_PACIENTE, (
             id_paciente,  
@@ -87,20 +76,29 @@ def obter_paciente_por_id(idPaciente: int) -> Optional[Paciente]:
 def atualizar_paciente(paciente: Paciente) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(UPDATE_PACIENTE, (
-            paciente.endereco,
-            paciente.convenio,
-            paciente.idPaciente))
+        cursor.execute(UPDATE_USUARIO, (
+            paciente.nome,
+            paciente.cpf,
+            paciente.email,
+            paciente.genero,
+            paciente.dataNascimento,
+            paciente.idUsuario))
+        if cursor.rowcount > 0:
+            cursor.execute(UPDATE_PACIENTE, (
+                paciente.endereco,
+                paciente.convenio,
+                paciente.idPaciente))
+        return cursor.rowcount > 0
+
+
+def atualizar_senha_paciente(idPaciente: int, senha: str) -> bool:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(UPDATE_SENHA_USUARIO, (senha, idPaciente))
         return cursor.rowcount > 0
 
 
 def deletar_paciente(idPaciente: int) -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(DELETAR_PACIENTE, (idPaciente,))
-        return cursor.rowcount > 0
-    
-def deletar_usuario_paciente(idPaciente: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(DELETAR_PACIENTE, (idPaciente,))

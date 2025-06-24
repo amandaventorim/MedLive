@@ -31,7 +31,13 @@ WHERE idUsuario = ?
 
 UPDATE_USUARIO = """
 UPDATE usuario
-SET nome = ?, cpf = ?, email = ?, senha = ?, genero = ?, dataNascimento = ?
+SET nome = ?, cpf = ?, email = ?, genero = ?, dataNascimento = ?
+WHERE idUsuario = ?
+"""
+
+UPDATE_SENHA_USUARIO = """
+UPDATE usuario
+SET senha = ?
 WHERE idUsuario = ?
 """
 

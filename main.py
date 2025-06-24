@@ -31,6 +31,42 @@ criar_tabela_entrada_prontuario()
 criar_tabela_medico_especialidade()
 criar_tabela_item_receita()
 
+# print(atualizar_paciente(Paciente(
+#     idPaciente=15,  # ID do paciente a ser atualizado
+#     idUsuario=15,   # ID do usuário associado
+#     nome="Ana Maria",
+#     cpf="12345678901",
+#     email="aaaa",
+#     genero="Feminino",
+#     senha=0,
+#     dataNascimento="1992-03-15",
+#     endereco="Rua das Flores, 123",
+#     convenio="Unimed"
+# )))
+
+# print(atualizar_medico(Medico(
+#     idMedico=20,  # ID do médico a ser atualizado
+#     idUsuario=20,  # ID do usuário associado
+#     nome="Carlos doroti",
+#     cpf="12345678901",
+#     email="aaaa",
+#     senha=0,
+#     genero="Masculino",
+#     dataNascimento="1985-05-20",
+#     crm="CRM123777",
+#     statusProfissional="Ativo"
+# )))
+
+print(atualizar_administrador(Administrador(
+    idUsuario=20,  # ID do usuário a ser atualizado
+    idAdministrador=20,  # ID do administrador associado
+    nome="Carloto",
+    cpf="12345678901",
+    email="aaaa",
+    senha=0,
+    genero="Masculino",
+    dataNascimento="1985-05-20"
+)))
 # Inserir usuário (dados comuns)
 # usuario = Usuario(
 #     idUsuario=0,

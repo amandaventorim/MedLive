@@ -13,19 +13,7 @@ def criar_tabela_medico() -> bool:
         return cursor.rowcount > 0
 
 
-# INSERIR APENAS MEDICO (presume que o usuário já existe)
-def inserir_medico(medico: Medico) -> Optional[int]:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(INSERIR_MEDICO, (
-            medico.idMedico,
-            medico.crm,
-            medico.statusProfissional
-        ))
-        return cursor.lastrowid
 
-
-# INSERIR USUARIO PRIMEIRO E DEPOIS MEDICO (tudo junto)
 def inserir_usuario_medico(medico: Medico) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
@@ -37,7 +25,7 @@ def inserir_usuario_medico(medico: Medico) -> Optional[int]:
             medico.genero,
             medico.dataNascimento
         ))
-        id_medico = cursor.lastrowid  # idMedico = idUsuario
+        id_medico = cursor.lastrowid  
 
         cursor.execute(INSERIR_MEDICO, (
             id_medico,
@@ -90,21 +78,30 @@ def obter_medico_por_id(idMedico: int) -> Optional[Medico]:
         return None
 
 
-def atualizar_medico(medico: Medico) -> bool:  #fazer update de usuario também?
+def atualizar_medico(medico: Medico) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(UPDATE_MEDICO, (
-            medico.crm,
-            medico.statusProfissional,
-            medico.idMedico
+        cursor.execute(UPDATE_USUARIO, (
+            medico.nome,
+            medico.cpf,
+            medico.email,
+            medico.genero,
+            medico.dataNascimento,
+            medico.idUsuario
         ))
+        if cursor.rowcount > 0:
+            cursor.execute(UPDATE_MEDICO, (
+                medico.crm,
+                medico.statusProfissional,
+                medico.idMedico
+            ))
         return cursor.rowcount > 0
 
 
-def deletar_medico(idMedico: int) -> bool:
+def atualizar_senha_medico(idMedico: int, senha: str) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(DELETAR_MEDICO, (idMedico,))
+        cursor.execute(UPDATE_SENHA_USUARIO, (senha, idMedico))
         return cursor.rowcount > 0
 
 
