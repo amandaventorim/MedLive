@@ -18,8 +18,8 @@
             </a>
 
             <!-- Botão hamburger para telas pequenas -->
-            <button class="navbar-toggler d-lg-none" type="button" onclick="toggleMobileMenu()" 
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler d-lg-none" type="button" onclick="toggleMobileMenu()"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -34,9 +34,9 @@
                 </ul>
 
                 <!-- Botões do lado direito -->
-                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-                    <a class="nav-link fw-bold d-flex align-items-center" href="#">
-                        <i class="bi bi-person me-1"></i>Entrar
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 navbar-actions">
+                    <a class="nav-link fw-bold d-flex align-items-center user-link" href="#">
+                        <i class="bi bi-person me-2"></i>Entrar
                     </a>
                     <a href="cadastro.html" class="btn btn-cadastrar">Cadastrar</a>
                 </div>
@@ -71,7 +71,7 @@
                 Descubra os benefícios da
                 <span style="color: #001942;">Med</span><span style="color: #B31D1D;">Live</span>
             </h2>
-            
+
             <div class="row g-4 justify-content-center">
                 <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center">
                     <div class="card card-info card-enhanced">
@@ -119,7 +119,8 @@
                         </div>
                         <div class="card-body text-white">
                             <h5 class="card-title mb-3">Agende com facilidade</h5>
-                            <p class="card-description">Escolha o melhor horário e organize sua rotina com poucos cliques.</p>
+                            <p class="card-description">Escolha o melhor horário e organize sua rotina com poucos
+                                cliques.</p>
                         </div>
                         <div class="card-footer-accent"></div>
                     </div>
@@ -141,9 +142,159 @@
         </div>
     </section>
 
-    <footer class="bg-dark-custom text-center text-light py-4 mt-5">
+    <section class="faq-intro-section py-5">
         <div class="container">
-            <p class="mb-0 fs-6">&copy; 2025 MedLive. Todos os direitos reservados.</p>
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-12 text-center text-lg-start mb-4 mb-lg-0">
+                    <h2 class="fw-bold text-azul mb-3">Não sabe o que conversar
+                        <br>com o médico a respeito da
+                        <br>sua jornada?
+                    </h2>
+                    <p class="text-secondary fs-5 mb-4">
+                        Preparamos um guia com 13 perguntas que poderão ser
+                        utilizadas para você compreender, ao lado do profissional,
+                        quais opções de tratamento estão disponíveis.
+                    </p>
+                    <a href="#faq-questions" class="btn btn-primary-custom btn-lg">Ler as perguntas</a>
+                </div>
+                <div class="col-lg-6 col-md-12 d-flex justify-content-center">
+                    <img src="https://www.meupesominhajornada.com.br/content/dam/truthaboutweight/br/home-page/Need-help-to-talk-NEW.jpg" alt="Médico e paciente em teleconsulta"
+                        class="img-fluid rounded shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq-questions" class="faq-questions-section py-5">
+        <div class="container">
+            <h2 class="fw-bold text-center text-azul mb-5">Perguntas Frequentes</h2>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Quais profissionais de saúde podem apoiar a jornada de perda de peso?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Diversos profissionais de saúde podem auxiliar na jornada de perda de peso, incluindo
+                            nutricionistas, endocrinologistas, educadores físicos e psicólogos. Cada um oferece uma
+                            abordagem especializada para garantir um processo saudável e eficaz.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Por que devo consultar um especialista para a minha jornada de perda de peso?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Consultar um especialista garante um plano personalizado e seguro, considerando suas
+                            necessidades individuais, histórico de saúde e metas. Isso minimiza riscos e maximiza os
+                            resultados a longo prazo.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            O que os profissionais da saúde que trabalham com o controle de peso fazem?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Eles oferecem orientação nutricional, planos de exercícios, acompanhamento médico, suporte
+                            psicológico e estratégias para mudanças de estilo de vida, visando não apenas a perda de
+                            peso, mas a manutenção da saúde geral.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            O que você pode esperar da sua primeira consulta com um profissional especializado em
+                            controle de peso?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Na primeira consulta, o profissional fará uma avaliação completa do seu histórico de saúde,
+                            hábitos alimentares e estilo de vida. Serão discutidas suas metas e expectativas, e um plano
+                            inicial será traçado, com orientações personalizadas e possíveis exames complementares.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-medlive text-white py-5" style="background-color: #001942;">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-md-4">
+                    <h1 class="footer-logo-medlive">
+                        Med<span class="live-red">Live</span>
+                    </h1>
+
+                    <p class="mt-3">
+                        Conectando você à saúde com eficiência, qualidade e cuidado humano.
+                    </p>
+
+                    <div class="d-flex gap-3 mt-3">
+                        <a href="#" class="text-white fs-5"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white fs-5"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white fs-5"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="text-white fs-5"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <h5 class="fw-bold mb-3">Institucional</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none">Quem Somos</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Política de Privacidade</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Trabalhe Conosco</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Ajuda</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4">
+                    <h5 class="fw-bold mb-3">Serviços</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none">Teleconsultas</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Receitas Digitais</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Especialidades Médicas</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Exames e Agendamentos</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col text-center">
+                    <p class="mb-1">
+                        <strong>Responsáveis Técnicos:</strong>
+                        <br> Amanda Rangel Ventorim
+                        <br> Joanameyre A de Oliveira
+                        <br> Leticia Setimi Martins
+                        <br> Maria Rita Rosa Coimbra
+                    </p>
+                    <p class="small text-white-50">
+                        A MedLive atua exclusivamente com consultas, orientações e emissão de receitas digitais,
+                        não comercializa convênios ou cartões de desconto.
+                    </p>
+                    <p class="mb-0 fs-6 mt-4">&copy; 2025 MedLive. Todos os direitos reservados.</p>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -152,7 +303,7 @@
         function toggleMobileMenu() {
             const navbarNav = document.getElementById('navbarNav');
             const toggleButton = document.querySelector('.navbar-toggler');
-            
+
             if (navbarNav.classList.contains('show')) {
                 navbarNav.classList.remove('show');
                 toggleButton.setAttribute('aria-expanded', 'false');
@@ -161,7 +312,7 @@
                 toggleButton.setAttribute('aria-expanded', 'true');
             }
         }
-        
+
         // Fechar menu ao clicar em um link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
@@ -173,7 +324,7 @@
                 }
             });
         });
-        
+
         // Fechar menu ao redimensionar para desktop
         window.addEventListener('resize', () => {
             if (window.innerWidth >= 992) {
@@ -187,4 +338,3 @@
 </body>
 
 </html>
-
