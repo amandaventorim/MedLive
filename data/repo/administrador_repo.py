@@ -12,7 +12,7 @@ def criar_tabela_administrador() -> bool:
         return cursor.rowcount > 0
 
 
-def inserir_usuario_administrador(administrador: Administrador) -> Optional[int]:
+def inserir_administrador(administrador: Administrador) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_USUARIO, (
@@ -21,12 +21,12 @@ def inserir_usuario_administrador(administrador: Administrador) -> Optional[int]
             administrador.email,
             administrador.senha,
             administrador.genero,
-            administrador.dataNascimento
-        ))
+            administrador.dataNascimento))
+        
         id_administrador = cursor.lastrowid  
+
         cursor.execute(INSERIR_ADMINISTRADOR, (
-            id_administrador,
-        ))
+            id_administrador,))
         return id_administrador
 
 
@@ -68,29 +68,32 @@ def obter_administrador_por_id(idAdministrador: int) -> Optional[Administrador]:
         return None
     
 
-
 def atualizar_administrador(administrador: Administrador) -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(UPDATE_USUARIO, (
-            administrador.nome,
-            administrador.cpf,
-            administrador.email,
-            administrador.genero,
-            administrador.dataNascimento,
-            administrador.idUsuario
-        ))
-        return cursor.rowcount > 0
-    
+    if obter_administrador_por_id(administrador.idAdministrador):
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(UPDATE_USUARIO, (
+                administrador.nome,
+                administrador.cpf,
+                administrador.email,
+                administrador.genero,
+                administrador.dataNascimento,
+                administrador.idUsuario
+            ))
+            return cursor.rowcount > 0
+    return False
+      
 
 def atualizar_senha_administrador(idAdministrador: int, senha: str) -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(UPDATE_SENHA_USUARIO, (senha, idAdministrador))
-        return cursor.rowcount > 0
+    if obter_administrador_por_id(idAdministrador):
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(UPDATE_SENHA_USUARIO, (senha, idAdministrador))
+            return cursor.rowcount > 0
+    return False
 
 
-def deletar_usuario_administrador(idAdministrador: int) -> bool:
+def deletar_administrador(idAdministrador: int) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(DELETAR_ADMINISTRADOR, (idAdministrador,))

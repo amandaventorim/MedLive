@@ -18,6 +18,12 @@ from data.model.medico_especialidade_model import MedicoEspecialidade
 from data.repo.medico_especialidade_repo import *
 from data.model.item_receita_model import ItemReceita
 from data.repo.item_receita_repo import *   
+from data.model.agenda_model import Agenda
+from data.repo.agenda_repo import *
+from data.model.agendamento_model import Agendamento
+from data.repo.agendamento_repo import *
+
+
 
 # Criar tabelas
 criar_tabela_usuario()
@@ -30,6 +36,43 @@ criar_tabela_consulta()
 criar_tabela_entrada_prontuario()
 criar_tabela_medico_especialidade()
 criar_tabela_item_receita()
+criar_tabela_agenda()
+criar_tabela_agendamento()
+
+# print(atualizar_paciente(Paciente(
+#     idPaciente=17,  # ID do paciente a ser atualizado
+#     idUsuario=17,   # ID do usuário associado
+#     nome="osvaldo",
+#     cpf="12345678901",
+#     email="aaaa",
+#     genero="Feminino",
+#     senha=0,
+#     dataNascimento="1992-03-15",
+#     endereco="Rua das Flores, 123",
+#     convenio="Unimed"
+# )))
+
+print(atualizar_senha_medico(
+    idMedico=20, 
+    senha="nova"
+))
+
+# print(atualizar_senha_administrador(
+#     idAdministrador=20, 
+#     senha="novo"
+# ))
+
+# print(inserir_administrador(Administrador(
+#     idUsuario=0,
+#     idAdministrador= 0,
+#     nome="George",
+#     cpf="12345678901",
+#     email="uuuuuu",
+#     senha=0,
+#     genero="Masculino",
+#     dataNascimento="1985-05-20"
+# )))
+
 
 # print(atualizar_paciente(Paciente(
 #     idPaciente=15,  # ID do paciente a ser atualizado
@@ -57,16 +100,17 @@ criar_tabela_item_receita()
 #     statusProfissional="Ativo"
 # )))
 
-print(atualizar_administrador(Administrador(
-    idUsuario=20,  # ID do usuário a ser atualizado
-    idAdministrador=20,  # ID do administrador associado
-    nome="Carloto",
-    cpf="12345678901",
-    email="aaaa",
-    senha=0,
-    genero="Masculino",
-    dataNascimento="1985-05-20"
-)))
+# print(atualizar_administrador(Administrador(
+#     idUsuario=17,  # ID do usuário a ser atualizado
+#     idAdministrador=17,  # ID do administrador associado
+#     nome="Carloto",
+#     cpf="12345678901",
+#     email="oooooo",
+#     senha=0,
+#     genero="Masculino",
+#     dataNascimento="1985-05-20"
+# )))
+
 # Inserir usuário (dados comuns)
 # usuario = Usuario(
 #     idUsuario=0,
@@ -333,11 +377,7 @@ print(atualizar_administrador(Administrador(
 
 # print(deletar_item_receita(2, 3))
 
-from data.model.agenda_model import Agenda
-from data.repo.agenda_repo import *
 
-
-criar_tabela_agenda()
 
 # print(inserir_agenda(Agenda(
 #     idAgenda=0,  # será gerado automaticamente
@@ -363,11 +403,6 @@ criar_tabela_agenda()
 # Deletar agenda
 # print(deletar_agenda(3))
 
-# from data.model.agendamento_model import Agendamento
-# from data.repo.agendamento_repo import *
-
-# # Criar a tabela (executar apenas uma vez, normalmente no início)
-# criar_tabela_agendamento()
 
 
 # print(inserir_agendamento(Agendamento(

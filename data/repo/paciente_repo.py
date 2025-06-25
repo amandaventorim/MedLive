@@ -12,7 +12,7 @@ def criar_tabela_paciente() -> bool:
         return cursor.rowcount > 0
 
     
-def inserir_usuario_paciente(paciente: Paciente) -> Optional[int]:
+def inserir_paciente(paciente: Paciente) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_USUARIO, (
@@ -74,28 +74,32 @@ def obter_paciente_por_id(idPaciente: int) -> Optional[Paciente]:
 
 
 def atualizar_paciente(paciente: Paciente) -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(UPDATE_USUARIO, (
-            paciente.nome,
-            paciente.cpf,
-            paciente.email,
-            paciente.genero,
-            paciente.dataNascimento,
-            paciente.idUsuario))
-        if cursor.rowcount > 0:
-            cursor.execute(UPDATE_PACIENTE, (
-                paciente.endereco,
-                paciente.convenio,
-                paciente.idPaciente))
-        return cursor.rowcount > 0
+    if obter_paciente_por_id(paciente.idPaciente):
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(UPDATE_USUARIO, (
+                paciente.nome,
+                paciente.cpf,
+                paciente.email,
+                paciente.genero,
+                paciente.dataNascimento,
+                paciente.idUsuario))
+            if cursor.rowcount > 0:
+                cursor.execute(UPDATE_PACIENTE, (
+                    paciente.endereco,
+                    paciente.convenio,
+                    paciente.idPaciente))
+            return cursor.rowcount > 0
+    return False
 
 
 def atualizar_senha_paciente(idPaciente: int, senha: str) -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(UPDATE_SENHA_USUARIO, (senha, idPaciente))
-        return cursor.rowcount > 0
+    if obter_paciente_por_id(idPaciente):
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(UPDATE_SENHA_USUARIO, (senha, idPaciente))
+            return cursor.rowcount > 0
+    return False
 
 
 def deletar_paciente(idPaciente: int) -> bool:

@@ -1,6 +1,5 @@
 from typing import Optional
 from data.model.medico_model import Medico
-from data.repo.usuario_repo import inserir_usuario
 from data.sql.medico_sql import *
 from data.sql.usuario_sql import *
 from data.util import get_connection
@@ -11,7 +10,6 @@ def criar_tabela_medico() -> bool:
         cursor = conn.cursor()
         cursor.execute(CRIAR_TABELA_MEDICO)
         return cursor.rowcount > 0
-
 
 
 def inserir_usuario_medico(medico: Medico) -> Optional[int]:
@@ -43,7 +41,7 @@ def obter_todos_medicos() -> list[Medico]:
         medicos = [
             Medico(
                 idMedico=row["idMedico"],
-                idUsuario=row["idMedico"],  # mesmo valor
+                idUsuario=row["idMedico"],  
                 nome=row["nome"],
                 cpf=row["cpf"],
                 email=row["email"],
@@ -65,7 +63,7 @@ def obter_medico_por_id(idMedico: int) -> Optional[Medico]:
         if row:
             return Medico(
                 idMedico=row["idMedico"],
-                idUsuario=row["idMedico"],  # mesmo valor
+                idUsuario=row["idMedico"], 
                 nome=row["nome"],
                 cpf=row["cpf"],
                 email=row["email"],
@@ -79,30 +77,34 @@ def obter_medico_por_id(idMedico: int) -> Optional[Medico]:
 
 
 def atualizar_medico(medico: Medico) -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(UPDATE_USUARIO, (
-            medico.nome,
-            medico.cpf,
-            medico.email,
-            medico.genero,
-            medico.dataNascimento,
-            medico.idUsuario
-        ))
-        if cursor.rowcount > 0:
-            cursor.execute(UPDATE_MEDICO, (
-                medico.crm,
-                medico.statusProfissional,
-                medico.idMedico
+    if obter_medico_por_id(medico.idMedico):
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(UPDATE_USUARIO, (
+                medico.nome,
+                medico.cpf,
+                medico.email,
+                medico.genero,
+                medico.dataNascimento,
+                medico.idUsuario
             ))
-        return cursor.rowcount > 0
+            if cursor.rowcount > 0:
+                cursor.execute(UPDATE_MEDICO, (
+                    medico.crm,
+                    medico.statusProfissional,
+                    medico.idMedico
+                ))
+            return cursor.rowcount > 0
+    return False
 
 
 def atualizar_senha_medico(idMedico: int, senha: str) -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(UPDATE_SENHA_USUARIO, (senha, idMedico))
-        return cursor.rowcount > 0
+    if obter_medico_por_id(idMedico):
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(UPDATE_SENHA_USUARIO, (senha, idMedico))
+            return cursor.rowcount > 0
+    return False
 
 
 def deletar_usuario_medico(idMedico: int) -> bool:

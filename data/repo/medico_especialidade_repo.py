@@ -3,11 +3,6 @@ from data.model.medico_especialidade_model import MedicoEspecialidade
 from data.sql.medico_especialidade_sql import *
 from data.util import get_connection
 
-from typing import Optional
-from data.model.medico_especialidade_model import MedicoEspecialidade
-from data.sql.medico_especialidade_sql import *
-from data.util import get_connection
-
 
 def criar_tabela_medico_especialidade() -> bool:
     with get_connection() as conn:
@@ -25,7 +20,6 @@ def inserir_medico_especialidade(medico_especialidade: MedicoEspecialidade) -> O
             medico_especialidade.dataHabilitacao))
         return cursor.rowcount
         
-
 
 def obter_todos_medicos_especialidades() -> list[MedicoEspecialidade]:
     with get_connection() as conn:
