@@ -5,10 +5,15 @@ from data.util import get_connection
 
 
 def criar_tabela_medico_especialidade() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA_MEDICO_ESPECIALIDADE)
-        return cursor.rowcount >= 0
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA_MEDICO_ESPECIALIDADE)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela medico_especialidade: {e}")
+        return False
+
 
 
 def inserir_medico_especialidade(medico_especialidade: MedicoEspecialidade) -> Optional[int]:

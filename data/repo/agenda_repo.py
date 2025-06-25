@@ -5,10 +5,14 @@ from data.util import get_connection
 
 
 def criar_tabela_agenda() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA_AGENDA)
-        return cursor.rowcount >= 0
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA_AGENDA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela agenda: {e}")
+        return False
 
 
 def inserir_agenda(agenda: Agenda) -> Optional[int]:

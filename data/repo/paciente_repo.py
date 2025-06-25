@@ -6,10 +6,14 @@ from data.util import get_connection
 
 
 def criar_tabela_paciente() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA_PACIENTE)
-        return cursor.rowcount > 0
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA_PACIENTE)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela paciente: {e}")
+        return False
 
     
 def inserir_paciente(paciente: Paciente) -> Optional[int]:

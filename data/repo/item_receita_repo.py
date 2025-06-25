@@ -5,10 +5,14 @@ from data.util import get_connection
 
 
 def criar_tabela_item_receita() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA_ITEM_RECEITA)
-        return cursor.rowcount >= 0
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA_ITEM_RECEITA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela item_receita: {e}")
+        return False
 
 
 def inserir_item_receita(item_receita: ItemReceita) -> bool:

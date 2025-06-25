@@ -5,10 +5,15 @@ from data.util import get_connection
 
 
 def criar_tabela_consulta() -> bool:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(CRIAR_TABELA_CONSULTA)
-        return cursor.rowcount >= 0
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CRIAR_TABELA_CONSULTA)
+            return True
+    except Exception as e:
+        print(f"Erro ao criar tabela consulta: {e}")
+        return False
+
 
 
 def inserir_consulta(consulta: Consulta) -> Optional[int]:
