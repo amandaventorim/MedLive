@@ -49,6 +49,7 @@ class TestMedicamentoRepo:
         resultado = deletar_medicamento(id_medicamento_inserido)
         # Assert
         assert resultado == True, "A exclusão do medicamento falhou."
-        medicamento_db = obter_medicamento_por_id(id_medicamento_inserido)
-        assert medicamento_db is None, "O medicamento não foi excluído corretamente."
+        medicamento_deletado = obter_medicamento_por_id(id_medicamento_inserido)
+        assert medicamento_deletado == None, "O medicamento não foi excluído corretamente."
+
 
