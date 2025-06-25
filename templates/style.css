@@ -765,3 +765,8 @@ html {
 .footer-logo-medlive .live-red {
     color: #B31D1D; /* vermelho do MedLive */
 }
+
+.card.card-info,
+.card.card-enhanced {
+  overflow: visible;
+}
