@@ -1,0 +1,136 @@
+body {
+    background-color: #001942;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-box {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    max-width: 1080px;
+    width: 100%;
+    height: 700px;
+    overflow: hidden;
+    display: flex;
+}
+
+.img-side {
+    background-color: #001942;
+    padding: 0;
+    flex: 1;
+}
+
+.img-side img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.form-section {
+    position: relative;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    flex: 1;
+}
+
+.form-logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 90px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.form-logo:hover {
+    transform: scale(1.05);
+}
+
+.title-criar-conta {
+    color: #001942;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.card-user-type {
+    border-radius: 16px;
+    border: 2px solid #B31D1D;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    max-width: 240px;
+    width: 100px;
+    height: 150px;
+    
+}
+
+.card-user-type:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 25, 66, 0.2);
+    border-color: #001942;
+}
+
+.user-icon {
+    font-size: 1.5rem;
+    color: #B31D1D;
+    margin-bottom: 0.5rem;
+}
+
+.user-img {
+    width: 60px;
+    height: auto;
+    margin-bottom: 0.75rem;
+}
+
+.card-title {
+    font-weight: 600;
+    color: #001942;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.card-text {
+    font-size: 0.85rem;
+    color: #444;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .main-box {
+        flex-direction: column;
+        height: auto;
+        max-width: 95%;
+        margin: 20px auto;
+    }
+
+    .img-side img {
+        border-radius: 12px 12px 0 0;
+        height: 250px;
+        object-fit: cover;
+    }
+
+    .form-section {
+        padding: 30px;
+    }
+
+    .form-logo {
+        top: 15px;
+        right: 15px;
+        width: 70px;
+    }
+
+    .title-criar-conta {
+        font-size: 1.8rem;
+    }
+
+    .card-user-type {
+        max-width: 100%;
+    }
+}

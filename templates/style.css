@@ -6,7 +6,6 @@ body {
   line-height: 1.6;
 }
 
-/* Navbar */
 .navbar-custom {
   background-color: #ffffff !important;
   padding: 0.5rem 1rem;
@@ -73,7 +72,6 @@ body {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-/* Botões */
 .btn-cadastrar {
   background: linear-gradient(135deg, #001942 0%, #003366 100%);
   color: white;
@@ -94,7 +92,6 @@ body {
   box-shadow: 0 6px 20px rgba(0, 25, 66, 0.4);
 }
 
-/* Melhorias para os botões da navbar */
 .navbar-actions {
   align-items: center !important;
 }
@@ -119,7 +116,6 @@ body {
   margin-right: 0.5rem !important;
 }
 
-/* Hero Section */
 .hero-banner {
   position: relative;
   width: 100%;
@@ -208,7 +204,6 @@ body {
   box-shadow: 0 6px 20px rgba(179, 29, 29, 0.4);
 }
 
-/* Benefits Section */
 .benefits-section {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   padding: 80px 0;
@@ -221,17 +216,16 @@ body {
   animation: fadeInUp 0.8s ease-out;
 }
 
-/* Cards aprimorados */
 .card-enhanced {
   background: linear-gradient(135deg, #001942 0%, #003366 100%);
   border: none;
   border-radius: 25px;
   padding-top: 40px;
   position: relative;
-  height: auto; /* Alterado para auto */
-  min-height: 280px; /* Nova altura mínima */
+  height: auto; 
+  min-height: 280px; 
   width: 100%;
-  max-width: 280px; /* Reduzido para 280px */
+  max-width: 280px; 
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
@@ -323,12 +317,10 @@ body {
   transform: scaleX(1);
 }
 
-/* Footer */
 .bg-dark-custom {
   background: linear-gradient(135deg, #001942 0%, #003366 100%);
 }
 
-/* Animações */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -340,7 +332,6 @@ body {
   }
 }
 
-/* Media Queries */
 @media (max-width: 1200px) {
   .hero-content {
     width: 400px;
@@ -549,7 +540,6 @@ body {
   }
 }
 
-/* Melhorias de acessibilidade */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -558,7 +548,6 @@ body {
   }
 }
 
-/* Estados de foco para acessibilidade */
 .btn:focus,
 .nav-link:focus,
 .navbar-toggler:focus {
@@ -566,14 +555,10 @@ body {
   outline-offset: 2px;
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-
-
-/* FAQ Section Styles */
 .faq-intro-section {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     padding: 80px 0;
@@ -686,7 +671,6 @@ html {
     border-radius: 0 0 15px 15px;
 }
 
-/* Responsividade para FAQ */
 @media (max-width: 768px) {
     .faq-intro-section h2 {
         font-size: 2rem;
@@ -763,10 +747,15 @@ html {
 }
 
 .footer-logo-medlive .live-red {
-    color: #B31D1D; /* vermelho do MedLive */
+    color: #B31D1D;
 }
 
 .card.card-info,
 .card.card-enhanced {
   overflow: visible;
+}
+
+.icon-text-wrapper {
+    display: flex;
+    align-items: center ;
 }

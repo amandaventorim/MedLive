@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedLive - Consultas Online</title>
+    <link rel="icon" href="img/logo.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -13,17 +14,17 @@
 <body style="background-color: #F5F5F5; margin: 0; padding: 0;">
     <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
         <div class="container-fluid px-4">
-            <a class="navbar-brand me-4" href="#">
+            <a class="navbar-brand me-4" href="index.html">
                 <img src="img/logo.png" alt="Logo MedLive" class="logo-img">
             </a>
 
-            
+
             <button class="navbar-toggler d-lg-none" type="button" onclick="toggleMobileMenu()"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-           
+
             <div class="navbar-collapse justify-content-between" id="navbarNav">
                 <ul class="navbar-nav d-flex flex-lg-row flex-column gap-lg-4 gap-2 align-items-lg-center">
                     <li class="nav-item"><a class="nav-link fw-bold" href="#">Pronto Atendimento</a></li>
@@ -33,13 +34,19 @@
                     <li class="nav-item"><a class="nav-link fw-bold" href="#">Contato</a></li>
                 </ul>
 
-                
                 <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 navbar-actions">
-                    <a class="nav-link fw-bold d-flex align-items-center user-link" href="#">
-                        <i class="bi bi-person me-2"></i>Entrar
-                    </a>
-                    <a href="cadastro.html" class="btn btn-cadastrar">Cadastrar</a>
+                    <div class="user-link-wrapper">
+                        <a class="nav-link fw-bold user-link-inner px-0" href="#">
+                            <span class="icon-text-wrapper">
+                                <i class="bi bi-person"></i>
+                                <span class="ms-2">Entrar</span>
+                            </span>
+                        </a>
+                    </div>
+
+                    <a href="cadastro_anterior.html" class="btn btn-cadastrar">Cadastrar</a>
                 </div>
+
             </div>
         </div>
     </nav>
@@ -60,14 +67,14 @@
                 <h5 class="fw-bold text-dark fs-4 mb-3">Explore a plataforma</h5>
                 <p class="text-secondary mb-4 fs-5">Clique aqui e tenha acesso a consultas online com profissionais de
                     saúde.</p>
-                <a href="cadastro.html" class="btn btn-danger w-100 py-3 fs-5 fw-bold">Cadastre-se já!</a>
+                <a href="cadastro_anterior.html" class="btn btn-danger w-100 py-3 fs-5 fw-bold">Cadastre-se já!</a>
             </div>
         </div>
     </section>
 
     <section class="py-5 benefits-section">
         <div class="container text-center">
-            <h2 class="fw-bold mb-5 section-title">
+            <h2 class="fw-bold mb-5 section-title" style="color: #001942;">
                 Descubra os benefícios da
                 <span style="color: #001942;">Med</span><span style="color: #B31D1D;">Live</span>
             </h2>
@@ -80,7 +87,8 @@
                         </div>
                         <div class="card-body text-white">
                             <h5 class="card-title mb-3">Atendimento remoto</h5>
-                            <p class="card-description">Consultas online com segurança e conforto, direto de casa.</p>
+                            <p class="card-description">Consultas médicas online realizadas com segurança, conforto e
+                                praticidade, diretamente da sua casa, sem precisar enfrentar filas ou deslocamentos.</p>
                         </div>
                         <div class="card-footer-accent"></div>
                     </div>
@@ -93,7 +101,9 @@
                         </div>
                         <div class="card-body text-white">
                             <h5 class="card-title mb-3">Pagamento claro</h5>
-                            <p class="card-description">Sem taxas escondidas e com preços acessíveis para todos.</p>
+                            <p class="card-description">Transparência total nos valores: sem taxas ocultas, sem
+                                surpresas na fatura e com preços acessíveis para todas as pessoas, facilitando o cuidado
+                                com a saúde.</p>
                         </div>
                         <div class="card-footer-accent"></div>
                     </div>
@@ -106,7 +116,8 @@
                         </div>
                         <div class="card-body text-white">
                             <h5 class="card-title mb-3">Diversas especialidades</h5>
-                            <p class="card-description">Cuidados com saúde em várias áreas, com rapidez e segurança.</p>
+                            <p class="card-description">Tenha acesso rápido e seguro a médicos de várias especialidades,
+                                garantindo atendimento completo em diferentes áreas da saúde, tudo em um só lugar.</p>
                         </div>
                         <div class="card-footer-accent"></div>
                     </div>
@@ -119,8 +130,9 @@
                         </div>
                         <div class="card-body text-white">
                             <h5 class="card-title mb-3">Agende com facilidade</h5>
-                            <p class="card-description">Escolha o melhor horário e organize sua rotina com poucos
-                                cliques.</p>
+                            <p class="card-description">Escolha o melhor dia e horário para sua consulta com poucos
+                                cliques. Organize sua rotina sem complicações e receba lembretes automáticos para não
+                                esquecer.</p>
                         </div>
                         <div class="card-footer-accent"></div>
                     </div>
@@ -133,7 +145,9 @@
                         </div>
                         <div class="card-body text-white">
                             <h5 class="card-title mb-3">Receitas digitais</h5>
-                            <p class="card-description">Visualize e gerencie receitas e consultas com praticidade.</p>
+                            <p class="card-description">Gerencie suas prescrições com facilidade. Receba receitas
+                                digitais e atestados diretamente na plataforma, de forma segura, legalizada e prática.
+                            </p>
                         </div>
                         <div class="card-footer-accent"></div>
                     </div>
@@ -147,7 +161,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-12 text-center text-lg-start mb-4 mb-lg-0">
                     <h2 class="fw-bold text-azul mb-3">Não sabe como funciona
-                        <br>a MedLive?
+                        <br>a <span style="color: #001942;">Med</span><span style="color: #B31D1D;">Live</span>?
                     </h2>
                     <p class="text-secondary fs-5 mb-4">
                         Preparamos um guia com 4 perguntas que costumam ser feitas por novos usuários.
@@ -177,7 +191,9 @@
                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                         data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            Na MedLive, você encontra uma variedade de especialidades médicas, como clínica geral, nutrição, ginecologia, dermatologia, entre outras. Tudo para que você tenha acesso ao cuidado certo, sem sair de casa.
+                            Na MedLive, você encontra uma variedade de especialidades médicas, como clínica geral,
+                            nutrição, ginecologia, dermatologia, entre outras. Tudo para que você tenha acesso ao
+                            cuidado certo, sem sair de casa.
                         </div>
                     </div>
                 </div>
@@ -191,7 +207,9 @@
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                         data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            Após realizar seu agendamento pela plataforma, você receberá um link de acesso para a consulta online. No dia e horário marcados, basta entrar no link e conversar com o profissional via videochamada, de forma simples, segura e humanizada.
+                            Após realizar seu agendamento pela plataforma, você receberá um link de acesso para a
+                            consulta online. No dia e horário marcados, basta entrar no link e conversar com o
+                            profissional via videochamada, de forma simples, segura e humanizada.
                         </div>
                     </div>
                 </div>
@@ -205,7 +223,9 @@
                     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                         data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            Sim! Os profissionais da MedLive podem emitir receitas, atestados e pedidos de exames com validade jurídica, todos com assinatura digital. Você os recebe diretamente pela plataforma ou por e-mail, logo após a consulta.
+                            Sim! Os profissionais da MedLive podem emitir receitas, atestados e pedidos de exames com
+                            validade jurídica, todos com assinatura digital. Você os recebe diretamente pela plataforma
+                            ou por e-mail, logo após a consulta.
                         </div>
                     </div>
                 </div>
@@ -219,7 +239,9 @@
                     <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
                         data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            A MedLive segue rigorosamente as normas da LGPD (Lei Geral de Proteção de Dados). Todos os dados e registros de atendimento são criptografados e armazenados com total segurança, garantindo sua privacidade e confidencialidade.
+                            A MedLive segue rigorosamente as normas da LGPD (Lei Geral de Proteção de Dados). Todos os
+                            dados e registros de atendimento são criptografados e armazenados com total segurança,
+                            garantindo sua privacidade e confidencialidade.
                         </div>
                     </div>
                 </div>
@@ -267,13 +289,12 @@
                     </ul>
                 </div>
             </div>
-
             <div class="row mt-4">
                 <div class="col text-center">
                     <p class="mb-1">
                         <strong>Responsáveis Técnicos:</strong>
                         <br> Amanda Rangel Ventorim
-                        <br> Joanameyre A de Oliveira
+                        <br> Joanameyre de Oliveira
                         <br> Leticia Setimi Martins
                         <br> Maria Rita Rosa Coimbra
                     </p>
@@ -301,8 +322,6 @@
                 toggleButton.setAttribute('aria-expanded', 'true');
             }
         }
-
-        // Fechar menu ao clicar em um link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 const navbarNav = document.getElementById('navbarNav');
@@ -313,8 +332,6 @@
                 }
             });
         });
-
-        // Fechar menu ao redimensionar para desktop
         window.addEventListener('resize', () => {
             if (window.innerWidth >= 992) {
                 const navbarNav = document.getElementById('navbarNav');

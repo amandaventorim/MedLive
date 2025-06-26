@@ -16,59 +16,48 @@
                 </div>
                 <div class="col-md-6 d-flex align-items-stretch">
                     <div class="form-section w-100">
+                        <!-- Logo pequena no canto superior direito -->
                         <a href="index.html">
                             <img src="img/logo.png" alt="Logo MedLive" class="form-logo">
                         </a>
                         <div class="mb-4 text-center">
                             <h3 class="mt-2 title-criar-conta">Criar conta</h3>
                         </div>
-                        <form action="cadastro2.html">
+                        <form>
                             <div class="mb-3">
-                                <label for="nome" class="form-label">Nome</label>
+                                <label for="cpf" class="form-label">CPF</label>
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="nome"
-                                    placeholder="Digite seu nome completo"
+                                    id="cpf"
+                                    placeholder="Ex: 111.111.111-11"
                                     required
                                 >
                             </div>
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="senha" class="form-label">Senha</label>
                                 <input
-                                    type="email"
+                                    type="password"
                                     class="form-control"
-                                    id="email"
-                                    placeholder="Digite seu email"
+                                    id="senha"
+                                    placeholder="Informe sua senha"
                                     required
                                 >
                             </div>
                             <div class="mb-3">
-                                <label for="nasc" class="form-label">Data de Nascimento</label>
+                                <label for="confisenha" class="form-label">Confirmar senha</label>
                                 <input
-                                    type="date"
+                                    type="password"
                                     class="form-control"
-                                    name="nascimento"
-                                    id="nasc"
-                                    min="1979-01-01"
-                                    max="2007-01-01"
+                                    id="confisenha"
+                                    placeholder="Confirme sua senha"
                                     required
                                 >
-                            </div>
-                            <div class="mb-3">
-                                <label for="genero" class="form-label">Gênero</label>
-                                <select class="form-select" id="genero" required>
-                                    <option value="" disabled selected>Selecione</option>
-                                    <option value="f">Feminino</option>
-                                    <option value="m">Masculino</option>
-                                    <option value="o">Outro</option>
-                                    <option value="sn">Prefiro não responder</option>
-                                </select>
                             </div>
                             <br>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-medlive">
-                                    Continuar
+                                    Criar conta
                                 </button>
                             </div>
                         </form>
