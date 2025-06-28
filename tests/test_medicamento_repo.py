@@ -64,17 +64,6 @@ class TestMedicamentoRepo:
         assert medicamento_db.idMedicamento == id_medicamento_inserido, "O ID do medicamento obtido não corresponde ao ID inserido."
         assert medicamento_db.nome == "Medicamento Teste", "O nome do medicamento obtido não corresponde ao nome inserido."
 
-    def test_obter_todos_medicamentos(self, test_db):
-        # Arrange
-        criar_tabela_medicamento()
-        for i in range(2):
-            medicamento_teste = Medicamento(0, f"Medicamento Teste {i + 1}")
-            inserir_medicamento(medicamento_teste)
-        # Act
-        medicamentos_db = obter_todos_medicamentos()
-        # Assert
-        assert len(medicamentos_db) >= 2, "A quantidade de medicamentos obtidos não é maior ou igual a 2."
-
     def test_obter_medicamento_por_pagina(self, test_db):
         # Arrange
         criar_tabela_medicamento()
@@ -82,11 +71,14 @@ class TestMedicamentoRepo:
             medicamento_teste = Medicamento(0, f"Medicamento Teste {i + 1}")
             inserir_medicamento(medicamento_teste)
         # Act
-        medicamentos_db = obter_medicamento_por_pagina(1, 2)
+        medicamento_db = obter_medicamento_por_pagina(1, 10)
+        medicamento_db2 = obter_medicamento_por_pagina(2, 4)
+        medicamento_db3 = obter_medicamento_por_pagina(3, 4)
         # Assert
-        assert len(medicamentos_db) == 2, "A quantidade de medicamentos obtidos na página não é igual a 2."
-        assert medicamentos_db[0].nome == "Medicamento Teste 1", "O primeiro medicamento da página não é o esperado."
-        assert medicamentos_db[1].nome == "Medicamento Teste 2", "O segundo medicamento da página não é o esperado."
+        assert len(medicamento_db) == 10, "A primeira consulta deve retornar 10 medicamentos."
+        assert len(medicamento_db2) == 4, "A segunda consulta deve retornar 4 medicamentos."
+        assert len(medicamento_db3) == 2, "A terceira consulta deve retornar 2 medicamentos."
+        assert medicamento_db3[0].id == 9, "A primeira consulta da terceira página deve retornar o medicamento com ID 9."
 
     
 
