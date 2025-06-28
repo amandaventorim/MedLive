@@ -23,6 +23,15 @@ JOIN especialidade e ON me.idEspecialidade = e.idEspecialidade
 ORDER BY m.idMedico, e.idEspecialidade
 """
 
+OBTER_MEDICO_ESPECIALIDADE_POR_PAGINA = """
+SELECT
+m.idMedico, e.idEspecialidade, e.nome, e.descricao, me.dataHabilitacao
+FROM medico_especialidade me
+JOIN medico m ON me.idMedico = m.idMedico
+JOIN especialidade e ON me.idEspecialidade = e.idEspecialidade
+LIMIT ? OFFSET ?
+"""
+
 OBTER_MEDICO_ESPECIALIDADE_POR_ID = """
 SELECT 
 m.idMedico, e.idEspecialidade, e.nome, e.descricao, me.dataHabilitacao
