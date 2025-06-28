@@ -14,6 +14,11 @@ OBTER_TODOS_MEDICAMENTOS = """
 SELECT * FROM medicamento
 """
 
+OBTER_MEDICAMENTO_POR_PAGINA = """
+SELECT * FROM medicamento
+LIMIT ? OFFSET ?
+"""
+
 OBTER_MEDICAMENTO_POR_ID = """
 SELECT * FROM medicamento
 WHERE idMedicamento = ?

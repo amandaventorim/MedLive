@@ -36,6 +36,20 @@ def obter_todos_medicamentos() -> list[Medicamento]:
             ) for row in rows
         ]
         return medicamentos
+    
+def obter_medicamento_por_pagina(pagina: int, limite: int) -> list[Medicamento]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        offset = (pagina - 1) * limite
+        cursor.execute(OBTER_MEDICAMENTO_POR_PAGINA, (limite, offset))
+        rows = cursor.fetchall()
+        medicamentos = [
+            Medicamento(
+                idMedicamento=row["idMedicamento"],
+                nome=row["nome"]
+            ) for row in rows
+        ]
+        return medicamentos
 
 
 def obter_medicamento_por_id(idMedicamento: int) -> Optional[Medicamento]:

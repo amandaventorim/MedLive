@@ -75,6 +75,19 @@ class TestMedicamentoRepo:
         # Assert
         assert len(medicamentos_db) >= 2, "A quantidade de medicamentos obtidos não é maior ou igual a 2."
 
+    def test_obter_medicamento_por_pagina(self, test_db):
+        # Arrange
+        criar_tabela_medicamento()
+        for i in range(10):
+            medicamento_teste = Medicamento(0, f"Medicamento Teste {i + 1}")
+            inserir_medicamento(medicamento_teste)
+        # Act
+        medicamentos_db = obter_medicamento_por_pagina(1, 2)
+        # Assert
+        assert len(medicamentos_db) == 2, "A quantidade de medicamentos obtidos na página não é igual a 2."
+        assert medicamentos_db[0].nome == "Medicamento Teste 1", "O primeiro medicamento da página não é o esperado."
+        assert medicamentos_db[1].nome == "Medicamento Teste 2", "O segundo medicamento da página não é o esperado."
+
     
 
 
