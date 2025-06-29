@@ -43,6 +43,25 @@ def obter_todos_usuarios() -> list[Usuario]:
                 for row in rows]
         return usuarios
     
+def obter_usuarios_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Usuario]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        limit = tamanho_pagina
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_USUARIOS_POR_PAGINA, (limit, offset))
+        rows = cursor.fetchall()
+        usuarios = [
+            Usuario(
+                idUsuario=row["idUsuario"], 
+                nome=row["nome"], 
+                cpf=row["cpf"],
+                email=row["email"],
+                senha=row["senha"],
+                genero=row["genero"],
+                dataNascimento=row["dataNascimento"]) 
+                for row in rows]
+        return usuarios
+    
     
 def obter_usuario_por_id(idUsuario: int) -> Optional[Usuario]:
     with get_connection() as conn:

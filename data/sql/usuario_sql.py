@@ -22,6 +22,14 @@ FROM usuario
 ORDER BY idUsuario
 """
 
+OBTER_USUARIOS_POR_PAGINA = """
+SELECT
+idUsuario, nome, cpf, email, senha, genero, dataNascimento
+FROM usuario
+ORDER BY idUsuario
+LIMIT ? OFFSET ?
+"""
+
 OBTER_USUARIO_POR_ID = """
 SELECT
 idUsuario, nome, cpf, email, senha, genero, dataNascimento
