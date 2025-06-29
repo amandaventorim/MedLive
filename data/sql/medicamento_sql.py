@@ -16,6 +16,7 @@ SELECT * FROM medicamento
 
 OBTER_MEDICAMENTO_POR_PAGINA = """
 SELECT * FROM medicamento
+ORDER BY idMedicamento
 LIMIT ? OFFSET ?
 """
 

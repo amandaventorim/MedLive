@@ -18,6 +18,15 @@ JOIN usuario u ON a.idAdministrador = u.idUsuario
 ORDER BY a.idAdministrador
 """
 
+OBTER_ADMINISTRADORES_POR_PAGINA = """
+SELECT
+a.idAdministrador, u.nome, u.cpf, u.email, u.senha, u.genero, u.dataNascimento
+FROM administrador a
+JOIN usuario u ON a.idAdministrador = u.idUsuario
+ORDER BY a.idAdministrador
+LIMIT ? OFFSET ?
+"""
+
 OBTER_ADMINISTRADOR_POR_ID = """
 SELECT 
 a.idAdministrador, u.nome, u.cpf, u.email, u.senha, u.genero, u.dataNascimento

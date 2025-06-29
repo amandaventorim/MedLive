@@ -39,6 +39,20 @@ def obter_todas_especialidades() -> list[Especialidade]:
         ]
         return especialidades
 
+def obter_especialidades_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Especialidade]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_ESPECIALIDADES_POR_PAGINA, (tamanho_pagina, offset))
+        rows = cursor.fetchall()
+        especialidades = [
+            Especialidade(
+                idEspecialidade=row["idEspecialidade"],
+                nome=row["nome"],
+                descricao=row["descricao"]
+            ) for row in rows
+        ]
+        return especialidades
 
 def obter_especialidade_por_id(idEspecialidade: int) -> Optional[Especialidade]:
     with get_connection() as conn:

@@ -53,6 +53,27 @@ def obter_todas_entradas_prontuario() -> list[EntradaProntuario]:
         ]
         return entradas
 
+def obter_entradas_prontuario_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[EntradaProntuario]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_ENTRADAS_PRONTUARIO_POR_PAGINA, (tamanho_pagina, offset))
+        rows = cursor.fetchall()
+        entradas = [
+            EntradaProntuario(
+                idProntuario=row["idProntuario"],
+                idConsulta=row["idConsulta"],
+                data=row["data"],
+                queixaPrincipal=row["queixaPrinicipal"],
+                alergias=row["alergias"],
+                solicitacoesExames=row["solicitacoesExames"],
+                antecedentesFamiliares=row["antecedoresFamiliares"],
+                fatoresAlivio=row["fatoresAlivio"],
+                fatoresPiora=row["fatoresPiora"],
+                fatoresPredecessores=row["fatoresPredecessores"]
+            ) for row in rows
+        ]
+        return entradas
 
 def obter_entrada_prontuario_por_id(idProntuario: int) -> Optional[EntradaProntuario]:
     with get_connection() as conn:

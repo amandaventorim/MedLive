@@ -56,6 +56,27 @@ def obter_todos_pacientes() -> list[Paciente]:
                 for row in rows ]
         return pacientes
 
+def obter_pacientes_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Paciente]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        limit = tamanho_pagina
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_PACIENTES_POR_PAGINA, (limit, offset))
+        rows = cursor.fetchall()
+        pacientes = [
+            Paciente(
+                idPaciente=row["idPaciente"],
+                idUsuario=row["idPaciente"],  
+                nome=row["nome"],
+                cpf=row["cpf"],
+                email=row["email"],
+                senha=row["senha"],
+                genero=row["genero"],
+                dataNascimento=row["dataNascimento"],
+                endereco=row["endereco"],
+                convenio=row["convenio"])
+                for row in rows ]
+        return pacientes
 
 def obter_paciente_por_id(idPaciente: int) -> Optional[Paciente]:
     with get_connection() as conn:

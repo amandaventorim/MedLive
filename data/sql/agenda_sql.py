@@ -20,6 +20,14 @@ FROM agenda
 ORDER BY idAgenda
 """
 
+OBTER_AGENDAS_POR_PAGINA = """
+SELECT
+idAgenda, idMedico, dataHora, disponivel
+FROM agenda
+ORDER BY idAgenda
+LIMIT ? OFFSET ?
+"""
+
 OBTER_AGENDA_POR_ID = """
 SELECT
 idAgenda, idMedico, dataHora, disponivel

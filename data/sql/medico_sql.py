@@ -19,6 +19,14 @@ FROM medico m
 JOIN usuario u ON m.idMedico = u.idUsuario
 ORDER BY m.idMedico
 """
+OBTER_MEDICOS_POR_PAGINA = """
+SELECT
+m.idMedico, u.nome, u.cpf, u.email, u.senha, u.genero, u.dataNascimento, m.crm, m.statusProfissional
+FROM medico m
+JOIN usuario u ON m.idMedico = u.idUsuario
+ORDER BY m.idMedico
+LIMIT ? OFFSET ?
+"""
 
 OBTER_MEDICOS_POR_ID = """
 SELECT 

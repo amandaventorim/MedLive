@@ -26,6 +26,14 @@ FROM entrada_prontuario
 ORDER BY idProntuario
 """
 
+OBTER_ENTRADAS_PRONTUARIO_POR_PAGINA = """
+SELECT
+idProntuario, idConsulta, data, queixaPrinicipal, alergias, solicitacoesExames, antecedoresFamiliares, fatoresAlivio, fatoresPiora, fatoresPredecessores
+FROM entrada_prontuario
+ORDER BY idProntuario
+LIMIT ? OFFSET ?
+"""
+
 OBTER_ENTRADA_PRONTUARIO_POR_ID = """
 SELECT
 idProntuario, idConsulta, data, queixaPrinicipal, alergias, solicitacoesExames, antecedoresFamiliares, fatoresAlivio, fatoresPiora, fatoresPredecessores

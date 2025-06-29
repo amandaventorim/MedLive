@@ -41,6 +41,21 @@ def obter_todos_agendamentos() -> list[Agendamento]:
             for row in rows
         ]
 
+def obter_agendamentos_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Agendamento]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_AGENDAMENTOS_POR_PAGINA, (tamanho_pagina, offset))
+        rows = cursor.fetchall()
+        return [
+            Agendamento(
+                idAgendamento=row["idAgendamento"],
+                idPaciente=row["idPaciente"],
+                status=row["status"],
+                dataAgendamento=row["dataAgendamento"]
+            )
+            for row in rows
+        ]
 
 def obter_agendamento_por_id(idAgendamento: int) -> Optional[Agendamento]:
     with get_connection() as conn:

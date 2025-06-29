@@ -46,6 +46,23 @@ def obter_todas_consultas() -> list[Consulta]:
         ]
         return consultas
 
+def obter_consultas_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Consulta]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_CONSULTAS_POR_PAGINA, (tamanho_pagina, offset))
+        rows = cursor.fetchall()
+        consultas = [
+            Consulta(
+                idConsulta=row["idConsulta"],
+                idMedico=row["idMedico"],
+                idPaciente=row["idPaciente"],
+                dataHora=row["dataHora"],
+                queixa=row["queixa"],
+                conduta=row["conduta"]
+            ) for row in rows
+        ]
+        return consultas
 
 def obter_consulta_por_id(idConsulta: int) -> Optional[Consulta]:
     with get_connection() as conn:

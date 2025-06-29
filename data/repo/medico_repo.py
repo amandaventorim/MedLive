@@ -58,6 +58,28 @@ def obter_todos_medicos() -> list[Medico]:
         ]
         return medicos
 
+def obter_medicos_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Medico]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        limit = tamanho_pagina
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_MEDICOS_POR_PAGINA, (limit, offset))
+        rows = cursor.fetchall()
+        medicos = [
+            Medico(
+                idMedico=row["idMedico"],
+                idUsuario=row["idMedico"],  
+                nome=row["nome"],
+                cpf=row["cpf"],
+                email=row["email"],
+                senha=row["senha"],
+                genero=row["genero"],
+                dataNascimento=row["dataNascimento"],
+                crm=row["crm"],
+                statusProfissional=row["statusProfissional"])
+            for row in rows
+        ]
+        return medicos
 
 def obter_medico_por_id(idMedico: int) -> Optional[Medico]:
     with get_connection() as conn:

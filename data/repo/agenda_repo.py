@@ -40,6 +40,20 @@ def obter_todas_agendas() -> list[Agenda]:
             ) for row in rows
         ]
 
+def obter_agendas_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Agenda]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_AGENDAS_POR_PAGINA, (tamanho_pagina, offset))
+        rows = cursor.fetchall()
+        return [
+            Agenda(
+                idAgenda=row["idAgenda"],
+                idMedico=row["idMedico"],
+                dataHora=row["dataHora"],
+                disponivel=bool(row["disponivel"])
+            ) for row in rows
+        ]
 
 def obter_agenda_por_id(idAgenda: int) -> Optional[Agenda]:
     with get_connection() as conn:

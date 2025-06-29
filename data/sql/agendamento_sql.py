@@ -21,6 +21,14 @@ FROM agendamento
 ORDER BY idAgendamento
 """
 
+OBTER_AGENDAMENTOS_POR_PAGINA = """
+SELECT
+idAgendamento, idPaciente, status, dataAgendamento
+FROM agendamento
+ORDER BY idAgendamento
+LIMIT ? OFFSET ?
+"""
+
 OBTER_AGENDAMENTO_POR_ID = """
 SELECT
 idAgendamento, idPaciente, status, dataAgendamento

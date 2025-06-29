@@ -20,6 +20,14 @@ idConsulta, idMedicamento, descricao
 FROM item_receita
 """
 
+OBTER_ITENS_RECEITA_POR_PAGINA = """
+SELECT
+idConsulta, idMedicamento, descricao
+FROM item_receita
+ORDER BY idConsulta, idMedicamento
+LIMIT ? OFFSET ?
+"""
+
 OBTER_ITEM_RECEITA_POR_ID = """
 SELECT  
 idConsulta, idMedicamento, descricao

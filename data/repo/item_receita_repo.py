@@ -38,6 +38,19 @@ def obter_todos_itens_receita() -> list[ItemReceita]:
             ) for row in rows
         ]
 
+def obter_itens_receita_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[ItemReceita]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_ITENS_RECEITA_POR_PAGINA, (tamanho_pagina, offset))
+        rows = cursor.fetchall()
+        return [
+            ItemReceita(
+                idConsulta=row["idConsulta"],
+                idMedicamento=row["idMedicamento"],
+                descricao=row["descricao"]
+            ) for row in rows
+        ]
 
 def obter_item_receita_por_id(idConsulta: int, idMedicamento: int) -> Optional[ItemReceita]:
     with get_connection() as conn:

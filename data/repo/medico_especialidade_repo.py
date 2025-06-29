@@ -37,6 +37,20 @@ def obter_todos_medicos_especialidades() -> list[MedicoEspecialidade]:
                 idEspecialidade=row["idEspecialidade"],
                 dataHabilitacao=row["dataHabilitacao"]) 
                 for row in rows]
+    
+def obter_medicos_especialidades_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[MedicoEspecialidade]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        limit = tamanho_pagina
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_MEDICO_ESPECIALIDADE_POR_PAGINA, (limit, offset))
+        rows = cursor.fetchall()
+        return [
+            MedicoEspecialidade(
+                idMedico=row["idMedico"],
+                idEspecialidade=row["idEspecialidade"],
+                dataHabilitacao=row["dataHabilitacao"]) 
+                for row in rows]
 
 
 def obter_medico_especialidade_por_id(idMedico: int, idEspecialidade: int) -> Optional[MedicoEspecialidade]:

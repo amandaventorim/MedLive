@@ -15,6 +15,12 @@ OBTER_TODAS_ESPECIALIDADES = """
 SELECT * FROM especialidade
 """
 
+OBTER_ESPECIALIDADES_POR_PAGINA = """
+SELECT * FROM especialidade
+ORDER BY idEspecialidade
+LIMIT ? OFFSET ?
+"""
+
 OBTER_ESPECIALIDADE_POR_ID = """
 SELECT * FROM especialidade
 WHERE idEspecialidade = ?

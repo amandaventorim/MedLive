@@ -29,6 +29,7 @@ m.idMedico, e.idEspecialidade, e.nome, e.descricao, me.dataHabilitacao
 FROM medico_especialidade me
 JOIN medico m ON me.idMedico = m.idMedico
 JOIN especialidade e ON me.idEspecialidade = e.idEspecialidade
+ORDER BY m.idMedico, e.idEspecialidade
 LIMIT ? OFFSET ?
 """
 

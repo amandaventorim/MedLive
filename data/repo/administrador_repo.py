@@ -52,6 +52,24 @@ def obter_todos_administradores() -> list[Administrador]:
             for row in rows]
         return administradores
 
+def obter_administradores_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Administrador]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor.execute(OBTER_ADMINISTRADORES_POR_PAGINA, (tamanho_pagina, offset))
+        rows = cursor.fetchall()
+        administradores = [
+            Administrador(
+                idAdministrador=row["idAdministrador"],
+                idUsuario=row["idAdministrador"],
+                nome=row["nome"],
+                cpf=row["cpf"],
+                email=row["email"],
+                senha=row["senha"],
+                genero=row["genero"],
+                dataNascimento=row["dataNascimento"])
+            for row in rows]
+        return administradores
 
 def obter_administrador_por_id(idAdministrador: int) -> Optional[Administrador]:
     with get_connection() as conn:
