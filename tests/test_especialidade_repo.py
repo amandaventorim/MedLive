@@ -1,6 +1,7 @@
 import sys
 import os
 from data.model.especialidade_model import Especialidade
+from data.repo import especialidade_repo
 from data.repo.especialidade_repo import *
 
 class TestEspecialidadeRepo:
@@ -11,18 +12,37 @@ class TestEspecialidadeRepo:
         # Assert
         assert resultado == True, "A criação da tabela 'especialidade' falhou."
 
-    def test_obter_especialidades_por_pagina(self, test_db):
+    def test_obter_especialidades_por_primeira_pagina(self, test_db, lista_especialidades_exemplo):
         # Arrange
-        criar_tabela_especialidade()
-        for i in range(10):
-            especialidade_teste = Especialidade(0, f"Especialidade {i + 1}", "Descrição da especialidade")
-            inserir_especialidade(especialidade_teste)
+        especialidade_repo.criar_tabela_especialidade()
+        for especialidade in lista_especialidades_exemplo():
+            especialidade_repo.inserir_especialidade(especialidade)
         # Act
-        especialidades1 = obter_especialidades_por_pagina(1, 10)
-        especialidades2 = obter_especialidades_por_pagina(2, 4)
-        especialidades3 = obter_especialidades_por_pagina(3, 4)
+        pagina_especialidades = especialidade_repo.obter_especialidades_por_pagina(1, 4)
         # Assert
-        assert len(especialidades1) == 10, "Deve retornar 10 especialidades na primeira página."
-        assert len(especialidades2) == 4, "Deve retornar 4 especialidades na segunda página."
-        assert len(especialidades3) == 2, "Deve retornar 2 especialidades na terceira página."
-        assert especialidades3[0].idEspecialidade == 9, "A primeira especialidade da terceira página deve ter ID 9."
+        assert len(pagina_especialidades) == 4, "Deve retornar 4 especialidades na primeira página."
+        ids_esperados = [1, 2, 3, 4]
+        ids_recebidos = [especialidade.idEspecialidade for especialidade in pagina_especialidades]
+        assert ids_recebidos == ids_esperados, "Os IDs das especialidades na primeira página não correspondem aos esperados."
+
+    def test_obter_especialidades_por_terceira_pagina(self, test_db, lista_especialidades_exemplo):
+        # Arrange
+        especialidade_repo.criar_tabela_especialidade()
+        for especialidade in lista_especialidades_exemplo():
+            especialidade_repo.inserir_especialidade(especialidade)
+        # Act
+        pagina_especialidades = especialidade_repo.obter_especialidades_por_pagina(3, 4)
+        # Assert
+        assert len(pagina_especialidades) == 2, "Deve retornar 2 especialidades na terceira página."
+        ids_esperados = [9, 10]
+        ids_recebidos = [especialidade.idEspecialidade for especialidade in pagina_especialidades]
+        assert ids_recebidos == ids_esperados, "Os IDs das especialidades na terceira página não correspondem aos esperados."
+
+    def test_obter_especialidades_por_pagina_vazia(self, test_db):
+        # Arrange
+        especialidade_repo.criar_tabela_especialidade()
+        # Act
+        pagina_especialidades = especialidade_repo.obter_especialidades_por_pagina(1, 10)
+        # Assert
+        assert isinstance(pagina_especialidades, list), "A página de especialidades deve ser uma lista."
+        assert len(pagina_especialidades) == 0, "A página de especialidades não deve conter resultados quando a tabela está vazia."
