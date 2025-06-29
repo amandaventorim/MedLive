@@ -1,5 +1,6 @@
 import sys
 import os
+from data.repo import medicamento_repo
 from data.repo.medicamento_repo import *
 from data.model.medicamento_model import Medicamento
 
@@ -64,22 +65,41 @@ class TestMedicamentoRepo:
         assert medicamento_db.idMedicamento == id_medicamento_inserido, "O ID do medicamento obtido não corresponde ao ID inserido."
         assert medicamento_db.nome == "Medicamento Teste", "O nome do medicamento obtido não corresponde ao nome inserido."
 
-    def test_obter_medicamento_por_pagina(self, test_db):
+    def test_obter_medicamento_por_primeira_pagina(self, test_db, lista_medicamentos_exemplo):
         # Arrange
-        criar_tabela_medicamento()
-        for i in range(10):
-            medicamento_teste = Medicamento(0, f"Medicamento Teste {i + 1}")
-            inserir_medicamento(medicamento_teste)
+        medicamento_repo.criar_tabela_medicamento()
+        for medicamento in lista_medicamentos_exemplo:
+            medicamento_repo.inserir_medicamento(medicamento)
         # Act
-        medicamento_db = obter_medicamento_por_pagina(1, 10)
-        medicamento_db2 = obter_medicamento_por_pagina(2, 4)
-        medicamento_db3 = obter_medicamento_por_pagina(3, 4)
+        pagina_medicamentos = medicamento_repo.obter_medicamentos_por_pagina(1, 4)
         # Assert
-        assert len(medicamento_db) == 10, "A primeira consulta deve retornar 10 medicamentos."
-        assert len(medicamento_db2) == 4, "A segunda consulta deve retornar 4 medicamentos."
-        assert len(medicamento_db3) == 2, "A terceira consulta deve retornar 2 medicamentos."
-        assert medicamento_db3[0].id == 9, "A primeira consulta da terceira página deve retornar o medicamento com ID 9."
+        assert len(pagina_medicamentos) == 4, "A primeira consulta deve retornar 4 medicamentos."
+        ids_esperados = [1, 2, 3, 4]
+        ids_retornados = [med.idMedicamento for med in pagina_medicamentos]
+        assert ids_retornados == ids_esperados, "Os IDs dos medicamentos retornados não correspondem aos esperados."
 
+    def test_obter_medicamento_por_terceira_pagina(self, test_db, lista_medicamentos_exemplo):
+        # Arrange
+        medicamento_repo.criar_tabela_medicamento()
+        for medicamento in lista_medicamentos_exemplo:
+            medicamento_repo.inserir_medicamento(medicamento)
+        # Act
+        pagina_medicamentos = medicamento_repo.obter_medicamentos_por_pagina(3, 4)
+        # Assert
+        assert len(pagina_medicamentos) == 2, "A terceira consulta deve retornar 2 medicamentos."
+        ids_esperados = [9, 10]
+        ids_retornados = [med.idMedicamento for med in pagina_medicamentos]
+        assert ids_retornados == ids_esperados, "Os IDs dos medicamentos retornados não correspondem aos esperados."
+
+    def test_obter_medicamento_por_pagina_com_pagina_vazia(self, test_db):
+        # Arrange
+        medicamento_repo.criar_tabela_medicamento()
+        # Act
+        pagina_medicamentos = medicamento_repo.obter_medicamentos_por_pagina(1, 10)
+        # Assert
+        assert isinstance(pagina_medicamentos, list), "A consulta deve retornar uma lista."
+        assert len(pagina_medicamentos) == 0, "A consulta deve retornar uma lista vazia quando não há medicamentos."
+        
     
 
 
