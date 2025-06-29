@@ -1,6 +1,7 @@
 import sys
 import os
 from data.model.medico_especialidade_model import MedicoEspecialidade
+from data.repo import especialidade_repo, medico_especialidade_repo, medico_repo
 from data.repo.medico_especialidade_repo import *
 
 class TestMedicoEspecialidadeRepo:
@@ -11,18 +12,51 @@ class TestMedicoEspecialidadeRepo:
         # Assert
         assert resultado == True, "A criação da tabela 'medico_especialidade' falhou."
 
-    def test_obter_medicos_especialidade_por_pagina(self, test_db):
+    def test_obter_medicos_especialidade_por_primeira_pagina(self, test_db, lista_medico_especialidades_exemplo, lista_especialidades_exemplo, lista_medicos_exemplo):
         # Arrange
-        criar_tabela_medico_especialidade()
-        for i in range(10):
-            medico_especialidade_teste = MedicoEspecialidade(0, 0, "2023-01-01")
-            inserir_medico_especialidade(medico_especialidade_teste)
+        medico_especialidade_repo.criar_tabela_medico_especialidade()
+        for medico_especialidade in lista_medico_especialidades_exemplo():
+            medico_especialidade_repo.inserir_medico_especialidade(medico_especialidade)
+        especialidade_repo.criar_tabela_especialidade()
+        for especialidade in lista_especialidades_exemplo():
+            especialidade_repo.inserir_especialidade(especialidade)
+        medico_repo.criar_tabela_medico()
+        for medico in lista_medicos_exemplo():
+            medico_repo.inserir_medico(medico)
         # Act
-        medicos_especialidades1 = obter_medicos_especialidades_por_pagina(1, 10)
-        medicos_especialidades2 = obter_medicos_especialidades_por_pagina(2, 4)
-        medicos_especialidades3 = obter_medicos_especialidades_por_pagina(3, 4)
+        pagina_medicos_especialidade = medico_especialidade_repo.obter_medicos_especialidades_por_pagina(1, 4)
         # Assert
-        assert len(medicos_especialidades1) == 10, "Deve retornar 10 médicos especialidades na primeira página."
-        assert len(medicos_especialidades2) == 4, "Deve retornar 4 médicos especialidades na segunda página."
-        assert len(medicos_especialidades3) == 2, "Deve retornar 2 médicos especialidades na terceira página."
-        assert medicos_especialidades3[0].idMedicoEspecialidade == 9, "O primeiro médico especialidade da terceira página deve ter ID 9."
+        assert len(pagina_medicos_especialidade) == 4, "Deve retornar 4 médicos especialidades na primeira página."
+        ids_esperados = [1, 2, 3, 4]
+        ids_recebidos = [medico_especialidade.idMedicoEspecialidade for medico_especialidade in pagina_medicos_especialidade]
+        assert ids_recebidos == ids_esperados, "Os IDs dos médicos especialidades na primeira página não correspondem aos esperados."
+
+    def test_obter_medicos_especialidade_por_terceira_pagina(self, test_db, lista_medico_especialidades_exemplo, lista_especialidades_exemplo, lista_medicos_exemplo):
+        # Arrange
+        medico_especialidade_repo.criar_tabela_medico_especialidade()
+        for medico_especialidade in lista_medico_especialidades_exemplo():
+            medico_especialidade_repo.inserir_medico_especialidade(medico_especialidade)
+        especialidade_repo.criar_tabela_especialidade()
+        for especialidade in lista_especialidades_exemplo():
+            especialidade_repo.inserir_especialidade(especialidade)
+        medico_repo.criar_tabela_medico()
+        for medico in lista_medicos_exemplo():
+            medico_repo.inserir_medico(medico)
+        # Act
+        pagina_medicos_especialidade = medico_especialidade_repo.obter_medicos_especialidades_por_pagina(3, 4)
+        # Assert
+        assert len(pagina_medicos_especialidade) == 2, "Deve retornar 2 médicos especialidades na terceira página."
+        ids_esperados = [9, 10]
+        ids_recebidos = [medico_especialidade.idMedicoEspecialidade for medico_especialidade in pagina_medicos_especialidade]
+        assert ids_recebidos == ids_esperados, "Os IDs dos médicos especialidades na terceira página não correspondem aos esperados."
+
+    def test_obter_medicos_especialidade_por_pagina_vazia(self, test_db):
+        # Arrange
+        medico_especialidade_repo.criar_tabela_medico_especialidade()
+        especialidade_repo.criar_tabela_especialidade()
+        medico_repo.criar_tabela_medico()
+        # Act
+        pagina_medicos_especialidade = medico_especialidade_repo.obter_medicos_especialidades_por_pagina(1, 10)
+        # Assert
+        assert isinstance(pagina_medicos_especialidade, list), "A página de médicos especialidades deve ser uma lista."
+        assert len(pagina_medicos_especialidade) == 0, "A página de médicos especialidades não deve conter resultados quando a tabela está vazia."

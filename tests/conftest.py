@@ -47,6 +47,16 @@ def medico_especialidade_exemplo():
     return medico_especialidade
 
 @pytest.fixture
+def lista_medico_especialidades_exemplo():
+    # Cria uma lista de 10 associações de médicos e especialidades de exemplo
+    from data.model.medico_especialidade_model import MedicoEspecialidade
+    medico_especialidades = []
+    for i in range(1, 11):
+        medico_especialidade = MedicoEspecialidade(0, 0, f"2023-01-{i:02d}")
+        medico_especialidades.append(medico_especialidade)
+    return medico_especialidades
+
+@pytest.fixture
 def medico_exemplo():
     from data.model.medico_model import Medico
     medico = Medico(0, "123456", "Ativo")
@@ -97,6 +107,15 @@ def item_receita_exemplo():
     item = ItemReceita(0, 0, "Descrição do item de receita")
     return item
 
+def lista_itens_receita_exemplo():
+    # Cria uma lista de 10 itens de receita de exemplo
+    from data.model.item_receita_model import ItemReceita
+    itens = []
+    for i in range(1, 11):
+        item = ItemReceita(0, 0, f"Descrição do item de receita {i:02d}")
+        itens.append(item)
+    return itens
+
 def especialidade_exemplo():
     from data.model.especialidade_model import Especialidade
     especialidade = Especialidade(0, "Especialidade Exemplo", "Descrição da especialidade exemplo")
@@ -116,24 +135,67 @@ def entrada_prontuario_exemplo():
     entrada = EntradaProntuario(0, 0, "2023-01-01", "Queixa principal exemplo", "Alergias exemplo", "Solicitações de exames exemplo", "Antecedentes familiares exemplo", "Fatores de alívio exemplo", "Fatores de piora exemplo", "Fatores predecessores exemplo")
     return entrada
 
+def lista_entradas_prontuario_exemplo():
+    # Cria uma lista de 10 entradas de prontuário de exemplo
+    from data.model.entrada_prontuario_model import EntradaProntuario
+    entradas = []
+    for i in range(1, 11):
+        entrada = EntradaProntuario(0, 0, f"2023-01-{i:02d}", "Queixa principal exemplo", "Alergias exemplo", "Solicitações de exames exemplo", "Antecedentes familiares exemplo", "Fatores de alívio exemplo", "Fatores de piora exemplo", "Fatores predecessores exemplo")
+        entradas.append(entrada)
+    return entradas
+
 def consulta_exemplo():
     from data.model.consulta_model import Consulta
     consulta = Consulta(0, 0, 0, "2023-01-01", "Motivo da consulta exemplo", "Observações da consulta exemplo")
     return consulta
+
+def lista_consultas_exemplo():
+    # Cria uma lista de 10 consultas de exemplo
+    from data.model.consulta_model import Consulta
+    consultas = []
+    for i in range(1, 11):
+        consulta = Consulta(0, 0, 0, f"2023-01-{i:02d}", f"Motivo da consulta {i:02d}", f"Observações da consulta {i:02d}")
+        consultas.append(consulta)
+    return consultas
 
 def agendamento_exemplo():
     from data.model.agendamento_model import Agendamento
     agendamento = Agendamento(0, 0, "status exemplo", "2023-01-01")
     return agendamento
 
+def lista_agendamentos_exemplo():
+    # Cria uma lista de 10 agendamentos de exemplo
+    from data.model.agendamento_model import Agendamento
+    agendamentos = []
+    for i in range(1, 11):
+        agendamento = Agendamento(0, 0, f"status {i:02d}", f"2023-01-{i:02d}")
+        agendamentos.append(agendamento)
+    return agendamentos
+
 def agenda_exemplo():
     from data.model.agenda_model import Agenda
     agenda = Agenda(0, 0, "2023-01-01", True)
     return agenda
+
+def lista_agendas_exemplo():
+    # Cria uma lista de 10 agendas de exemplo
+    from data.model.agenda_model import Agenda
+    agendas = []
+    for i in range(1, 11):
+        agenda = Agenda(0, 0, f"2023-01-{i:02d}", True)
+        agendas.append(agenda)
+    return agendas
 
 def administrador_exemplo():
     from data.model.administrador_model import Administrador
     administrador = Administrador(0)
     return administrador
 
-
+def lista_administradores_exemplo():
+    # Cria uma lista de 10 administradores de exemplo
+    from data.model.administrador_model import Administrador
+    administradores = []
+    for i in range(1, 11):
+        administrador = Administrador(0, f"Administrador {i:02d}")
+        administradores.append(administrador)
+    return administradores

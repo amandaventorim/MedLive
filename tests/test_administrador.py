@@ -1,6 +1,7 @@
 import sys
 import os
 from data.model.administrador_model import Administrador
+from data.repo import administrador_repo, usuario_repo
 from data.repo.administrador_repo import *
 
 class TestAdministradorRepo:
@@ -11,18 +12,50 @@ class TestAdministradorRepo:
         # Assert
         assert resultado == True, "A criação da tabela 'administrador' falhou."
 
-    def test_obter_administradores_por_primeira_pagina(self, test_db, lista_administradores_exemplo):
+    def test_obter_administradores_por_primeira_pagina(self, test_db, lista_administradores_exemplo, lista_usuarios_exemplo):
         # Arrange
-        criar_tabela_administrador()
-        for i in range(10):
-            admin_teste = Administrador(0, f"Admin {i + 1}")
-            inserir_administrador(admin_teste)
+        administrador_repo.criar_tabela_administrador()
+        for administrador in lista_administradores_exemplo():
+            administrador_repo.inserir_administrador(administrador)
+        usuario_repo.criar_tabela_usuario()
+        for usuario in lista_usuarios_exemplo():
+            usuario_repo.inserir_usuario(usuario)
+        
         # Act
-        admins1 = obter_administradores_por_pagina(1, 10)
-        admins2 = obter_administradores_por_pagina(2, 4)
-        admins3 = obter_administradores_por_pagina(3, 4)
+        pagina_administradores = administrador_repo.obter_administradores_por_pagina(1, 4)
+        
         # Assert
-        assert len(admins1) == 10, "Deve retornar 10 administradores na primeira página."
-        assert len(admins2) == 4, "Deve retornar 4 administradores na segunda página."
-        assert len(admins3) == 2, "Deve retornar 2 administradores na terceira página."
-        assert admins3[0].idAdministrador == 9, "O primeiro administrador da terceira página deve ter ID 9."
+        assert len(pagina_administradores) == 4, "Deve retornar 4 administradores na primeira página."
+        nomes_esperados = ["Administrador 01", "Administrador 02", "Administrador 03", "Administrador 04"]
+        nomes_recebidos = [admin.nome for admin in pagina_administradores]
+        assert nomes_recebidos == nomes_esperados, "Os nomes dos administradores na primeira página não correspondem aos esperados."
+
+    def test_obter_administradores_por_terceira_pagina(self, test_db, lista_administradores_exemplo, lista_usuarios_exemplo):
+        # Arrange
+        administrador_repo.criar_tabela_administrador()
+        for administrador in lista_administradores_exemplo():
+            administrador_repo.inserir_administrador(administrador)
+        usuario_repo.criar_tabela_usuario()
+        for usuario in lista_usuarios_exemplo():
+            usuario_repo.inserir_usuario(usuario)
+        
+        # Act
+        pagina_administradores = administrador_repo.obter_administradores_por_pagina(3, 4)
+        
+        # Assert
+        assert len(pagina_administradores) == 2, "Deve retornar 2 administradores na terceira página."
+        nomes_esperados = ["Administrador 09", "Administrador 10"]
+        nomes_recebidos = [admin.nome for admin in pagina_administradores]
+        assert nomes_recebidos == nomes_esperados, "Os nomes dos administradores na terceira página não correspondem aos esperados."
+    
+    def test_obter_administradores_por_pagina_vazia(self, test_db):
+        # Arrange
+        administrador_repo.criar_tabela_administrador()
+        usuario_repo.criar_tabela_usuario()
+        
+        # Act
+        pagina_administradores = administrador_repo.obter_administradores_por_pagina(1, 10)
+        
+        # Assert
+        assert isinstance(pagina_administradores, list), "A página de administradores deve ser uma lista."
+        assert len(pagina_administradores) == 0, "A página de administradores não deve conter resultados quando a tabela está vazia."
