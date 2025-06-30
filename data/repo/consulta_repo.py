@@ -15,7 +15,6 @@ def criar_tabela_consulta() -> bool:
         return False
 
 
-
 def inserir_consulta(consulta: Consulta) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()

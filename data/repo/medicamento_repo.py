@@ -21,6 +21,7 @@ def inserir_medicamento(medicamento: Medicamento) -> Optional[int]:
         cursor.execute(INSERIR_MEDICAMENTO, (
             medicamento.nome,
         ))
+        medicamento.idMedicamento = cursor.lastrowid
         return cursor.lastrowid
 
 

@@ -1,7 +1,8 @@
 import sys
 import os
-from data.repo.medicamento_repo import *
+from data.repo.medicamento_repo import criar_tabela_medicamento, inserir_medicamento, obter_medicamento_por_id, atualizar_medicamento, deletar_medicamento, obter_todos_medicamentos, obter_medicamento_por_pagina
 from data.model.medicamento_model import Medicamento
+from tests.conftest import lista_medicamentos_exemplo
 
 class TestMedicamentoRepo:
     def test_criar_tabela_medicamento(self, test_db):
@@ -64,22 +65,23 @@ class TestMedicamentoRepo:
         assert medicamento_db.idMedicamento == id_medicamento_inserido, "O ID do medicamento obtido não corresponde ao ID inserido."
         assert medicamento_db.nome == "Medicamento Teste", "O nome do medicamento obtido não corresponde ao nome inserido."
 
-    def test_obter_medicamento_por_pagina(self, test_db):
+    def test_obter_medicamentos_por_pagina(self, test_db, lista_medicamentos_exemplo):
         # Arrange
         criar_tabela_medicamento()
-        for i in range(10):
-            medicamento_teste = Medicamento(0, f"Medicamento Teste {i + 1}")
-            inserir_medicamento(medicamento_teste)
+        for medicamento in lista_medicamentos_exemplo:
+            inserir_medicamento(medicamento)
+        numero_pagina = 2
+        tamanho_pagina = 5
         # Act
-        medicamento_db = obter_medicamento_por_pagina(1, 10)
-        medicamento_db2 = obter_medicamento_por_pagina(2, 4)
-        medicamento_db3 = obter_medicamento_por_pagina(3, 4)
+        medicamentos = obter_medicamento_por_pagina(numero_pagina, tamanho_pagina)
         # Assert
-        assert len(medicamento_db) == 10, "A primeira consulta deve retornar 10 medicamentos."
-        assert len(medicamento_db2) == 4, "A segunda consulta deve retornar 4 medicamentos."
-        assert len(medicamento_db3) == 2, "A terceira consulta deve retornar 2 medicamentos."
-        assert medicamento_db3[0].id == 9, "A primeira consulta da terceira página deve retornar o medicamento com ID 9."
+        assert len(medicamentos) == tamanho_pagina, "O número de medicamentos obtidos por página não corresponde ao tamanho da página."
+        start_index = (numero_pagina - 1) * tamanho_pagina
+        for i, medicamento in enumerate(medicamentos):
+            esperado = lista_medicamentos_exemplo[start_index + i]
+            assert medicamento.idMedicamento == esperado.idMedicamento, f"ID do medicamento na página {numero_pagina} não corresponde ao esperado."
+            assert medicamento.nome == esperado.nome, f"Nome do medicamento na página {numero_pagina} não corresponde ao esperado."
 
-    
+
 
 
