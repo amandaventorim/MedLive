@@ -68,15 +68,16 @@ def obter_usuario_por_id(idUsuario: int) -> Optional[Usuario]:
         cursor = conn.cursor()
         cursor.execute(OBTER_USUARIO_POR_ID, (idUsuario,))
         row = cursor.fetchone()
-        usuario = Usuario(
-                idUsuario=row["idUsuario"], 
-                nome=row["nome"], 
-                cpf=row["cpf"],
-                email=row["email"],
-                senha=row["senha"],
-                genero=row["genero"],
-                dataNascimento=row["dataNascimento"])
-        return usuario if row else None
+        if row:
+            usuario = Usuario(
+                    idUsuario=row["idUsuario"], 
+                    nome=row["nome"], 
+                    cpf=row["cpf"],
+                    email=row["email"],
+                    senha=row["senha"],
+                    genero=row["genero"],
+                    dataNascimento=row["dataNascimento"])
+            return usuario
     
 def atualizar_usuario(usuario: Usuario) -> bool:
     with get_connection() as conn:
@@ -85,10 +86,15 @@ def atualizar_usuario(usuario: Usuario) -> bool:
             usuario.nome, 
             usuario.cpf, 
             usuario.email, 
-            usuario.senha, 
             usuario.genero,
             usuario.dataNascimento,
             usuario.idUsuario))
+        return cursor.rowcount > 0
+    
+def atualizar_senha_usuario(idUsuario: int, nova_senha: str) -> bool:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(UPDATE_SENHA_USUARIO, (nova_senha, idUsuario))
         return cursor.rowcount > 0
     
 def deletar_usuario(idUsuario: int) -> bool:

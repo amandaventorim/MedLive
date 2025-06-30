@@ -16,7 +16,7 @@ def criar_tabela_medico() -> bool:
         return False
 
 
-def inserir_usuario_medico(medico: Medico) -> Optional[int]:
+def inserir_medico(medico: Medico) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_USUARIO, (
