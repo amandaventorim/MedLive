@@ -15,7 +15,6 @@ def criar_tabela_medico_especialidade() -> bool:
         return False
 
 
-
 def inserir_medico_especialidade(medico_especialidade: MedicoEspecialidade) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
@@ -37,6 +36,7 @@ def obter_todos_medicos_especialidades() -> list[MedicoEspecialidade]:
                 idEspecialidade=row["idEspecialidade"],
                 dataHabilitacao=row["dataHabilitacao"]) 
                 for row in rows]
+    
     
 def obter_medicos_especialidades_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[MedicoEspecialidade]:
     with get_connection() as conn:
