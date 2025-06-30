@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Médico - MedLive</title>
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px 0 80px;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 25, 66, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .stats-icon.primary {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+        }
+
+        .stats-icon.success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .stats-icon.warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .stats-icon.danger {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+        }
+
+        .quick-action-card {
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .quick-action-card:hover {
+            border-color: #B31D1D;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(179, 29, 29, 0.2);
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .action-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action-card:hover .action-icon {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            transform: scale(1.1);
+        }
+
+        .agenda-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 25, 66, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .appointment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #28a745;
+            transition: all 0.3s ease;
+        }
+
+        .appointment-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-item.urgent {
+            border-left-color: #B31D1D;
+            background: rgba(179, 29, 29, 0.05);
+        }
+
+        .appointment-item.next {
+            border-left-color: #ffc107;
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        .appointment-time {
+            background: #001942;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .appointment-item.urgent .appointment-time {
+            background: #B31D1D;
+        }
+
+        .appointment-item.next .appointment-time {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-start:hover {
+            background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+        }
+
+        .minutes-card {
+            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+            border: 1px solid #28a745;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .minutes-progress {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .minutes-progress-bar {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .btn-buy-minutes {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-buy-minutes:hover {
+            background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(179, 29, 29, 0.3);
+        }
+
+        .patient-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .patient-card:hover {
+            border-color: #001942;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .patient-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #B31D1D;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .earnings-card {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 1px solid #ffc107;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .earnings-icon {
+            width: 60px;
+            height: 60px;
+            background: #ffc107;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: #000;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-section {
+                padding: 20px 0 60px;
+            }
+            
+            .welcome-card {
+                padding: 1.5rem;
+            }
+            
+            .stats-card {
+                margin-bottom: 1rem;
+            }
+            
+            .quick-action-card {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color: #F5F5F5; margin: 0; padding: 0;">
+    <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand me-4" href="index.html">
+                <img src="img/logo.png" alt="Logo MedLive" class="logo-img">
+            </a>
+
+            <button class="navbar-toggler d-lg-none" type="button" onclick="toggleMobileMenu()"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse justify-content-between" id="navbarNav">
+                <ul class="navbar-nav d-flex flex-lg-row flex-column gap-lg-4 gap-2 align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link fw-bold" href="dashboard_medico.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="agenda_medico.html">Minha Agenda</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="consultas_medico.html">Consultas</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="pacientes_medico.html">Pacientes</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="planos_medico.html">Planos</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 navbar-actions">
+                    <div class="user-link-wrapper position-relative">
+                        <a class="nav-link fw-bold user-link-inner px-0" href="perfil_medico.html">
+                            <span class="icon-text-wrapper">
+                                <i class="bi bi-person-circle"></i>
+                                <span class="ms-2">Dr. Carlos Silva</span>
+                            </span>
+                        </a>
+                        <div class="notification-badge">5</div>
+                    </div>
+                    <a href="index.html" class="btn btn-outline-danger">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="dashboard-section">
+        <div class="container">
+            <!-- Welcome Card -->
+            <div class="welcome-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="fw-bold mb-2">Bom dia, Dr. Carlos! 👨‍⚕️</h2>
+                        <p class="mb-3">Você tem 8 consultas agendadas para hoje. Sua próxima consulta é às 14:00 com João Silva.</p>
+                        <a href="consultas_medico.html" class="btn btn-light fw-bold">
+                            <i class="bi bi-camera-video me-2"></i>Ver Consultas
+                        </a>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="earnings-card">
+                            <div class="earnings-icon">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+                            <div class="fw-bold">R$ 2.450,00</div>
+                            <div>Ganhos este mês</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon primary">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">8</h3>
+                        <p class="text-secondary mb-0">Consultas Hoje</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon success">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">156</h3>
+                        <p class="text-secondary mb-0">Pacientes Ativos</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon warning">
+                            <i class="bi bi-clock"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">240</h3>
+                        <p class="text-secondary mb-0">Minutos Restantes</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon danger">
+                            <i class="bi bi-star"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">4.8</h3>
+                        <p class="text-secondary mb-0">Avaliação Média</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <h4 class="fw-bold text-azul mb-3">Ações Rápidas</h4>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <a href="consultas_medico.html" class="quick-action-card">
+                        <div class="action-icon">
+                            <i class="bi bi-camera-video"></i>
+                        </div>
+                        <h5 class="fw-bold text-azul">Iniciar Consulta</h5>
+                        <p class="text-secondary small">Entrar na sala virtual</p>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <a href="agenda_medico.html" class="quick-action-card">
+                        <div class="action-icon">
+                            <i class="bi bi-calendar-plus"></i>
+                        </div>
+                        <h5 class="fw-bold text-azul">Gerenciar Agenda</h5>
+                        <p class="text-secondary small">Horários disponíveis</p>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <a href="pacientes_medico.html" class="quick-action-card">
+                        <div class="action-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h5 class="fw-bold text-azul">Meus Pacientes</h5>
+                        <p class="text-secondary small">Histórico e prontuários</p>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <a href="planos_medico.html" class="quick-action-card">
+                        <div class="action-icon">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+                        <h5 class="fw-bold text-azul">Comprar Minutos</h5>
+                        <p class="text-secondary small">Planos e pacotes</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Today's Schedule -->
+                    <div class="agenda-card">
+                        <h5 class="fw-bold text-azul mb-3">
+                            <i class="bi bi-calendar-event me-2"></i>Agenda de Hoje
+                        </h5>
+                        
+                        <div class="appointment-item urgent">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="appointment-time">Agora - 14:00</div>
+                                    <h6 class="fw-bold mt-2 mb-1">João Silva</h6>
+                                    <p class="text-secondary mb-0">Consulta de retorno • Videochamada</p>
+                                </div>
+                                <div>
+                                    <button class="btn btn-start" onclick="startConsultation('joao-silva')">
+                                        <i class="bi bi-camera-video me-2"></i>Iniciar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-item next">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="appointment-time">Próxima - 14:30</div>
+                                    <h6 class="fw-bold mt-2 mb-1">Maria Santos</h6>
+                                    <p class="text-secondary mb-0">Primeira consulta • Videochamada</p>
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline-primary">
+                                        <i class="bi bi-eye me-2"></i>Ver Perfil
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="appointment-time">15:00</div>
+                                    <h6 class="fw-bold mt-2 mb-1">Pedro Costa</h6>
+                                    <p class="text-secondary mb-0">Consulta de rotina • Chat</p>
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline-primary">
+                                        <i class="bi bi-eye me-2"></i>Ver Perfil
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <a href="agenda_medico.html" class="btn btn-outline-primary">
+                                Ver agenda completa
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Recent Patients -->
+                    <div class="agenda-card">
+                        <h5 class="fw-bold text-azul mb-3">
+                            <i class="bi bi-clock-history me-2"></i>Pacientes Recentes
+                        </h5>
+                        
+                        <div class="patient-card">
+                            <div class="d-flex align-items-center">
+                                <div class="patient-avatar">JS</div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">João Silva</h6>
+                                    <small class="text-secondary">Última consulta: Ontem às 16:30</small>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-file-medical"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="patient-card">
+                            <div class="d-flex align-items-center">
+                                <div class="patient-avatar">MS</div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">Maria Santos</h6>
+                                    <small class="text-secondary">Última consulta: 2 dias atrás</small>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-file-medical"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="patient-card">
+                            <div class="d-flex align-items-center">
+                                <div class="patient-avatar">PC</div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">Pedro Costa</h6>
+                                    <small class="text-secondary">Última consulta: 3 dias atrás</small>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-file-medical"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Minutes Plan -->
+                    <div class="minutes-card">
+                        <h6 class="fw-bold text-success mb-3">
+                            <i class="bi bi-clock me-2"></i>Plano de Minutos
+                        </h6>
+                        
+                        <div class="text-center mb-3">
+                            <h3 class="fw-bold text-success">240 min</h3>
+                            <p class="text-secondary mb-0">de 500 minutos</p>
+                        </div>
+                        
+                        <div class="minutes-progress">
+                            <div class="minutes-progress-bar" style="width: 48%"></div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-3">
+                            <small>Usado: 260 min</small>
+                            <small>Restante: 240 min</small>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button class="btn btn-buy-minutes" onclick="window.location.href='planos_medico.html'">
+                                <i class="bi bi-plus-circle me-2"></i>Comprar Mais Minutos
+                            </button>
+                        </div>
+                        
+                        <div class="mt-3 text-center">
+                            <small class="text-secondary">
+                                Renovação automática em 15 dias
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Performance -->
+                    <div class="agenda-card">
+                        <h6 class="fw-bold text-azul mb-3">Performance do Mês</h6>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Consultas realizadas:</span>
+                            <strong class="text-success">87</strong>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Taxa de comparecimento:</span>
+                            <strong class="text-primary">94%</strong>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Avaliação média:</span>
+                            <strong class="text-warning">4.8 ⭐</strong>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Receita gerada:</span>
+                            <strong class="text-info">R$ 2.450</strong>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="agenda-card">
+                        <h6 class="fw-bold text-azul mb-3">Estatísticas Rápidas</h6>
+                        
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <div class="stats-icon primary mx-auto" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                    <i class="bi bi-calendar-week"></i>
+                                </div>
+                                <h6 class="fw-bold text-azul">32</h6>
+                                <small class="text-secondary">Esta semana</small>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="stats-icon success mx-auto" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <h6 class="fw-bold text-azul">12</h6>
+                                <small class="text-secondary">Novos pacientes</small>
+                            </div>
+                            <div class="col-6">
+                                <div class="stats-icon warning mx-auto" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                    <i class="bi bi-chat-dots"></i>
+                                </div>
+                                <h6 class="fw-bold text-azul">45</h6>
+                                <small class="text-secondary">Mensagens</small>
+                            </div>
+                            <div class="col-6">
+                                <div class="stats-icon danger mx-auto" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                    <i class="bi bi-file-earmark-medical"></i>
+                                </div>
+                                <h6 class="fw-bold text-azul">23</h6>
+                                <small class="text-secondary">Receitas</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleMobileMenu() {
+            const navbarNav = document.getElementById('navbarNav');
+            navbarNav.classList.toggle('show');
+        }
+
+        function startConsultation(patientId) {
+            // Simulate starting a consultation
+            alert('Iniciando consulta com o paciente...');
+            // In a real application, this would redirect to the consultation room
+            window.location.href = 'sala_consulta.html?patient=' + patientId;
+        }
+
+        // Update time every minute
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('pt-BR', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            // Update any time displays if needed
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTime();
+            setInterval(updateTime, 60000); // Update every minute
+            
+            // Load doctor data if available
+            const doctorData = JSON.parse(localStorage.getItem('doctorData') || '{}');
+            if (doctorData.name) {
+                // Update welcome message with doctor name
+                const welcomeText = document.querySelector('.welcome-card h2');
+                if (welcomeText) {
+                    welcomeText.textContent = `Bom dia, ${doctorData.name}! 👨‍⚕️`;
+                }
+            }
+            
+            // Simulate real-time updates
+            setInterval(() => {
+                // Update minutes remaining (simulate usage)
+                const minutesElement = document.querySelector('.minutes-card h3');
+                if (minutesElement) {
+                    let currentMinutes = parseInt(minutesElement.textContent);
+                    if (Math.random() > 0.95) { // 5% chance to decrease
+                        currentMinutes = Math.max(0, currentMinutes - 1);
+                        minutesElement.textContent = currentMinutes + ' min';
+                        
+                        // Update progress bar
+                        const progressBar = document.querySelector('.minutes-progress-bar');
+                        const percentage = (currentMinutes / 500) * 100;
+                        progressBar.style.width = percentage + '%';
+                    }
+                }
+            }, 30000); // Check every 30 seconds
+        });
+    </script>
+</body>
+
+</html>
+

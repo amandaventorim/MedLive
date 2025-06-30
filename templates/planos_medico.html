@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos de Minutos - MedLive</title>
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .plans-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 80px 0;
+        }
+
+        .current-plan-card {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .current-plan-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .minutes-display {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .minutes-progress {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .minutes-progress-bar {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            border-color: #001942;
+        }
+
+        .plan-card.popular {
+            border-color: #B31D1D;
+            transform: scale(1.05);
+        }
+
+        .plan-card.popular::before {
+            content: 'MAIS POPULAR';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: #B31D1D;
+            color: white;
+            padding: 5px 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transform: rotate(45deg);
+        }
+
+        .plan-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .plan-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .plan-card.basic .plan-icon {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .plan-card.standard .plan-icon {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+        }
+
+        .plan-card.premium .plan-icon {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+        }
+
+        .plan-card.enterprise .plan-icon {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #001942;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .plan-card.popular .plan-price {
+            color: #B31D1D;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .plan-features li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .plan-features li i {
+            color: #28a745;
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-select-plan {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-select-plan:hover {
+            background: linear-gradient(135deg, #003366 0%, #001942 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 25, 66, 0.3);
+        }
+
+        .plan-card.popular .btn-select-plan {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+        }
+
+        .plan-card.popular .btn-select-plan:hover {
+            background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+            box-shadow: 0 8px 25px rgba(179, 29, 29, 0.3);
+        }
+
+        .usage-stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 25, 66, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .stat-icon.success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .stat-icon.warning {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+        }
+
+        .stat-icon.info {
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+        }
+
+        .faq-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 25, 66, 0.1);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #e9ecef;
+            padding: 1rem 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            color: #001942;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            margin-top: 0.5rem;
+            color: #6c757d;
+            display: none;
+        }
+
+        .faq-answer.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin: 3rem 0;
+        }
+
+        .comparison-table table {
+            margin: 0;
+        }
+
+        .comparison-table th {
+            background: #001942;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comparison-table .feature-name {
+            text-align: left;
+            font-weight: 500;
+            background: #f8f9fa;
+        }
+
+        @media (max-width: 768px) {
+            .plans-section {
+                padding: 60px 0;
+            }
+            
+            .current-plan-card {
+                padding: 1.5rem;
+            }
+            
+            .plan-card {
+                margin-bottom: 2rem;
+            }
+            
+            .plan-price {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color: #F5F5F5; margin: 0; padding: 0;">
+    <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand me-4" href="index.html">
+                <img src="img/logo.png" alt="Logo MedLive" class="logo-img">
+            </a>
+
+            <button class="navbar-toggler d-lg-none" type="button" onclick="toggleMobileMenu()"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse justify-content-between" id="navbarNav">
+                <ul class="navbar-nav d-flex flex-lg-row flex-column gap-lg-4 gap-2 align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link fw-bold" href="dashboard_medico.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="agenda_medico.html">Minha Agenda</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="consultas_medico.html">Consultas</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="pacientes_medico.html">Pacientes</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="planos_medico.html">Planos</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 navbar-actions">
+                    <div class="user-link-wrapper">
+                        <a class="nav-link fw-bold user-link-inner px-0" href="perfil_medico.html">
+                            <span class="icon-text-wrapper">
+                                <i class="bi bi-person-circle"></i>
+                                <span class="ms-2">Dr. Carlos Silva</span>
+                            </span>
+                        </a>
+                    </div>
+                    <a href="index.html" class="btn btn-outline-danger">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="container mt-3">
+        <nav aria-label="breadcrumb" class="breadcrumb-custom">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="dashboard_medico.html">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Planos de Minutos</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="plans-section">
+        <div class="container">
+            <!-- Current Plan Status -->
+            <div class="current-plan-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="fw-bold mb-3">Seu Plano Atual: Standard</h2>
+                        <p class="mb-3">Você está no plano Standard com 500 minutos mensais. Seu plano renova automaticamente em 15 dias.</p>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-light fw-bold" onclick="showUpgradeModal()">
+                                <i class="bi bi-arrow-up-circle me-2"></i>Fazer Upgrade
+                            </button>
+                            <button class="btn btn-outline-light fw-bold" onclick="showUsageHistory()">
+                                <i class="bi bi-graph-up me-2"></i>Ver Histórico
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="minutes-display">
+                            <h3 class="fw-bold mb-2">240 min</h3>
+                            <p class="mb-2">restantes de 500</p>
+                            <div class="minutes-progress">
+                                <div class="minutes-progress-bar" style="width: 48%"></div>
+                            </div>
+                            <small>Renovação: 15/02/2025</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Statistics -->
+            <div class="row mb-4">
+                <div class="col-lg-4">
+                    <div class="usage-stats-card">
+                        <h5 class="fw-bold text-azul mb-3">
+                            <i class="bi bi-graph-up me-2"></i>Estatísticas de Uso
+                        </h5>
+                        
+                        <div class="stat-item">
+                            <div class="d-flex align-items-center">
+                                <div class="stat-icon success">
+                                    <i class="bi bi-calendar-week"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Esta semana</h6>
+                                    <small class="text-secondary">Minutos utilizados</small>
+                                </div>
+                            </div>
+                            <strong class="text-success">85 min</strong>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="d-flex align-items-center">
+                                <div class="stat-icon warning">
+                                    <i class="bi bi-calendar-month"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Este mês</h6>
+                                    <small class="text-secondary">Total utilizado</small>
+                                </div>
+                            </div>
+                            <strong class="text-warning">260 min</strong>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="d-flex align-items-center">
+                                <div class="stat-icon info">
+                                    <i class="bi bi-speedometer2"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Média diária</h6>
+                                    <small class="text-secondary">Últimos 30 dias</small>
+                                </div>
+                            </div>
+                            <strong class="text-info">12 min</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-8">
+                    <div class="usage-stats-card">
+                        <h5 class="fw-bold text-azul mb-3">
+                            <i class="bi bi-clock-history me-2"></i>Histórico dos Últimos 7 Dias
+                        </h5>
+                        <div class="row text-center">
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 80%; background: #28a745; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Seg</small>
+                                <div class="fw-bold">16 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 60%; background: #28a745; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Ter</small>
+                                <div class="fw-bold">12 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 90%; background: #28a745; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Qua</small>
+                                <div class="fw-bold">18 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 70%; background: #28a745; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Qui</small>
+                                <div class="fw-bold">14 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 100%; background: #ffc107; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Sex</small>
+                                <div class="fw-bold">20 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 30%; background: #6c757d; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Sáb</small>
+                                <div class="fw-bold">6 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 0%; background: #6c757d; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Dom</small>
+                                <div class="fw-bold">0 min</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plans -->
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-azul mb-3">Escolha o Plano Ideal para Você</h2>
+                <p class="text-secondary">Planos flexíveis para atender suas necessidades de atendimento</p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <div class="col-lg-3 col-md-6">
+                    <div class="plan-card basic">
+                        <div class="plan-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <h4 class="text-center fw-bold">Básico</h4>
+                        <div class="plan-price">R$ 99</div>
+                        <p class="text-center text-secondary">por mês</p>
+                        
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle"></i> 200 minutos/mês</li>
+                            <li><i class="bi bi-check-circle"></i> Videochamadas HD</li>
+                            <li><i class="bi bi-check-circle"></i> Chat com pacientes</li>
+                            <li><i class="bi bi-check-circle"></i> Prontuário digital</li>
+                            <li><i class="bi bi-check-circle"></i> Suporte por email</li>
+                        </ul>
+                        
+                        <button class="btn-select-plan" onclick="selectPlan('basic', 99)">
+                            Escolher Plano
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="plan-card standard popular">
+                        <div class="plan-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h4 class="text-center fw-bold">Standard</h4>
+                        <div class="plan-price">R$ 199</div>
+                        <p class="text-center text-secondary">por mês</p>
+                        
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle"></i> 500 minutos/mês</li>
+                            <li><i class="bi bi-check-circle"></i> Videochamadas 4K</li>
+                            <li><i class="bi bi-check-circle"></i> Chat ilimitado</li>
+                            <li><i class="bi bi-check-circle"></i> Prontuário avançado</li>
+                            <li><i class="bi bi-check-circle"></i> Receitas digitais</li>
+                            <li><i class="bi bi-check-circle"></i> Suporte prioritário</li>
+                        </ul>
+                        
+                        <button class="btn-select-plan" onclick="selectPlan('standard', 199)">
+                            Plano Atual
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="plan-card premium">
+                        <div class="plan-icon">
+                            <i class="bi bi-star"></i>
+                        </div>
+                        <h4 class="text-center fw-bold">Premium</h4>
+                        <div class="plan-price">R$ 299</div>
+                        <p class="text-center text-secondary">por mês</p>
+                        
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle"></i> 1000 minutos/mês</li>
+                            <li><i class="bi bi-check-circle"></i> Videochamadas 4K</li>
+                            <li><i class="bi bi-check-circle"></i> Chat ilimitado</li>
+                            <li><i class="bi bi-check-circle"></i> Prontuário completo</li>
+                            <li><i class="bi bi-check-circle"></i> Receitas e laudos</li>
+                            <li><i class="bi bi-check-circle"></i> Analytics avançado</li>
+                            <li><i class="bi bi-check-circle"></i> Suporte 24/7</li>
+                        </ul>
+                        
+                        <button class="btn-select-plan" onclick="selectPlan('premium', 299)">
+                            Fazer Upgrade
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="plan-card enterprise">
+                        <div class="plan-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <h4 class="text-center fw-bold">Enterprise</h4>
+                        <div class="plan-price">R$ 499</div>
+                        <p class="text-center text-secondary">por mês</p>
+                        
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle"></i> Minutos ilimitados</li>
+                            <li><i class="bi bi-check-circle"></i> Videochamadas 4K</li>
+                            <li><i class="bi bi-check-circle"></i> Chat ilimitado</li>
+                            <li><i class="bi bi-check-circle"></i> Múltiplas clínicas</li>
+                            <li><i class="bi bi-check-circle"></i> API personalizada</li>
+                            <li><i class="bi bi-check-circle"></i> Relatórios customizados</li>
+                            <li><i class="bi bi-check-circle"></i> Gerente dedicado</li>
+                        </ul>
+                        
+                        <button class="btn-select-plan" onclick="selectPlan('enterprise', 499)">
+                            Contatar Vendas
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="comparison-table">
+                <table class="table table-borderless mb-0">
+                    <thead>
+                        <tr>
+                            <th>Recursos</th>
+                            <th>Básico</th>
+                            <th>Standard</th>
+                            <th>Premium</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">Minutos mensais</td>
+                            <td>200</td>
+                            <td>500</td>
+                            <td>1000</td>
+                            <td>Ilimitado</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Qualidade de vídeo</td>
+                            <td>HD</td>
+                            <td>4K</td>
+                            <td>4K</td>
+                            <td>4K</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Número de pacientes</td>
+                            <td>50</td>
+                            <td>200</td>
+                            <td>500</td>
+                            <td>Ilimitado</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Receitas digitais</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Analytics</td>
+                            <td>Básico</td>
+                            <td>Intermediário</td>
+                            <td>Avançado</td>
+                            <td>Personalizado</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Suporte</td>
+                            <td>Email</td>
+                            <td>Prioritário</td>
+                            <td>24/7</td>
+                            <td>Dedicado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- FAQ -->
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="faq-card">
+                        <h5 class="fw-bold text-azul mb-4 text-center">Perguntas Frequentes</h5>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                Como funcionam os minutos?
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Os minutos são contabilizados apenas durante as consultas ativas. Chat e outras funcionalidades não consomem minutos.
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                Posso mudar de plano a qualquer momento?
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Sim, você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As mudanças entram em vigor no próximo ciclo de cobrança.
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                O que acontece se eu exceder meus minutos?
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Você pode comprar pacotes adicionais de minutos ou fazer upgrade para um plano superior. Não há interrupção do serviço.
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                Os minutos não utilizados são acumulados?
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Não, os minutos são renovados mensalmente e não são acumulados. Recomendamos escolher o plano adequado ao seu uso.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleMobileMenu() {
+            const navbarNav = document.getElementById('navbarNav');
+            navbarNav.classList.toggle('show');
+        }
+
+        function selectPlan(planType, price) {
+            if (planType === 'standard') {
+                alert('Este é seu plano atual.');
+                return;
+            }
+            
+            if (planType === 'enterprise') {
+                alert('Redirecionando para contato com vendas...');
+                // In a real application, this would open a contact form or redirect
+                return;
+            }
+            
+            const confirmMessage = `Deseja ${planType === 'basic' ? 'fazer downgrade' : 'fazer upgrade'} para o plano ${planType.charAt(0).toUpperCase() + planType.slice(1)} por R$ ${price}/mês?`;
+            
+            if (confirm(confirmMessage)) {
+                // Simulate plan change
+                alert('Redirecionando para pagamento...');
+                // In a real application, this would redirect to payment page
+                window.location.href = 'pagamento_plano.html?plan=' + planType + '&price=' + price;
+            }
+        }
+
+        function showUpgradeModal() {
+            alert('Mostrando opções de upgrade...');
+            // In a real application, this would show a modal with upgrade options
+        }
+
+        function showUsageHistory() {
+            alert('Mostrando histórico detalhado de uso...');
+            // In a real application, this would show detailed usage history
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+                icon.classList.remove('bi-chevron-up');
+                icon.classList.add('bi-chevron-down');
+            } else {
+                // Close all other FAQs
+                document.querySelectorAll('.faq-answer.show').forEach(faq => {
+                    faq.classList.remove('show');
+                });
+                document.querySelectorAll('.faq-question i').forEach(i => {
+                    i.classList.remove('bi-chevron-up');
+                    i.classList.add('bi-chevron-down');
+                });
+                
+                // Open clicked FAQ
+                answer.classList.add('show');
+                icon.classList.remove('bi-chevron-down');
+                icon.classList.add('bi-chevron-up');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load current plan data if available
+            const planData = JSON.parse(localStorage.getItem('currentPlan') || '{}');
+            
+            // Simulate real-time minute updates
+            setInterval(() => {
+                const minutesElement = document.querySelector('.minutes-display h3');
+                if (minutesElement && Math.random() > 0.98) { // 2% chance to decrease
+                    let currentMinutes = parseInt(minutesElement.textContent);
+                    currentMinutes = Math.max(0, currentMinutes - 1);
+                    minutesElement.textContent = currentMinutes + ' min';
+                    
+                    // Update progress bar
+                    const progressBar = document.querySelector('.minutes-progress-bar');
+                    const percentage = (currentMinutes / 500) * 100;
+                    progressBar.style.width = percentage + '%';
+                }
+            }, 30000); // Check every 30 seconds
+        });
+    </script>
+</body>
+
+</html>
+

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - MedLive</title>
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .payment-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 80px 0;
+        }
+
+        .payment-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 25, 66, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .payment-method {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .payment-method:hover {
+            border-color: #001942;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-method.selected {
+            border-color: #B31D1D;
+            background: rgba(179, 29, 29, 0.05);
+        }
+
+        .payment-method.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #28a745;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .payment-method.selected .payment-icon {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+        }
+
+        .credit-card-form {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .credit-card-form.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-input {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .card-input:focus {
+            border-color: #001942;
+            box-shadow: 0 0 0 0.2rem rgba(0, 25, 66, 0.25);
+        }
+
+        .card-visual {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-visual::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .card-number {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin: 1rem 0;
+        }
+
+        .card-holder {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .card-expiry {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .order-summary {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 25, 66, 0.1);
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #001942;
+        }
+
+        .btn-pay {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-pay:hover {
+            background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-pay:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .security-info {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid #28a745;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .pix-qr {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .pix-qr.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: #f8f9fa;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 3rem;
+            color: #ccc;
+        }
+
+        .pix-code {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+            margin: 1rem 0;
+        }
+
+        .loading-payment {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-animation {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 3rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .payment-section {
+                padding: 60px 0;
+            }
+            
+            .payment-card {
+                padding: 1.5rem;
+            }
+            
+            .order-summary {
+                position: static;
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color: #F5F5F5; margin: 0; padding: 0;">
+    <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand me-4" href="index.html">
+                <img src="img/logo.png" alt="Logo MedLive" class="logo-img">
+            </a>
+
+            <button class="navbar-toggler d-lg-none" type="button" onclick="toggleMobileMenu()"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse justify-content-between" id="navbarNav">
+                <ul class="navbar-nav d-flex flex-lg-row flex-column gap-lg-4 gap-2 align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link fw-bold" href="dashboard_paciente.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="buscar_medicos.html">Buscar Médicos</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="minhas_consultas.html">Minhas Consultas</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="prontuario.html">Prontuário</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 navbar-actions">
+                    <div class="user-link-wrapper">
+                        <a class="nav-link fw-bold user-link-inner px-0" href="perfil_paciente.html">
+                            <span class="icon-text-wrapper">
+                                <i class="bi bi-person-circle"></i>
+                                <span class="ms-2">João Silva</span>
+                            </span>
+                        </a>
+                    </div>
+                    <a href="index.html" class="btn btn-outline-danger">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="container mt-3">
+        <nav aria-label="breadcrumb" class="breadcrumb-custom">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="dashboard_paciente.html">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="buscar_medicos.html">Buscar Médicos</a></li>
+                <li class="breadcrumb-item"><a href="agendar_consulta.html">Agendar Consulta</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Pagamento</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="payment-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Payment Methods -->
+                    <div class="payment-card" id="paymentMethods">
+                        <h3 class="mb-4 text-azul fw-bold">
+                            <i class="bi bi-credit-card me-2"></i>Escolha a forma de pagamento
+                        </h3>
+
+                        <!-- Credit Card -->
+                        <div class="payment-method" onclick="selectPaymentMethod('credit')">
+                            <div class="d-flex align-items-center">
+                                <div class="payment-icon">
+                                    <i class="bi bi-credit-card"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1 fw-bold">Cartão de Crédito</h5>
+                                    <p class="mb-0 text-secondary">Visa, Mastercard, Elo</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credit Card Form -->
+                        <div class="credit-card-form" id="creditCardForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card-visual">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="card-chip" style="width: 30px; height: 25px; background: #ffd700; border-radius: 4px;"></div>
+                                            <div style="font-size: 1.5rem; font-weight: bold;">VISA</div>
+                                        </div>
+                                        <div class="card-number" id="cardNumberDisplay">•••• •••• •••• ••••</div>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <div class="card-holder" id="cardHolderDisplay">NOME DO TITULAR</div>
+                                            </div>
+                                            <div>
+                                                <div class="card-expiry" id="cardExpiryDisplay">••/••</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Número do cartão</label>
+                                        <input type="text" class="form-control card-input" id="cardNumber" 
+                                               placeholder="1234 5678 9012 3456" maxlength="19" 
+                                               oninput="formatCardNumber(this)">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Nome do titular</label>
+                                        <input type="text" class="form-control card-input" id="cardHolder" 
+                                               placeholder="Nome como está no cartão" 
+                                               oninput="updateCardHolder(this)">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="form-label fw-bold">Validade</label>
+                                            <input type="text" class="form-control card-input" id="cardExpiry" 
+                                                   placeholder="MM/AA" maxlength="5" 
+                                                   oninput="formatExpiry(this)">
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label fw-bold">CVV</label>
+                                            <input type="text" class="form-control card-input" id="cardCvv" 
+                                                   placeholder="123" maxlength="4">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PIX -->
+                        <div class="payment-method" onclick="selectPaymentMethod('pix')">
+                            <div class="d-flex align-items-center">
+                                <div class="payment-icon">
+                                    <i class="bi bi-qr-code"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1 fw-bold">PIX</h5>
+                                    <p class="mb-0 text-secondary">Pagamento instantâneo</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PIX QR Code -->
+                        <div class="pix-qr" id="pixQr">
+                            <h5 class="fw-bold text-azul mb-3">Escaneie o QR Code</h5>
+                            <div class="qr-code">
+                                <i class="bi bi-qr-code"></i>
+                            </div>
+                            <p class="text-secondary">Abra o app do seu banco e escaneie o código</p>
+                            <div class="pix-code">
+                                00020126580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-426614174000520400005303986540150.005802BR5913MedLive Ltda6009SAO PAULO62070503***6304ABCD
+                            </div>
+                            <button class="btn btn-outline-primary" onclick="copyPixCode()">
+                                <i class="bi bi-clipboard me-2"></i>Copiar código PIX
+                            </button>
+                        </div>
+
+                        <!-- Boleto -->
+                        <div class="payment-method" onclick="selectPaymentMethod('boleto')">
+                            <div class="d-flex align-items-center">
+                                <div class="payment-icon">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1 fw-bold">Boleto Bancário</h5>
+                                    <p class="mb-0 text-secondary">Vencimento em 3 dias úteis</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loading -->
+                    <div class="loading-payment" id="loadingPayment">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="visually-hidden">Processando...</span>
+                        </div>
+                        <h4 class="mt-3 text-azul">Processando pagamento...</h4>
+                        <p class="text-secondary">Aguarde enquanto confirmamos sua transação</p>
+                    </div>
+
+                    <!-- Success -->
+                    <div class="success-animation" id="successAnimation">
+                        <div class="success-icon">
+                            <i class="bi bi-check"></i>
+                        </div>
+                        <h3 class="text-success fw-bold">Pagamento confirmado!</h3>
+                        <p class="text-secondary mb-4">Sua consulta foi agendada com sucesso</p>
+                        <button class="btn btn-primary" onclick="goToDashboard()">
+                            Ver minhas consultas
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Order Summary -->
+                    <div class="order-summary">
+                        <h5 class="fw-bold text-azul mb-3">Resumo do Pedido</h5>
+                        
+                        <div class="mb-3">
+                            <strong>Consulta:</strong>
+                            <div id="summaryConsultation">Videochamada - Cardiologia</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Médico:</strong>
+                            <div id="summaryDoctor">Dr. Carlos Silva</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Data e horário:</strong>
+                            <div id="summaryDateTime">15/01/2025 às 14:00</div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="summary-item">
+                            <span>Valor da consulta:</span>
+                            <span id="consultationPrice">R$ 150,00</span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span>Taxa da plataforma:</span>
+                            <span>R$ 5,00</span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span>Total:</span>
+                            <span id="totalPrice">R$ 155,00</span>
+                        </div>
+                        
+                        <button class="btn btn-pay mt-3" id="payButton" onclick="processPayment()" disabled>
+                            <i class="bi bi-lock me-2"></i>Pagar Agora
+                        </button>
+                        
+                        <div class="security-info">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-shield-check text-success me-2"></i>
+                                <small>
+                                    <strong>Pagamento 100% seguro</strong><br>
+                                    Seus dados são protegidos por criptografia SSL
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedPaymentMethod = null;
+
+        function initializePage() {
+            const appointmentData = JSON.parse(localStorage.getItem('appointmentData') || '{}');
+            
+            if (appointmentData.doctor) {
+                const consultationType = appointmentData.type === 'video' ? 'Videochamada' : 'Chat';
+                document.getElementById('summaryConsultation').textContent = `${consultationType} - ${appointmentData.specialty}`;
+                document.getElementById('summaryDoctor').textContent = appointmentData.doctor;
+                
+                const dateStr = new Date(appointmentData.date).toLocaleDateString('pt-BR');
+                document.getElementById('summaryDateTime').textContent = `${dateStr} às ${appointmentData.time}`;
+                
+                const price = appointmentData.price;
+                const fee = 5;
+                const total = price + fee;
+                
+                document.getElementById('consultationPrice').textContent = `R$ ${price.toFixed(2).replace('.', ',')}`;
+                document.getElementById('totalPrice').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            }
+        }
+
+        function selectPaymentMethod(method) {
+            // Remove previous selection
+            document.querySelectorAll('.payment-method').forEach(pm => {
+                pm.classList.remove('selected');
+            });
+            
+            // Hide all forms
+            document.getElementById('creditCardForm').classList.remove('show');
+            document.getElementById('pixQr').classList.remove('show');
+            
+            // Add selection to clicked method
+            event.currentTarget.classList.add('selected');
+            selectedPaymentMethod = method;
+            
+            // Show relevant form
+            if (method === 'credit') {
+                document.getElementById('creditCardForm').classList.add('show');
+            } else if (method === 'pix') {
+                document.getElementById('pixQr').classList.add('show');
+            }
+            
+            // Enable pay button
+            document.getElementById('payButton').disabled = false;
+        }
+
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            
+            input.value = formattedValue;
+            
+            // Update card display
+            const display = document.getElementById('cardNumberDisplay');
+            if (value.length > 0) {
+                const masked = value.replace(/(.{4})/g, '$1 ').trim();
+                const remaining = 16 - value.length;
+                const dots = '•'.repeat(remaining);
+                display.textContent = masked + ' ' + dots.match(/.{1,4}/g)?.join(' ');
+            } else {
+                display.textContent = '•••• •••• •••• ••••';
+            }
+        }
+
+        function updateCardHolder(input) {
+            const display = document.getElementById('cardHolderDisplay');
+            display.textContent = input.value.toUpperCase() || 'NOME DO TITULAR';
+        }
+
+        function formatExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            input.value = value;
+            
+            // Update card display
+            const display = document.getElementById('cardExpiryDisplay');
+            display.textContent = value || '••/••';
+        }
+
+        function copyPixCode() {
+            const pixCode = document.querySelector('.pix-code').textContent;
+            navigator.clipboard.writeText(pixCode).then(() => {
+                alert('Código PIX copiado para a área de transferência!');
+            });
+        }
+
+        function processPayment() {
+            if (!selectedPaymentMethod) {
+                alert('Por favor, selecione uma forma de pagamento.');
+                return;
+            }
+            
+            // Validate credit card if selected
+            if (selectedPaymentMethod === 'credit') {
+                const cardNumber = document.getElementById('cardNumber').value;
+                const cardHolder = document.getElementById('cardHolder').value;
+                const cardExpiry = document.getElementById('cardExpiry').value;
+                const cardCvv = document.getElementById('cardCvv').value;
+                
+                if (!cardNumber || !cardHolder || !cardExpiry || !cardCvv) {
+                    alert('Por favor, preencha todos os dados do cartão.');
+                    return;
+                }
+            }
+            
+            // Hide payment methods and show loading
+            document.getElementById('paymentMethods').style.display = 'none';
+            document.getElementById('loadingPayment').style.display = 'block';
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                document.getElementById('loadingPayment').style.display = 'none';
+                document.getElementById('successAnimation').style.display = 'block';
+                
+                // Save appointment to localStorage
+                const appointmentData = JSON.parse(localStorage.getItem('appointmentData') || '{}');
+                appointmentData.status = 'confirmed';
+                appointmentData.paymentMethod = selectedPaymentMethod;
+                appointmentData.paymentDate = new Date().toISOString();
+                
+                const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+                appointments.push(appointmentData);
+                localStorage.setItem('appointments', JSON.stringify(appointments));
+                
+                // Clear appointment data
+                localStorage.removeItem('appointmentData');
+                localStorage.removeItem('selectedDoctor');
+            }, 3000);
+        }
+
+        function goToDashboard() {
+            window.location.href = 'minhas_consultas.html';
+        }
+
+        function toggleMobileMenu() {
+            const navbarNav = document.getElementById('navbarNav');
+            navbarNav.classList.toggle('show');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+
+</html>
+
