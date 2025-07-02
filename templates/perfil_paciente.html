@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - MedLive</title>
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .secao-perfil {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px 0 80px;
+            min-height: 100vh;
+        }
+
+        .cabecalho-perfil {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cabecalho-perfil::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .foto-perfil-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .foto-perfil {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            border: 5px solid white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .botao-editar-foto {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(179, 29, 29, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .botao-editar-foto:hover {
+            background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .cartao-secao {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .cartao-secao:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .titulo-secao {
+            color: #001942;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .icone-secao {
+            margin-right: 0.75rem;
+            color: #B31D1D;
+        }
+
+        .campo-perfil {
+            margin-bottom: 1.5rem;
+        }
+
+        .label-campo {
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .valor-campo {
+            color: #001942;
+            font-size: 1.1rem;
+            padding: 0.75rem 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .valor-campo.editavel {
+            cursor: pointer;
+            border-color: #e9ecef;
+        }
+
+        .valor-campo.editavel:hover {
+            border-color: #B31D1D;
+            background: white;
+        }
+
+        .campo-edicao {
+            border: 2px solid #B31D1D;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .campo-edicao:focus {
+            border-color: #B31D1D;
+            box-shadow: 0 0 0 0.2rem rgba(179, 29, 29, 0.25);
+        }
+
+        .botao-medlive {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(179, 29, 29, 0.3);
+        }
+
+        .botao-medlive:hover {
+            background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(179, 29, 29, 0.4);
+        }
+
+        .botao-secundario {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 25, 66, 0.3);
+        }
+
+        .botao-secundario:hover {
+            background: linear-gradient(135deg, #003366 0%, #001942 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 25, 66, 0.4);
+        }
+
+        .estatisticas-paciente {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-numero {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #B31D1D;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+        .plano-ativo {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .plano-nome {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plano-detalhes {
+            opacity: 0.9;
+        }
+
+        .historico-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .historico-item:hover {
+            background: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .icone-historico {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .info-historico {
+            flex-grow: 1;
+        }
+
+        .titulo-historico {
+            font-weight: 600;
+            color: #001942;
+            margin-bottom: 0.25rem;
+        }
+
+        .data-historico {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .status-historico {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-concluido {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .status-agendado {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+        }
+
+        .status-cancelado {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+
+        .contato-emergencia {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .contato-emergencia h4 {
+            margin-bottom: 1rem;
+        }
+
+        .numero-emergencia {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-medica-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .info-medica-item:last-child {
+            border-bottom: none;
+        }
+
+        .label-info {
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+        .valor-info {
+            color: #001942;
+            font-weight: 600;
+        }
+
+        .alerta-saude {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .alerta-saude i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .medicamento-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid #B31D1D;
+        }
+
+        .nome-medicamento {
+            font-weight: 700;
+            color: #001942;
+            margin-bottom: 0.25rem;
+        }
+
+        .dosagem-medicamento {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .secao-perfil {
+                padding: 20px 0 40px;
+            }
+            
+            .cabecalho-perfil {
+                padding: 1.5rem;
+                text-align: center;
+            }
+            
+            .cartao-secao {
+                padding: 1.5rem;
+            }
+            
+            .foto-perfil {
+                width: 120px;
+                height: 120px;
+                font-size: 3rem;
+            }
+            
+            .estatisticas-paciente {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .stat-numero {
+                font-size: 2rem;
+            }
+            
+            .historico-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="img/logo.png" alt="MedLive" class="logo-img">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard_paciente.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="consultas_paciente.html">Consultas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pagamento_plano.html">Planos</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="perfil_paciente.html" class="user-link me-3 active">
+                        <i class="bi bi-person-circle me-1"></i>
+                        Maria Santos
+                    </a>
+                    <a href="login.html" class="btn btn-cadastrar">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Seção Principal -->
+    <section class="secao-perfil">
+        <div class="container">
+            <!-- Cabeçalho do Perfil -->
+            <div class="cabecalho-perfil">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-center">
+                        <div class="foto-perfil-container">
+                            <div class="foto-perfil">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <button class="botao-editar-foto" data-bs-toggle="modal" data-bs-target="#modalEditarFoto">
+                                <i class="bi bi-camera"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h1 class="mb-2">Maria Santos Silva</h1>
+                        <p class="mb-2 opacity-75">
+                            <i class="bi bi-calendar me-2"></i>
+                            35 anos • Nascida em 15/03/1989
+                        </p>
+                        <p class="mb-3 opacity-75">
+                            <i class="bi bi-geo-alt me-2"></i>
+                            São Paulo, SP • 
+                            <i class="bi bi-person-check me-2"></i>
+                            Paciente desde Janeiro 2023
+                        </p>
+                        <div class="plano-ativo">
+                            <div class="plano-nome">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Plano Básico Ativo
+                            </div>
+                            <div class="plano-detalhes">
+                                Próximo vencimento: 15/02/2025
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="estatisticas-paciente">
+                <div class="stat-card">
+                    <div class="stat-numero">12</div>
+                    <div class="stat-label">Consultas Realizadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-numero">3</div>
+                    <div class="stat-label">Médicos Consultados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-numero">8</div>
+                    <div class="stat-label">Receitas Emitidas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-numero">2</div>
+                    <div class="stat-label">Anos Conosco</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Informações Pessoais -->
+                <div class="col-lg-8 mb-4">
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <span>
+                                <i class="bi bi-person icone-secao"></i>
+                                Informações Pessoais
+                            </span>
+                            <button class="btn botao-secundario btn-sm" onclick="editarSecao('pessoais')">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                        </h3>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Nome Completo</label>
+                                    <div class="valor-campo" id="nome">Maria Santos Silva</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Email</label>
+                                    <div class="valor-campo" id="email">maria.santos@email.com</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Telefone</label>
+                                    <div class="valor-campo" id="telefone">(11) 98765-4321</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Data de Nascimento</label>
+                                    <div class="valor-campo" id="nascimento">15/03/1989</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">CPF</label>
+                                    <div class="valor-campo" id="cpf">123.456.789-00</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Estado Civil</label>
+                                    <div class="valor-campo" id="estado_civil">Solteira</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="campo-perfil">
+                            <label class="label-campo">Endereço</label>
+                            <div class="valor-campo" id="endereco">Rua das Palmeiras, 456 - Jardins, São Paulo - SP, 01234-567</div>
+                        </div>
+                    </div>
+
+                    <!-- Informações Médicas -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <span>
+                                <i class="bi bi-heart-pulse icone-secao"></i>
+                                Informações Médicas
+                            </span>
+                            <button class="btn botao-secundario btn-sm" onclick="editarSecao('medicas')">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                        </h3>
+
+                        <div class="alerta-saude">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <div>
+                                <strong>Atenção:</strong> Consulta de rotina agendada para 20/02/2025
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info-medica-item">
+                                    <span class="label-info">Tipo Sanguíneo:</span>
+                                    <span class="valor-info">O+</span>
+                                </div>
+                                <div class="info-medica-item">
+                                    <span class="label-info">Altura:</span>
+                                    <span class="valor-info">1,65 m</span>
+                                </div>
+                                <div class="info-medica-item">
+                                    <span class="label-info">Peso:</span>
+                                    <span class="valor-info">62 kg</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-medica-item">
+                                    <span class="label-info">IMC:</span>
+                                    <span class="valor-info">22,8 (Normal)</span>
+                                </div>
+                                <div class="info-medica-item">
+                                    <span class="label-info">Pressão Arterial:</span>
+                                    <span class="valor-info">120/80 mmHg</span>
+                                </div>
+                                <div class="info-medica-item">
+                                    <span class="label-info">Última Consulta:</span>
+                                    <span class="valor-info">15/01/2025</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <label class="label-campo">Alergias</label>
+                            <div class="valor-campo">Penicilina, Frutos do mar</div>
+                        </div>
+
+                        <div class="mt-3">
+                            <label class="label-campo">Condições Médicas</label>
+                            <div class="valor-campo">Hipertensão leve (controlada)</div>
+                        </div>
+                    </div>
+
+                    <!-- Medicamentos Atuais -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <span>
+                                <i class="bi bi-capsule icone-secao"></i>
+                                Medicamentos Atuais
+                            </span>
+                            <button class="btn botao-secundario btn-sm">
+                                <i class="bi bi-plus me-1"></i>
+                                Adicionar
+                            </button>
+                        </h3>
+
+                        <div class="medicamento-item">
+                            <div class="nome-medicamento">Losartana 50mg</div>
+                            <div class="dosagem-medicamento">1 comprimido pela manhã • Prescrito por Dr. João Silva</div>
+                        </div>
+
+                        <div class="medicamento-item">
+                            <div class="nome-medicamento">Vitamina D3 2000UI</div>
+                            <div class="dosagem-medicamento">1 cápsula ao dia • Prescrito por Dr. João Silva</div>
+                        </div>
+
+                        <div class="medicamento-item">
+                            <div class="nome-medicamento">Ômega 3 1000mg</div>
+                            <div class="dosagem-medicamento">1 cápsula após o almoço • Suplemento</div>
+                        </div>
+                    </div>
+
+                    <!-- Histórico de Consultas -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <span>
+                                <i class="bi bi-clock-history icone-secao"></i>
+                                Histórico de Consultas
+                            </span>
+                            <button class="btn botao-secundario btn-sm">
+                                <i class="bi bi-eye me-1"></i>
+                                Ver Todas
+                            </button>
+                        </h3>
+
+                        <div class="historico-item">
+                            <div class="icone-historico">
+                                <i class="bi bi-heart-pulse"></i>
+                            </div>
+                            <div class="info-historico">
+                                <div class="titulo-historico">Consulta Cardiológica</div>
+                                <div class="data-historico">15 de Janeiro de 2025 • Dr. João Silva</div>
+                            </div>
+                            <span class="status-historico status-concluido">Concluída</span>
+                        </div>
+
+                        <div class="historico-item">
+                            <div class="icone-historico">
+                                <i class="bi bi-calendar-check"></i>
+                            </div>
+                            <div class="info-historico">
+                                <div class="titulo-historico">Consulta de Rotina</div>
+                                <div class="data-historico">20 de Fevereiro de 2025 • Dr. João Silva</div>
+                            </div>
+                            <span class="status-historico status-agendado">Agendada</span>
+                        </div>
+
+                        <div class="historico-item">
+                            <div class="icone-historico">
+                                <i class="bi bi-eye"></i>
+                            </div>
+                            <div class="info-historico">
+                                <div class="titulo-historico">Consulta Oftalmológica</div>
+                                <div class="data-historico">10 de Dezembro de 2024 • Dra. Ana Costa</div>
+                            </div>
+                            <span class="status-historico status-concluido">Concluída</span>
+                        </div>
+
+                        <div class="historico-item">
+                            <div class="icone-historico">
+                                <i class="bi bi-x-circle"></i>
+                            </div>
+                            <div class="info-historico">
+                                <div class="titulo-historico">Consulta Dermatológica</div>
+                                <div class="data-historico">05 de Dezembro de 2024 • Dr. Carlos Lima</div>
+                            </div>
+                            <span class="status-historico status-cancelado">Cancelada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel Lateral -->
+                <div class="col-lg-4">
+                    <!-- Contato de Emergência -->
+                    <div class="contato-emergencia">
+                        <h4>
+                            <i class="bi bi-telephone-fill me-2"></i>
+                            Emergência 24h
+                        </h4>
+                        <div class="numero-emergencia">0800 123 4567</div>
+                        <div>Atendimento médico de urgência</div>
+                    </div>
+
+                    <!-- Configurações de Conta -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <i class="bi bi-gear icone-secao"></i>
+                            Configurações
+                        </h3>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn botao-medlive" data-bs-toggle="modal" data-bs-target="#modalAlterarSenha">
+                                <i class="bi bi-lock me-2"></i>
+                                Alterar Senha
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-bell me-2"></i>
+                                Notificações
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Privacidade
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-download me-2"></i>
+                                Exportar Dados
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Contatos de Emergência -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <i class="bi bi-person-lines-fill icone-secao"></i>
+                            Contatos de Emergência
+                        </h3>
+
+                        <div class="historico-item">
+                            <div class="icone-historico" style="background: linear-gradient(135deg, #001942 0%, #003366 100%);">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="info-historico">
+                                <div class="titulo-historico">João Santos Silva</div>
+                                <div class="data-historico">Esposo • (11) 99999-8888</div>
+                            </div>
+                        </div>
+
+                        <div class="historico-item">
+                            <div class="icone-historico" style="background: linear-gradient(135deg, #001942 0%, #003366 100%);">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="info-historico">
+                                <div class="titulo-historico">Ana Santos</div>
+                                <div class="data-historico">Mãe • (11) 98888-7777</div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <button class="btn botao-secundario btn-sm">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                Adicionar Contato
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Ações Rápidas -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <i class="bi bi-lightning icone-secao"></i>
+                            Ações Rápidas
+                        </h3>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn botao-medlive">
+                                <i class="bi bi-calendar-plus me-2"></i>
+                                Agendar Consulta
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-chat-dots me-2"></i>
+                                Falar com Médico
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-file-medical me-2"></i>
+                                Ver Prontuário
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-prescription2 me-2"></i>
+                                Minhas Receitas
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Próximas Consultas -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <i class="bi bi-calendar-event icone-secao"></i>
+                            Próximas Consultas
+                        </h3>
+
+                        <div class="historico-item">
+                            <div class="icone-historico">
+                                <i class="bi bi-calendar-check"></i>
+                            </div>
+                            <div class="info-historico">
+                                <div class="titulo-historico">Consulta de Rotina</div>
+                                <div class="data-historico">20/02/2025 às 14:00</div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <button class="btn botao-medlive btn-sm">
+                                <i class="bi bi-video me-2"></i>
+                                Entrar na Consulta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Alterar Senha -->
+    <div class="modal fade" id="modalAlterarSenha" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-lock me-2"></i>
+                        Alterar Senha
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Senha Atual</label>
+                            <input type="password" class="form-control campo-edicao" placeholder="Digite sua senha atual">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nova Senha</label>
+                            <input type="password" class="form-control campo-edicao" placeholder="Digite a nova senha">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar Nova Senha</label>
+                            <input type="password" class="form-control campo-edicao" placeholder="Confirme a nova senha">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn botao-medlive">Alterar Senha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Foto -->
+    <div class="modal fade" id="modalEditarFoto" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-camera me-2"></i>
+                        Alterar Foto do Perfil
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="foto-perfil mx-auto mb-3" style="width: 120px; height: 120px; font-size: 3rem;">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="mb-3">
+                        <input type="file" class="form-control campo-edicao" accept="image/*">
+                    </div>
+                    <p class="text-muted">Formatos aceitos: JPG, PNG, GIF (máx. 5MB)</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn botao-medlive">Salvar Foto</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Função para editar seções
+        function editarSecao(secao) {
+            console.log('Editando seção:', secao);
+            // Aqui você pode implementar a lógica de edição inline
+        }
+
+        // Adicionar funcionalidade aos botões de ação rápida
+        document.querySelectorAll('.botao-medlive, .botao-secundario').forEach(botao => {
+            botao.addEventListener('click', function() {
+                if (!this.hasAttribute('data-bs-toggle')) {
+                    console.log('Ação:', this.textContent.trim());
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
+

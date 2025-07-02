@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos e Pagamentos - MedLive</title>
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .secao-pagamento {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px 0 80px;
+            min-height: 100vh;
+        }
+
+        .cabecalho-pagamento {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cabecalho-pagamento::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .cartao-plano {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cartao-plano:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .cartao-plano.recomendado {
+            border: 3px solid #B31D1D;
+            transform: scale(1.05);
+        }
+
+        .cartao-plano.recomendado::before {
+            content: 'RECOMENDADO';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            padding: 0.5rem 2rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+            letter-spacing: 1px;
+        }
+
+        .nome-plano {
+            color: #001942;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .preco-plano {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .valor-principal {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #B31D1D;
+            line-height: 1;
+        }
+
+        .periodo {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        .descricao-plano {
+            color: #6c757d;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .lista-beneficios {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        .lista-beneficios li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f8f9fa;
+            display: flex;
+            align-items: center;
+        }
+
+        .lista-beneficios li:last-child {
+            border-bottom: none;
+        }
+
+        .icone-beneficio {
+            color: #28a745;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .icone-nao-incluido {
+            color: #dc3545;
+        }
+
+        .botao-plano {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(179, 29, 29, 0.3);
+            width: 100%;
+        }
+
+        .botao-plano:hover {
+            background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(179, 29, 29, 0.4);
+        }
+
+        .botao-plano.atual {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            cursor: not-allowed;
+        }
+
+        .botao-plano.atual:hover {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            transform: none;
+        }
+
+        .historico-pagamentos {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .item-pagamento {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .item-pagamento:hover {
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .item-pagamento:last-child {
+            border-bottom: none;
+        }
+
+        .info-pagamento {
+            flex-grow: 1;
+        }
+
+        .data-pagamento {
+            color: #001942;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .descricao-pagamento {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .valor-pagamento {
+            color: #B31D1D;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-right: 1rem;
+        }
+
+        .status-pagamento {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pago {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .status-pendente {
+            background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+            color: white;
+        }
+
+        .status-vencido {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+        }
+
+        .metodos-pagamento {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .cartao-metodo {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .cartao-metodo:hover {
+            border-color: #B31D1D;
+            transform: translateY(-2px);
+        }
+
+        .cartao-metodo.ativo {
+            border-color: #B31D1D;
+            background: linear-gradient(135deg, rgba(179, 29, 29, 0.1) 0%, rgba(179, 29, 29, 0.05) 100%);
+        }
+
+        .icone-metodo {
+            font-size: 2rem;
+            color: #001942;
+            margin-bottom: 1rem;
+        }
+
+        .nome-metodo {
+            color: #001942;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .descricao-metodo {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .resumo-conta {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-resumo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .item-resumo:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #001942;
+        }
+
+        .label-resumo {
+            color: #6c757d;
+        }
+
+        .valor-resumo {
+            color: #B31D1D;
+            font-weight: 600;
+        }
+
+        .botao-secundario {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 25, 66, 0.3);
+        }
+
+        .botao-secundario:hover {
+            background: linear-gradient(135deg, #003366 0%, #001942 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 25, 66, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .secao-pagamento {
+                padding: 20px 0 40px;
+            }
+            
+            .cabecalho-pagamento {
+                padding: 1.5rem;
+            }
+            
+            .cartao-plano {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .cartao-plano.recomendado {
+                transform: none;
+            }
+            
+            .valor-principal {
+                font-size: 2.5rem;
+            }
+            
+            .item-pagamento {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="img/logo.png" alt="MedLive" class="logo-img">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard_paciente.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="consultas_paciente.html">Consultas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="pagamento_plano.html">Planos</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="perfil_paciente.html" class="user-link me-3">
+                        <i class="bi bi-person-circle me-1"></i>
+                        Maria Santos
+                    </a>
+                    <a href="login.html" class="btn btn-cadastrar">Sair</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Seção Principal -->
+    <section class="secao-pagamento">
+        <div class="container">
+            <!-- Cabeçalho -->
+            <div class="cabecalho-pagamento">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="mb-2">
+                            <i class="bi bi-credit-card me-3"></i>
+                            Planos e Pagamentos
+                        </h1>
+                        <p class="mb-0 opacity-75">Gerencie sua assinatura e histórico de pagamentos</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <span class="badge" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); font-size: 1rem; padding: 0.75rem 1.5rem;">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Plano Ativo
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Planos Disponíveis -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center mb-4" style="color: #001942;">Escolha o Melhor Plano para Você</h2>
+                </div>
+
+                <!-- Plano Básico -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="cartao-plano">
+                        <h3 class="nome-plano">Básico</h3>
+                        <div class="preco-plano">
+                            <span class="valor-principal">R$ 29</span>
+                            <div class="periodo">/mês</div>
+                        </div>
+                        <p class="descricao-plano">Ideal para consultas esporádicas</p>
+                        
+                        <ul class="lista-beneficios">
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                2 consultas por mês
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Telemedicina básica
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Receitas digitais
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle icone-beneficio icone-nao-incluido"></i>
+                                Consultas de emergência
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle icone-beneficio icone-nao-incluido"></i>
+                                Suporte 24h
+                            </li>
+                        </ul>
+
+                        <button class="btn botao-plano atual" disabled>
+                            <i class="bi bi-check-circle me-2"></i>
+                            Plano Atual
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plano Premium -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="cartao-plano recomendado">
+                        <h3 class="nome-plano">Premium</h3>
+                        <div class="preco-plano">
+                            <span class="valor-principal">R$ 59</span>
+                            <div class="periodo">/mês</div>
+                        </div>
+                        <p class="descricao-plano">O mais escolhido pelos nossos usuários</p>
+                        
+                        <ul class="lista-beneficios">
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                5 consultas por mês
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Telemedicina completa
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Receitas e atestados
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Consultas de emergência
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Suporte prioritário
+                            </li>
+                        </ul>
+
+                        <button class="btn botao-plano">
+                            <i class="bi bi-arrow-up-circle me-2"></i>
+                            Fazer Upgrade
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plano Família -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="cartao-plano">
+                        <h3 class="nome-plano">Família</h3>
+                        <div class="preco-plano">
+                            <span class="valor-principal">R$ 99</span>
+                            <div class="periodo">/mês</div>
+                        </div>
+                        <p class="descricao-plano">Para toda a família (até 4 pessoas)</p>
+                        
+                        <ul class="lista-beneficios">
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Consultas ilimitadas
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                4 usuários inclusos
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Telemedicina premium
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Emergência 24h
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Suporte dedicado
+                            </li>
+                        </ul>
+
+                        <button class="btn botao-plano">
+                            <i class="bi bi-people me-2"></i>
+                            Escolher Família
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Histórico de Pagamentos -->
+                <div class="col-lg-8 mb-4">
+                    <div class="historico-pagamentos">
+                        <h3 class="mb-4" style="color: #001942;">
+                            <i class="bi bi-clock-history me-2"></i>
+                            Histórico de Pagamentos
+                        </h3>
+
+                        <div class="item-pagamento">
+                            <div class="info-pagamento">
+                                <div class="data-pagamento">15 de Janeiro de 2025</div>
+                                <div class="descricao-pagamento">Plano Básico - Janeiro 2025</div>
+                            </div>
+                            <div class="valor-pagamento">R$ 29,00</div>
+                            <span class="status-pagamento status-pago">Pago</span>
+                        </div>
+
+                        <div class="item-pagamento">
+                            <div class="info-pagamento">
+                                <div class="data-pagamento">15 de Dezembro de 2024</div>
+                                <div class="descricao-pagamento">Plano Básico - Dezembro 2024</div>
+                            </div>
+                            <div class="valor-pagamento">R$ 29,00</div>
+                            <span class="status-pagamento status-pago">Pago</span>
+                        </div>
+
+                        <div class="item-pagamento">
+                            <div class="info-pagamento">
+                                <div class="data-pagamento">15 de Novembro de 2024</div>
+                                <div class="descricao-pagamento">Plano Básico - Novembro 2024</div>
+                            </div>
+                            <div class="valor-pagamento">R$ 29,00</div>
+                            <span class="status-pagamento status-pago">Pago</span>
+                        </div>
+
+                        <div class="item-pagamento">
+                            <div class="info-pagamento">
+                                <div class="data-pagamento">15 de Outubro de 2024</div>
+                                <div class="descricao-pagamento">Plano Básico - Outubro 2024</div>
+                            </div>
+                            <div class="valor-pagamento">R$ 29,00</div>
+                            <span class="status-pagamento status-pago">Pago</span>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-download me-2"></i>
+                                Baixar Comprovantes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumo da Conta -->
+                <div class="col-lg-4 mb-4">
+                    <div class="resumo-conta">
+                        <h3 class="mb-4" style="color: #001942;">
+                            <i class="bi bi-receipt me-2"></i>
+                            Resumo da Conta
+                        </h3>
+
+                        <div class="item-resumo">
+                            <span class="label-resumo">Plano Atual:</span>
+                            <span class="valor-resumo">Básico</span>
+                        </div>
+
+                        <div class="item-resumo">
+                            <span class="label-resumo">Valor Mensal:</span>
+                            <span class="valor-resumo">R$ 29,00</span>
+                        </div>
+
+                        <div class="item-resumo">
+                            <span class="label-resumo">Próximo Vencimento:</span>
+                            <span class="valor-resumo">15/02/2025</span>
+                        </div>
+
+                        <div class="item-resumo">
+                            <span class="label-resumo">Status:</span>
+                            <span class="valor-resumo" style="color: #28a745;">Ativo</span>
+                        </div>
+
+                        <div class="item-resumo">
+                            <span>Total a Pagar:</span>
+                            <span style="color: #B31D1D;">R$ 29,00</span>
+                        </div>
+
+                        <div class="mt-4">
+                            <button class="btn botao-plano w-100 mb-2">
+                                <i class="bi bi-credit-card me-2"></i>
+                                Pagar Agora
+                            </button>
+                            <button class="btn botao-secundario w-100">
+                                <i class="bi bi-gear me-2"></i>
+                                Gerenciar Assinatura
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Métodos de Pagamento -->
+                    <div class="metodos-pagamento mt-4">
+                        <h4 class="mb-3" style="color: #001942;">
+                            <i class="bi bi-wallet2 me-2"></i>
+                            Métodos de Pagamento
+                        </h4>
+
+                        <div class="cartao-metodo ativo">
+                            <div class="icone-metodo">
+                                <i class="bi bi-credit-card"></i>
+                            </div>
+                            <div class="nome-metodo">Cartão de Crédito</div>
+                            <div class="descricao-metodo">**** **** **** 1234</div>
+                        </div>
+
+                        <div class="cartao-metodo">
+                            <div class="icone-metodo">
+                                <i class="bi bi-bank"></i>
+                            </div>
+                            <div class="nome-metodo">Débito Automático</div>
+                            <div class="descricao-metodo">Banco do Brasil</div>
+                        </div>
+
+                        <div class="cartao-metodo">
+                            <div class="icone-metodo">
+                                <i class="bi bi-qr-code"></i>
+                            </div>
+                            <div class="nome-metodo">PIX</div>
+                            <div class="descricao-metodo">Pagamento instantâneo</div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                Adicionar Método
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Upgrade de Plano -->
+    <div class="modal fade" id="modalUpgrade" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-arrow-up-circle me-2"></i>
+                        Upgrade de Plano
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <h4 style="color: #001942;">Você está fazendo upgrade para o Plano Premium</h4>
+                        <p class="text-muted">Aproveite todos os benefícios do nosso plano mais popular</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 style="color: #B31D1D;">Benefícios Inclusos:</h5>
+                            <ul class="lista-beneficios">
+                                <li>
+                                    <i class="bi bi-check-circle icone-beneficio"></i>
+                                    5 consultas por mês
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle icone-beneficio"></i>
+                                    Consultas de emergência
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle icone-beneficio"></i>
+                                    Suporte prioritário
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="resumo-conta">
+                                <div class="item-resumo">
+                                    <span class="label-resumo">Plano Atual:</span>
+                                    <span class="valor-resumo">Básico (R$ 29)</span>
+                                </div>
+                                <div class="item-resumo">
+                                    <span class="label-resumo">Novo Plano:</span>
+                                    <span class="valor-resumo">Premium (R$ 59)</span>
+                                </div>
+                                <div class="item-resumo">
+                                    <span>Diferença:</span>
+                                    <span style="color: #B31D1D;">R$ 30,00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn botao-plano">Confirmar Upgrade</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Adicionar interatividade aos métodos de pagamento
+        document.querySelectorAll('.cartao-metodo').forEach(cartao => {
+            cartao.addEventListener('click', function() {
+                // Remover classe ativo de todos
+                document.querySelectorAll('.cartao-metodo').forEach(c => c.classList.remove('ativo'));
+                // Adicionar classe ativo ao clicado
+                this.classList.add('ativo');
+            });
+        });
+
+        // Adicionar funcionalidade aos botões de upgrade
+        document.querySelectorAll('.botao-plano:not(.atual)').forEach(botao => {
+            botao.addEventListener('click', function() {
+                // Aqui você pode adicionar lógica para abrir modal de upgrade
+                console.log('Upgrade de plano solicitado');
+            });
+        });
+    </script>
+</body>
+
+</html>
+
