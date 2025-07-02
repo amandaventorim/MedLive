@@ -52,10 +52,10 @@ criar_tabela_agendamento()
 #     convenio="Unimed"
 # )))
 
-print(atualizar_senha_medico(
-    idMedico=20, 
-    senha="nova"
-))
+# print(atualizar_senha_medico(
+#     idMedico=20, 
+#     senha="nova"
+# ))
 
 # print(atualizar_senha_administrador(
 #     idAdministrador=20, 

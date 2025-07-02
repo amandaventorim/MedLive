@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - MedLive</title>
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para o blog */
+        .secao-blog {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px 0 80px;
+        }
+
+        .card-artigo {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: none;
+            height: 100%;
+        }
+
+        .card-artigo:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .imagem-artigo {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .categoria-artigo {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .titulo-artigo {
+            color: #001942;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .resumo-artigo {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .meta-artigo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .botao-ler-mais {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .botao-ler-mais:hover {
+            background: linear-gradient(135deg, #003366 0%, #001942 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 25, 66, 0.3);
+        }
+
+        .filtros-blog {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+
+        .botao-filtro {
+            background: transparent;
+            border: 2px solid #e9ecef;
+            color: #666;
+            padding: 8px 20px;
+            border-radius: 25px;
+            margin: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .botao-filtro:hover,
+        .botao-filtro.ativo {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            border-color: #001942;
+            color: white;
+        }
+
+        .barra-pesquisa {
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .barra-pesquisa:focus {
+            border-color: #001942;
+            box-shadow: 0 0 0 0.2rem rgba(0, 25, 66, 0.25);
+        }
+
+        .artigo-destaque {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artigo-destaque::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .artigo-destaque h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .artigo-destaque p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .botao-destaque {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .botao-destaque:hover {
+            background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(179, 29, 29, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Barra de navegação -->
+    <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand me-4" href="index.html">
+                <img src="img/logo.png" alt="Logo MedLive" class="logo-img">
+            </a>
+
+
+            <button class="navbar-toggler d-lg-none" type="button" onclick="toggleMobileMenu()"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="navbar-collapse justify-content-between" id="navbarNav">
+                <ul class="navbar-nav d-flex flex-lg-row flex-column gap-lg-4 gap-2 align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Pronto Atendimento</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Renovação de Receita</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Agendamento</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="contato.html">Contato</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 navbar-actions">
+                    <div class="user-link-wrapper">
+                        <a class="nav-link fw-bold user-link-inner px-0" href="login.html">
+                            <span class="icon-text-wrapper">
+                                <i class="bi bi-person"></i>
+                                <span class="ms-2">Entrar</span>
+                            </span>
+                        </a>
+                    </div>
+
+                    <a href="cadastro_anterior.html" class="btn btn-cadastrar">Cadastrar</a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    <br>
+
+    <!-- Cabeçalho da página -->
+    <div class="cabecalho-pagina">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1>Blog MedLive</h1>
+                    <p>Informações, dicas e novidades sobre saúde e telemedicina</p>
+                </div>
+                <div class="col-lg-4">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-personalizado">
+                            <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="container-pagina-interna">
+        <div class="container">
+            <!-- Artigo em destaque -->
+            <div class="artigo-destaque animacao-fade-in">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h2>Telemedicina: O Futuro da Saúde Digital</h2>
+                        <p>Descubra como a telemedicina está revolucionando o atendimento médico e proporcionando mais
+                            comodidade e acessibilidade aos pacientes em todo o Brasil.</p>
+                        <a href="#" class="botao-destaque">Ler artigo completo</a>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <i class="bi bi-laptop" style="font-size: 8rem; opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros e pesquisa -->
+            <div class="filtros-blog animacao-slide-esquerda">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h5 class="mb-3">Categorias</h5>
+                        <button class="botao-filtro ativo" onclick="filtrarArtigos('todos')">Todos</button>
+                        <button class="botao-filtro" onclick="filtrarArtigos('telemedicina')">Telemedicina</button>
+                        <button class="botao-filtro" onclick="filtrarArtigos('saude')">Saúde</button>
+                        <button class="botao-filtro" onclick="filtrarArtigos('tecnologia')">Tecnologia</button>
+                        <button class="botao-filtro" onclick="filtrarArtigos('dicas')">Dicas</button>
+                    </div>
+                    <div class="col-lg-4">
+                        <h5 class="mb-3">Pesquisar</h5>
+                        <input type="text" class="form-control barra-pesquisa" placeholder="Buscar artigos..."
+                            onkeyup="pesquisarArtigos(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid de artigos -->
+            <div class="row g-4" id="gridArtigos">
+                <!-- Artigo 1 -->
+                <div class="col-lg-4 col-md-6 artigo-item animacao-fade-in" data-categoria="telemedicina">
+                    <div class="card-artigo">
+                        <img src="img/teleconsulta.webp" alt="Teleconsulta" class="imagem-artigo">
+                        <div class="p-4">
+                            <span class="categoria-artigo">Telemedicina</span>
+                            <h3 class="titulo-artigo">Como se preparar para sua primeira teleconsulta</h3>
+                            <div class="meta-artigo">
+                                <span><i class="bi bi-calendar3"></i> 15 de Janeiro, 2024</span>
+                                <span><i class="bi bi-clock"></i> 5 min de leitura</span>
+                            </div>
+                            <p class="resumo-artigo">Dicas essenciais para aproveitar ao máximo sua consulta médica
+                                online, desde a preparação técnica até as perguntas importantes a fazer.</p>
+                            <a href="#" class="botao-ler-mais">Ler mais</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artigo 2 -->
+                <div class="col-lg-4 col-md-6 artigo-item animacao-fade-in" data-categoria="saude">
+                    <div class="card-artigo">
+                        <img src="img/medicamento.png" alt="Medicamentos" class="imagem-artigo">
+                        <div class="p-4">
+                            <span class="categoria-artigo">Saúde</span>
+                            <h3 class="titulo-artigo">Receitas digitais: segurança e praticidade</h3>
+                            <div class="meta-artigo">
+                                <span><i class="bi bi-calendar3"></i> 12 de Janeiro, 2024</span>
+                                <span><i class="bi bi-clock"></i> 3 min de leitura</span>
+                            </div>
+                            <p class="resumo-artigo">Entenda como funcionam as receitas médicas digitais e suas
+                                vantagens em termos de segurança e conveniência para pacientes e médicos.</p>
+                            <a href="#" class="botao-ler-mais">Ler mais</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artigo 3 -->
+                <div class="col-lg-4 col-md-6 artigo-item animacao-fade-in" data-categoria="tecnologia">
+                    <div class="card-artigo">
+                        <img src="img/geek.png" alt="Tecnologia" class="imagem-artigo">
+                        <div class="p-4">
+                            <span class="categoria-artigo">Tecnologia</span>
+                            <h3 class="titulo-artigo">Inteligência artificial na medicina</h3>
+                            <div class="meta-artigo">
+                                <span><i class="bi bi-calendar3"></i> 10 de Janeiro, 2024</span>
+                                <span><i class="bi bi-clock"></i> 7 min de leitura</span>
+                            </div>
+                            <p class="resumo-artigo">Como a IA está transformando diagnósticos e tratamentos, tornando a
+                                medicina mais precisa e acessível para todos.</p>
+                            <a href="#" class="botao-ler-mais">Ler mais</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artigo 4 -->
+                <div class="col-lg-4 col-md-6 artigo-item animacao-fade-in" data-categoria="dicas">
+                    <div class="card-artigo">
+                        <img src="img/medico.png" alt="Dicas de saúde" class="imagem-artigo">
+                        <div class="p-4">
+                            <span class="categoria-artigo">Dicas</span>
+                            <h3 class="titulo-artigo">5 hábitos para uma vida mais saudável</h3>
+                            <div class="meta-artigo">
+                                <span><i class="bi bi-calendar3"></i> 8 de Janeiro, 2024</span>
+                                <span><i class="bi bi-clock"></i> 4 min de leitura</span>
+                            </div>
+                            <p class="resumo-artigo">Pequenas mudanças no dia a dia que podem fazer uma grande diferença
+                                na sua qualidade de vida e bem-estar geral.</p>
+                            <a href="#" class="botao-ler-mais">Ler mais</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artigo 5 -->
+                <div class="col-lg-4 col-md-6 artigo-item animacao-fade-in" data-categoria="telemedicina">
+                    <div class="card-artigo">
+                        <img src="img/tele.jpg" alt="Telemedicina" class="imagem-artigo">
+                        <div class="p-4">
+                            <span class="categoria-artigo">Telemedicina</span>
+                            <h3 class="titulo-artigo">Vantagens da consulta online</h3>
+                            <div class="meta-artigo">
+                                <span><i class="bi bi-calendar3"></i> 5 de Janeiro, 2024</span>
+                                <span><i class="bi bi-clock"></i> 6 min de leitura</span>
+                            </div>
+                            <p class="resumo-artigo">Descubra os benefícios das consultas médicas online: economia de
+                                tempo, redução de custos e maior acessibilidade aos cuidados de saúde.</p>
+                            <a href="#" class="botao-ler-mais">Ler mais</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artigo 6 -->
+                <div class="col-lg-4 col-md-6 artigo-item animacao-fade-in" data-categoria="saude">
+                    <div class="card-artigo">
+                        <img src="img/mulher.png" alt="Saúde da mulher" class="imagem-artigo">
+                        <div class="p-4">
+                            <span class="categoria-artigo">Saúde</span>
+                            <h3 class="titulo-artigo">Cuidados preventivos essenciais</h3>
+                            <div class="meta-artigo">
+                                <span><i class="bi bi-calendar3"></i> 3 de Janeiro, 2024</span>
+                                <span><i class="bi bi-clock"></i> 5 min de leitura</span>
+                            </div>
+                            <p class="resumo-artigo">A importância dos exames preventivos e como a telemedicina pode
+                                facilitar o acompanhamento regular da sua saúde.</p>
+                            <a href="#" class="botao-ler-mais">Ler mais</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paginação -->
+            <div class="d-flex justify-content-center mt-5">
+                <nav aria-label="Navegação de páginas">
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Próximo</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="rodape">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5>MedLive</h5>
+                    <p>Conectando pacientes e médicos através da tecnologia, proporcionando cuidados de saúde acessíveis
+                        e de qualidade.</p>
+                    <div class="redes-sociais">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-twitter"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>Serviços</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Teleconsulta</a></li>
+                        <li><a href="#">Receitas Digitais</a></li>
+                        <li><a href="#">Agendamento</a></li>
+                        <li><a href="#">Prontuário Online</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>Suporte</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Central de Ajuda</a></li>
+                        <li><a href="#">Contato</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>Empresa</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                        <li><a href="#">Imprensa</a></li>
+                        <li><a href="#">Parceiros</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 mb-4">
+                    <h5>Legal</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Privacidade</a></li>
+                        <li><a href="#">Termos</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">LGPD</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr style="border-color: #333;">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>&copy; 2024 MedLive. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Função para alternar menu mobile
+        function toggleMobileMenu() {
+            const navbarNav = document.getElementById('navbarNav');
+            navbarNav.classList.toggle('show');
+        }
+
+        // Função para filtrar artigos por categoria
+        function filtrarArtigos(categoria) {
+            const artigos = document.querySelectorAll('.artigo-item');
+            const botoes = document.querySelectorAll('.botao-filtro');
+
+            // Atualizar botões ativos
+            botoes.forEach(btn => btn.classList.remove('ativo'));
+            event.target.classList.add('ativo');
+
+            // Filtrar artigos
+            artigos.forEach(artigo => {
+                if (categoria === 'todos' || artigo.dataset.categoria === categoria) {
+                    artigo.style.display = 'block';
+                    artigo.classList.add('animacao-fade-in');
+                } else {
+                    artigo.style.display = 'none';
+                }
+            });
+        }
+
+        // Função para pesquisar artigos
+        function pesquisarArtigos(termo) {
+            const artigos = document.querySelectorAll('.artigo-item');
+            const termoBusca = termo.toLowerCase();
+
+            artigos.forEach(artigo => {
+                const titulo = artigo.querySelector('.titulo-artigo').textContent.toLowerCase();
+                const resumo = artigo.querySelector('.resumo-artigo').textContent.toLowerCase();
+                const categoria = artigo.querySelector('.categoria-artigo').textContent.toLowerCase();
+
+                if (titulo.includes(termoBusca) || resumo.includes(termoBusca) || categoria.includes(termoBusca)) {
+                    artigo.style.display = 'block';
+                } else {
+                    artigo.style.display = 'none';
+                }
+            });
+        }
+
+        // Animações ao carregar a página
+        document.addEventListener('DOMContentLoaded', function () {
+            const elementos = document.querySelectorAll('.animacao-fade-in, .animacao-slide-esquerda');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            elementos.forEach(elemento => {
+                elemento.style.opacity = '0';
+                elemento.style.transform = 'translateY(20px)';
+                elemento.style.transition = 'all 0.6s ease';
+                observer.observe(elemento);
+            });
+        });
+    </script>
+</body>
+
+</html>

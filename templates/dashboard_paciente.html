@@ -79,7 +79,6 @@
         }
 
         .quick-action-card {
-            background: white;
             border: 2px solid transparent;
             border-radius: 15px;
             padding: 1.5rem;
@@ -91,13 +90,6 @@
             color: inherit;
         }
 
-        .quick-action-card:hover {
-            border-color: #B31D1D;
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(179, 29, 29, 0.2);
-            color: inherit;
-            text-decoration: none;
-        }
 
         .action-icon {
             width: 70px;
@@ -177,6 +169,22 @@
             box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
         }
 
+        .btn-sair {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            border: none;
+            border-radius: 0.8cap;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sair:hover {
+            background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+            color: white;
+            transform: translateY(2px);
+           
+        }
+        
         .health-tip-card {
             background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
             border-radius: 15px;
@@ -242,6 +250,8 @@
             .quick-action-card {
                 margin-bottom: 1rem;
             }
+
+
         }
     </style>
 </head>
@@ -276,7 +286,7 @@
                         </a>
                         <div class="notification-badge">3</div>
                     </div>
-                    <a href="index.html" class="btn btn-outline-danger">Sair</a>
+                    <a href="index.html" class="btn btn-sair">Sair</a>
                 </div>
             </div>
         </div>
