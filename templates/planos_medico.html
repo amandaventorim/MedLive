@@ -12,7 +12,8 @@
     <style>
         .plans-section {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 80px 0;
+            padding: 40px 0 80px;
+            min-height: 100vh;
         }
 
         .current-plan-card {
@@ -308,6 +309,22 @@
             background: #f8f9fa;
         }
 
+        .btn-sair {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            border: none;
+            border-radius: 0.8cap;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sair:hover {
+            background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+            color: white;
+            transform: translateY(2px);
+           
+        }
+
         @media (max-width: 768px) {
             .plans-section {
                 padding: 60px 0;
@@ -347,10 +364,11 @@
                     <li class="nav-item"><a class="nav-link fw-bold" href="consultas_medico.html">Consultas</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="pacientes_medico.html">Pacientes</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="planos_medico.html">Planos</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="prontuario.html">Prontuários</a></li>
                 </ul>
 
                 <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 navbar-actions">
-                    <div class="user-link-wrapper">
+                    <div class="user-link-wrapper position-relative">
                         <a class="nav-link fw-bold user-link-inner px-0" href="perfil_medico.html">
                             <span class="icon-text-wrapper">
                                 <i class="bi bi-person-circle"></i>
@@ -358,22 +376,11 @@
                             </span>
                         </a>
                     </div>
-                    <a href="index.html" class="btn btn-outline-danger">Sair</a>
+                    <a href="index.html" class="btn btn-sair fw-bold">Sair</a>
                 </div>
             </div>
         </div>
     </nav>
-
-    <!-- Breadcrumb -->
-    <div class="container mt-3">
-        <nav aria-label="breadcrumb" class="breadcrumb-custom">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="dashboard_medico.html">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Planos de Minutos</li>
-            </ol>
-        </nav>
-    </div>
-
     <section class="plans-section">
         <div class="container">
             <!-- Current Plan Status -->
