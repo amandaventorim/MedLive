@@ -10,7 +10,7 @@ __pycache__/
 *$py.class
 
 # Configurações do VS Code
-.vscode/
+#.vscode/
 
 # Arquivos de log
 *.log
