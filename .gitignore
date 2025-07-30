@@ -27,3 +27,4 @@ dist/
 # Outros arquivos temporários
 *.pyc
 *.pyo
+*.pyd
