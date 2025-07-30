@@ -35,10 +35,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 async def get_root():
-    response = HTMLResponse(
-        content="<h1>Bem-vindo à MedLive !</h1>",
-        status_code=200
-    )
+    response = templates.TemplateResponse("index.html", {"request": {}})
     return response
 
 if __name__ == "__main__":
