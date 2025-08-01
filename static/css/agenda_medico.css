@@ -1,0 +1,310 @@
+.secao-agenda {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px 0 80px;
+            min-height: 100vh;
+        }
+
+        .cabecalho-agenda {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cabecalho-agenda::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .calendario-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .calendario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .mes-navegacao {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .botao-nav-mes {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .botao-nav-mes:hover {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .mes-atual {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #001942;
+            margin: 0 1rem;
+        }
+
+        .calendario-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .dia-semana {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .dia-calendario {
+            background: white;
+            padding: 0.5rem;
+            min-height: 120px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dia-calendario:hover {
+            background: #f8f9fa;
+        }
+
+        .dia-calendario.hoje {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+        }
+
+        .dia-calendario.outro-mes {
+            background: #f8f9fa;
+            color: #6c757d;
+        }
+
+        .numero-dia {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .consulta-item {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .consulta-item:hover {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            transform: scale(1.02);
+        }
+
+        .consulta-item.urgente {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .consulta-item.retorno {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .agenda-lateral {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .proximas-consultas {
+            margin-bottom: 2rem;
+        }
+
+        .consulta-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #B31D1D;
+            transition: all 0.3s ease;
+        }
+
+        .consulta-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .horario-consulta {
+            color: #B31D1D;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .paciente-nome {
+            color: #001942;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+
+        .tipo-consulta {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .botao-medlive {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(179, 29, 29, 0.3);
+            width: 100%;
+        }
+
+        .botao-medlive:hover {
+            background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(179, 29, 29, 0.4);
+        }
+
+        .botao-secundario {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 25, 66, 0.3);
+        }
+
+        .botao-secundario:hover {
+            background: linear-gradient(135deg, #003366 0%, #001942 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 25, 66, 0.4);
+        }
+
+        .estatisticas-dia {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-numero {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #B31D1D;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .legenda-cores {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .cor-legenda {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .cor-normal { background: linear-gradient(135deg, #001942 0%, #003366 100%); }
+        .cor-urgente { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); }
+        .cor-retorno { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); }
+
+        .btn-sair {
+            background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+            color: white;
+            border: none;
+            border-radius: 0.8cap;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sair:hover {
+            background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+            color: white;
+            transform: translateY(2px);
+           
+        }
+        
+        @media (max-width: 768px) {
+            .secao-agenda {
+                padding: 20px 0 40px;
+            }
+            
+            .calendario-container {
+                padding: 1rem;
+            }
+            
+            .calendario-grid {
+                font-size: 0.8rem;
+            }
+            
+            .dia-calendario {
+                min-height: 80px;
+                padding: 0.25rem;
+            }
+            
+            .agenda-lateral {
+                margin-top: 2rem;
+            }
+        }
