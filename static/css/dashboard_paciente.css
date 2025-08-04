@@ -1,0 +1,243 @@
+.dashboard-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 40px 0 80px;
+}
+
+.welcome-card {
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+}
+
+.stats-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 25, 66, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stats-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.stats-icon.primary {
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+}
+
+.stats-icon.success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.stats-icon.warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+}
+
+.stats-icon.danger {
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+}
+
+.quick-action-card {
+    border: 2px solid transparent;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+
+.action-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: white;
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+}
+
+.quick-action-card:hover .action-icon {
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    transform: scale(1.1);
+}
+
+.upcoming-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 25, 66, 0.1);
+    margin-bottom: 2rem;
+}
+
+.appointment-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #28a745;
+    transition: all 0.3s ease;
+}
+
+.appointment-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-item.urgent {
+    border-left-color: #B31D1D;
+    background: rgba(179, 29, 29, 0.05);
+}
+
+.appointment-time {
+    background: #001942;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.appointment-item.urgent .appointment-time {
+    background: #B31D1D;
+}
+
+.btn-join {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-join:hover {
+    background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+}
+
+.btn-sair {
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    border: none;
+    border-radius: 0.8cap;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-sair:hover {
+    background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+    color: white;
+    transform: translateY(2px);
+
+}
+
+.health-tip-card {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(33, 150, 243, 0.2);
+}
+
+.tip-icon {
+    width: 50px;
+    height: 50px;
+    background: #2196f3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #B31D1D;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.weather-widget {
+    background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.weather-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .dashboard-section {
+        padding: 20px 0 60px;
+    }
+
+    .welcome-card {
+        padding: 1.5rem;
+    }
+
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+
+    .quick-action-card {
+        margin-bottom: 1rem;
+    }
+
+
+}

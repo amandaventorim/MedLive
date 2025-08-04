@@ -1,0 +1,77 @@
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.user-type-selector {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.user-type-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.user-type-btn.active {
+    border-color: #001942;
+    background: rgba(0, 25, 66, 0.05);
+    color: #001942;
+}
+
+.user-type-btn:hover {
+    border-color: #001942;
+    background: rgba(0, 25, 66, 0.02);
+}
+
+.form-control:focus {
+    border-color: #001942;
+    box-shadow: 0 0 0 0.2rem rgba(0, 25, 66, 0.25);
+}
+
+.btn-login {
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 25, 66, 0.3);
+}
+
+.forgot-password {
+    color: #001942;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.forgot-password:hover {
+    color: #B31D1D;
+    text-decoration: underline;
+}
+
+.register-link {
+    color: #001942;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link:hover {
+    color: #8f1419;
+    text-decoration: underline;
+}
