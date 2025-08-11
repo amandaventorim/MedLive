@@ -1,298 +1,258 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends "base_paciente.html" %}
+{% block conteudo %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - MedLive</title>
-    <link rel="icon" href="/static/img/logo.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/dashboard_paciente.css">
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/dashboard_paciente.css">
+{% endblock %}
 
-</head>
-
-<body style="background-color: #F5F5F5; margin: 0; padding: 0;">
-    <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
-        <div class="container-fluid px-4">
-            <a class="navbar-brand me-4" href="index.html">
-                <img src="/static/img/logo.png" alt="Logo MedLive" class="logo-img">
-            </a>
-
-            <button class="navbar-toggler d-lg-none" type="button" onclick="toggleMobileMenu()"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="navbar-collapse justify-content-between" id="navbarNav">
-                <ul class="navbar-nav d-flex flex-lg-row flex-column gap-lg-4 gap-2 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link fw-bold" href="dashboard_paciente.html">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold" href="buscar_medicos.html">Buscar Médicos</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold" href="minhas_consultas.html">Minhas Consultas</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Prontuário</a></li>
-                </ul>
-
-                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 navbar-actions">
-                    <div class="user-link-wrapper position-relative">
-                        <a class="nav-link fw-bold user-link-inner px-0" href="perfil_paciente.html">
-                            <span class="icon-text-wrapper">
-                                <i class="bi bi-person-circle"></i>
-                                <span class="ms-2">João Silva</span>
-                            </span>
-                        </a>
+<section class="dashboard-section">
+    <div class="container">
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="fw-bold mb-2">Bem-vindo de volta, João! 👋</h2>
+                    <p class="mb-3">Hoje é uma ótima oportunidade para cuidar da sua saúde. Você tem 1 consulta agendada
+                        para hoje.</p>
+                    <a href="buscar_medicos.html" class="btn btn-light fw-bold">
+                        <i class="bi bi-search me-2"></i>Buscar Médicos
+                    </a>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="weather-widget">
+                        <div class="weather-icon">☀️</div>
+                        <div class="fw-bold">25°C</div>
+                        <div>Ensolarado</div>
+                        <small>São Paulo, SP</small>
                     </div>
-                    <a href="index.html" class="btn btn-sair">Sair</a>
                 </div>
             </div>
         </div>
-    </nav>
 
-    <section class="dashboard-section">
-        <div class="container">
-            <!-- Welcome Card -->
-            <div class="welcome-card">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <h2 class="fw-bold mb-2">Bem-vindo de volta, João! 👋</h2>
-                        <p class="mb-3">Hoje é uma ótima oportunidade para cuidar da sua saúde. Você tem 1 consulta agendada para hoje.</p>
-                        <a href="buscar_medicos.html" class="btn btn-light fw-bold">
-                            <i class="bi bi-search me-2"></i>Buscar Médicos
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon primary">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <h3 class="fw-bold text-azul mb-1">12</h3>
+                    <p class="text-secondary mb-0">Consultas Realizadas</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon success">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                    <h3 class="fw-bold text-azul mb-1">2</h3>
+                    <p class="text-secondary mb-0">Consultas Agendadas</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon warning">
+                        <i class="bi bi-file-medical"></i>
+                    </div>
+                    <h3 class="fw-bold text-azul mb-1">5</h3>
+                    <p class="text-secondary mb-0">Receitas Ativas</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <div class="stats-icon danger">
+                        <i class="bi bi-heart-pulse"></i>
+                    </div>
+                    <h3 class="fw-bold text-azul mb-1">98%</h3>
+                    <p class="text-secondary mb-0">Índice de Saúde</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row g-4 mb-4">
+            <div class="col-12">
+                <h4 class="fw-bold text-azul mb-3">Ações Rápidas</h4>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <a href="buscar_medicos.html" class="quick-action-card">
+                    <div class="action-icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <h5 class="fw-bold text-azul">Buscar Médicos</h5>
+                    <p class="text-secondary small">Encontre especialistas</p>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <a href="agendar_consulta.html" class="quick-action-card">
+                    <div class="action-icon">
+                        <i class="bi bi-calendar-plus"></i>
+                    </div>
+                    <h5 class="fw-bold text-azul">Agendar Consulta</h5>
+                    <p class="text-secondary small">Marque um horário</p>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <a href="minhas_consultas.html" class="quick-action-card">
+                    <div class="action-icon">
+                        <i class="bi bi-camera-video"></i>
+                    </div>
+                    <h5 class="fw-bold text-azul">Minhas Consultas</h5>
+                    <p class="text-secondary small">Ver agendamentos</p>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <a href="prontuario.html" class="quick-action-card">
+                    <div class="action-icon">
+                        <i class="bi bi-file-medical"></i>
+                    </div>
+                    <h5 class="fw-bold text-azul">Meu Prontuário</h5>
+                    <p class="text-secondary small">Histórico médico</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Upcoming Appointments -->
+                <div class="upcoming-card">
+                    <h5 class="fw-bold text-azul mb-3">
+                        <i class="bi bi-calendar-event me-2"></i>Próximas Consultas
+                    </h5>
+
+                    <div class="appointment-item urgent">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="appointment-time">Hoje - 14:00</div>
+                                <h6 class="fw-bold mt-2 mb-1">Dr. Carlos Silva</h6>
+                                <p class="text-secondary mb-0">Cardiologia • Videochamada</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-join">
+                                    <i class="bi bi-camera-video me-2"></i>Entrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="appointment-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="appointment-time">Amanhã - 10:00</div>
+                                <h6 class="fw-bold mt-2 mb-1">Dra. Ana Santos</h6>
+                                <p class="text-secondary mb-0">Dermatologia • Videochamada</p>
+                            </div>
+                            <div>
+                                <button class="btn btn-outline-primary">
+                                    <i class="bi bi-calendar me-2"></i>Detalhes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="minhas_consultas.html" class="btn btn-outline-primary">
+                            Ver todas as consultas
                         </a>
                     </div>
-                    <div class="col-md-4 text-center">
-                        <div class="weather-widget">
-                            <div class="weather-icon">☀️</div>
-                            <div class="fw-bold">25°C</div>
-                            <div>Ensolarado</div>
-                            <small>São Paulo, SP</small>
-                        </div>
-                    </div>
                 </div>
-            </div>
 
-            <!-- Stats Cards -->
-            <div class="row g-4 mb-4">
-                <div class="col-lg-3 col-md-6">
-                    <div class="stats-card">
-                        <div class="stats-icon primary">
-                            <i class="bi bi-calendar-check"></i>
-                        </div>
-                        <h3 class="fw-bold text-azul mb-1">12</h3>
-                        <p class="text-secondary mb-0">Consultas Realizadas</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="stats-card">
-                        <div class="stats-icon success">
-                            <i class="bi bi-clock"></i>
-                        </div>
-                        <h3 class="fw-bold text-azul mb-1">2</h3>
-                        <p class="text-secondary mb-0">Consultas Agendadas</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="stats-card">
-                        <div class="stats-icon warning">
-                            <i class="bi bi-file-medical"></i>
-                        </div>
-                        <h3 class="fw-bold text-azul mb-1">5</h3>
-                        <p class="text-secondary mb-0">Receitas Ativas</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="stats-card">
-                        <div class="stats-icon danger">
-                            <i class="bi bi-heart-pulse"></i>
-                        </div>
-                        <h3 class="fw-bold text-azul mb-1">98%</h3>
-                        <p class="text-secondary mb-0">Índice de Saúde</p>
-                    </div>
-                </div>
-            </div>
+                <!-- Recent Activity -->
+                <div class="upcoming-card">
+                    <h5 class="fw-bold text-azul mb-3">
+                        <i class="bi bi-clock-history me-2"></i>Atividades Recentes
+                    </h5>
 
-            <!-- Quick Actions -->
-            <div class="row g-4 mb-4">
-                <div class="col-12">
-                    <h4 class="fw-bold text-azul mb-3">Ações Rápidas</h4>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <a href="buscar_medicos.html" class="quick-action-card">
-                        <div class="action-icon">
-                            <i class="bi bi-search"></i>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="stats-icon success me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                            <i class="bi bi-check"></i>
                         </div>
-                        <h5 class="fw-bold text-azul">Buscar Médicos</h5>
-                        <p class="text-secondary small">Encontre especialistas</p>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <a href="agendar_consulta.html" class="quick-action-card">
-                        <div class="action-icon">
+                        <div>
+                            <h6 class="mb-1">Consulta realizada</h6>
+                            <small class="text-secondary">Dr. Pedro Costa • Ontem às 16:30</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="stats-icon primary me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                            <i class="bi bi-file-earmark-medical"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Receita emitida</h6>
+                            <small class="text-secondary">Medicamento para pressão • 2 dias atrás</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="stats-icon warning me-3" style="width: 40px; height: 40px; font-size: 1rem;">
                             <i class="bi bi-calendar-plus"></i>
                         </div>
-                        <h5 class="fw-bold text-azul">Agendar Consulta</h5>
-                        <p class="text-secondary small">Marque um horário</p>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <a href="minhas_consultas.html" class="quick-action-card">
-                        <div class="action-icon">
-                            <i class="bi bi-camera-video"></i>
+                        <div>
+                            <h6 class="mb-1">Consulta agendada</h6>
+                            <small class="text-secondary">Dra. Ana Santos • 3 dias atrás</small>
                         </div>
-                        <h5 class="fw-bold text-azul">Minhas Consultas</h5>
-                        <p class="text-secondary small">Ver agendamentos</p>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <a href="prontuario.html" class="quick-action-card">
-                        <div class="action-icon">
-                            <i class="bi bi-file-medical"></i>
-                        </div>
-                        <h5 class="fw-bold text-azul">Meu Prontuário</h5>
-                        <p class="text-secondary small">Histórico médico</p>
-                    </a>
+                    </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-8">
-                    <!-- Upcoming Appointments -->
-                    <div class="upcoming-card">
-                        <h5 class="fw-bold text-azul mb-3">
-                            <i class="bi bi-calendar-event me-2"></i>Próximas Consultas
-                        </h5>
-                        
-                        <div class="appointment-item urgent">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div class="appointment-time">Hoje - 14:00</div>
-                                    <h6 class="fw-bold mt-2 mb-1">Dr. Carlos Silva</h6>
-                                    <p class="text-secondary mb-0">Cardiologia • Videochamada</p>
-                                </div>
-                                <div>
-                                    <button class="btn btn-join">
-                                        <i class="bi bi-camera-video me-2"></i>Entrar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="appointment-item">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div class="appointment-time">Amanhã - 10:00</div>
-                                    <h6 class="fw-bold mt-2 mb-1">Dra. Ana Santos</h6>
-                                    <p class="text-secondary mb-0">Dermatologia • Videochamada</p>
-                                </div>
-                                <div>
-                                    <button class="btn btn-outline-primary">
-                                        <i class="bi bi-calendar me-2"></i>Detalhes
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="text-center mt-3">
-                            <a href="minhas_consultas.html" class="btn btn-outline-primary">
-                                Ver todas as consultas
-                            </a>
-                        </div>
+            <div class="col-lg-4">
+                <!-- Health Tip -->
+                <div class="health-tip-card mb-4">
+                    <div class="tip-icon">
+                        <i class="bi bi-lightbulb"></i>
+                    </div>
+                    <h6 class="fw-bold text-primary mb-2">Dica de Saúde</h6>
+                    <p class="mb-0">Beba pelo menos 2 litros de água por dia para manter seu corpo hidratado e ajudar no
+                        funcionamento dos órgãos.</p>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="upcoming-card">
+                    <h6 class="fw-bold text-azul mb-3">Resumo da Semana</h6>
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Consultas realizadas:</span>
+                        <strong class="text-success">2</strong>
                     </div>
 
-                    <!-- Recent Activity -->
-                    <div class="upcoming-card">
-                        <h5 class="fw-bold text-azul mb-3">
-                            <i class="bi bi-clock-history me-2"></i>Atividades Recentes
-                        </h5>
-                        
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="stats-icon success me-3" style="width: 40px; height: 40px; font-size: 1rem;">
-                                <i class="bi bi-check"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-1">Consulta realizada</h6>
-                                <small class="text-secondary">Dr. Pedro Costa • Ontem às 16:30</small>
-                            </div>
-                        </div>
-                        
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="stats-icon primary me-3" style="width: 40px; height: 40px; font-size: 1rem;">
-                                <i class="bi bi-file-earmark-medical"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-1">Receita emitida</h6>
-                                <small class="text-secondary">Medicamento para pressão • 2 dias atrás</small>
-                            </div>
-                        </div>
-                        
-                        <div class="d-flex align-items-center">
-                            <div class="stats-icon warning me-3" style="width: 40px; height: 40px; font-size: 1rem;">
-                                <i class="bi bi-calendar-plus"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-1">Consulta agendada</h6>
-                                <small class="text-secondary">Dra. Ana Santos • 3 dias atrás</small>
-                            </div>
-                        </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Medicamentos tomados:</span>
+                        <strong class="text-primary">14/14</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Exercícios realizados:</span>
+                        <strong class="text-warning">3/5</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Horas de sono:</span>
+                        <strong class="text-info">7.5h/dia</strong>
                     </div>
                 </div>
 
-                <div class="col-lg-4">
-                    <!-- Health Tip -->
-                    <div class="health-tip-card mb-4">
-                        <div class="tip-icon">
-                            <i class="bi bi-lightbulb"></i>
-                        </div>
-                        <h6 class="fw-bold text-primary mb-2">Dica de Saúde</h6>
-                        <p class="mb-0">Beba pelo menos 2 litros de água por dia para manter seu corpo hidratado e ajudar no funcionamento dos órgãos.</p>
-                    </div>
-
-                    <!-- Quick Stats -->
-                    <div class="upcoming-card">
-                        <h6 class="fw-bold text-azul mb-3">Resumo da Semana</h6>
-                        
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span>Consultas realizadas:</span>
-                            <strong class="text-success">2</strong>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span>Medicamentos tomados:</span>
-                            <strong class="text-primary">14/14</strong>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span>Exercícios realizados:</span>
-                            <strong class="text-warning">3/5</strong>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>Horas de sono:</span>
-                            <strong class="text-info">7.5h/dia</strong>
-                        </div>
-                    </div>
-
-                    <!-- Emergency Contact -->
-                    <div class="upcoming-card" style="background: rgba(220, 53, 69, 0.1); border-color: #dc3545;">
-                        <h6 class="fw-bold text-danger mb-3">
-                            <i class="bi bi-exclamation-triangle me-2"></i>Emergência
-                        </h6>
-                        <p class="mb-3">Em caso de emergência médica, ligue imediatamente:</p>
-                        <div class="text-center">
-                            <a href="tel:192" class="btn btn-danger fw-bold">
-                                <i class="bi bi-telephone me-2"></i>192 - SAMU
-                            </a>
-                        </div>
+                <!-- Emergency Contact -->
+                <div class="upcoming-card" style="background: rgba(220, 53, 69, 0.1); border-color: #dc3545;">
+                    <h6 class="fw-bold text-danger mb-3">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Emergência
+                    </h6>
+                    <p class="mb-3">Em caso de emergência médica, ligue imediatamente:</p>
+                    <div class="text-center">
+                        <a href="tel:192" class="btn btn-danger fw-bold">
+                            <i class="bi bi-telephone me-2"></i>192 - SAMU
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/js/dashboard_paciente.js"></script>
-        
-</body>
 
-</html>
 
+
+{% block extra_js %}
+<script src="/static/js/dashboard_paciente.js"></script>
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,7 @@
+ .step-form {
+     display: none;
+ }
+
+ .step-form.active {
+     display: block;
+ }
