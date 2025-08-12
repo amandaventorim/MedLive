@@ -5,49 +5,11 @@
 <link rel="stylesheet" href="/static/css/minhas_consultas.css">
 {% endblock %}
 
-
-<body style="background-color: #F5F5F5; margin: 0; padding: 0;">
-    <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
-        <div class="container-fluid px-4">
-            <a class="navbar-brand me-4" href="index.html">
-                <img src="/static/img/logo.png" alt="Logo MedLive" class="logo-img">
-            </a>
-
-            <button class="navbar-toggler d-lg-none" type="button" onclick="toggleMobileMenu()"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="navbar-collapse justify-content-between" id="navbarNav">
-                <ul class="navbar-nav d-flex flex-lg-row flex-column gap-lg-4 gap-2 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link fw-bold" href="dashboard_paciente.html">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold" href="buscar_medicos.html">Buscar Médicos</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold" href="minhas_consultas.html">Minhas Consultas</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Prontuário</a></li>
-                </ul>
-
-                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 navbar-actions">
-                    <div class="user-link-wrapper">
-                        <a class="nav-link fw-bold user-link-inner px-0" href="perfil_paciente.html">
-                            <span class="icon-text-wrapper">
-                                <i class="bi bi-person-circle"></i>
-                                <span class="ms-2">João Silva</span>
-                            </span>
-                        </a>
-                    </div>
-                    <a href="index.html" class="btn btn-sair">Sair</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-
     <section class="consultations-section">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold text-azul">Minhas Consultas</h2>
-                <a href="buscar_medicos.html" class="btn btn-primary">
+                <a href="/buscar_medicos" class="btn btn-primary">
                     <i class="bi bi-plus-circle me-2"></i>Nova Consulta
                 </a>
             </div>
@@ -112,7 +74,7 @@
                 <i class="bi bi-calendar-x"></i>
                 <h4>Nenhuma consulta encontrada</h4>
                 <p>Você ainda não possui consultas agendadas ou não há resultados para os filtros aplicados.</p>
-                <a href="buscar_medicos.html" class="btn btn-primary">
+                <a href="/buscar_medicos" class="btn btn-primary">
                     <i class="bi bi-search me-2"></i>Buscar Médicos
                 </a>
             </div>

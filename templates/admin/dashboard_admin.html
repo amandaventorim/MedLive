@@ -1,0 +1,449 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/dashboard_administrador.css">
+{% endblock %}
+    
+    <section class="dashboard-section">
+        <div class="container">
+            <!-- Welcome Card -->
+            <div class="welcome-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="fw-bold mb-2">Olá, Administrador!</h2>
+                        <p class="mb-3">Gerencie todo o sistema MedLive. Você tem 15 médicos ativos, 342 pacientes cadastrados e 8 especialidades disponíveis.</p>
+                        <a href="#" class="btn btn-light fw-bold" onclick="mostrarSecao('medicos')">
+                            <i class="bi bi-gear me-2"></i>Gerenciar Sistema
+                        </a>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="earnings-card">
+                            <div class="earnings-icon">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <div class="fw-bold" style="color: #001942;">98%</div>
+                            <div class="fw-bold" style="color: #001942;">Sistema Operacional</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon primary">
+                            <i class="bi bi-person-badge"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">15</h3>
+                        <p class="text-secondary mb-0">Médicos Ativos</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon success">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">342</h3>
+                        <p class="text-secondary mb-0">Pacientes Cadastrados</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon warning">
+                            <i class="bi bi-heart-pulse"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">8</h3>
+                        <p class="text-secondary mb-0">Especialidades</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon danger">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">3</h3>
+                        <p class="text-secondary mb-0">Administradores</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="admin-tabs mb-4">
+                <button class="tab-button active" onclick="mostrarSecao('medicos')">
+                    <i class="bi bi-person-badge me-2"></i>Médicos
+                </button>
+                <button class="tab-button" onclick="mostrarSecao('pacientes')">
+                    <i class="bi bi-people me-2"></i>Pacientes
+                </button>
+                <button class="tab-button" onclick="mostrarSecao('especialidades')">
+                    <i class="bi bi-heart-pulse me-2"></i>Especialidades
+                </button>
+                <button class="tab-button" onclick="mostrarSecao('administradores')">
+                    <i class="bi bi-shield-check me-2"></i>Administradores
+                </button>
+            </div>
+
+            <!-- Seção Médicos -->
+            <div id="secao-medicos" class="admin-section active">
+                <div class="section-header">
+                    <h3><i class="bi bi-person-badge me-2"></i>Gerenciar Médicos</h3>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastroMedico">
+                        <i class="bi bi-plus-circle me-2"></i>Cadastrar Médico
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table class="table admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CRM</th>
+                                <th>Especialidade</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">JS</div>
+                                        <div>
+                                            <div class="user-name">Dr. João Silva</div>
+                                            <div class="user-email">joao.silva@medlive.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>123456-SP</td>
+                                <td><span class="badge badge-especialidade">Cardiologia</span></td>
+                                <td><span class="status-badge status-ativo">Ativo</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-edit" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn-action btn-view" title="Visualizar">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn-action btn-delete" title="Desativar">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">AC</div>
+                                        <div>
+                                            <div class="user-name">Dra. Ana Costa</div>
+                                            <div class="user-email">ana.costa@medlive.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>789012-RJ</td>
+                                <td><span class="badge badge-especialidade">Dermatologia</span></td>
+                                <td><span class="status-badge status-ativo">Ativo</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-edit" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn-action btn-view" title="Visualizar">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn-action btn-delete" title="Desativar">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">CL</div>
+                                        <div>
+                                            <div class="user-name">Dr. Carlos Lima</div>
+                                            <div class="user-email">carlos.lima@medlive.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>345678-MG</td>
+                                <td><span class="badge badge-especialidade">Neurologia</span></td>
+                                <td><span class="status-badge status-pendente">Pendente</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-edit" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn-action btn-view" title="Visualizar">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn-action btn-approve" title="Aprovar">
+                                            <i class="bi bi-check-circle"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Seção Pacientes -->
+            <div id="secao-pacientes" class="admin-section">
+                <div class="section-header">
+                    <h3><i class="bi bi-people me-2"></i>Gerenciar Pacientes</h3>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastroPaciente">
+                        <i class="bi bi-plus-circle me-2"></i>Cadastrar Paciente
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table class="table admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Plano</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">MS</div>
+                                        <div>
+                                            <div class="user-name">Maria Santos</div>
+                                            <div class="user-email">maria.santos@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>123.456.789-00</td>
+                                <td><span class="badge badge-plano">Básico</span></td>
+                                <td><span class="status-badge status-ativo">Ativo</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-edit" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn-action btn-view" title="Visualizar">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn-action btn-delete" title="Desativar">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">JS</div>
+                                        <div>
+                                            <div class="user-name">João Silva</div>
+                                            <div class="user-email">joao.silva@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>987.654.321-00</td>
+                                <td><span class="badge badge-plano">Premium</span></td>
+                                <td><span class="status-badge status-ativo">Ativo</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-edit" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn-action btn-view" title="Visualizar">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn-action btn-delete" title="Desativar">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Seção Especialidades -->
+            <div id="secao-especialidades" class="admin-section">
+                <div class="section-header">
+                    <h3><i class="bi bi-heart-pulse me-2"></i>Gerenciar Especialidades</h3>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastroEspecialidade">
+                        <i class="bi bi-plus-circle me-2"></i>Cadastrar Especialidade
+                    </button>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="especialidade-card">
+                            <div class="especialidade-icon">
+                                <i class="bi bi-heart-pulse"></i>
+                            </div>
+                            <h5>Cardiologia</h5>
+                            <p class="text-muted">5 médicos ativos</p>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn-action btn-delete" title="Excluir">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="especialidade-card">
+                            <div class="especialidade-icon">
+                                <i class="bi bi-eye"></i>
+                            </div>
+                            <h5>Oftalmologia</h5>
+                            <p class="text-muted">3 médicos ativos</p>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn-action btn-delete" title="Excluir">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="especialidade-card">
+                            <div class="especialidade-icon">
+                                <i class="bi bi-bandaid"></i>
+                            </div>
+                            <h5>Dermatologia</h5>
+                            <p class="text-muted">2 médicos ativos</p>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn-action btn-delete" title="Excluir">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção Administradores -->
+            <div id="secao-administradores" class="admin-section">
+                <div class="section-header">
+                    <h3><i class="bi bi-shield-check me-2"></i>Gerenciar Administradores</h3>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastroAdmin">
+                        <i class="bi bi-plus-circle me-2"></i>Cadastrar Administrador
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table class="table admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Último Acesso</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">AD</div>
+                                        <div>
+                                            <div class="user-name">Admin Principal</div>
+                                            <div class="user-email">admin@medlive.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>admin@medlive.com</td>
+                                <td>Hoje, 14:30</td>
+                                <td><span class="status-badge status-ativo">Ativo</span></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-edit" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn-action btn-view" title="Visualizar">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modais de Cadastro -->
+    <!-- Modal Cadastro Médico -->
+    <div class="modal fade" id="modalCadastroMedico" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cadastrar Médico</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Nome Completo</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">CRM</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Especialidade</label>
+                                    <select class="form-select">
+                                        <option>Cardiologia</option>
+                                        <option>Dermatologia</option>
+                                        <option>Neurologia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Cadastrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/dashboard_administrador.js"></script>
+{% endblock %}
+
