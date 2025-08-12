@@ -1,52 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends "base_paciente.html" %}
+{% block conteudo %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Perfil - MedLive</title>
-    <link rel="icon" href="/static/img/logo.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/perfil_paciente.css">
-    <style>
-        
-    </style>
-</head>
-
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-custom">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <img src="/static/img/logo.png" alt="MedLive" class="logo-img">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard_paciente.html">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="consultas_paciente.html">Consultas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pagamento_plano.html">Planos</a>
-                    </li>
-                </ul>
-                <div class="d-flex align-items-center">
-                    <a href="perfil_paciente.html" class="user-link me-3 active">
-                        <i class="bi bi-person-circle me-1"></i>
-                        Maria Santos
-                    </a>
-                    <a href="login.html" class="btn btn-cadastrar">Sair</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/perfil_paciente.css">
+{% endblock %}
+    
 
     <!-- Seção Principal -->
     <section class="secao-perfil">
@@ -518,9 +476,12 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/js/perfil_paciente.js"></script>
-</body>
+    
+    
+{% block extra_js %}
+<script src="/static/js/perfil_paciente.js"></script>
+{% endblock %}
 
-</html>
+{% endblock %}
+
 
