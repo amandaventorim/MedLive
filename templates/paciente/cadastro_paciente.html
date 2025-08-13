@@ -25,7 +25,7 @@
                         <div class="mb-4 text-center">
                             <h3 class="mt-2 title-criar-conta">Criar conta</h3>
                         </div>
-                        <form id="multiStepForm" action="dashboard_paciente.html" method="POST">
+                        <form id="multiStepForm" action="/cadastro_paciente" method="POST">
                             <!-- Etapa 1 -->
                             <div class="step-form active" id="step1">
                                 <div class="mb-3">
@@ -36,6 +36,16 @@
                                         id="nome"
                                         name="nome"
                                         placeholder="Digite seu nome"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cpf" class="form-label">CPF</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="cpf"
+                                        name="cpf"
                                         required
                                     >
                                 </div>
@@ -51,17 +61,22 @@
                                     >
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nasc" class="form-label">Data de Nascimento</label>
+                                    <label for="senha" class="form-label">Senha</label>
                                     <input
-                                        type="date"
+                                        type="password"
                                         class="form-control"
-                                        id="nasc"
-                                        name="nascimento"
-                                        min="1979-01-01"
-                                        max="2007-01-01"
+                                        id="senha"
+                                        name="senha"
                                         required
                                     >
                                 </div>
+                                
+                                <div class="d-grid">
+                                    <button type="button" class="btn btn-medlive" onclick="nextStep()">Continuar</button>
+                                </div>
+                            </div>
+                            <!-- Etapa 2 -->
+                            <div class="step-form" id="step2">
                                 <div class="mb-3">
                                     <label for="genero" class="form-label">Gênero</label>
                                     <select
@@ -77,39 +92,15 @@
                                         <option value="sn">Prefiro não responder</option>
                                     </select>
                                 </div>
-                                <div class="d-grid">
-                                    <button type="button" class="btn btn-medlive" onclick="nextStep()">Continuar</button>
-                                </div>
-                            </div>
-                            <!-- Etapa 2 -->
-                            <div class="step-form" id="step2">
                                 <div class="mb-3">
-                                    <label for="cpf" class="form-label">CPF</label>
+                                    <label for="nasc" class="form-label">Data de Nascimento</label>
                                     <input
-                                        type="text"
+                                        type="date"
                                         class="form-control"
-                                        id="cpf"
-                                        name="cpf"
-                                        required
-                                    >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="senha" class="form-label">Senha</label>
-                                    <input
-                                        type="password"
-                                        class="form-control"
-                                        id="senha"
-                                        name="senha"
-                                        required
-                                    >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confisenha" class="form-label">Confirmar senha</label>
-                                    <input
-                                        type="password"
-                                        class="form-control"
-                                        id="confisenha"
-                                        name="confisenha"
+                                        id="nasc"
+                                        name="dataNascimento"
+                                        min="1979-01-01"
+                                        max="2007-01-01"
                                         required
                                     >
                                 </div>

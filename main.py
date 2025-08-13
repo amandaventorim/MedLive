@@ -17,8 +17,9 @@ if __name__ == "__main__":
 from routes import public
 app.include_router(public.router)
 
-from routes.paciente import paciente_rotas
+from routes.paciente import paciente_rotas, cadastro_paciente
 app.include_router(paciente_rotas.router)
+app.include_router(cadastro_paciente.router)
 
 from routes.medico import medico_rotas
 app.include_router(medico_rotas.router)
