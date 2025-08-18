@@ -1,58 +1,38 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Pré-Cadastro - MedLive</title>
-        <link rel="icon" href="/static/img/logo.png" type="image/png">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="/static/css/cadastro_anterior.css">
-        <script src="https://kit.fontawesome.com/a2f8ae1a6f.js" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <div class="d-flex justify-content-center align-items-center min-vh-100">
-            <div class="main-box">
-                <div class="col-md-6 img-side d-flex align-items-stretch">
-                    <img src="/static/img/teleconsulta.webp" alt="Imagem Médico">
-                </div>
-                <div class="col-md-6 d-flex align-items-center">
-                    <div class="form-section w-100">
-                        <a href="index.html">
-                            <img src="/static/img/logo.png" alt="Logo MedLive" class="form-logo">
-                        </a>
-                        <div class="mb-4 text-center">
-                            <h3 class="mt-2 title-criar-conta">Quem é você?</h3>
-                            <p class="text-muted">Escolha o tipo de usuário para iniciar o cadastro.</p>
-                        </div>
-                        <div class="row justify-content-center gy-4">
-                            <!-- Médico -->
-                            <div class="col-md-4 col-sm-6 d-flex justify-content-center">
-                                <a href="/cadastro_medico" class="text-decoration-none">
-                                    <div class="card card-user-type text-center">
-                                        <div class="card-body">
-                                            <i class="fas fa-user-md user-icon"></i>
-                                            <img src="/static/img/medicocad.png" alt="Médico" class="img-fluid user-img">
-                                            <h5 class="card-title">Médico</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <!-- Paciente -->
-                            <div class="col-md-4 col-sm-6 d-flex justify-content-center">
-                                <a href="/cadastro_paciente" class="text-decoration-none">
-                                    <div class="card card-user-type text-center">
-                                        <div class="card-body">
-                                            <i class="fas fa-user-injured user-icon"></i>
-                                            <img src="/static/img/mulher.png" alt="Paciente" class="img-fluid user-img">
-                                            <h5 class="card-title">Paciente</h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+{% extends "base_cadastro.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/cadastro_anterior.css">
+{% endblock %}
+
+{% block conteudo %}
+    <div class="mb-4 text-center">
+        <h3 class="mt-2 title-criar-conta">Quem é você?</h3>
+        <p class="text-muted">Escolha o tipo de usuário para iniciar o cadastro.</p>
+    </div>
+    <div class="row justify-content-center gy-4">
+        <!-- Médico -->
+        <div class="col-md-4 col-sm-6 d-flex justify-content-center">
+            <a href="/cadastro_medico" class="text-decoration-none">
+                <div class="card card-user-type text-center">
+                    <div class="card-body">
+                        <i class="fas fa-user-md user-icon"></i>
+                        <img src="/static/img/medicocad.png" alt="Médico" class="img-fluid user-img">
+                        <h5 class="card-title">Médico</h5>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
-    </body>
-</html>
+        <!-- Paciente -->
+        <div class="col-md-4 col-sm-6 d-flex justify-content-center">
+            <a href="/cadastro_paciente" class="text-decoration-none">
+                <div class="card card-user-type text-center">
+                    <div class="card-body">
+                        <i class="fas fa-user-injured user-icon"></i>
+                        <img src="/static/img/mulher.png" alt="Paciente" class="img-fluid user-img">
+                        <h5 class="card-title">Paciente</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}
