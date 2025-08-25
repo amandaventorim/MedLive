@@ -36,12 +36,12 @@ async def get_agendar_consulta():
 
 @router.get("/pagamento")
 async def get_pagamento():
-    response = templates.TemplateResponse("/pagamento.html", {"request": {}})
+    response = templates.TemplateResponse("/paciente/pagamento.html", {"request": {}})
     return response
 
 @router.get("/prontuario")
 async def get_prontuario():
-    response = templates.TemplateResponse("/prontuario.html", {"request": {}})
+    response = templates.TemplateResponse("/paciente/prontuario.html", {"request": {}})
     return response
 
 @router.get("/sala_espera")

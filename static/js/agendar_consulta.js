@@ -229,7 +229,7 @@ function confirmAppointment() {
     };
 
     localStorage.setItem('appointmentData', JSON.stringify(appointmentData));
-    window.location.href = 'pagamento.html';
+    window.location.href = '/pagamento';
 }
 
 function toggleMobileMenu() {
