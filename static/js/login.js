@@ -24,11 +24,12 @@ function handleLogin(event) {
 
         // Redirect based on user type
         if (selectedUserType === 'medico') {
-            window.location.href = 'dashboard_medico.html';
+            window.location.href = '/dashboard_medico';
         } else {
-            window.location.href = 'dashboard_paciente.html';
+            window.location.href = '/dashboard_paciente';
         }
     } else {
         alert('Por favor, preencha todos os campos.');
     }
 }
+
