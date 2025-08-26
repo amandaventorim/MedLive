@@ -7,7 +7,7 @@ function startConsultation(patientId) {
     // Simulate starting a consultation
     alert('Iniciando consulta com o paciente...');
     // In a real application, this would redirect to the consultation room
-    window.location.href = 'sala_consulta.html?patient=' + patientId;
+    window.location.href = '/sala_consulta?patient=' + patientId;
 }
 
 // Update time every minute
