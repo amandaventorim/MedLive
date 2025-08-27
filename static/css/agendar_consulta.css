@@ -253,6 +253,13 @@
     font-weight: bold;
     margin: 0 10px;
     position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.step:hover {
+    background: #dee2e6;
+    transform: scale(1.05);
 }
 
 .step.active {
@@ -260,9 +267,17 @@
     color: white;
 }
 
+.step.active:hover {
+    background: #002a5c;
+}
+
 .step.completed {
     background: #28a745;
     color: white;
+}
+
+.step.completed:hover {
+    background: #218838;
 }
 
 .step::after {

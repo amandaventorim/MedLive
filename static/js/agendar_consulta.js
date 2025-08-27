@@ -31,6 +31,7 @@ function initializePage() {
     }
 
     generateCalendar();
+    addStepClickListeners();
 }
 
 function selectConsultationType(type, price) {
@@ -206,6 +207,81 @@ function nextStep() {
     currentStep++;
     if (currentStep <= 4) {
         document.getElementById(`step${currentStep}`).classList.add('active');
+    }
+}
+
+function goToStep(stepNumber) {
+    // Não permitir ir para passos futuros se não completou os anteriores
+    if (stepNumber > currentStep && !canGoToStep(stepNumber)) {
+        return;
+    }
+
+    // Atualizar estado visual dos passos
+    updateStepIndicators(stepNumber);
+
+    // Esconder todos os passos
+    document.getElementById('consultationTypeStep').style.display = 'none';
+    document.getElementById('dateSelectionStep').style.display = 'none';
+    document.getElementById('timeSelectionStep').style.display = 'none';
+    document.getElementById('additionalInfoStep').style.display = 'none';
+
+    // Mostrar o passo selecionado
+    if (stepNumber === 1) {
+        document.getElementById('consultationTypeStep').style.display = 'block';
+    } else if (stepNumber === 2) {
+        document.getElementById('dateSelectionStep').style.display = 'block';
+    } else if (stepNumber === 3) {
+        document.getElementById('timeSelectionStep').style.display = 'block';
+        if (selectedDate) {
+            generateTimeSlots();
+        }
+    } else if (stepNumber === 4) {
+        document.getElementById('additionalInfoStep').style.display = 'block';
+        document.getElementById('confirmButton').disabled = !isAllDataValid();
+    }
+
+    currentStep = stepNumber;
+}
+
+function canGoToStep(stepNumber) {
+    switch (stepNumber) {
+        case 1:
+            return true;
+        case 2:
+            return selectedConsultationType !== null;
+        case 3:
+            return selectedConsultationType !== null && selectedDate !== null;
+        case 4:
+            return selectedConsultationType !== null && selectedDate !== null && selectedTime !== null;
+        default:
+            return false;
+    }
+}
+
+function updateStepIndicators(activeStep) {
+    for (let i = 1; i <= 4; i++) {
+        const stepElement = document.getElementById(`step${i}`);
+        stepElement.classList.remove('active', 'completed');
+        
+        if (i < activeStep) {
+            stepElement.classList.add('completed');
+        } else if (i === activeStep) {
+            stepElement.classList.add('active');
+        }
+    }
+}
+
+function isAllDataValid() {
+    return selectedConsultationType !== null && 
+           selectedDate !== null && 
+           selectedTime !== null;
+}
+
+function addStepClickListeners() {
+    for (let i = 1; i <= 4; i++) {
+        const stepElement = document.getElementById(`step${i}`);
+        stepElement.style.cursor = 'pointer';
+        stepElement.addEventListener('click', () => goToStep(i));
     }
 }
 
