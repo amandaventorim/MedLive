@@ -156,6 +156,37 @@
 
 }
 
+.btn-vermelho{
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-azul{
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-azul-claro{
+    background: #d1ecf1;
+    color: #0c5460;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    
+}
+
 .consultation-time {
     background: #001942;
     color: white;

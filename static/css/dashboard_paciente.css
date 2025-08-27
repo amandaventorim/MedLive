@@ -31,6 +31,7 @@
     border: 1px solid rgba(0, 25, 66, 0.1);
     transition: all 0.3s ease;
     height: 100%;
+    
 }
 
 .stats-card:hover {
@@ -171,6 +172,26 @@
     color: white;
     transform: translateY(2px);
 
+}
+
+.btn-azul{
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-vermelho{
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .health-tip-card {

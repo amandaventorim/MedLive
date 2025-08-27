@@ -9,7 +9,7 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold text-azul">Minhas Consultas</h2>
-                <a href="/buscar_medicos" class="btn btn-primary">
+                <a href="/buscar_medicos" class="btn btn-vermelho">
                     <i class="bi bi-plus-circle me-2"></i>Nova Consulta
                 </a>
             </div>
@@ -36,11 +36,11 @@
             <!-- Search and Filter -->
             <div class="filter-card">
                 <div class="row g-3 align-items-center">
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <input type="text" class="form-control" id="searchInput"
                             placeholder="Buscar por médico ou especialidade..." oninput="searchConsultations()">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <select class="form-select" id="specialtyFilter" onchange="filterBySpecialty()">
                             <option value="">Todas as especialidades</option>
                             <option value="Cardiologia">Cardiologia</option>
@@ -48,18 +48,6 @@
                             <option value="Clínica Geral">Clínica Geral</option>
                             <option value="Pediatria">Pediatria</option>
                         </select>
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-select" id="typeFilter" onchange="filterByType()">
-                            <option value="">Todos os tipos</option>
-                            <option value="Videochamada">Videochamada</option>
-                            <option value="Chat">Chat</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-outline-primary w-100" onclick="clearFilters()">
-                            <i class="bi bi-arrow-clockwise"></i> Limpar
-                        </button>
                     </div>
                 </div>
             </div>

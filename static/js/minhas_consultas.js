@@ -135,7 +135,7 @@ function getActionButtons(consultation) {
                             <a href="/sala_espera" class="btn btn-join" onclick="joinConsultation(${consultation.id})">
                                 <i class="bi bi-camera-video me-2"></i>Entrar
                             </a>
-                            <a href="/agendar_consulta" class="btn btn-reschedule" onclick="rescheduleConsultation(${consultation.id})">
+                            <a href="/agendar_consulta" class="btn btn-azul" onclick="rescheduleConsultation(${consultation.id})">
                                 <i class="bi bi-calendar me-2"></i>Reagendar
                             </a>
                             
@@ -145,7 +145,7 @@ function getActionButtons(consultation) {
         case 'upcoming':
             return `
                         <div class="d-flex gap-2 justify-content-end flex-wrap">
-                            <a href="/agendar_consulta" class="btn btn-reschedule" onclick="rescheduleConsultation(${consultation.id})">
+                            <a href="/agendar_consulta" class="btn btn-azul" onclick="rescheduleConsultation(${consultation.id})">
                                 <i class="bi bi-calendar me-2"></i>Reagendar
                             </a>
                             <button class="btn btn-cancel" onclick="cancelConsultation(${consultation.id})">
@@ -155,19 +155,19 @@ function getActionButtons(consultation) {
                     `;
         case 'completed':
             return `
-                        <div class="d-flex gap-2 justify-content-end flex-wrap">
-                            <button class="btn btn-outline-primary" onclick="viewDetails(${consultation.id})">
-                                <i class="bi bi-eye me-2"></i>Detalhes
-                            </button>
-                            <a href="/agendar_consulta" class="btn btn-primary" onclick="bookAgain(${consultation.id})">
+                         <div class="d-flex gap-2 justify-content-end flex-wrap">
+                            <a href="/agendar_consulta" class="btn btn-azul" onclick="rescheduleConsultation(${consultation.id})">
                                 <i class="bi bi-arrow-repeat me-2"></i>Agendar Novamente
                             </a>
+                            <button class="btn btn-azul-claro" onclick="cancelConsultation(${consultation.id})">
+                                <i class="bi  bi-calendar me-2"></i>Detalhes
+                            </button>
                         </div>
                     `;
         case 'cancelled':
             return `
                         <div class="d-flex gap-2 justify-content-end flex-wrap">
-                            <a href="/agendar_consulta" class="btn btn-primary" onclick="bookAgain(${consultation.id})">
+                            <a href="/agendar_consulta" class="btn btn-azul" onclick="bookAgain(${consultation.id})">
                                 <i class="bi bi-arrow-repeat me-2"></i>Agendar Novamente
                             </a>
                         </div>
