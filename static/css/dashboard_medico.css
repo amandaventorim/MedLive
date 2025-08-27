@@ -157,6 +157,16 @@
     transition: all 0.3s ease;
 }
 
+.btn-vermelho{
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
 .btn-start:hover {
     background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
     color: white;
