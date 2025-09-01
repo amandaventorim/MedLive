@@ -5,3 +5,34 @@
  .step-form.active {
      display: block;
  }
+
+ .alert-custom {
+    border-radius: 10px;
+    border: none;
+}
+
+#verificationCode:focus {
+    border-color: #001942;
+    box-shadow: 0 0 0 0.2rem rgba(0, 25, 66, 0.25);
+}
+
+.btn-outline-primary {
+    color: #001942;
+    border-color: #001942;
+}
+
+.btn-outline-primary:hover {
+    background-color: #001942;
+    border-color: #001942;
+}
+
+.text-primary {
+    color: #001942 !important;
+}
+
+.verification-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 1rem;
+}
