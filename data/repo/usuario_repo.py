@@ -78,6 +78,41 @@ def obter_usuario_por_id(idUsuario: int) -> Optional[Usuario]:
                     genero=row["genero"],
                     dataNascimento=row["dataNascimento"])
             return usuario
+    # Função para obter usuário por email
+    def obter_usuario_por_email(email: str) -> Optional[Usuario]:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(OBTER_USUARIO_POR_EMAIL, (email,))
+            row = cursor.fetchone()
+            if row:
+                return Usuario(
+                    idUsuario=row["idUsuario"],
+                    nome=row["nome"],
+                    cpf=row["cpf"],
+                    email=row["email"],
+                    senha=row["senha"],
+                    genero=row["genero"],
+                    dataNascimento=row["dataNascimento"]
+                )
+            return None
+
+    # Função para obter usuário por senha
+    def obter_usuario_por_senha(senha: str) -> Optional[Usuario]:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(OBTER_USUARIO_POR_SENHA, (senha,))
+            row = cursor.fetchone()
+            if row:
+                return Usuario(
+                    idUsuario=row["idUsuario"],
+                    nome=row["nome"],
+                    cpf=row["cpf"],
+                    email=row["email"],
+                    senha=row["senha"],
+                    genero=row["genero"],
+                    dataNascimento=row["dataNascimento"]
+                )
+            return None
     
 def atualizar_usuario(usuario: Usuario) -> bool:
     with get_connection() as conn:

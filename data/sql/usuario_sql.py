@@ -36,6 +36,21 @@ idUsuario, nome, cpf, email, senha, genero, dataNascimento
 FROM usuario
 WHERE idUsuario = ?
 """
+# SQL para obter usuário por email
+OBTER_USUARIO_POR_EMAIL = """
+SELECT
+idUsuario, nome, cpf, email, senha, genero, dataNascimento
+FROM usuario
+WHERE email = ?
+"""
+
+# SQL para obter usuário por senha
+OBTER_USUARIO_POR_SENHA = """
+SELECT
+idUsuario, nome, cpf, email, senha, genero, dataNascimento
+FROM usuario
+WHERE senha = ?
+"""
 
 UPDATE_USUARIO = """
 UPDATE usuario
