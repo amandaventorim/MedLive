@@ -121,6 +121,7 @@ label {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -137,7 +138,7 @@ label {
 
     .img-side img {
         border-radius: 12px 12px 0 0;
-        height: 250px;              
+        height: 250px;
         object-fit: cover;
     }
 
@@ -159,4 +160,12 @@ label {
     h3 {
         margin-bottom: 20px;
     }
+}
+
+.step-form {
+    display: none;
+}
+
+.step-form.active {
+    display: block;
 }

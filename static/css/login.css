@@ -75,3 +75,11 @@
     color: #8f1419;
     text-decoration: underline;
 }
+
+.step-form {
+    display: none;
+}
+
+.step-form.active {
+    display: block;
+}
