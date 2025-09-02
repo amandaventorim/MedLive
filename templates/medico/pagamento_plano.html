@@ -1,0 +1,368 @@
+{% extends "base_medico.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/pagamento_plano.css">
+{% endblock %}
+    
+
+    <!-- Seção Principal -->
+    <section class="secao-pagamento">
+        <div class="container">
+            <!-- Cabeçalho -->
+            <div class="cabecalho-pagamento">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="mb-2">
+                            <i class="bi bi-credit-card me-3"></i>
+                            Planos e Pagamentos
+                        </h1>
+                        <p class="mb-0 opacity-75">Gerencie sua assinatura e histórico de pagamentos</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <span class="badge" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); font-size: 1rem; padding: 0.75rem 1.5rem;">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Plano Ativo
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Planos Disponíveis -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center mb-4" style="color: #001942;">Escolha o Melhor Plano para Você</h2>
+                </div>
+
+                <!-- Plano Básico -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="cartao-plano">
+                        <h3 class="nome-plano">Básico</h3>
+                        <div class="preco-plano">
+                            <span class="valor-principal">R$ 29</span>
+                            <div class="periodo">/mês</div>
+                        </div>
+                        <p class="descricao-plano">Ideal para consultas esporádicas</p>
+                        
+                        <ul class="lista-beneficios">
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                2 consultas por mês
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Telemedicina básica
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Receitas digitais
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle icone-beneficio icone-nao-incluido"></i>
+                                Consultas de emergência
+                            </li>
+                            <li>
+                                <i class="bi bi-x-circle icone-beneficio icone-nao-incluido"></i>
+                                Suporte 24h
+                            </li>
+                        </ul>
+
+                        <button class="btn botao-plano atual" disabled>
+                            <i class="bi bi-check-circle me-2"></i>
+                            Plano Atual
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plano Premium -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="cartao-plano recomendado">
+                        <h3 class="nome-plano">Premium</h3>
+                        <div class="preco-plano">
+                            <span class="valor-principal">R$ 59</span>
+                            <div class="periodo">/mês</div>
+                        </div>
+                        <p class="descricao-plano">O mais escolhido pelos nossos usuários</p>
+                        
+                        <ul class="lista-beneficios">
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                5 consultas por mês
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Telemedicina completa
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Receitas e atestados
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Consultas de emergência
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Suporte prioritário
+                            </li>
+                        </ul>
+
+                        <button class="btn botao-plano">
+                            <i class="bi bi-arrow-up-circle me-2"></i>
+                            Fazer Upgrade
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plano Família -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="cartao-plano">
+                        <h3 class="nome-plano">Família</h3>
+                        <div class="preco-plano">
+                            <span class="valor-principal">R$ 99</span>
+                            <div class="periodo">/mês</div>
+                        </div>
+                        <p class="descricao-plano">Para toda a família (até 4 pessoas)</p>
+                        
+                        <ul class="lista-beneficios">
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Consultas ilimitadas
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                4 usuários inclusos
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Telemedicina premium
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Emergência 24h
+                            </li>
+                            <li>
+                                <i class="bi bi-check-circle icone-beneficio"></i>
+                                Suporte dedicado
+                            </li>
+                        </ul>
+
+                        <button class="btn botao-plano">
+                            <i class="bi bi-people me-2"></i>
+                            Escolher Família
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Histórico de Pagamentos -->
+                <div class="col-lg-8 mb-4">
+                    <div class="historico-pagamentos">
+                        <h3 class="mb-4" style="color: #001942;">
+                            <i class="bi bi-clock-history me-2"></i>
+                            Histórico de Pagamentos
+                        </h3>
+
+                        <div class="item-pagamento">
+                            <div class="info-pagamento">
+                                <div class="data-pagamento">15 de Janeiro de 2025</div>
+                                <div class="descricao-pagamento">Plano Básico - Janeiro 2025</div>
+                            </div>
+                            <div class="valor-pagamento">R$ 29,00</div>
+                            <span class="status-pagamento status-pago">Pago</span>
+                        </div>
+
+                        <div class="item-pagamento">
+                            <div class="info-pagamento">
+                                <div class="data-pagamento">15 de Dezembro de 2024</div>
+                                <div class="descricao-pagamento">Plano Básico - Dezembro 2024</div>
+                            </div>
+                            <div class="valor-pagamento">R$ 29,00</div>
+                            <span class="status-pagamento status-pago">Pago</span>
+                        </div>
+
+                        <div class="item-pagamento">
+                            <div class="info-pagamento">
+                                <div class="data-pagamento">15 de Novembro de 2024</div>
+                                <div class="descricao-pagamento">Plano Básico - Novembro 2024</div>
+                            </div>
+                            <div class="valor-pagamento">R$ 29,00</div>
+                            <span class="status-pagamento status-pago">Pago</span>
+                        </div>
+
+                        <div class="item-pagamento">
+                            <div class="info-pagamento">
+                                <div class="data-pagamento">15 de Outubro de 2024</div>
+                                <div class="descricao-pagamento">Plano Básico - Outubro 2024</div>
+                            </div>
+                            <div class="valor-pagamento">R$ 29,00</div>
+                            <span class="status-pagamento status-pago">Pago</span>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-download me-2"></i>
+                                Baixar Comprovantes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumo da Conta -->
+                <div class="col-lg-4 mb-4">
+                    <div class="resumo-conta">
+                        <h3 class="mb-4" style="color: #001942;">
+                            <i class="bi bi-receipt me-2"></i>
+                            Resumo da Conta
+                        </h3>
+
+                        <div class="item-resumo">
+                            <span class="label-resumo">Plano Atual:</span>
+                            <span class="valor-resumo">Básico</span>
+                        </div>
+
+                        <div class="item-resumo">
+                            <span class="label-resumo">Valor Mensal:</span>
+                            <span class="valor-resumo">R$ 29,00</span>
+                        </div>
+
+                        <div class="item-resumo">
+                            <span class="label-resumo">Próximo Vencimento:</span>
+                            <span class="valor-resumo">15/02/2025</span>
+                        </div>
+
+                        <div class="item-resumo">
+                            <span class="label-resumo">Status:</span>
+                            <span class="valor-resumo" style="color: #28a745;">Ativo</span>
+                        </div>
+
+                        <div class="item-resumo">
+                            <span>Total a Pagar:</span>
+                            <span style="color: #B31D1D;">R$ 29,00</span>
+                        </div>
+
+                        <div class="mt-4">
+                            <button class="btn botao-plano w-100 mb-2">
+                                <i class="bi bi-credit-card me-2"></i>
+                                Pagar Agora
+                            </button>
+                            <button class="btn botao-secundario w-100">
+                                <i class="bi bi-gear me-2"></i>
+                                Gerenciar Assinatura
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Métodos de Pagamento -->
+                    <div class="metodos-pagamento mt-4">
+                        <h4 class="mb-3" style="color: #001942;">
+                            <i class="bi bi-wallet2 me-2"></i>
+                            Métodos de Pagamento
+                        </h4>
+
+                        <div class="cartao-metodo ativo">
+                            <div class="icone-metodo">
+                                <i class="bi bi-credit-card"></i>
+                            </div>
+                            <div class="nome-metodo">Cartão de Crédito</div>
+                            <div class="descricao-metodo">**** **** **** 1234</div>
+                        </div>
+
+                        <div class="cartao-metodo">
+                            <div class="icone-metodo">
+                                <i class="bi bi-bank"></i>
+                            </div>
+                            <div class="nome-metodo">Débito Automático</div>
+                            <div class="descricao-metodo">Banco do Brasil</div>
+                        </div>
+
+                        <div class="cartao-metodo">
+                            <div class="icone-metodo">
+                                <i class="bi bi-qr-code"></i>
+                            </div>
+                            <div class="nome-metodo">PIX</div>
+                            <div class="descricao-metodo">Pagamento instantâneo</div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                Adicionar Método
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Upgrade de Plano -->
+    <div class="modal fade" id="modalUpgrade" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-arrow-up-circle me-2"></i>
+                        Upgrade de Plano
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <h4 style="color: #001942;">Você está fazendo upgrade para o Plano Premium</h4>
+                        <p class="text-muted">Aproveite todos os benefícios do nosso plano mais popular</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 style="color: #B31D1D;">Benefícios Inclusos:</h5>
+                            <ul class="lista-beneficios">
+                                <li>
+                                    <i class="bi bi-check-circle icone-beneficio"></i>
+                                    5 consultas por mês
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle icone-beneficio"></i>
+                                    Consultas de emergência
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle icone-beneficio"></i>
+                                    Suporte prioritário
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="resumo-conta">
+                                <div class="item-resumo">
+                                    <span class="label-resumo">Plano Atual:</span>
+                                    <span class="valor-resumo">Básico (R$ 29)</span>
+                                </div>
+                                <div class="item-resumo">
+                                    <span class="label-resumo">Novo Plano:</span>
+                                    <span class="valor-resumo">Premium (R$ 59)</span>
+                                </div>
+                                <div class="item-resumo">
+                                    <span>Diferença:</span>
+                                    <span style="color: #B31D1D;">R$ 30,00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn botao-plano">Confirmar Upgrade</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
+{% block extra_js %}
+<script src="/static/js/pagamento_plano.js"></script>
+{% endblock %}
+
+{% endblock %}
+

@@ -1,0 +1,170 @@
+{% extends "base_cadastro.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/cadastro.css">
+<link rel="stylesheet" href="/static/css/cadastro_paciente.css">
+
+{% endblock %}
+
+{% block conteudo %}
+<div class="mb-4 text-center">
+    <h3 class="mt-2 title-criar-conta">Criar conta</h3>
+</div>
+                        <form id="multiStepForm" action="/cadastro_paciente" method="POST">
+                            <!-- Etapa 1 -->
+                            <div class="step-form active" id="step1">
+                                <div class="mb-3">
+                                    <label for="nome" class="form-label">Nome</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="nome"
+                                        name="nome"
+                                        placeholder="Digite seu nome"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cpf" class="form-label">CPF</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="cpf"
+                                        name="cpf"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="email"
+                                        name="email"
+                                        placeholder="Digite seu email"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="senha" class="form-label">Senha</label>
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="senha"
+                                        name="senha"
+                                        required
+                                    >
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="button" class="btn btn-medlive" onclick="sendEmailVerification()">Continuar</button>
+                                </div>
+                            </div>
+                            <!-- Etapa 1.5: Verificação de Email -->
+                            <div class="step-form" id="stepEmailVerification">
+                                <div class="verification-section">
+                                    <div class="mb-4 text-center">
+                                        <i class="fas fa-envelope-open-text" style="font-size: 3rem; color: #001942; margin-bottom: 1rem;"></i>
+                                        <h4 class="text-primary">Verifique seu email</h4>
+                                        <p class="text-muted">Enviamos um código de verificação para:</p>
+                                        <strong id="emailDisplay" class="text-info"></strong>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="verificationCode" class="form-label fw-bold">Código de verificação</label>
+                                        <input
+                                            type="text"
+                                            class="form-control text-center"
+                                            id="verificationCode"
+                                            maxlength="6"
+                                            placeholder="000000"
+                                            style="font-size: 1.5rem; letter-spacing: 0.5rem; height: 60px;"
+                                            required
+                                            autocomplete="off"
+                                        >
+                                        <small class="form-text text-muted">Digite o código de 6 dígitos</small>
+                                    </div>
+                                    
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Não recebeu o código?</strong><br>
+                                        Verifique sua caixa de spam ou aguarde alguns minutos antes de reenviar.
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <button type="button" class="btn btn-secondary" onclick="goBackToEmailEdit()">
+                                        <i class="fas fa-edit me-2"></i>Alterar email
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary" onclick="resendEmailCode()" id="resendEmailBtn">
+                                        <i class="fas fa-redo me-2"></i>Reenviar
+                                    </button>
+                                    <button type="button" class="btn btn-medlive" onclick="verifyEmailCode()">
+                                        <i class="fas fa-check me-2"></i>Verificar
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Etapa 2 -->
+                            <div class="step-form" id="step2">
+                                <div class="mb-3">
+                                    <label for="genero" class="form-label">Gênero</label>
+                                    <select
+                                        class="form-select"
+                                        id="genero"
+                                        name="genero"
+                                        required
+                                    >
+                                        <option value="" disabled selected>Selecione</option>
+                                        <option value="f">Feminino</option>
+                                        <option value="m">Masculino</option>
+                                        <option value="o">Outro</option>
+                                        <option value="sn">Prefiro não responder</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nasc" class="form-label">Data de Nascimento</label>
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        id="nasc"
+                                        name="dataNascimento"
+                                        min="1979-01-01"
+                                        max="2007-01-01"
+                                        required
+                                    >
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+                                    <button type="button" class="btn btn-medlive" onclick="nextStep()">Continuar</button>
+                                </div>
+                            </div>
+                            <!-- Etapa 3 -->
+                            <div class="step-form" id="step3">
+                                <div class="mb-3">
+                                    <label for="endereco" class="form-label">Endereço</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="endereco"
+                                        name="endereco"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="convenio" class="form-label">Convênio</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="convenio"
+                                        name="convenio"
+                                        required
+                                    >
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+                                    <button type="submit" class="btn btn-medlive">Criar conta</button>
+                                </div>
+                            </div>
+                        </form>
+<script src="/static/js/cadastro_paciente.js"></script>
+{% endblock %}

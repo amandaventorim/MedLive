@@ -1,0 +1,316 @@
+{% extends "base_medico.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/dashboard_medico.css">
+{% endblock %}
+    
+    <section class="dashboard-section">
+        <div class="container">
+            <!-- Welcome Card -->
+            <div class="welcome-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="fw-bold mb-2">Olá, Dr. Carlos!</h2>
+                        <p class="mb-3">Você tem 8 consultas agendadas para hoje. Sua próxima consulta é às 14:00 com
+                            João Silva.</p>
+                        <a href="/consultas_medico" class="btn btn-light fw-bold">
+                            <i class="bi bi-camera-video me-2"></i>Ver Consultas
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon primary">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">8</h3>
+                        <p class="text-secondary mb-0">Consultas Hoje</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon success">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">156</h3>
+                        <p class="text-secondary mb-0">Pacientes Ativos</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon warning">
+                            <i class="bi bi-clock"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">240</h3>
+                        <p class="text-secondary mb-0">Minutos Restantes</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stats-card">
+                        <div class="stats-icon danger">
+                            <i class="bi bi-star"></i>
+                        </div>
+                        <h3 class="fw-bold text-azul mb-1">4.8</h3>
+                        <p class="text-secondary mb-0">Avaliação Média</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <h4 class="fw-bold text-azul mb-3">Ações Rápidas</h4>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <a href="/consultas_medico" class="quick-action-card">
+                        <div class="action-icon">
+                            <i class="bi bi-camera-video"></i>
+                        </div>
+                        <h5 class="fw-bold text-azul">Iniciar Consulta</h5>
+                        <p class="text-secondary small">Entrar na sala virtual</p>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <a href="/agenda_medico" class="quick-action-card">
+                        <div class="action-icon">
+                            <i class="bi bi-calendar-plus"></i>
+                        </div>
+                        <h5 class="fw-bold text-azul">Gerenciar Agenda</h5>
+                        <p class="text-secondary small">Horários disponíveis</p>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <a href="pacientes_medico" class="quick-action-card">
+                        <div class="action-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h5 class="fw-bold text-azul">Meus Pacientes</h5>
+                        <p class="text-secondary small">Histórico e prontuários</p>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <a href="/planos_medico" class="quick-action-card">
+                        <div class="action-icon">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+                        <h5 class="fw-bold text-azul">Comprar Minutos</h5>
+                        <p class="text-secondary small">Planos e pacotes</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Today's Schedule -->
+                    <div class="agenda-card">
+                        <h5 class="fw-bold text-azul mb-3">
+                            <i class="bi bi-calendar-event me-2"></i>Agenda de Hoje
+                        </h5>
+
+                        <div class="appointment-item urgent">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="appointment-time">Agora - 14:00</div>
+                                    <h6 class="fw-bold mt-2 mb-1">João Silva</h6>
+                                    <p class="text-secondary mb-0">Consulta de retorno • Videochamada</p>
+                                </div>
+                                <div>
+                                    <button class="btn btn-start" onclick="startConsultation('joao-silva')">
+                                        <i class="bi bi-camera-video me-2"></i>Iniciar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="appointment-item next">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="appointment-time">Próxima - 14:30</div>
+                                    <h6 class="fw-bold mt-2 mb-1">Maria Santos</h6>
+                                    <p class="text-secondary mb-0">Primeira consulta • Videochamada</p>
+                                </div>
+                                <div>
+                                    <button class="btn btn-azul">
+                                        <i class="bi bi-eye me-2"></i>Ver Perfil
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="appointment-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="appointment-time">15:00</div>
+                                    <h6 class="fw-bold mt-2 mb-1">Pedro Costa</h6>
+                                    <p class="text-secondary mb-0">Consulta de rotina • Chat</p>
+                                </div>
+                                <div>
+                                    <button class="btn btn-azul">
+                                        <i class="bi bi-eye me-2"></i>Ver Perfil
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a href="/agenda_medico" class="btn btn-vermelho">
+                                Ver agenda completa
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Recent Patients -->
+                    <div class="agenda-card">
+                        <h5 class="fw-bold text-azul mb-3">
+                            <i class="bi bi-clock-history me-2"></i>Pacientes Recentes
+                        </h5>
+
+                        <div class="patient-card">
+                            <div class="d-flex align-items-center">
+                                <div class="patient-avatar">JS</div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">João Silva</h6>
+                                    <small class="text-secondary">Última consulta: Ontem às 16:30</small>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="patient-card">
+                            <div class="d-flex align-items-center">
+                                <div class="patient-avatar">MS</div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">Maria Santos</h6>
+                                    <small class="text-secondary">Última consulta: 2 dias atrás</small>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="patient-card">
+                            <div class="d-flex align-items-center">
+                                <div class="patient-avatar">PC</div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">Pedro Costa</h6>
+                                    <small class="text-secondary">Última consulta: 3 dias atrás</small>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Minutes Plan -->
+                    <div class="minutes-card">
+                        <h6 class="fw-bold text-success mb-3">
+                            <i class="bi bi-clock me-2"></i>Plano de Minutos
+                        </h6>
+
+                        <div class="text-center mb-3">
+                            <h3 class="fw-bold text-success">240 min</h3>
+                            <p class="text-secondary mb-0">de 500 minutos</p>
+                        </div>
+
+                        <div class="minutes-progress">
+                            <div class="minutes-progress-bar" style="width: 48%"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <small>Usado: 260 min</small>
+                            <small>Restante: 240 min</small>
+                        </div>
+
+                        <div class="text-center">
+                            <button class="btn btn-buy-minutes" onclick="window.location.href='/planos_medico'">
+                                <i class="bi bi-plus-circle me-2"></i>Comprar Mais Minutos
+                            </button>
+                        </div>
+
+                        <div class="mt-3 text-center">
+                            <small class="text-secondary">
+                                Renovação automática em 15 dias
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Performance -->
+                    <div class="agenda-card">
+                        <h6 class="fw-bold text-azul mb-3">Performance do Mês</h6>
+
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Consultas realizadas:</span>
+                            <strong class="text-success">87</strong>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Taxa de comparecimento:</span>
+                            <strong class="text-primary">94%</strong>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>Avaliação média:</span>
+                            <strong class="text-warning">4.8 ⭐</strong>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Receita gerada:</span>
+                            <strong class="text-info">R$ 2.450</strong>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="agenda-card">
+                        <h6 class="fw-bold text-azul mb-3">Estatísticas Rápidas</h6>
+
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <div class="stats-icon primary mx-auto"
+                                    style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                    <i class="bi bi-calendar-week"></i>
+                                </div>
+                                <h6 class="fw-bold text-azul">32</h6>
+                                <small class="text-secondary">Esta semana</small>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="stats-icon success mx-auto"
+                                    style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <h6 class="fw-bold text-azul">12</h6>
+                                <small class="text-secondary">Novos pacientes</small>
+                            </div>
+                            <div class="col-6">
+                                <div class="stats-icon warning mx-auto"
+                                    style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                    <i class="bi bi-chat-dots"></i>
+                                </div>
+                                <h6 class="fw-bold text-azul">45</h6>
+                                <small class="text-secondary">Mensagens</small>
+                            </div>
+                            <div class="col-6">
+                                <div class="stats-icon danger mx-auto"
+                                    style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                    <i class="bi bi-file-earmark-medical"></i>
+                                </div>
+                                <h6 class="fw-bold text-azul">23</h6>
+                                <small class="text-secondary">Receitas</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% block extra_js %}
+<script src="/static/js/dashboard_medico.js"></script>
+{% endblock %}
+
+{% endblock %}
+

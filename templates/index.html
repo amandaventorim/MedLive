@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<section class="hero-banner position-relative">
+    <div class="hero-image-container">
+        <img src="/static/img/hero-image.jpg" alt="Consulta médica" class="hero-img">
+        <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+        <div class="hero-text-container">
+            <h1 class="fw-bold text-azul mb-4 hero-title">
+                Consultas médicas
+                <br>
+                online, quando
+                <br>
+                você precisar.
+            </h1>
+        </div>
+        <div class="card shadow p-4 card-banner">
+            <h5 class="fw-bold text-dark fs-4 mb-3">Explore a plataforma</h5>
+            <p class="text-secondary mb-4 fs-5">
+                Clique aqui e tenha acesso a consultas online com profissionais de
+                            saúde.
+            </p>
+            <a href="/cadastro" class="btn btn-danger w-100 py-3 fs-5 fw-bold">Cadastre-se já!</a>
+        </div>
+    </div>
+</section>
+<section class="py-5 benefits-section">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-5 section-title" style="color: #001942;">
+            Descubra os benefícios da
+            <span style="color: #001942;">Med</span><span style="color: #B31D1D;">Live</span>
+        </h2>
+        <br>
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center">
+                <div class="card card-info card-enhanced">
+                    <div class="icon-circle">
+                        <img src="/static/img/geek.png" alt="Ícone Atendimento" class="img-fluid">
+                    </div>
+                    <div class="card-body text-white">
+                        <h5 class="card-title mb-3">Atendimento remoto</h5>
+                        <p class="card-description">
+                            Consultas médicas online realizadas com segurança, conforto e
+                                        praticidade, diretamente da sua casa, sem precisar enfrentar filas ou deslocamentos.
+                        </p>
+                    </div>
+                    <div class="card-footer-accent"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center">
+                <div class="card card-info card-enhanced">
+                    <div class="icon-circle">
+                        <img src="/static/img/pagamento-em-dinheiro.png" alt="Ícone Pagamento" class="img-fluid">
+                    </div>
+                    <div class="card-body text-white">
+                        <h5 class="card-title mb-3">Pagamento claro</h5>
+                        <p class="card-description">
+                            Transparência total nos valores: sem taxas ocultas, sem
+                                        surpresas na fatura e com preços acessíveis para todas as pessoas, facilitando o cuidado
+                                        com a saúde.
+                        </p>
+                    </div>
+                    <div class="card-footer-accent"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center">
+                <div class="card card-info card-enhanced">
+                    <div class="icon-circle">
+                        <img src="/static/img/medico.png" alt="Ícone Especialidades" class="img-fluid">
+                    </div>
+                    <div class="card-body text-white">
+                        <h5 class="card-title mb-3">Diversas especialidades</h5>
+                        <p class="card-description">
+                            Tenha acesso rápido e seguro a médicos de várias especialidades,
+                                        garantindo atendimento completo em diferentes áreas da saúde, tudo em um só lugar.
+                        </p>
+                    </div>
+                    <div class="card-footer-accent"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center">
+                <div class="card card-info card-enhanced">
+                    <div class="icon-circle">
+                        <img src="/static/img/calendario.png" alt="Ícone Agendar" class="img-fluid">
+                    </div>
+                    <div class="card-body text-white">
+                        <h5 class="card-title mb-3">Agende com facilidade</h5>
+                        <p class="card-description">
+                            Escolha o melhor dia e horário para sua consulta com poucos
+                                        cliques. Organize sua rotina sem complicações e receba lembretes automáticos para não
+                                        esquecer.
+                        </p>
+                    </div>
+                    <div class="card-footer-accent"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 d-flex justify-content-center">
+                <div class="card card-info card-enhanced">
+                    <div class="icon-circle">
+                        <img src="/static/img/medicamento.png" alt="Ícone Receitas" class="img-fluid">
+                    </div>
+                    <div class="card-body text-white">
+                        <h5 class="card-title mb-3">Receitas digitais</h5>
+                        <p class="card-description">
+                            Gerencie suas prescrições com facilidade. Receba receitas
+                                        digitais e atestados diretamente na plataforma, de forma segura, legalizada e prática.
+                        </p>
+                    </div>
+                    <div class="card-footer-accent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="faq-intro-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12 text-center text-lg-start mb-4 mb-lg-0">
+                <h2 class="fw-bold text-azul mb-3">
+                    Não sabe como funciona
+                    <br>
+                    a
+                    <span style="color: #001942;">Med</span><span style="color: #B31D1D;">Live</span><span style="color: #001942;">?</span>
+                </h2>
+                <p class="text-secondary fs-5 mb-4">
+                    Preparamos um guia com 4 perguntas que costumam ser feitas por novos usuários.
+                                Elas podem te ajudar a compreender como funciona o atendimento pela MedLive e outras questões.
+                </p>
+                <a href="#faq-questions" class="btn btn-primary-custom btn-lg">Ler as perguntas</a>
+            </div>
+            <div class="col-lg-6 col-md-12 d-flex justify-content-center">
+                <img src="/static/img/perguntasfrequentes.png" alt="Médico e paciente em teleconsulta" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</section>
+<section id="faq-questions" class="faq-questions-section py-5">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-5" style="color: #001942;">Perguntas Frequentes</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne"
+                        aria-expanded="false"
+                        aria-controls="collapseOne"
+                    >
+                        Quais especialidades estão disponíveis na MedLive?
+                    </button>
+                </h2>
+                <div
+                    id="collapseOne"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingOne"
+                    data-bs-parent="#faqAccordion"
+                >
+                    <div class="accordion-body">
+                        Na MedLive, você encontra uma variedade de especialidades médicas, como clínica geral,
+                                    nutrição, ginecologia, dermatologia, entre outras. Tudo para que você tenha acesso ao
+                                    cuidado certo, sem sair de casa.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo"
+                        aria-expanded="false"
+                        aria-controls="collapseTwo"
+                    >
+                        Como funciona a primeira consulta por telemedicina?
+                    </button>
+                </h2>
+                <div
+                    id="collapseTwo"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingTwo"
+                    data-bs-parent="#faqAccordion"
+                >
+                    <div class="accordion-body">
+                        Após realizar seu agendamento pela plataforma, você receberá um link de acesso para a
+                                    consulta online. No dia e horário marcados, basta entrar no link e conversar com o
+                                    profissional via videochamada, de forma simples, segura e humanizada.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseThree"
+                        aria-expanded="false"
+                        aria-controls="collapseThree"
+                    >
+                        É possível obter receitas médicas e atestados?
+                    </button>
+                </h2>
+                <div
+                    id="collapseThree"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingThree"
+                    data-bs-parent="#faqAccordion"
+                >
+                    <div class="accordion-body">
+                        Sim! Os profissionais da MedLive podem emitir receitas, atestados e pedidos de exames com
+                                    validade jurídica, todos com assinatura digital. Você os recebe diretamente pela plataforma
+                                    ou por e-mail, logo após a consulta.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseFour"
+                        aria-expanded="false"
+                        aria-controls="collapseFour"
+                    >
+                        Como a MedLive garante a segurança das minhas informações?
+                    </button>
+                </h2>
+                <div
+                    id="collapseFour"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingFour"
+                    data-bs-parent="#faqAccordion"
+                >
+                    <div class="accordion-body">
+                        A MedLive segue rigorosamente as normas da LGPD (Lei Geral de Proteção de Dados). Todos os
+                                    dados e registros de atendimento são criptografados e armazenados com total segurança,
+                                    garantindo sua privacidade e confidencialidade.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

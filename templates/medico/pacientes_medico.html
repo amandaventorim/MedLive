@@ -1,0 +1,502 @@
+{% extends "base_medico.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/pacientes_medico.css">
+{% endblock %}
+
+    <!-- Seção Principal -->
+    <section class="secao-pacientes">
+        <div class="container">
+            <!-- Cabeçalho -->
+            <div class="cabecalho-pacientes">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="mb-2">
+                            <i class="bi bi-people me-3"></i>
+                            Meus Pacientes
+                        </h1>
+                        <p class="mb-0 opacity-75">Gerencie o histórico e informações dos seus pacientes</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <button class="btn botao-medlive" data-bs-toggle="modal" data-bs-target="#modalNovoPaciente">
+                            <i class="bi bi-person-plus me-2"></i>
+                            Novo Paciente
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumo -->
+            <div class="resumo-pacientes">
+                <div class="row">
+                    <div class="col-md-3 col-6 mb-3 mb-md-0">
+                        <div class="card-resumo">
+                            <div class="numero-resumo">47</div>
+                            <div class="label-resumo">Total de Pacientes</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3 mb-md-0">
+                        <div class="card-resumo">
+                            <div class="numero-resumo">12</div>
+                            <div class="label-resumo">Novos este Mês</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3 mb-md-0">
+                        <div class="card-resumo">
+                            <div class="numero-resumo">5</div>
+                            <div class="label-resumo">Consultas Hoje</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="card-resumo">
+                            <div class="numero-resumo">43</div>
+                            <div class="label-resumo">Pacientes Ativos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filtros-pacientes">
+                <div class="row align-items-center">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control campo-busca border-start-0" placeholder="Buscar paciente...">
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3 mb-md-0">
+                        <select class="form-select campo-busca">
+                            <option value="">Todos os status</option>
+                            <option value="ativo">Ativo</option>
+                            <option value="inativo">Inativo</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3 mb-md-0">
+                        <select class="form-select campo-busca">
+                            <option value="">Ordenar por</option>
+                            <option value="nome">Nome</option>
+                            <option value="data">Data de Cadastro</option>
+                            <option value="consultas">Número de Consultas</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn botao-secundario w-100">
+                            <i class="bi bi-funnel"></i>
+                            Filtrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Pacientes -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- Paciente 1 -->
+                    <div class="cartao-paciente">
+                        <div class="info-principal-paciente">
+                            <div class="avatar-paciente">
+                                <i class="bi bi-person-fill"></i>
+                                <div class="status-online"></div>
+                            </div>
+                            <div class="dados-principais">
+                                <h4 class="nome-paciente">Ana Lucia Santos</h4>
+                                <div class="info-basica">
+                                    <i class="bi bi-calendar me-1"></i>35 anos • 
+                                    <i class="bi bi-telephone me-1"></i>(11) 99999-9999 • 
+                                    <i class="bi bi-envelope me-1"></i>ana.santos@email.com
+                                </div>
+                                <div class="info-basica">
+                                    <i class="bi bi-geo-alt me-1"></i>São Paulo, SP • 
+                                    <span class="ultima-consulta">Última consulta: 15/01/2025</span>
+                                </div>
+                                <span class="badge-status status-ativo">Ativo</span>
+                            </div>
+                        </div>
+
+                        <div class="estatisticas-paciente">
+                            <div class="stat-item">
+                                <div class="stat-numero">12</div>
+                                <div class="stat-label">Consultas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">8</div>
+                                <div class="stat-label">Receitas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">3</div>
+                                <div class="stat-label">Exames</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">2</div>
+                                <div class="stat-label">Anos</div>
+                            </div>
+                        </div>
+
+                        <div class="detalhes-paciente">
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Plano de Saúde:</span>
+                                <span class="valor-detalhe">Unimed Premium</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Próxima Consulta:</span>
+                                <span class="valor-detalhe proxima-consulta">20/01/2025 - 14:30</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Observações:</span>
+                                <span class="valor-detalhe">Hipertensa controlada, acompanhamento mensal</span>
+                            </div>
+                        </div>
+
+                        <div class="acoes-paciente">
+                            <button class="btn botao-medlive">
+                                <i class="bi bi-file-medical me-1"></i>
+                                Prontuário
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-calendar-plus me-1"></i>
+                                Agendar
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-camera-video me-1"></i>
+                                Consulta
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Paciente 2 -->
+                    <div class="cartao-paciente">
+                        <div class="info-principal-paciente">
+                            <div class="avatar-paciente">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="dados-principais">
+                                <h4 class="nome-paciente">Carlos Mendes Silva</h4>
+                                <div class="info-basica">
+                                    <i class="bi bi-calendar me-1"></i>42 anos • 
+                                    <i class="bi bi-telephone me-1"></i>(11) 88888-8888 • 
+                                    <i class="bi bi-envelope me-1"></i>carlos.mendes@email.com
+                                </div>
+                                <div class="info-basica">
+                                    <i class="bi bi-geo-alt me-1"></i>Rio de Janeiro, RJ • 
+                                    <span class="ultima-consulta">Última consulta: 10/01/2025</span>
+                                </div>
+                                <span class="badge-status status-ativo">Ativo</span>
+                            </div>
+                        </div>
+
+                        <div class="estatisticas-paciente">
+                            <div class="stat-item">
+                                <div class="stat-numero">8</div>
+                                <div class="stat-label">Consultas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">5</div>
+                                <div class="stat-label">Receitas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">2</div>
+                                <div class="stat-label">Exames</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">1</div>
+                                <div class="stat-label">Ano</div>
+                            </div>
+                        </div>
+
+                        <div class="detalhes-paciente">
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Plano de Saúde:</span>
+                                <span class="valor-detalhe">Bradesco Saúde</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Próxima Consulta:</span>
+                                <span class="valor-detalhe proxima-consulta">Hoje - 14:30</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Observações:</span>
+                                <span class="valor-detalhe">Diabético tipo 2, controle rigoroso da glicemia</span>
+                            </div>
+                        </div>
+
+                        <div class="acoes-paciente">
+                            <button class="btn botao-medlive">
+                                <i class="bi bi-file-medical me-1"></i>
+                                Prontuário
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-calendar-plus me-1"></i>
+                                Agendar
+                            </button>
+                            <button class="btn botao-medlive">
+                                <i class="bi bi-camera-video me-1"></i>
+                                Iniciar Consulta
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Paciente 3 -->
+                    <div class="cartao-paciente">
+                        <div class="info-principal-paciente">
+                            <div class="avatar-paciente">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="dados-principais">
+                                <h4 class="nome-paciente">Maria Fernanda Costa</h4>
+                                <div class="info-basica">
+                                    <i class="bi bi-calendar me-1"></i>28 anos • 
+                                    <i class="bi bi-telephone me-1"></i>(11) 77777-7777 • 
+                                    <i class="bi bi-envelope me-1"></i>maria.costa@email.com
+                                </div>
+                                <div class="info-basica">
+                                    <i class="bi bi-geo-alt me-1"></i>Belo Horizonte, MG • 
+                                    <span class="ultima-consulta">Última consulta: 05/01/2025</span>
+                                </div>
+                                <span class="badge-status status-ativo">Ativo</span>
+                            </div>
+                        </div>
+
+                        <div class="estatisticas-paciente">
+                            <div class="stat-item">
+                                <div class="stat-numero">6</div>
+                                <div class="stat-label">Consultas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">4</div>
+                                <div class="stat-label">Receitas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">1</div>
+                                <div class="stat-label">Exame</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">8</div>
+                                <div class="stat-label">Meses</div>
+                            </div>
+                        </div>
+
+                        <div class="detalhes-paciente">
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Plano de Saúde:</span>
+                                <span class="valor-detalhe">SulAmérica</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Próxima Consulta:</span>
+                                <span class="valor-detalhe proxima-consulta">25/01/2025 - 10:00</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Observações:</span>
+                                <span class="valor-detalhe">Acompanhamento pré-natal, 20 semanas de gestação</span>
+                            </div>
+                        </div>
+
+                        <div class="acoes-paciente">
+                            <button class="btn botao-medlive">
+                                <i class="bi bi-file-medical me-1"></i>
+                                Prontuário
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-calendar-plus me-1"></i>
+                                Agendar
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-camera-video me-1"></i>
+                                Consulta
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Paciente 4 -->
+                    <div class="cartao-paciente">
+                        <div class="info-principal-paciente">
+                            <div class="avatar-paciente">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="dados-principais">
+                                <h4 class="nome-paciente">Roberto Silva Santos</h4>
+                                <div class="info-basica">
+                                    <i class="bi bi-calendar me-1"></i>55 anos • 
+                                    <i class="bi bi-telephone me-1"></i>(11) 66666-6666 • 
+                                    <i class="bi bi-envelope me-1"></i>roberto.silva@email.com
+                                </div>
+                                <div class="info-basica">
+                                    <i class="bi bi-geo-alt me-1"></i>Salvador, BA • 
+                                    <span class="ultima-consulta">Última consulta: 28/12/2024</span>
+                                </div>
+                                <span class="badge-status status-inativo">Inativo</span>
+                            </div>
+                        </div>
+
+                        <div class="estatisticas-paciente">
+                            <div class="stat-item">
+                                <div class="stat-numero">15</div>
+                                <div class="stat-label">Consultas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">12</div>
+                                <div class="stat-label">Receitas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">5</div>
+                                <div class="stat-label">Exames</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-numero">3</div>
+                                <div class="stat-label">Anos</div>
+                            </div>
+                        </div>
+
+                        <div class="detalhes-paciente">
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Plano de Saúde:</span>
+                                <span class="valor-detalhe">Amil</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Próxima Consulta:</span>
+                                <span class="valor-detalhe">Não agendada</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Observações:</span>
+                                <span class="valor-detalhe">Paciente com histórico de problemas cardíacos</span>
+                            </div>
+                        </div>
+
+                        <div class="acoes-paciente">
+                            <button class="btn botao-medlive">
+                                <i class="bi bi-file-medical me-1"></i>
+                                Prontuário
+                            </button>
+                            <button class="btn botao-medlive">
+                                <i class="bi bi-calendar-plus me-1"></i>
+                                Agendar
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-camera-video me-1"></i>
+                                Consulta
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paginação -->
+            <div class="d-flex justify-content-center mt-4">
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Próximo</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Novo Paciente -->
+    <div class="modal fade" id="modalNovoPaciente" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-person-plus me-2"></i>
+                        Cadastrar Novo Paciente
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label class="form-label">Nome Completo</label>
+                                <input type="text" class="form-control campo-busca" placeholder="Digite o nome completo">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Data de Nascimento</label>
+                                <input type="date" class="form-control campo-busca">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">CPF</label>
+                                <input type="text" class="form-control campo-busca" placeholder="000.000.000-00">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Telefone</label>
+                                <input type="text" class="form-control campo-busca" placeholder="(00) 00000-0000">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control campo-busca" placeholder="email@exemplo.com">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Sexo</label>
+                                <select class="form-select campo-busca">
+                                    <option value="">Selecione</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                    <option value="O">Outro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Endereço</label>
+                            <input type="text" class="form-control campo-busca" placeholder="Rua, número, bairro, cidade, estado">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Plano de Saúde</label>
+                                <input type="text" class="form-control campo-busca" placeholder="Nome do plano">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Número da Carteirinha</label>
+                                <input type="text" class="form-control campo-busca" placeholder="Número da carteirinha">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Observações</label>
+                            <textarea class="form-control campo-busca" rows="3" placeholder="Observações sobre o paciente..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn botao-medlive">Cadastrar Paciente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

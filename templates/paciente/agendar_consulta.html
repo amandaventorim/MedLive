@@ -1,0 +1,176 @@
+{% extends "base_paciente.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/agendar_consulta.css">
+{% endblock %}
+    
+   
+    <section class="appointment-section">
+        <div class="container">
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step active" id="step1">1</div>
+                <div class="step" id="step2">2</div>
+                <div class="step" id="step3">3</div>
+                <div class="step" id="step4">4</div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Doctor Info -->
+                    <div class="doctor-info-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-3 text-center">
+                                <div class="doctor-avatar-large" id="doctorAvatar">CS</div>
+                            </div>
+                            <div class="col-md-9">
+                                <h3 id="doctorName">Dr. Carlos Silva</h3>
+                                <p class="mb-1" id="doctorSpecialty">Cardiologia</p>
+                                <p class="mb-1" id="doctorCrm">CRM 12345 • 15 anos de experiência</p>
+                                <div class="rating-stars">
+                                    <span id="doctorRating">★★★★★ 4.8 (127 avaliações)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Consultation Type -->
+                    <div class="appointment-card" id="consultationTypeStep">
+                        <h4 class="mb-4 text-azul fw-bold">
+                            <i class="bi bi-1-circle me-2"></i>Escolha o tipo de consulta
+                        </h4>
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <div class="consultation-type-card" onclick="selectConsultationType('video', 150)">
+                                    <div class="consultation-icon">
+                                        <i class="bi bi-camera-video"></i>
+                                    </div>
+                                    <h5 class="fw-bold text-azul">Videochamada</h5>
+                                    <p class="text-secondary">Consulta por vídeo em tempo real</p>
+                                    <div class="price-tag">R$ 150,00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Date Selection -->
+                    <div class="appointment-card" id="dateSelectionStep" style="display: none;">
+                        <h4 class="mb-4 text-azul fw-bold">
+                            <i class="bi bi-2-circle me-2"></i>Escolha a data
+                        </h4>
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <button class="calendar-nav-btn" onclick="previousMonth()">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <h5 class="mb-0 text-azul fw-bold" id="currentMonth">Janeiro 2025</h5>
+                                <button class="calendar-nav-btn" onclick="nextMonth()">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Calendar will be generated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Time Selection -->
+                    <div class="appointment-card" id="timeSelectionStep" style="display: none;">
+                        <h4 class="mb-4 text-azul fw-bold">
+                            <i class="bi bi-3-circle me-2"></i>Escolha o horário
+                        </h4>
+                        <div id="selectedDateDisplay" class="mb-3"></div>
+                        <div class="time-slots" id="timeSlots">
+                            <!-- Time slots will be generated here -->
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Additional Info -->
+                    <div class="appointment-card" id="additionalInfoStep" style="display: none;">
+                        <h4 class="mb-4 text-azul fw-bold">
+                            <i class="bi bi-4-circle me-2"></i>Informações adicionais
+                        </h4>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Motivo da consulta</label>
+                            <textarea class="form-control" id="consultationReason" rows="3" 
+                                      placeholder="Descreva brevemente o motivo da consulta..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Sintomas ou observações</label>
+                            <textarea class="form-control" id="symptoms" rows="3" 
+                                      placeholder="Descreva seus sintomas ou observações relevantes..."></textarea>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="termsAccepted">
+                            <label class="form-check-label" for="termsAccepted">
+                                Aceito os <a href="#" class="text-decoration-none">termos de uso</a> e 
+                                <a href="#" class="text-decoration-none">política de privacidade</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Summary -->
+                    <div class="summary-card">
+                        <h5 class="fw-bold text-azul mb-3">Resumo da Consulta</h5>
+                        
+                        <div class="mb-3">
+                            <strong>Médico:</strong>
+                            <div id="summaryDoctor">Dr. Carlos Silva</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Especialidade:</strong>
+                            <div id="summarySpecialty">Cardiologia</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Tipo de consulta:</strong>
+                            <div id="summaryType">-</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Data:</strong>
+                            <div id="summaryDate">-</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Horário:</strong>
+                            <div id="summaryTime">-</div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <strong>Total:</strong>
+                            <strong class="text-success fs-4" id="summaryPrice">R$ 0,00</strong>
+                        </div>
+                        
+                        <button class="btn btn-confirm" id="confirmButton" onclick="confirmAppointment()" disabled> 
+                            <i class="bi bi-check-circle me-2"></i>Confirmar Agendamento
+                        </button>
+                        
+                       
+                        
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">
+                                <i class="bi bi-shield-check me-1"></i>
+                                Pagamento seguro e protegido
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    
+{% block extra_js %}
+<script src="/static/js/agendar_consulta.js"></script>
+{% endblock %}
+
+{% endblock %}

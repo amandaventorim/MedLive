@@ -1,0 +1,77 @@
+{% extends "base_paciente.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/minhas_consultas.css">
+{% endblock %}
+
+    <section class="consultations-section">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold text-azul">Minhas Consultas</h2>
+                <a href="/buscar_medicos" class="btn btn-vermelho">
+                    <i class="bi bi-plus-circle me-2"></i>Nova Consulta
+                </a>
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-tabs">
+                <div class="filter-tab active" onclick="filterConsultations('all')">
+                    Todas
+                </div>
+                <div class="filter-tab" onclick="filterConsultations('today')">
+                    Hoje
+                </div>
+                <div class="filter-tab" onclick="filterConsultations('upcoming')">
+                    Próximas
+                </div>
+                <div class="filter-tab" onclick="filterConsultations('completed')">
+                    Realizadas
+                </div>
+                <div class="filter-tab" onclick="filterConsultations('cancelled')">
+                    Canceladas
+                </div>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="filter-card">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="searchInput"
+                            placeholder="Buscar por médico ou especialidade..." oninput="searchConsultations()">
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" id="specialtyFilter" onchange="filterBySpecialty()">
+                            <option value="">Todas as especialidades</option>
+                            <option value="Cardiologia">Cardiologia</option>
+                            <option value="Dermatologia">Dermatologia</option>
+                            <option value="Clínica Geral">Clínica Geral</option>
+                            <option value="Pediatria">Pediatria</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consultations List -->
+            <div id="consultationsList">
+                <!-- Consultations will be populated here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="bi bi-calendar-x"></i>
+                <h4>Nenhuma consulta encontrada</h4>
+                <p>Você ainda não possui consultas agendadas ou não há resultados para os filtros aplicados.</p>
+                <a href="/buscar_medicos" class="btn btn-primary">
+                    <i class="bi bi-search me-2"></i>Buscar Médicos
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+{% block extra_js %}
+<script src="/static/js/minhas_consultas.js"></script>
+{% endblock %}
+
+{% endblock %}

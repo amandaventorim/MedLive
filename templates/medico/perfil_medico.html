@@ -1,0 +1,433 @@
+{% extends "base_medico.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/perfil_medico.css">
+{% endblock %}
+    
+    <!-- Seção Principal -->
+    <section class="secao-perfil">
+        <div class="container">
+            <!-- Cabeçalho do Perfil -->
+            <div class="cabecalho-perfil">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-center">
+                        <div class="foto-perfil-container">
+                            <div class="foto-perfil">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <button class="botao-editar-foto" data-bs-toggle="modal" data-bs-target="#modalEditarFoto">
+                                <i class="bi bi-camera"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h1 class="mb-2">Dr. João Silva Santos</h1>
+                        <p class="mb-2 opacity-75">
+                            <i class="bi bi-mortarboard me-2"></i>
+                            Cardiologista • CRM 123456-SP
+                        </p>
+                        <p class="mb-3 opacity-75">
+                            <i class="bi bi-geo-alt me-2"></i>
+                            São Paulo, SP • 
+                            <i class="bi bi-calendar me-2"></i>
+                            Membro desde Janeiro 2020
+                        </p>
+                        <div class="avaliacao-estrelas">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                            <span class="ms-2 text-white">4.8 (127 avaliações)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="estatisticas-medico">
+                <div class="stat-card">
+                    <div class="stat-numero">1,247</div>
+                    <div class="stat-label">Consultas Realizadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-numero">89</div>
+                    <div class="stat-label">Pacientes Ativos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-numero">4.8</div>
+                    <div class="stat-label">Avaliação Média</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-numero">5</div>
+                    <div class="stat-label">Anos de Experiência</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Informações Pessoais -->
+                <div class="col-lg-8 mb-4">
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <span>
+                                <i class="bi bi-person icone-secao"></i>
+                                Informações Pessoais
+                            </span>
+                            <button class="btn botao-secundario btn-sm" onclick="editarSecao('pessoais')">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                        </h3>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Nome Completo</label>
+                                    <div class="valor-campo" id="nome">Dr. João Silva Santos</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Email</label>
+                                    <div class="valor-campo" id="email">joao.silva@medlive.com</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Telefone</label>
+                                    <div class="valor-campo" id="telefone">(11) 99999-9999</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Data de Nascimento</label>
+                                    <div class="valor-campo" id="nascimento">15/03/1985</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="campo-perfil">
+                            <label class="label-campo">Endereço</label>
+                            <div class="valor-campo" id="endereco">Rua das Flores, 123 - Vila Madalena, São Paulo - SP</div>
+                        </div>
+                    </div>
+
+                    <!-- Informações Profissionais -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <span>
+                                <i class="bi bi-briefcase icone-secao"></i>
+                                Informações Profissionais
+                            </span>
+                            <button class="btn botao-secundario btn-sm" onclick="editarSecao('profissionais')">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                        </h3>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">CRM</label>
+                                    <div class="valor-campo" id="crm">123456-SP</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Especialidade Principal</label>
+                                    <div class="valor-campo" id="especialidade">Cardiologia</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="campo-perfil">
+                            <label class="label-campo">Formação Acadêmica</label>
+                            <div class="valor-campo" id="formacao">Medicina - USP (2015) • Residência em Cardiologia - InCor (2018)</div>
+                        </div>
+
+                        <div class="campo-perfil">
+                            <label class="label-campo">Especialidades</label>
+                            <div>
+                                <span class="especialidade-tag">Cardiologia</span>
+                                <span class="especialidade-tag">Ecocardiografia</span>
+                                <span class="especialidade-tag">Medicina Preventiva</span>
+                                <span class="especialidade-tag">Telemedicina</span>
+                            </div>
+                        </div>
+
+                        <div class="campo-perfil">
+                            <label class="label-campo">Biografia Profissional</label>
+                            <div class="valor-campo" id="biografia">
+                                Cardiologista com mais de 5 anos de experiência em diagnóstico e tratamento de doenças cardiovasculares. 
+                                Especialista em ecocardiografia e medicina preventiva, com foco em telemedicina e atendimento humanizado.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Horários de Atendimento -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <span>
+                                <i class="bi bi-clock icone-secao"></i>
+                                Horários de Atendimento
+                            </span>
+                            <button class="btn botao-secundario btn-sm" onclick="editarSecao('horarios')">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                        </h3>
+
+                        <div class="horario-item">
+                            <div>
+                                <div class="dia-semana">Segunda-feira</div>
+                                <div class="horario-periodo">08:00 - 18:00</div>
+                            </div>
+                            <label class="switch-disponibilidade">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="horario-item">
+                            <div>
+                                <div class="dia-semana">Terça-feira</div>
+                                <div class="horario-periodo">08:00 - 18:00</div>
+                            </div>
+                            <label class="switch-disponibilidade">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="horario-item">
+                            <div>
+                                <div class="dia-semana">Quarta-feira</div>
+                                <div class="horario-periodo">08:00 - 18:00</div>
+                            </div>
+                            <label class="switch-disponibilidade">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="horario-item">
+                            <div>
+                                <div class="dia-semana">Quinta-feira</div>
+                                <div class="horario-periodo">08:00 - 18:00</div>
+                            </div>
+                            <label class="switch-disponibilidade">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="horario-item">
+                            <div>
+                                <div class="dia-semana">Sexta-feira</div>
+                                <div class="horario-periodo">08:00 - 16:00</div>
+                            </div>
+                            <label class="switch-disponibilidade">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="horario-item">
+                            <div>
+                                <div class="dia-semana">Sábado</div>
+                                <div class="horario-periodo">Indisponível</div>
+                            </div>
+                            <label class="switch-disponibilidade">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="horario-item">
+                            <div>
+                                <div class="dia-semana">Domingo</div>
+                                <div class="horario-periodo">Indisponível</div>
+                            </div>
+                            <label class="switch-disponibilidade">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel Lateral -->
+                <div class="col-lg-4">
+                    <!-- Configurações de Conta -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <i class="bi bi-gear icone-secao"></i>
+                            Configurações
+                        </h3>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn botao-medlive" data-bs-toggle="modal" data-bs-target="#modalAlterarSenha">
+                                <i class="bi bi-lock me-2"></i>
+                                Alterar Senha
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-bell me-2"></i>
+                                Notificações
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Privacidade
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-download me-2"></i>
+                                Exportar Dados
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Avaliações Recentes -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <i class="bi bi-star icone-secao"></i>
+                            Avaliações Recentes
+                        </h3>
+
+                        <div class="comentario-avaliacao">
+                            <div class="autor-comentario">Maria Santos</div>
+                            <div class="avaliacao-estrelas mb-2">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <div class="texto-comentario">
+                                Excelente profissional! Muito atencioso e explicou tudo detalhadamente.
+                            </div>
+                        </div>
+
+                        <div class="comentario-avaliacao">
+                            <div class="autor-comentario">Carlos Silva</div>
+                            <div class="avaliacao-estrelas mb-2">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star"></i>
+                            </div>
+                            <div class="texto-comentario">
+                                Consulta muito esclarecedora. Recomendo!
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <button class="btn botao-secundario btn-sm">
+                                Ver Todas as Avaliações
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Ações Rápidas -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <i class="bi bi-lightning icone-secao"></i>
+                            Ações Rápidas
+                        </h3>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn botao-medlive">
+                                <i class="bi bi-calendar-plus me-2"></i>
+                                Nova Consulta
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-file-medical me-2"></i>
+                                Criar Prontuário
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-prescription2 me-2"></i>
+                                Emitir Receita
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-graph-up me-2"></i>
+                                Relatórios
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Alterar Senha -->
+    <div class="modal fade" id="modalAlterarSenha" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-lock me-2"></i>
+                        Alterar Senha
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Senha Atual</label>
+                            <input type="password" class="form-control campo-edicao" placeholder="Digite sua senha atual">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nova Senha</label>
+                            <input type="password" class="form-control campo-edicao" placeholder="Digite a nova senha">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar Nova Senha</label>
+                            <input type="password" class="form-control campo-edicao" placeholder="Confirme a nova senha">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn botao-medlive">Alterar Senha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Foto -->
+    <div class="modal fade" id="modalEditarFoto" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-camera me-2"></i>
+                        Alterar Foto do Perfil
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="foto-perfil mx-auto mb-3" style="width: 120px; height: 120px; font-size: 3rem;">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="mb-3">
+                        <input type="file" class="form-control campo-edicao" accept="image/*">
+                    </div>
+                    <p class="text-muted">Formatos aceitos: JPG, PNG, GIF (máx. 5MB)</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn botao-medlive">Salvar Foto</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% block extra_js %}
+<script src="/static/js/perfil_medico.js"></script>
+{% endblock %}
+
+{% endblock %}
+

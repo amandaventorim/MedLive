@@ -1,0 +1,222 @@
+{% extends "base_paciente.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/pagamento.css">
+{% endblock %}
+
+
+    <!-- Breadcrumb -->
+    <div class="container mt-3">
+        <nav aria-label="breadcrumb" class="breadcrumb-custom">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard_paciente">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/buscar_medicos">Buscar Médicos</a></li>
+                <li class="breadcrumb-item"><a href="/agendar_consulta">Agendar Consulta</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Pagamento</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="payment-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Payment Methods -->
+                    <div class="payment-card" id="paymentMethods">
+                        <h3 class="mb-4 text-azul fw-bold">
+                            <i class="bi bi-credit-card me-2"></i>Escolha a forma de pagamento
+                        </h3>
+
+                        <!-- Credit Card -->
+                        <div class="payment-method" onclick="selectPaymentMethod('credit')">
+                            <div class="d-flex align-items-center">
+                                <div class="payment-icon">
+                                    <i class="bi bi-credit-card"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1 fw-bold">Cartão de Crédito</h5>
+                                    <p class="mb-0 text-secondary">Visa, Mastercard, Elo</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credit Card Form -->
+                        <div class="credit-card-form" id="creditCardForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card-visual">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="card-chip" style="width: 30px; height: 25px; background: #ffd700; border-radius: 4px;"></div>
+                                            <div style="font-size: 1.5rem; font-weight: bold;">VISA</div>
+                                        </div>
+                                        <div class="card-number" id="cardNumberDisplay">•••• •••• •••• ••••</div>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <div class="card-holder" id="cardHolderDisplay">NOME DO TITULAR</div>
+                                            </div>
+                                            <div>
+                                                <div class="card-expiry" id="cardExpiryDisplay">••/••</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Número do cartão</label>
+                                        <input type="text" class="form-control card-input" id="cardNumber" 
+                                               placeholder="1234 5678 9012 3456" maxlength="19" 
+                                               oninput="formatCardNumber(this)">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Nome do titular</label>
+                                        <input type="text" class="form-control card-input" id="cardHolder" 
+                                               placeholder="Nome como está no cartão" 
+                                               oninput="updateCardHolder(this)">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="form-label fw-bold">Validade</label>
+                                            <input type="text" class="form-control card-input" id="cardExpiry" 
+                                                   placeholder="MM/AA" maxlength="5" 
+                                                   oninput="formatExpiry(this)">
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label fw-bold">CVV</label>
+                                            <input type="text" class="form-control card-input" id="cardCvv" 
+                                                   placeholder="123" maxlength="4">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PIX -->
+                        <div class="payment-method" onclick="selectPaymentMethod('pix')">
+                            <div class="d-flex align-items-center">
+                                <div class="payment-icon">
+                                    <i class="bi bi-qr-code"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1 fw-bold">PIX</h5>
+                                    <p class="mb-0 text-secondary">Pagamento instantâneo</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PIX QR Code -->
+                        <div class="pix-qr" id="pixQr">
+                            <h5 class="fw-bold text-azul mb-3">Escaneie o QR Code</h5>
+                            <div class="qr-code">
+                                <i class="bi bi-qr-code"></i>
+                            </div>
+                            <p class="text-secondary">Abra o app do seu banco e escaneie o código</p>
+                            <div class="pix-code">
+                                00020126580014BR.GOV.BCB.PIX0136123e4567-e12b-12d1-a456-426614174000520400005303986540150.005802BR5913MedLive Ltda6009SAO PAULO62070503***6304ABCD
+                            </div>
+                            <button class="btn btn-outline-primary" onclick="copyPixCode()">
+                                <i class="bi bi-clipboard me-2"></i>Copiar código PIX
+                            </button>
+                        </div>
+
+                        <!-- Boleto -->
+                        <div class="payment-method" onclick="selectPaymentMethod('boleto')">
+                            <div class="d-flex align-items-center">
+                                <div class="payment-icon">
+                                    <i class="bi bi-file-earmark-text"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1 fw-bold">Boleto Bancário</h5>
+                                    <p class="mb-0 text-secondary">Vencimento em 3 dias úteis</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loading -->
+                    <div class="loading-payment" id="loadingPayment">
+                        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="visually-hidden">Processando...</span>
+                        </div>
+                        <h4 class="mt-3 text-azul">Processando pagamento...</h4>
+                        <p class="text-secondary">Aguarde enquanto confirmamos sua transação</p>
+                    </div>
+
+                    <!-- Success -->
+                    <div class="success-animation" id="successAnimation">
+                        <div class="success-icon">
+                            <i class="bi bi-check"></i>
+                        </div>
+                        <h3 class="text-success fw-bold">Pagamento confirmado!</h3>
+                        <p class="text-secondary mb-4">Sua consulta foi agendada com sucesso</p>
+                        <a href="/minhas_consultas" class="btn btn-primary" onclick="goToDashboard()">
+                            Ver minhas consultas
+                        </a>
+                    </div>
+                    
+                    
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Order Summary -->
+                    <div class="order-summary">
+                        <h5 class="fw-bold text-azul mb-3">Resumo do Pedido</h5>
+                        
+                        <div class="mb-3">
+                            <strong>Consulta:</strong>
+                            <div id="summaryConsultation">Videochamada - Cardiologia</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Médico:</strong>
+                            <div id="summaryDoctor">Dr. Carlos Silva</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Data e horário:</strong>
+                            <div id="summaryDateTime">15/01/2025 às 14:00</div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="summary-item">
+                            <span>Valor da consulta:</span>
+                            <span id="consultationPrice">R$ 150,00</span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span>Taxa da plataforma:</span>
+                            <span>R$ 5,00</span>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span>Total:</span>
+                            <span id="totalPrice">R$ 155,00</span>
+                        </div>
+                        
+                        <button class="btn btn-pay mt-3" id="payButton" onclick="processPayment()" disabled>
+                            <i class="bi bi-lock me-2"></i>Pagar Agora
+                        </button>
+                        
+                        <div class="security-info">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-shield-check text-success me-2"></i>
+                                <small>
+                                    <strong>Pagamento 100% seguro</strong><br>
+                                    Seus dados são protegidos por criptografia SSL
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+    
+{% block extra_js %}
+<script src="/static/js/pagamento.js"></script>
+{% endblock %}
+
+{% endblock %}

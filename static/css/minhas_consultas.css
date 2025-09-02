@@ -1,0 +1,301 @@
+.consultations-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 80px 0;
+}
+
+.filter-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 25, 66, 0.1);
+    margin-bottom: 2rem;
+}
+
+.consultation-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 25, 66, 0.1);
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.consultation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.consultation-card.upcoming {
+    border-left: 5px solid #28a745;
+}
+
+.consultation-card.today {
+    border-left: 5px solid #B31D1D;
+    background: linear-gradient(135deg, rgba(179, 29, 29, 0.02) 0%, rgba(179, 29, 29, 0.05) 100%);
+}
+
+.consultation-card.completed {
+    border-left: 5px solid #6c757d;
+}
+
+.consultation-card.cancelled {
+    border-left: 5px solid #dc3545;
+    opacity: 0.7;
+}
+
+.doctor-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.status-badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-badge.upcoming {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge.today {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-badge.completed {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-badge.cancelled {
+    background: #f5c6cb;
+    color: #721c24;
+}
+
+.btn-join {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-join:hover {
+    background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+}
+
+.btn-reschedule {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    color: #000;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-reschedule:hover {
+    background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
+}
+
+.btn-cancel {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background: linear-gradient(135deg, #c82333 0%, #dc3545 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+}
+
+.btn-sair {
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    border: none;
+    border-radius: 0.8cap;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-sair:hover {
+    background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+    color: white;
+    transform: translateY(2px);
+
+}
+
+.btn-vermelho{
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-azul{
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-azul-claro{
+    background: #d1ecf1;
+    color: #0c5460;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    
+}
+
+.consultation-time {
+    background: #001942;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.consultation-card.today .consultation-time {
+    background: #B31D1D;
+}
+
+.consultation-card.completed .consultation-time {
+    background: #6c757d;
+}
+
+.consultation-type {
+    background: rgba(0, 25, 66, 0.1);
+    color: #001942;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.rating-stars {
+    color: #ffc107;
+    font-size: 1rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6c757d;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 25px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.filter-tab.active {
+    background: #001942;
+    color: white;
+    border-color: #001942;
+}
+
+.filter-tab:hover {
+    border-color: #001942;
+    background: rgba(0, 25, 66, 0.05);
+}
+
+.filter-tab.active:hover {
+    background: #001942;
+}
+
+.prescription-link {
+    color: #001942;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.prescription-link:hover {
+    color: #B31D1D;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .consultations-section {
+        padding: 60px 0;
+    }
+
+    .consultation-card {
+        padding: 1rem;
+    }
+
+    .doctor-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    .filter-tabs {
+        justify-content: center;
+    }
+
+    .filter-tab {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+}

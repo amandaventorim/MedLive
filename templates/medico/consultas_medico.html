@@ -1,0 +1,402 @@
+{% extends "base_medico.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/consultas_medico.css">
+{% endblock %}
+    
+    <!-- Seção Principal -->
+    <section class="secao-consultas">
+        <div class="container">
+            <!-- Cabeçalho -->
+            <div class="cabecalho-consultas">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="mb-2">
+                            <i class="bi bi-camera-video me-3"></i>
+                            Consultas Médicas
+                        </h1>
+                        <p class="mb-0 opacity-75">Gerencie todas as suas consultas online e presenciais</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <button class="btn botao-medlive" data-bs-toggle="modal" data-bs-target="#modalNovaConsulta">
+                            <i class="bi bi-plus-circle me-2"></i>
+                            Nova Consulta
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="estatisticas-consultas">
+                <div class="row">
+                    <div class="col-md-3 col-6 mb-3 mb-md-0">
+                        <div class="stat-card">
+                            <div class="stat-numero">24</div>
+                            <div class="stat-label">Total do Mês</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3 mb-md-0">
+                        <div class="stat-card">
+                            <div class="stat-numero">3</div>
+                            <div class="stat-label">Hoje</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3 mb-md-0">
+                        <div class="stat-card">
+                            <div class="stat-numero">2</div>
+                            <div class="stat-label">Em Andamento</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card">
+                            <div class="stat-numero">5</div>
+                            <div class="stat-label">Agendadas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filtros-consultas">
+                <div class="row align-items-center">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control campo-busca border-start-0" placeholder="Buscar paciente...">
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3 mb-md-0">
+                        <select class="form-select campo-busca">
+                            <option value="">Todos os status</option>
+                            <option value="agendada">Agendada</option>
+                            <option value="em-andamento">Em Andamento</option>
+                            <option value="concluida">Concluída</option>
+                            <option value="cancelada">Cancelada</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3 mb-md-0">
+                        <input type="date" class="form-control campo-busca">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn botao-secundario w-100">
+                            <i class="bi bi-funnel"></i>
+                            Filtrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Consultas -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- Consulta 1 - Em Andamento -->
+                    <div class="cartao-consulta em-andamento">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="status-consulta status-em-andamento">Em Andamento</span>
+                            <small class="text-muted">Hoje - 10:00</small>
+                        </div>
+                        
+                        <div class="info-paciente">
+                            <div class="avatar-paciente">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="dados-paciente">
+                                <h5>Ana Lucia Santos</h5>
+                                <div class="info-adicional">
+                                    <span><i class="bi bi-telephone me-1"></i>(11) 99999-9999</span> |
+                                    <span><i class="bi bi-envelope me-1"></i>ana.santos@email.com</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detalhes-consulta">
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Tipo:</span>
+                                <span class="valor-detalhe">Consulta de Rotina</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Modalidade:</span>
+                                <span class="valor-detalhe">Telemedicina</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Duração:</span>
+                                <span class="valor-detalhe">30 minutos</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Observações:</span>
+                                <span class="valor-detalhe">Paciente relata dores de cabeça frequentes</span>
+                            </div>
+                        </div>
+
+                        <div class="acoes-consulta">
+                            <a href="/sala_consulta" class="btn botao-medlive">
+                                <i class="bi bi-camera-video me-1"></i>
+                                Entrar na Sala
+                            </a>
+                            
+                            <button class="btn botao-sucesso">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Finalizar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Consulta 2 - Agendada -->
+                    <div class="cartao-consulta agendada">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="status-consulta status-agendada">Agendada</span>
+                            <small class="text-muted">Hoje - 14:30</small>
+                        </div>
+                        
+                        <div class="info-paciente">
+                            <div class="avatar-paciente">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="dados-paciente">
+                                <h5>Carlos Mendes Silva</h5>
+                                <div class="info-adicional">
+                                    <span><i class="bi bi-telephone me-1"></i>(11) 88888-8888</span> |
+                                    <span><i class="bi bi-envelope me-1"></i>carlos.mendes@email.com</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detalhes-consulta">
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Tipo:</span>
+                                <span class="valor-detalhe">Consulta Urgente</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Modalidade:</span>
+                                <span class="valor-detalhe">Telemedicina</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Duração:</span>
+                                <span class="valor-detalhe">45 minutos</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Observações:</span>
+                                <span class="valor-detalhe">Paciente com sintomas de gripe</span>
+                            </div>
+                        </div>
+
+                        <div class="acoes-consulta">
+                            <a href="/sala_consulta" class="btn botao-medlive">
+                                <i class="bi bi-camera-video me-1"></i>
+                                Iniciar Consulta
+                            </a>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-outline-danger">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Consulta 3 - Concluída -->
+                    <div class="cartao-consulta concluida">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="status-consulta status-concluida">Concluída</span>
+                            <small class="text-muted">Ontem - 16:00</small>
+                        </div>
+                        
+                        <div class="info-paciente">
+                            <div class="avatar-paciente">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="dados-paciente">
+                                <h5>Maria Fernanda Costa</h5>
+                                <div class="info-adicional">
+                                    <span><i class="bi bi-telephone me-1"></i>(11) 77777-7777</span> |
+                                    <span><i class="bi bi-envelope me-1"></i>maria.costa@email.com</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detalhes-consulta">
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Tipo:</span>
+                                <span class="valor-detalhe">Retorno</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Modalidade:</span>
+                                <span class="valor-detalhe">Telemedicina</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Duração:</span>
+                                <span class="valor-detalhe">25 minutos</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Resultado:</span>
+                                <span class="valor-detalhe">Paciente apresentou melhora significativa</span>
+                            </div>
+                        </div>
+
+                        <div class="acoes-consulta">
+                            <a href="/consultas_medico" class="btn botao-medlive">
+                                <i class="bi bi-calendar-plus me-1"></i>
+                                Agendar Retorno
+                            </a>
+                        </div>
+                    </div>
+
+                                
+                            </a>
+                    <!-- Consulta 4 - Agendada -->
+                    <div class="cartao-consulta agendada">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="status-consulta status-agendada">Agendada</span>
+                            <small class="text-muted">Amanhã - 09:00</small>
+                        </div>
+                        
+                        <div class="info-paciente">
+                            <div class="avatar-paciente">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="dados-paciente">
+                                <h5>Roberto Silva Santos</h5>
+                                <div class="info-adicional">
+                                    <span><i class="bi bi-telephone me-1"></i>(11) 66666-6666</span> |
+                                    <span><i class="bi bi-envelope me-1"></i>roberto.silva@email.com</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detalhes-consulta">
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Tipo:</span>
+                                <span class="valor-detalhe">Primeira Consulta</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Modalidade:</span>
+                                <span class="valor-detalhe">Telemedicina</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Duração:</span>
+                                <span class="valor-detalhe">60 minutos</span>
+                            </div>
+                            <div class="item-detalhe">
+                                <span class="label-detalhe">Observações:</span>
+                                <span class="valor-detalhe">Paciente novo, avaliação geral</span>
+                            </div>
+                        </div>
+
+                        <div class="acoes-consulta">
+                            <a href="/sala_consulta" class="btn botao-medlive">
+                                <i class="bi bi-camera-video me-1"></i>
+                                Iniciar Consulta
+                            </a>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-outline-danger">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paginação -->
+            
+        </div>
+    </section>
+
+    <!-- Modal Nova Consulta -->
+    <div class="modal fade" id="modalNovaConsulta" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-plus-circle me-2"></i>
+                        Agendar Nova Consulta
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Paciente</label>
+                                <select class="form-select campo-busca">
+                                    <option value="">Selecione o paciente</option>
+                                    <option value="1">Ana Lucia Santos</option>
+                                    <option value="2">Carlos Mendes Silva</option>
+                                    <option value="3">Maria Fernanda Costa</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tipo de Consulta</label>
+                                <select class="form-select campo-busca">
+                                    <option value="">Selecione o tipo</option>
+                                    <option value="primeira">Primeira Consulta</option>
+                                    <option value="rotina">Consulta de Rotina</option>
+                                    <option value="retorno">Retorno</option>
+                                    <option value="urgente">Consulta Urgente</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Data</label>
+                                <input type="date" class="form-control campo-busca">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Horário</label>
+                                <input type="time" class="form-control campo-busca">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Duração (min)</label>
+                                <select class="form-select campo-busca">
+                                    <option value="30">30 minutos</option>
+                                    <option value="45">45 minutos</option>
+                                    <option value="60">60 minutos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Modalidade</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="modalidade" id="telemedicina" value="telemedicina" checked>
+                                        <label class="form-check-label" for="telemedicina">
+                                            <i class="bi bi-camera-video me-2"></i>Telemedicina
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="modalidade" id="presencial" value="presencial">
+                                        <label class="form-check-label" for="presencial">
+                                            <i class="bi bi-building me-2"></i>Presencial
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Observações</label>
+                            <textarea class="form-control campo-busca" rows="3" placeholder="Observações sobre a consulta..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn botao-medlive">Agendar Consulta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

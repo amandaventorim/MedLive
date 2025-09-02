@@ -1,0 +1,145 @@
+{% extends "base_cadastro.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/cadastro.css">
+<link rel="stylesheet" href="/static/css/cadastro_paciente.css">
+<style>
+.step-form {
+  display: none;
+}
+
+.step-form.active {
+  display: block;
+}
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="mb-4 text-center">
+    <h3 class="mt-2 title-criar-conta">Criar conta</h3>
+</div>
+                        <form id="multiStepForm" action="dashboard_adm.html" method="POST">
+                            <!-- Etapa 1: Dados Pessoais -->
+                            <div class="step-form active" id="step1">
+                                <div class="mb-3">
+                                    <label for="nome" class="form-label">Nome</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="nome"
+                                        name="nome"
+                                        placeholder="Digite seu nome completo"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="email"
+                                        name="email"
+                                        placeholder="Digite seu email"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nasc" class="form-label">Data de Nascimento</label>
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        id="nasc"
+                                        name="nascimento"
+                                        min="1979-01-01"
+                                        max="2007-01-01"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="genero" class="form-label">Gênero</label>
+                                    <select
+                                        class="form-select"
+                                        id="genero"
+                                        name="genero"
+                                        required
+                                    >
+                                        <option value="" disabled selected>Selecione</option>
+                                        <option value="f">Feminino</option>
+                                        <option value="m">Masculino</option>
+                                        <option value="o">Outro</option>
+                                        <option value="sn">Prefiro não responder</option>
+                                    </select>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="button" class="btn btn-medlive" onclick="nextStep()">Continuar</button>
+                                </div>
+                            </div>
+                            <!-- Etapa 2: Segurança -->
+                            <div class="step-form" id="step2">
+                                <div class="mb-3">
+                                    <label for="cpf" class="form-label">CPF</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="cpf"
+                                        name="cpf"
+                                        placeholder="Ex: 111.111.111-11"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="senha" class="form-label">Senha</label>
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="senha"
+                                        name="senha"
+                                        placeholder="Informe sua senha"
+                                        required
+                                    >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confisenha" class="form-label">Confirmar senha</label>
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="confisenha"
+                                        name="confisenha"
+                                        placeholder="Confirme sua senha"
+                                        required
+                                    >
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+                                    <button type="submit" class="btn btn-medlive">Criar conta</button>
+                                </div>
+                            </div>
+                        </form>
+<script>
+let currentStep = 1;
+
+function showStep(step) {
+  const steps = document.querySelectorAll(".step-form");
+  steps.forEach((el, index) => {
+    el.classList.remove("active");
+    if (index === step - 1) {
+      el.classList.add("active");
+    }
+  });
+}
+
+function nextStep() {
+  if (currentStep < 2) {
+    currentStep++;
+    showStep(currentStep);
+  }
+}
+
+function prevStep() {
+  if (currentStep > 1) {
+    currentStep--;
+    showStep(currentStep);
+  }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,323 @@
+.secao-pacientes {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 40px 0 80px;
+    min-height: 100vh;
+}
+
+.cabecalho-pacientes {
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.cabecalho-pacientes::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+}
+
+.filtros-pacientes {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.cartao-paciente {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    border-left: 4px solid #B31D1D;
+}
+
+.cartao-paciente:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.info-principal-paciente {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.avatar-paciente {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    margin-right: 1.5rem;
+    position: relative;
+}
+
+.status-online {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    background: #28a745;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
+.dados-principais {
+    flex-grow: 1;
+}
+
+.nome-paciente {
+    color: #001942;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.info-basica {
+    color: #6c757d;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+
+.badge-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-ativo {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+}
+
+.status-inativo {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    color: white;
+}
+
+.detalhes-paciente {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.item-detalhe {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.item-detalhe:last-child {
+    margin-bottom: 0;
+}
+
+.label-detalhe {
+    font-weight: 600;
+    color: #495057;
+}
+
+.valor-detalhe {
+    color: #001942;
+}
+
+.estatisticas-paciente {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.stat-item {
+    text-align: center;
+    flex: 1;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.stat-numero {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #B31D1D;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.8rem;
+}
+
+.acoes-paciente {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.botao-medlive {
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(179, 29, 29, 0.3);
+    font-size: 0.9rem;
+}
+
+.botao-medlive:hover {
+    background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(179, 29, 29, 0.4);
+}
+
+.btn-sair {
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    border: none;
+    border-radius: 0.8cap;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-sair:hover {
+    background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+    color: white;
+    transform: translateY(2px);
+
+}
+
+.botao-secundario {
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 25, 66, 0.3);
+    font-size: 0.9rem;
+}
+
+.botao-secundario:hover {
+    background: linear-gradient(135deg, #003366 0%, #001942 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 25, 66, 0.4);
+}
+
+.campo-busca {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.campo-busca:focus {
+    border-color: #B31D1D;
+    box-shadow: 0 0 0 0.2rem rgba(179, 29, 29, 0.25);
+}
+
+.resumo-pacientes {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.card-resumo {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.numero-resumo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #B31D1D;
+    margin-bottom: 0.5rem;
+}
+
+.label-resumo {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.ultima-consulta {
+    color: #28a745;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.proxima-consulta {
+    color: #ffc107;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.sem-pacientes {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6c757d;
+}
+
+.sem-pacientes i {
+    font-size: 4rem;
+    color: #dee2e6;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .secao-pacientes {
+        padding: 20px 0 40px;
+    }
+
+    .cabecalho-pacientes {
+        padding: 1.5rem;
+    }
+
+    .cartao-paciente {
+        padding: 1rem;
+    }
+
+    .info-principal-paciente {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .avatar-paciente {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .estatisticas-paciente {
+        flex-direction: column;
+    }
+
+    .acoes-paciente {
+        justify-content: center;
+    }
+}

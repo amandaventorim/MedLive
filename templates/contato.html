@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="/static/css/contato.css">
+{% endblock %}
+
+
+    <br>
+    <!-- Cabeçalho da página -->
+    <div class="cabecalho-pagina">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="fw-bold mb-2 section-title" style="color: #001942;">Entre em Contato</h1>
+                    <p class="fw-bold">Estamos aqui para ajudar você. Entre em contato conosco através dos canais abaixo</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="container-pagina-interna">
+        <div class="container">
+            <!-- Informações de contato -->
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-contato animacao-fade-in">
+                        <div class="icone-contato">
+                            <i class="bi bi-telephone"></i>
+                        </div>
+                        <h3 class="titulo-contato">Telefone</h3>
+                        <div class="info-contato">
+                            <p><strong>Central de Atendimento:</strong><br>(11) 3000-0000</p>
+                            <p><strong>WhatsApp:</strong><br>(11) 99999-9999</p>
+                            <p><strong>Emergências:</strong><br>(11) 3000-0001</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-contato animacao-fade-in">
+                        <div class="icone-contato">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                        <h3 class="titulo-contato">E-mail</h3>
+                        <div class="info-contato">
+                            <p><strong>Atendimento Geral:</strong><br>contato@medlive.com.br</p>
+                            <p><strong>Suporte Técnico:</strong><br>suporte@medlive.com.br</p>
+                            <p><strong>Parcerias:</strong><br>parcerias@medlive.com.br</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card-contato animacao-fade-in">
+                        <div class="icone-contato">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <h3 class="titulo-contato">Endereço</h3>
+                        <div class="info-contato">
+                            <p><strong>Sede Principal:</strong><br>
+                                Av. Paulista, 1000<br>
+                                Bela Vista, São Paulo - SP<br>
+                                CEP: 01310-100</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-5">
+                <!-- Formulário de contato -->
+                <div class="col-lg-8">
+                    <div class="formulario-contato animacao-slide-esquerda">
+                        <h2 class="texto-gradiente mb-4">Envie sua Mensagem</h2>
+                        <form id="formularioContato" onsubmit="enviarMensagem(event)">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="label-formulario">Nome Completo *</label>
+                                    <input type="text" class="form-control campo-formulario" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="label-formulario">E-mail *</label>
+                                    <input type="email" class="form-control campo-formulario" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="label-formulario">Telefone</label>
+                                    <input type="tel" class="form-control campo-formulario">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="label-formulario">Assunto *</label>
+                                    <select class="form-control campo-formulario" required>
+                                        <option value="">Selecione um assunto</option>
+                                        <option value="duvida">Dúvida Geral</option>
+                                        <option value="suporte">Suporte Técnico</option>
+                                        <option value="agendamento">Agendamento</option>
+                                        <option value="parceria">Parceria</option>
+                                        <option value="reclamacao">Reclamação</option>
+                                        <option value="sugestao">Sugestão</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="label-formulario">Mensagem *</label>
+                                    <textarea class="form-control campo-formulario" rows="6"
+                                        placeholder="Descreva sua dúvida ou solicitação..." required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="concordoTermos" required>
+                                        <label class="form-check-label" for="concordoTermos">
+                                            Concordo com os <a href="#" class="text-decoration-none">termos de uso</a> e
+                                            <a href="#" class="text-decoration-none">política de privacidade</a>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="botao-enviar">
+                                        <i class="bi bi-send me-2"></i>Enviar Mensagem
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Informações adicionais -->
+                <div class="col-lg-4">
+                    <!-- Horário de funcionamento -->
+                    <div class="horario-funcionamento animacao-slide-direita">
+                        <h4><i class="bi bi-clock me-2"></i>Horário de Atendimento</h4>
+                        <div class="horario-item">
+                            <span class="dia-semana">Segunda a Sexta</span>
+                            <span class="horario">08:00 - 18:00</span>
+                        </div>
+                        <div class="horario-item">
+                            <span class="dia-semana">Sábado</span>
+                            <span class="horario">08:00 - 14:00</span>
+                        </div>
+                        <div class="horario-item">
+                            <span class="dia-semana">Domingo</span>
+                            <span class="horario">Fechado</span>
+                        </div>
+                        <div class="horario-item">
+                            <span class="dia-semana">Emergências</span>
+                            <span class="horario">24h</span>
+                        </div>
+                    </div>
+
+                    <!-- Redes sociais -->
+                    <div class="text-center">
+                        <h4 class="mt-4 mb-3">Siga-nos nas Redes Sociais</h4>
+                        <div class="redes-sociais-contato">
+                            <a href="#" class="rede-social-link" title="Facebook">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="#" class="rede-social-link" title="Instagram">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="#" class="rede-social-link" title="LinkedIn">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                            <a href="#" class="rede-social-link" title="Twitter">
+                                <i class="bi bi-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mapa -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h2 class="texto-gradiente mb-4 text-center">Nossa Localização</h2>
+                    <div class="mapa-container animacao-fade-in">
+                        <div class="text-center">
+                            <i class="bi bi-geo-alt" style="font-size: 3rem; color: #001942; margin-bottom: 20px;"></i>
+                            <p><strong>Rodovia Engenheiro Fabiano Vivácqua, 1568 – Morro Grande, Cachoeiro de Itapemirim</strong></p>
+                            <p>Mapa interativo será carregado aqui</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    
+{% block extra_js %}
+<script src="/static/js/contato.js"></script>
+{% endblock %}
+
+{% endblock %}
+   

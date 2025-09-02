@@ -1,0 +1,384 @@
+{% extends "base_medico.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/planos_medico.css">
+{% endblock %}
+    
+    
+    <section class="plans-section">
+        <div class="container">
+            <!-- Current Plan Status -->
+            <div class="current-plan-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="fw-bold mb-3">Seu Plano Atual: Standard</h2>
+                        <p class="mb-3">Você está no plano Standard com 500 minutos mensais. Seu plano renova automaticamente em 15 dias.</p>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-light fw-bold" onclick="showUpgradeModal()">
+                                <i class="bi bi-arrow-up-circle me-2"></i>Fazer Upgrade
+                            </button>
+                            <button class="btn btn-outline-light fw-bold" onclick="showUsageHistory()">
+                                <i class="bi bi-graph-up me-2"></i>Ver Histórico
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="minutes-display">
+                            <h3 class="fw-bold mb-2">240 min</h3>
+                            <p class="mb-2">restantes de 500</p>
+                            <div class="minutes-progress">
+                                <div class="minutes-progress-bar" style="width: 48%"></div>
+                            </div>
+                            <small>Renovação: 15/02/2025</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Statistics -->
+            <div class="row mb-4">
+                <div class="col-lg-4">
+                    <div class="usage-stats-card">
+                        <h5 class="fw-bold text-azul mb-3">
+                            <i class="bi bi-graph-up me-2"></i>Estatísticas de Uso
+                        </h5>
+                        
+                        <div class="stat-item">
+                            <div class="d-flex align-items-center">
+                                <div class="stat-icon success">
+                                    <i class="bi bi-calendar-week"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Esta semana</h6>
+                                    <small class="text-secondary">Minutos utilizados</small>
+                                </div>
+                            </div>
+                            <strong class="text-success">85 min</strong>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="d-flex align-items-center">
+                                <div class="stat-icon warning">
+                                    <i class="bi bi-calendar-month"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Este mês</h6>
+                                    <small class="text-secondary">Total utilizado</small>
+                                </div>
+                            </div>
+                            <strong class="text-warning">260 min</strong>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <div class="d-flex align-items-center">
+                                <div class="stat-icon info">
+                                    <i class="bi bi-speedometer2"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Média diária</h6>
+                                    <small class="text-secondary">Últimos 30 dias</small>
+                                </div>
+                            </div>
+                            <strong class="text-info">12 min</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-8">
+                    <div class="usage-stats-card">
+                        <h5 class="fw-bold text-azul mb-3">
+                            <i class="bi bi-clock-history me-2"></i>Histórico dos Últimos 7 Dias
+                        </h5>
+                        <div class="row text-center">
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 80%; background: #28a745; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Seg</small>
+                                <div class="fw-bold">16 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 60%; background: #28a745; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Ter</small>
+                                <div class="fw-bold">12 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 90%; background: #28a745; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Qua</small>
+                                <div class="fw-bold">18 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 70%; background: #28a745; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Qui</small>
+                                <div class="fw-bold">14 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 100%; background: #ffc107; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Sex</small>
+                                <div class="fw-bold">20 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 30%; background: #6c757d; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Sáb</small>
+                                <div class="fw-bold">6 min</div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-2">
+                                    <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
+                                        <div style="height: 0%; background: #6c757d; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <small class="text-secondary">Dom</small>
+                                <div class="fw-bold">0 min</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plans -->
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-azul mb-3">Escolha o Plano Ideal para Você</h2>
+                <p class="text-secondary">Planos flexíveis para atender suas necessidades de atendimento</p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <div class="col-lg-3 col-md-6">
+                    <div class="plan-card basic">
+                        <div class="plan-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <h4 class="text-center fw-bold">Básico</h4>
+                        <div class="plan-price">R$ 99</div>
+                        <p class="text-center text-secondary">por mês</p>
+                        
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle"></i> 200 minutos/mês</li>
+                            <li><i class="bi bi-check-circle"></i> Videochamadas HD</li>
+                            <li><i class="bi bi-check-circle"></i> Chat com pacientes</li>
+                            <li><i class="bi bi-check-circle"></i> Prontuário digital</li>
+                            <li><i class="bi bi-check-circle"></i> Suporte por email</li>
+                        </ul>
+                        
+                        <button class="btn-select-plan" onclick="selectPlan('basic', 99)">
+                            Escolher Plano
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="plan-card standard popular">
+                        <div class="plan-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h4 class="text-center fw-bold">Standard</h4>
+                        <div class="plan-price">R$ 199</div>
+                        <p class="text-center text-secondary">por mês</p>
+                        
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle"></i> 500 minutos/mês</li>
+                            <li><i class="bi bi-check-circle"></i> Videochamadas 4K</li>
+                            <li><i class="bi bi-check-circle"></i> Chat ilimitado</li>
+                            <li><i class="bi bi-check-circle"></i> Prontuário avançado</li>
+                            <li><i class="bi bi-check-circle"></i> Receitas digitais</li>
+                            <li><i class="bi bi-check-circle"></i> Suporte prioritário</li>
+                        </ul>
+                        
+                        <button class="btn-select-plan" onclick="selectPlan('standard', 199)">
+                            Plano Atual
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="plan-card premium">
+                        <div class="plan-icon">
+                            <i class="bi bi-star"></i>
+                        </div>
+                        <h4 class="text-center fw-bold">Premium</h4>
+                        <div class="plan-price">R$ 299</div>
+                        <p class="text-center text-secondary">por mês</p>
+                        
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle"></i> 1000 minutos/mês</li>
+                            <li><i class="bi bi-check-circle"></i> Videochamadas 4K</li>
+                            <li><i class="bi bi-check-circle"></i> Chat ilimitado</li>
+                            <li><i class="bi bi-check-circle"></i> Prontuário completo</li>
+                            <li><i class="bi bi-check-circle"></i> Receitas e laudos</li>
+                            <li><i class="bi bi-check-circle"></i> Analytics avançado</li>
+                            <li><i class="bi bi-check-circle"></i> Suporte 24/7</li>
+                        </ul>
+                        
+                        <button class="btn-select-plan" onclick="selectPlan('premium', 299)">
+                            Fazer Upgrade
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="plan-card enterprise">
+                        <div class="plan-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <h4 class="text-center fw-bold">Enterprise</h4>
+                        <div class="plan-price">R$ 499</div>
+                        <p class="text-center text-secondary">por mês</p>
+                        
+                        <ul class="plan-features">
+                            <li><i class="bi bi-check-circle"></i> Minutos ilimitados</li>
+                            <li><i class="bi bi-check-circle"></i> Videochamadas 4K</li>
+                            <li><i class="bi bi-check-circle"></i> Chat ilimitado</li>
+                            <li><i class="bi bi-check-circle"></i> Múltiplas clínicas</li>
+                            <li><i class="bi bi-check-circle"></i> API personalizada</li>
+                            <li><i class="bi bi-check-circle"></i> Relatórios customizados</li>
+                            <li><i class="bi bi-check-circle"></i> Gerente dedicado</li>
+                        </ul>
+                        
+                        <button class="btn-select-plan" onclick="selectPlan('enterprise', 499)">
+                            Contatar Vendas
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="comparison-table">
+                <table class="table table-borderless mb-0">
+                    <thead>
+                        <tr>
+                            <th>Recursos</th>
+                            <th>Básico</th>
+                            <th>Standard</th>
+                            <th>Premium</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">Minutos mensais</td>
+                            <td>200</td>
+                            <td>500</td>
+                            <td>1000</td>
+                            <td>Ilimitado</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Qualidade de vídeo</td>
+                            <td>HD</td>
+                            <td>4K</td>
+                            <td>4K</td>
+                            <td>4K</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Número de pacientes</td>
+                            <td>50</td>
+                            <td>200</td>
+                            <td>500</td>
+                            <td>Ilimitado</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Receitas digitais</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Analytics</td>
+                            <td>Básico</td>
+                            <td>Intermediário</td>
+                            <td>Avançado</td>
+                            <td>Personalizado</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Suporte</td>
+                            <td>Email</td>
+                            <td>Prioritário</td>
+                            <td>24/7</td>
+                            <td>Dedicado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- FAQ -->
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="faq-card">
+                        <h5 class="fw-bold text-azul mb-4 text-center">Perguntas Frequentes</h5>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                Como funcionam os minutos?
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Os minutos são contabilizados apenas durante as consultas ativas. Chat e outras funcionalidades não consomem minutos.
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                Posso mudar de plano a qualquer momento?
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Sim, você pode fazer upgrade ou downgrade do seu plano a qualquer momento. As mudanças entram em vigor no próximo ciclo de cobrança.
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                O que acontece se eu exceder meus minutos?
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Você pode comprar pacotes adicionais de minutos ou fazer upgrade para um plano superior. Não há interrupção do serviço.
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                Os minutos não utilizados são acumulados?
+                                <i class="bi bi-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Não, os minutos são renovados mensalmente e não são acumulados. Recomendamos escolher o plano adequado ao seu uso.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    
+{% block extra_js %}
+<script src="/static/js/planos_medico.js"></script>
+{% endblock %}
+
+{% endblock %}
+

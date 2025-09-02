@@ -1,0 +1,104 @@
+.step-form {
+    display: none;
+}
+
+.step-form.active {
+    display: block;
+}
+
+.forgot-password-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.step {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #e9ecef;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin: 0 5px;
+    position: relative;
+    font-size: 14px;
+}
+
+.step.active {
+    background: #001942;
+    color: white;
+}
+
+.step.completed {
+    background: #28a745;
+    color: white;
+}
+
+.step::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    width: 10px;
+    height: 2px;
+    background: #e9ecef;
+    transform: translateY(-50%);
+}
+
+.step:last-child::after {
+    display: none;
+}
+
+.step.completed::after {
+    background: #28a745;
+}
+
+.success-icon {
+    color: #28a745;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.alert {
+    border-radius: 10px;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #002a5c 0%, #004080 100%);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+}

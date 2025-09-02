@@ -1,0 +1,38 @@
+{% extends "base_cadastro.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/cadastro_anterior.css">
+{% endblock %}
+
+{% block conteudo %}
+    <div class="mb-4 text-center">
+        <h3 class="mt-2 title-criar-conta">Quem é você?</h3>
+        <p class="text-muted">Escolha o tipo de usuário para iniciar o cadastro.</p>
+    </div>
+    <div class="row justify-content-center gy-4">
+        <!-- Médico -->
+        <div class="col-md-4 col-sm-6 d-flex justify-content-center">
+            <a href="/cadastro_medico" class="text-decoration-none">
+                <div class="card card-user-type text-center">
+                    <div class="card-body">
+                        <i class="fas fa-user-md user-icon"></i>
+                        <img src="/static/img/medicocad.png" alt="Médico" class="img-fluid user-img">
+                        <h5 class="card-title">Médico</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Paciente -->
+        <div class="col-md-4 col-sm-6 d-flex justify-content-center">
+            <a href="/cadastro_paciente" class="text-decoration-none">
+                <div class="card card-user-type text-center">
+                    <div class="card-body">
+                        <i class="fas fa-user-injured user-icon"></i>
+                        <img src="/static/img/mulher.png" alt="Paciente" class="img-fluid user-img">
+                        <h5 class="card-title">Paciente</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}

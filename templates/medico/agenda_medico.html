@@ -1,0 +1,373 @@
+{% extends "base_medico.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/agenda_medico.css">
+{% endblock %}
+    
+ 
+        <!-- Seção Principal -->
+        <section class="secao-agenda">
+            <div class="container">
+                <!-- Cabeçalho -->
+                <div class="cabecalho-agenda">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h1 class="mb-2">
+                                <i class="bi bi-calendar-check me-3"></i>
+                                Agenda Médica
+                            </h1>
+                            <p class="mb-0 opacity-75">Gerencie seus horários e consultas de forma eficiente</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <button class="btn botao-medlive" data-bs-toggle="modal" data-bs-target="#modalNovaConsulta">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                Agendar Consulta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Calendário Principal -->
+                    <div class="col-lg-8">
+                        <div class="calendario-container">
+                            <!-- Header do Calendário -->
+                            <div class="calendario-header">
+                                <div class="mes-navegacao">
+                                    <button class="botao-nav-mes" onclick="mesAnterior()">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
+                                    <h3 class="mes-atual" id="mesAtual">Janeiro 2025</h3>
+                                    <button class="botao-nav-mes" onclick="proximoMes()">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
+                                </div>
+                                <div class="legenda-cores">
+                                    <div class="legenda-item">
+                                        <div class="cor-legenda cor-normal"></div>
+                                        <span>Normal</span>
+                                    </div>
+                                    <div class="legenda-item">
+                                        <div class="cor-legenda cor-urgente"></div>
+                                        <span>Urgente</span>
+                                    </div>
+                                    <div class="legenda-item">
+                                        <div class="cor-legenda cor-retorno"></div>
+                                        <span>Retorno</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Grid do Calendário -->
+                            <div class="calendario-grid">
+                                <!-- Cabeçalho dos dias da semana -->
+                                <div class="dia-semana">Dom</div>
+                                <div class="dia-semana">Seg</div>
+                                <div class="dia-semana">Ter</div>
+                                <div class="dia-semana">Qua</div>
+                                <div class="dia-semana">Qui</div>
+                                <div class="dia-semana">Sex</div>
+                                <div class="dia-semana">Sáb</div>
+                                <!-- Dias do mês -->
+                                <div class="dia-calendario outro-mes">
+                                    <div class="numero-dia">29</div>
+                                </div>
+                                <div class="dia-calendario outro-mes">
+                                    <div class="numero-dia">30</div>
+                                </div>
+                                <div class="dia-calendario outro-mes">
+                                    <div class="numero-dia">31</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">1</div>
+                                    <div class="consulta-item">09:00 - Maria S.</div>
+                                    <div class="consulta-item retorno">14:00 - João P.</div>
+                                </div>
+                                <div class="dia-calendario hoje">
+                                    <div class="numero-dia">2</div>
+                                    <div class="consulta-item">08:30 - Ana L.</div>
+                                    <div class="consulta-item urgente">10:00 - Carlos M.</div>
+                                    <div class="consulta-item">15:30 - Lucia F.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">3</div>
+                                    <div class="consulta-item">09:00 - Pedro S.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">4</div>
+                                </div>
+                                <!-- Mais dias... (simplificado para exemplo) -->
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">5</div>
+                                    <div class="consulta-item">11:00 - Rita M.</div>
+                                    <div class="consulta-item retorno">16:00 - José A.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">6</div>
+                                    <div class="consulta-item">08:00 - Sandra L.</div>
+                                    <div class="consulta-item">14:30 - Roberto C.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">7</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">8</div>
+                                    <div class="consulta-item urgente">09:30 - Marcos V.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">9</div>
+                                    <div class="consulta-item">10:00 - Helena R.</div>
+                                    <div class="consulta-item">15:00 - Paulo T.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">10</div>
+                                    <div class="consulta-item retorno">13:00 - Carla B.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">11</div>
+                                </div>
+                                <!-- Continue com mais dias conforme necessário -->
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">12</div>
+                                    <div class="consulta-item">09:00 - Fernando D.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">13</div>
+                                    <div class="consulta-item">08:30 - Beatriz S.</div>
+                                    <div class="consulta-item">14:00 - Rodrigo M.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">14</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">15</div>
+                                    <div class="consulta-item urgente">10:30 - Amanda K.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">16</div>
+                                    <div class="consulta-item">11:00 - Gabriel F.</div>
+                                    <div class="consulta-item retorno">16:30 - Silvia N.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">17</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">18</div>
+                                </div>
+                                <!-- Mais dias até completar o mês -->
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">19</div>
+                                    <div class="consulta-item">09:30 - Thiago L.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">20</div>
+                                    <div class="consulta-item">08:00 - Mariana P.</div>
+                                    <div class="consulta-item">15:00 - Eduardo R.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">21</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">22</div>
+                                    <div class="consulta-item retorno">14:30 - Fernanda G.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">23</div>
+                                    <div class="consulta-item">10:00 - Ricardo H.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">24</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">25</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">26</div>
+                                    <div class="consulta-item">09:00 - Patrícia M.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">27</div>
+                                    <div class="consulta-item urgente">11:30 - Gustavo S.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">28</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">29</div>
+                                    <div class="consulta-item">13:00 - Juliana T.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">30</div>
+                                    <div class="consulta-item retorno">15:30 - Leonardo V.</div>
+                                </div>
+                                <div class="dia-calendario">
+                                    <div class="numero-dia">31</div>
+                                </div>
+                                <div class="dia-calendario outro-mes">
+                                    <div class="numero-dia">1</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Painel Lateral -->
+                    <div class="col-lg-4">
+                        <div class="agenda-lateral">
+                            <!-- Estatísticas do Dia -->
+                            <div class="estatisticas-dia">
+                                <h5 class="mb-3" style="color: #001942;">Hoje - 2 de Janeiro</h5>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="stat-item">
+                                            <div class="stat-numero">3</div>
+                                            <div class="stat-label">Consultas</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="stat-item">
+                                            <div class="stat-numero">1</div>
+                                            <div class="stat-label">Urgente</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="stat-item">
+                                            <div class="stat-numero">2h</div>
+                                            <div class="stat-label">Livres</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Próximas Consultas -->
+                            <div class="proximas-consultas">
+                                <h5 class="mb-3" style="color: #001942;">
+                                    <i class="bi bi-clock me-2"></i>
+                                    Próximas Consultas
+                                </h5>
+                                <div class="consulta-card">
+                                    <div class="horario-consulta">08:30</div>
+                                    <div class="paciente-nome">Ana Lucia Santos</div>
+                                    <div class="tipo-consulta">Consulta de rotina</div>
+                                    <div class="mt-2">
+                                        <button class="btn btn-sm botao-secundario me-2">
+                                            <i class="bi bi-telephone"></i>
+                                        </button>
+                                        <button class="btn btn-sm botao-medlive">
+                                            <i class="bi bi-camera-video"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="consulta-card">
+                                    <div class="horario-consulta">10:00</div>
+                                    <div class="paciente-nome">Carlos Mendes</div>
+                                    <div class="tipo-consulta">Consulta urgente</div>
+                                    <div class="mt-2">
+                                        <button class="btn btn-sm botao-secundario me-2">
+                                            <i class="bi bi-telephone"></i>
+                                        </button>
+                                        <button class="btn btn-sm botao-medlive">
+                                            <i class="bi bi-camera-video"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="consulta-card">
+                                    <div class="horario-consulta">15:30</div>
+                                    <div class="paciente-nome">Lucia Fernandes</div>
+                                    <div class="tipo-consulta">Retorno</div>
+                                    <div class="mt-2">
+                                        <button class="btn btn-sm botao-secundario me-2">
+                                            <i class="bi bi-telephone"></i>
+                                        </button>
+                                        <button class="btn btn-sm botao-medlive">
+                                            <i class="bi bi-camera-video"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Ações Rápidas -->
+                            <div class="acoes-rapidas">
+                                <h5 class="mb-3" style="color: #001942;">
+                                    <i class="bi bi-lightning me-2"></i>
+                                    Ações Rápidas
+                                </h5>
+                                <div class="d-grid gap-2">
+                                    <button class="btn botao-medlive" data-bs-toggle="modal" data-bs-target="#modalNovaConsulta">
+                                        <i class="bi bi-plus-circle me-2"></i>
+                                        Nova Consulta
+                                    </button>
+                                    <button class="btn botao-secundario">
+                                        <i class="bi bi-calendar-week me-2"></i>
+                                        Ver Semana
+                                    </button>
+                                    <button class="btn botao-secundario">
+                                        <i class="bi bi-printer me-2"></i>
+                                        Imprimir Agenda
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Modal Nova Consulta -->
+        <div class="modal fade" id="modalNovaConsulta" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                        <h5 class="modal-title">
+                            <i class="bi bi-plus-circle me-2"></i>
+                            Agendar Nova Consulta
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Paciente</label>
+                                    <select class="form-select">
+                                        <option value="">Selecione o paciente</option>
+                                        <option value="1">Ana Lucia Santos</option>
+                                        <option value="2">Carlos Mendes</option>
+                                        <option value="3">Lucia Fernandes</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tipo de Consulta</label>
+                                    <select class="form-select">
+                                        <option value="">Selecione o tipo</option>
+                                        <option value="rotina">Consulta de rotina</option>
+                                        <option value="retorno">Retorno</option>
+                                        <option value="urgente">Consulta urgente</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Data</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Horário</label>
+                                    <input type="time" class="form-control">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Observações</label>
+                                <textarea class="form-control" rows="3" placeholder="Observações sobre a consulta..."></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn botao-medlive">Agendar Consulta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        
+
+{% block extra_js %}
+<script src="/static/js/agenda_medico.js"></script>
+{% endblock %}
+
+{% endblock %}

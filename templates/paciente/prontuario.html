@@ -1,0 +1,317 @@
+{% extends "base_paciente.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/prontuario.css">
+{% endblock %}
+        
+        <!-- Seção Principal -->
+        <section class="secao-prontuario">
+            <div class="container">
+                <!-- Cabeçalho -->
+                <div class="cabecalho-prontuario">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h1 class="mb-2">
+                                <i class="bi bi-file-medical me-3"></i>
+                                Prontuário Eletrônico
+                            </h1>
+                            <p class="mb-0 opacity-75">Gerencie o histórico médico completo dos seus pacientes</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
+                            <button class="btn botao-medlive" data-bs-toggle="modal" data-bs-target="#modalNovaEntrada">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                Nova Entrada
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Informações do Paciente -->
+                <div class="cartao-paciente">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center">
+                            <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="bi bi-person-fill text-muted" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="mb-1" style="color: #001942;">João Santos Silva</h4>
+                            <p class="text-muted mb-1">CPF: 123.456.789-00</p>
+                            <p class="text-muted mb-1">Data de Nascimento: 15/03/1985 (38 anos)</p>
+                            <p class="text-muted mb-0">Telefone: (11) 99999-9999</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row text-center">
+                                <div class="col-6">
+                                    <h5 class="mb-0" style="color: #B31D1D;">12</h5>
+                                    <small class="text-muted">Consultas</small>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="mb-0" style="color: #B31D1D;">8</h5>
+                                    <small class="text-muted">Receitas</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Filtros -->
+                <div class="filtros-prontuario">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="bi bi-search text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control campo-busca border-start-0" placeholder="Buscar no prontuário...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select campo-busca">
+                                <option value="">Todos os tipos</option>
+                                <option value="consulta">Consulta</option>
+                                <option value="exame">Exame</option>
+                                <option value="receita">Receita</option>
+                                <option value="observacao">Observação</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" class="form-control campo-busca">
+                        </div>
+                    </div>
+                </div>
+                <!-- Entradas do Prontuário -->
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Entrada 1 -->
+                        <div class="cartao-entrada">
+                            <div class="d-flex">
+                                <div class="icone-entrada">
+                                    <i class="bi bi-clipboard-pulse"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <div class="data-entrada">15 de Janeiro de 2025 - 14:30</div>
+                                            <h5 class="titulo-entrada">Consulta de Rotina</h5>
+                                            <span class="badge-tipo">Consulta</span>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        <i class="bi bi-eye me-2"></i>
+                                                        Visualizar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        <i class="bi bi-pencil me-2"></i>
+                                                        Editar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-danger" href="#">
+                                                        <i class="bi bi-trash me-2"></i>
+                                                        Excluir
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="descricao-entrada">
+                                        <strong>Queixa Principal:</strong>
+                                        Dor de cabeça recorrente há 3 dias.
+                                        <br>
+                                        <strong>Exame Físico:</strong>
+                                        PA: 120/80 mmHg, FC: 72 bpm, Tax: 36.5°C
+                                        <br>
+                                        <strong>Diagnóstico:</strong>
+                                        Cefaleia tensional
+                                        <br>
+                                        <strong>Conduta:</strong>
+                                        Prescrição de analgésico e orientações sobre hidratação.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Entrada 2 -->
+                        <div class="cartao-entrada">
+                            <div class="d-flex">
+                                <div class="icone-entrada">
+                                    <i class="bi bi-prescription2"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <div class="data-entrada">10 de Janeiro de 2025 - 09:15</div>
+                                            <h5 class="titulo-entrada">Receita Médica</h5>
+                                            <span class="badge-tipo">Receita</span>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        <i class="bi bi-eye me-2"></i>
+                                                        Visualizar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        <i class="bi bi-pencil me-2"></i>
+                                                        Editar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-danger" href="#">
+                                                        <i class="bi bi-trash me-2"></i>
+                                                        Excluir
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="descricao-entrada">
+                                        <strong>Medicamentos Prescritos:</strong>
+                                        <br>
+                                        • Paracetamol 500mg - 1 comprimido a cada 6 horas por 3 dias
+                                        <br>
+                                        • Dipirona 500mg - 1 comprimido se dor intensa
+                                        <br>
+                                        <strong>Orientações:</strong>
+                                        Tomar com água, evitar álcool durante o tratamento.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Entrada 3 -->
+                        <div class="cartao-entrada">
+                            <div class="d-flex">
+                                <div class="icone-entrada">
+                                    <i class="bi bi-file-earmark-medical"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <div class="data-entrada">05 de Janeiro de 2025 - 16:45</div>
+                                            <h5 class="titulo-entrada">Resultado de Exame</h5>
+                                            <span class="badge-tipo">Exame</span>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        <i class="bi bi-eye me-2"></i>
+                                                        Visualizar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        <i class="bi bi-pencil me-2"></i>
+                                                        Editar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item text-danger" href="#">
+                                                        <i class="bi bi-trash me-2"></i>
+                                                        Excluir
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="descricao-entrada">
+                                        <strong>Exame:</strong>
+                                        Hemograma Completo
+                                        <br>
+                                        <strong>Resultados:</strong>
+                                        Hemoglobina: 12.5 g/dL, Leucócitos: 7.200/mm³, Plaquetas: 280.000/mm³
+                                        <br>
+                                        <strong>Interpretação:</strong>
+                                        Valores dentro da normalidade.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Paginação -->
+                <div class="d-flex justify-content-center mt-4">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Próximo</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </section>
+        <!-- Modal Nova Entrada -->
+        <div class="modal fade" id="modalNovaEntrada" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                        <h5 class="modal-title">
+                            <i class="bi bi-plus-circle me-2"></i>
+                            Nova Entrada no Prontuário
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tipo de Entrada</label>
+                                    <select class="form-select campo-busca">
+                                        <option value="">Selecione o tipo</option>
+                                        <option value="consulta">Consulta</option>
+                                        <option value="exame">Exame</option>
+                                        <option value="receita">Receita</option>
+                                        <option value="observacao">Observação</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Data e Hora</label>
+                                    <input type="datetime-local" class="form-control campo-busca">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Título</label>
+                                <input type="text" class="form-control campo-busca" placeholder="Ex: Consulta de rotina">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Descrição</label>
+                                <textarea class="form-control campo-busca" rows="6" placeholder="Descreva os detalhes da entrada no prontuário..."></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn botao-medlive">Salvar Entrada</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+{% endblock %}

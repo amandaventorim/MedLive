@@ -1,0 +1,129 @@
+{% extends "base_cadastro.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/cadastro.css">
+<link rel="stylesheet" href="/static/css/esqueceu_senha.css">
+
+<style>
+
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="forgot-password-form">
+    <!-- Step Indicator -->
+    <div class="step-indicator">
+        <div class="step active" id="step1">1</div>
+        <div class="step" id="step2">2</div>
+        <div class="step" id="step3">3</div>
+    </div>
+
+    <!-- Step 1: Email Input -->
+    <div class="step-form active" id="emailStep">
+        <div class="mb-4 text-center">
+            <h3 class="mt-2 title-criar-conta">Esqueceu sua senha?</h3>
+            <p class="text-muted">Digite seu email para receber as instruções de recuperação</p>
+        </div>
+
+        <form id="emailForm" onsubmit="handleEmailSubmit(event)">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required 
+                       placeholder="Digite seu email cadastrado">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-3">
+                <i class="fas fa-paper-plane me-2"></i>Enviar código
+            </button>
+
+            <div class="text-center">
+                <a href="/login" class="text-decoration-none">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar ao login
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Step 2: Code Verification -->
+    <div class="step-form" id="codeStep">
+        <div class="mb-4 text-center">
+            <h3 class="mt-2 title-criar-conta">Verificar código</h3>
+            <p class="text-muted">Digite o código de 6 dígitos enviado para seu email</p>
+            <small class="text-info" id="emailDisplay"></small>
+        </div>
+
+        <form id="codeForm" onsubmit="handleCodeSubmit(event)">
+            <div class="mb-3">
+                <label for="verificationCode" class="form-label">Código de verificação</label>
+                <input type="text" class="form-control text-center" id="verificationCode" 
+                       maxlength="6" required placeholder="000000" 
+                       style="font-size: 1.5rem; letter-spacing: 0.5rem;">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-3">
+                <i class="fas fa-check me-2"></i>Verificar código
+            </button>
+
+            <div class="text-center mb-3">
+                <button type="button" class="btn btn-link" onclick="resendCode()" id="resendBtn">
+                    <i class="fas fa-redo me-2"></i>Reenviar código
+                </button>
+            </div>
+
+            <div class="text-center">
+                <button type="button" class="btn btn-secondary" onclick="goBackToEmail()">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Step 3: New Password -->
+    <div class="step-form" id="passwordStep">
+        <div class="mb-4 text-center">
+            <h3 class="mt-2 title-criar-conta">Nova senha</h3>
+            <p class="text-muted">Digite sua nova senha</p>
+        </div>
+
+        <form id="passwordForm" onsubmit="handlePasswordSubmit(event)">
+            <div class="mb-3">
+                <label for="newPassword" class="form-label">Nova senha</label>
+                <input type="password" class="form-control" id="newPassword" required 
+                       minlength="8" placeholder="Digite sua nova senha">
+                <small class="form-text text-muted">Mínimo de 8 caracteres</small>
+            </div>
+
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirmar senha</label>
+                <input type="password" class="form-control" id="confirmPassword" required 
+                       placeholder="Confirme sua nova senha">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-3">
+                <i class="fas fa-save me-2"></i>Alterar senha
+            </button>
+
+            <div class="text-center">
+                <button type="button" class="btn btn-secondary" onclick="goBackToCode()">
+                    <i class="fas fa-arrow-left me-2"></i>Voltar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Success Message -->
+    <div class="step-form" id="successStep">
+        <div class="text-center">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h3 class="mt-2 title-criar-conta">Senha alterada com sucesso!</h3>
+            <p class="text-muted mb-4">Sua senha foi alterada com sucesso. Agora você pode fazer login com sua nova senha.</p>
+            
+            <a href="/login" class="btn btn-primary w-100">
+                <i class="fas fa-sign-in-alt me-2"></i>Fazer login
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/esqueceu_senha.js"></script>
+{% endblock %}

@@ -1,0 +1,222 @@
+{% extends "base_paciente.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/sala_espera.css">
+{% endblock %}
+    
+    <section class="sala-espera-section">
+        <div class="container">
+            <!-- Header da Sala de Espera -->
+            <div class="sala-header">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="fw-bold mb-2">
+                            <i class="bi bi-clock-history me-2"></i>Sala de Espera
+                        </h2>
+                        <p class="mb-3">Aguarde ser chamado pelo Dr. João Silva. Você está na posição <strong class="text-danger">2</strong> da fila.</p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="status-card">
+                            <div class="status-icon">
+                                <i class="bi bi-person-check"></i>
+                            </div>
+                            <div class="fw-bold" style="color: #001942;">Aguardando</div>
+                            <div class="fw-bold" style="color: #001942;">Chamada</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fila de Espera -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-6">
+                    <div class="fila-card">
+                        <h4 class="mb-3">
+                            <i class="bi bi-people me-2"></i>Fila de Espera
+                        </h4>
+                        <div class="fila-lista">
+                            <div class="fila-item em-atendimento">
+                                <div class="fila-numero">1</div>
+                                <div class="fila-info">
+                                    <div class="fila-nome">Ana Silva</div>
+                                    <div class="fila-status">Em atendimento</div>
+                                </div>
+                                <div class="fila-indicador">
+                                    <i class="bi bi-camera-video text-success"></i>
+                                </div>
+                            </div>
+                            <div class="fila-item proximo">
+                                <div class="fila-numero">2</div>
+                                <div class="fila-info">
+                                    <div class="fila-nome">Você (João Silva)</div>
+                                    <div class="fila-status">Próximo na fila</div>
+                                </div>
+                                <div class="fila-indicador">
+                                    <i class="bi bi-clock text-warning"></i>
+                                </div>
+                            </div>
+                            <div class="fila-item aguardando">
+                                <div class="fila-numero">3</div>
+                                <div class="fila-info">
+                                    <div class="fila-nome">Carlos Mendes</div>
+                                    <div class="fila-status">Aguardando</div>
+                                </div>
+                                <div class="fila-indicador">
+                                    <i class="bi bi-hourglass text-muted"></i>
+                                </div>
+                            </div>
+                            <div class="fila-item aguardando">
+                                <div class="fila-numero">4</div>
+                                <div class="fila-info">
+                                    <div class="fila-nome">Lucia Fernandes</div>
+                                    <div class="fila-status">Aguardando</div>
+                                </div>
+                                <div class="fila-indicador">
+                                    <i class="bi bi-hourglass text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="orientacoes-card">
+                        <h4 class="mb-3">
+                            <i class="bi bi-info-circle me-2"></i>Orientações
+                        </h4>
+                        <div class="orientacao-item">
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            <span>Mantenha-se conectado à internet</span>
+                        </div>
+                        <div class="orientacao-item">
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            <span>Teste sua câmera e microfone</span>
+                        </div>
+                        <div class="orientacao-item">
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            <span>Tenha seus documentos em mãos</span>
+                        </div>
+                        <div class="orientacao-item">
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            <span>Prepare suas dúvidas e sintomas</span>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <button class="btn btn-outline-primary w-100 mb-2" onclick="testarEquipamentos()">
+                                <i class="bi bi-camera-video me-2"></i>Testar Câmera e Microfone
+                            </button>
+                            <button class="btn btn-outline-secondary w-100" onclick="verProntuario()">
+                                <i class="bi bi-file-medical me-2"></i>Ver Meu Prontuário
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="row g-4">
+                <div class="col-lg-12">
+                    <div class="acoes-card">
+                        <h4 class="mb-3">
+                            <i class="bi bi-lightning me-2"></i>Ações Rápidas
+                        </h4>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <button class="btn btn-action-card w-100" onclick="enviarMensagem()">
+                                    <i class="bi bi-chat-dots"></i>
+                                    <span>Enviar Mensagem</span>
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-action-card w-100" onclick="reagendarConsulta()">
+                                    <i class="bi bi-calendar-x"></i>
+                                    <span>Reagendar</span>
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-action-card w-100" onclick="cancelarConsulta()">
+                                    <i class="bi bi-x-circle"></i>
+                                    <span>Cancelar</span>
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-action-card w-100" onclick="chamarAjuda()">
+                                    <i class="bi bi-question-circle"></i>
+                                    <span>Ajuda</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notificação de Chamada -->
+            <div id="notificacao-chamada" class="notificacao-chamada" style="display: none;">
+                <div class="notificacao-content">
+                    <div class="notificacao-icon">
+                        <i class="bi bi-camera-video"></i>
+                    </div>
+                    <div class="notificacao-text">
+                        <h5>Dr. João Silva está te chamando!</h5>
+                        <p>Sua consulta está pronta para começar.</p>
+                    </div>
+                    <div class="notificacao-actions">
+                        <button class="btn btn-success" onclick="entrarConsulta()">
+                            <i class="bi bi-camera-video me-2"></i>Entrar na Consulta
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="fecharNotificacao()">
+                            Aguardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Teste de Equipamentos -->
+    <div class="modal fade" id="modalTesteEquipamentos" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Teste de Câmera e Microfone</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Teste da Câmera</h6>
+                            <div class="camera-preview">
+                                <video id="camera-preview" autoplay muted></video>
+                                <div class="camera-placeholder">
+                                    <i class="bi bi-camera-video"></i>
+                                    <p>Clique em "Testar Câmera" para visualizar</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary mt-2" onclick="testarCamera()">Testar Câmera</button>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Teste do Microfone</h6>
+                            <div class="microfone-test">
+                                <div class="volume-indicator">
+                                    <div class="volume-bar"></div>
+                                </div>
+                                <p>Fale algo para testar o microfone</p>
+                            </div>
+                            <button class="btn btn-primary mt-2" onclick="testarMicrofone()">Testar Microfone</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success">Equipamentos OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/sala_espera.js"></script>
+{% endblock %}
+
