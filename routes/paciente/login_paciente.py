@@ -21,5 +21,3 @@ async def post_login(request: Request, response: Response, email: str = Form(...
         return RedirectResponse(url="/dashboard_paciente", status_code=303)
     else:
         return templates.TemplateResponse("login.html", {"request": request, "erro": "Email ou senha inválidos."})
-
-
