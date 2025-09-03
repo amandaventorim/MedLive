@@ -1,3 +1,5 @@
+passlib[bcrypt]
+python-jose[cryptography]
 fastapi[standard]
 uvicorn[standard]
 jinja2

@@ -23,6 +23,7 @@
     </div>
 
     <form id="loginForm" action="/login" method="post">
+        <input type="hidden" id="perfil" name="perfil" value="paciente">
         {% if erro %}
         <div class="alert alert-danger" role="alert">
             {{ erro }}
@@ -66,5 +67,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/static/js/login.js"></script>
+<script>
+function selectUserType(tipo) {
+    document.getElementById('perfil').value = tipo;
+    // Alterna visualmente o botão ativo
+    document.querySelectorAll('.user-type-btn').forEach(btn => btn.classList.remove('active'));
+    if (tipo === 'paciente') {
+        document.querySelector('.user-type-btn[onclick*="paciente"]').classList.add('active');
+    } else {
+        document.querySelector('.user-type-btn[onclick*="medico"]').classList.add('active');
+    }
+}
+</script>
 {% endblock %}
 

@@ -81,7 +81,20 @@ def lista_pacientes_exemplo():
 @pytest.fixture
 def usuario_exemplo():
     from data.model.usuario_model import Usuario
-    usuario = Usuario(0, "usuario_teste", "12345678900", "usuarioteste@email.com", "senha123", "Masculino", "2000-01-01")
+    usuario = Usuario(
+        idUsuario=0,
+        nome="usuario_teste",
+        cpf="12345678900",
+        email="usuarioteste@email.com",
+        senha="senha123",
+        genero="Masculino",
+        dataNascimento="2000-01-01",
+        perfil="paciente",
+        foto="foto_teste.jpg",
+        token_redefinicao="token_teste",
+        data_token="2025-09-03 12:00:00",
+        data_cadastro="2025-09-03 11:00:00"
+    )
     return usuario
 
 @pytest.fixture

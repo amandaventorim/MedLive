@@ -18,12 +18,17 @@ def inserir_usuario(usuario: Usuario) -> Optional[int]:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(INSERIR_USUARIO, (
-            usuario.nome, 
-            usuario.cpf, 
-            usuario.email, 
-            usuario.senha, 
+            usuario.nome,
+            usuario.cpf,
+            usuario.email,
+            usuario.senha,
             usuario.genero,
-            usuario.dataNascimento))
+            usuario.dataNascimento,
+            usuario.perfil,
+            usuario.foto,
+            usuario.token_redefinicao,
+            usuario.data_token,
+            usuario.data_cadastro))
         return cursor.lastrowid
 
 def obter_todos_usuarios() -> list[Usuario]:
@@ -33,14 +38,19 @@ def obter_todos_usuarios() -> list[Usuario]:
         rows = cursor.fetchall()
         usuarios = [
             Usuario(
-                idUsuario=row["idUsuario"], 
-                nome=row["nome"], 
+                idUsuario=row["idUsuario"],
+                nome=row["nome"],
                 cpf=row["cpf"],
                 email=row["email"],
                 senha=row["senha"],
                 genero=row["genero"],
-                dataNascimento=row["dataNascimento"]) 
-                for row in rows]
+                dataNascimento=row["dataNascimento"],
+                perfil=row["perfil"],
+                foto=row["foto"],
+                token_redefinicao=row["token_redefinicao"],
+                data_token=row["data_token"],
+                data_cadastro=row["data_cadastro"])
+            for row in rows]
         return usuarios
     
 def obter_usuarios_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Usuario]:
@@ -52,14 +62,19 @@ def obter_usuarios_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[U
         rows = cursor.fetchall()
         usuarios = [
             Usuario(
-                idUsuario=row["idUsuario"], 
-                nome=row["nome"], 
+                idUsuario=row["idUsuario"],
+                nome=row["nome"],
                 cpf=row["cpf"],
                 email=row["email"],
                 senha=row["senha"],
                 genero=row["genero"],
-                dataNascimento=row["dataNascimento"]) 
-                for row in rows]
+                dataNascimento=row["dataNascimento"],
+                perfil=row["perfil"],
+                foto=row["foto"],
+                token_redefinicao=row["token_redefinicao"],
+                data_token=row["data_token"],
+                data_cadastro=row["data_cadastro"])
+            for row in rows]
         return usuarios
     
     
@@ -70,13 +85,18 @@ def obter_usuario_por_id(idUsuario: int) -> Optional[Usuario]:
         row = cursor.fetchone()
         if row:
             usuario = Usuario(
-                    idUsuario=row["idUsuario"], 
-                    nome=row["nome"], 
-                    cpf=row["cpf"],
-                    email=row["email"],
-                    senha=row["senha"],
-                    genero=row["genero"],
-                    dataNascimento=row["dataNascimento"])
+                idUsuario=row["idUsuario"],
+                nome=row["nome"],
+                cpf=row["cpf"],
+                email=row["email"],
+                senha=row["senha"],
+                genero=row["genero"],
+                dataNascimento=row["dataNascimento"],
+                perfil=row["perfil"],
+                foto=row["foto"],
+                token_redefinicao=row["token_redefinicao"],
+                data_token=row["data_token"],
+                data_cadastro=row["data_cadastro"])
             return usuario
 
 def obter_usuario_por_email(email: str) -> Optional[Usuario]:
@@ -92,7 +112,12 @@ def obter_usuario_por_email(email: str) -> Optional[Usuario]:
                 email=row["email"],
                 senha=row["senha"],
                 genero=row["genero"],
-                dataNascimento=row["dataNascimento"]
+                dataNascimento=row["dataNascimento"],
+                perfil=row["perfil"],
+                foto=row["foto"],
+                token_redefinicao=row["token_redefinicao"],
+                data_token=row["data_token"],
+                data_cadastro=row["data_cadastro"]
             )
         return None
     
@@ -100,11 +125,16 @@ def atualizar_usuario(usuario: Usuario) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(UPDATE_USUARIO, (
-            usuario.nome, 
-            usuario.cpf, 
-            usuario.email, 
+            usuario.nome,
+            usuario.cpf,
+            usuario.email,
             usuario.genero,
             usuario.dataNascimento,
+            usuario.perfil,
+            usuario.foto,
+            usuario.token_redefinicao,
+            usuario.data_token,
+            usuario.data_cadastro,
             usuario.idUsuario))
         return cursor.rowcount > 0
     
@@ -119,8 +149,25 @@ def deletar_usuario(idUsuario: int) -> bool:
         cursor = conn.cursor()
         cursor.execute(DELETAR_USUARIO, (idUsuario,))
         return cursor.rowcount > 0
-    
 
-
-
-
+def obter_todos_por_perfil(perfil: str) -> list[Usuario]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(OBTER_TODOS_USUARIOS_POR_PERFIL)
+        rows = cursor.fetchall()
+        usuarios = [
+            Usuario(
+                idUsuario=row["idUsuario"],
+                nome=row["nome"],
+                cpf=row["cpf"],
+                email=row["email"],
+                senha=row["senha"],
+                genero=row["genero"],
+                dataNascimento=row["dataNascimento"],
+                perfil=row["perfil"],
+                foto=row["foto"],
+                token_redefinicao=row["token_redefinicao"],
+                data_token=row["data_token"],
+                data_cadastro=row["data_cadastro"])
+            for row in rows if row["perfil"] == perfil]
+        return usuarios

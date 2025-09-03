@@ -4,9 +4,21 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 from starlette.middleware.sessions import SessionMiddleware
+import secrets
 
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key="sua_chave_secreta")
+
+# Gerar chave secreta (em produção, use variável de ambiente!)
+SECRET_KEY = secrets.token_urlsafe(32)
+
+# Adicionar middleware de sessão
+app.add_middleware(
+    SessionMiddleware, 
+    secret_key=SECRET_KEY,
+    max_age=3600,  # Sessão expira em 1 hora
+    same_site="lax",
+    https_only=False  # Em produção, mude para True com HTTPS
+)
 
 
 router = APIRouter()
