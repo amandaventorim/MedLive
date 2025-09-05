@@ -41,7 +41,7 @@ async def get_cadastro_medico():
 
 @router.get("/pagamento_plano")
 async def get_pagamento_plano():
-    response = templates.TemplateResponse("/pagamento_plano.html", {"request": {}})
+    response = templates.TemplateResponse("/medico/pagamento_plano.html", {"request": {}})
     return response
 
 @router.get("/sala_consulta")

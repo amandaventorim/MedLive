@@ -8,6 +8,9 @@ Este relatório apresenta todas as cores e variações utilizadas no sistema, ag
   - #001942
   - #003366
   - #002a5c
+- **Azul Claro:**
+  - #3781a3
+  - #4da0c6
 - **Cinza Claro:**
   - #f8f9fa
   - #e9ecef
@@ -30,10 +33,13 @@ Este relatório apresenta todas as cores e variações utilizadas no sistema, ag
 - linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)
 - linear-gradient(135deg, #001942 0%, #003366 100%)
 - linear-gradient(135deg, #B31D1D 0%, #8f1419 100%)
+- linear-gradient(135deg, #8f1419 0%, #B31D1D 100%)
 - linear-gradient(135deg, #28a745 0%, #20c997 100%)
 - linear-gradient(135deg, #20c997 0%, #28a745 100%)
 - linear-gradient(135deg, #dc3545 0%, #c82333 100%)
 - linear-gradient(135deg, #003366 0%, #001942 100%)
+- linear-gradient(135deg, #3781a3 0%, #4da0c6 100%)
+- linear-gradient(135deg, #4da0c6 0%, #3781a3 100%)
 - radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%)
 
 ## RGBA e Transparências

@@ -15,9 +15,9 @@
                         <h2 class="fw-bold mb-3">Seu Plano Atual: Standard</h2>
                         <p class="mb-3">Você está no plano Standard com 500 minutos mensais. Seu plano renova automaticamente em 15 dias.</p>
                         <div class="d-flex gap-3">
-                            <button class="btn btn-light fw-bold" onclick="showUpgradeModal()">
+                            <a href="/pagamento_plano" class="btn btn-light fw-bold" onclick="showUpgradeModal()">
                                 <i class="bi bi-arrow-up-circle me-2"></i>Fazer Upgrade
-                            </button>
+                            </a>
                             <button class="btn btn-outline-light fw-bold" onclick="showUsageHistory()">
                                 <i class="bi bi-graph-up me-2"></i>Ver Histórico
                             </button>
@@ -54,7 +54,7 @@
                                     <small class="text-secondary">Minutos utilizados</small>
                                 </div>
                             </div>
-                            <strong class="text-success">85 min</strong>
+                            <strong style="color: #28a745;">85 min</strong>
                         </div>
                         
                         <div class="stat-item">
@@ -67,7 +67,7 @@
                                     <small class="text-secondary">Total utilizado</small>
                                 </div>
                             </div>
-                            <strong style="color: #0c5460;" >260 min</strong>
+                            <strong style="color: #3781a3;" >260 min</strong>
                         </div>
                         
                         <div class="stat-item">
@@ -80,7 +80,7 @@
                                     <small class="text-secondary">Últimos 30 dias</small>
                                 </div>
                             </div>
-                            <strong class="text-info">12 min</strong>
+                            <strong style="color: #001942">12 min</strong>
                         </div>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                             <div class="col">
                                 <div class="mb-2">
                                     <div style="height: 60px; background: #e9ecef; border-radius: 5px; position: relative;">
-                                        <div style="height: 100%; background: #ffc107; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
+                                        <div style="height: 100%; background: #218838; border-radius: 5px; position: absolute; bottom: 0; width: 100%;"></div>
                                     </div>
                                 </div>
                                 <small class="text-secondary">Sex</small>
@@ -183,9 +183,11 @@
                             <li><i class="bi bi-check-circle"></i> Suporte por email</li>
                         </ul>
                         
-                        <button class="btn-select-plan" onclick="selectPlan('basic', 99)">
+                        
+                        <a href="pagamento_plano" class="btn btn-select-plan" onclick="selectPlan('basic', 99)">
                             Escolher Plano
-                        </button>
+                        </a>
+
                     </div>
                 </div>
 
@@ -232,9 +234,10 @@
                             <li><i class="bi bi-check-circle"></i> Suporte 24/7</li>
                         </ul>
                         
-                        <button class="btn-select-plan" onclick="selectPlan('premium', 299)">
+                        <a href="/pagamento_plano" class="btn btn-select-plan" onclick="selectPlan('premium', 299)">
                             Fazer Upgrade
-                        </button>
+                        </a>
+
                     </div>
                 </div>
 

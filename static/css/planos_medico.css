@@ -111,7 +111,7 @@
 }
 
 .plan-card.enterprise .plan-icon {
-    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    background: linear-gradient(135deg, #3781a3 0%, #4da0c6 100%);
 }
 
 .plan-price {
@@ -209,12 +209,12 @@
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
 }
 
-.stat-icon.warning {
-    background: linear-gradient(135deg, #0c5460 0%, #0c5460 100%);
+.stat-icon.info {
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);;
 }
 
-.stat-icon.info {
-    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+.stat-icon.warning {
+    background: linear-gradient(135deg, #3781a3 0%, #4da0c6 100%);
 }
 
 .faq-card {

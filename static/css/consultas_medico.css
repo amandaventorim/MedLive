@@ -52,7 +52,7 @@
 }
 
 .cartao-consulta.em-andamento {
-    border-left-color: #ffc107;
+    border-left-color: #3781a3;
 }
 
 .cartao-consulta.concluida {
@@ -79,7 +79,7 @@
 }
 
 .status-em-andamento {
-    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    background: linear-gradient(135deg, #3781a3 0%, #4da0c6 100%);
     color: white;
 }
 
