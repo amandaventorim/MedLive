@@ -27,6 +27,9 @@ Este relatório apresenta todas as cores e variações utilizadas no sistema, ag
   - #8f1419
   - #dc3545
   - #c82333
+- **Amarelo:**
+  - #f1c831 
+  - #e6be51
 
 ## Gradientes
 
@@ -40,6 +43,7 @@ Este relatório apresenta todas as cores e variações utilizadas no sistema, ag
 - linear-gradient(135deg, #003366 0%, #001942 100%)
 - linear-gradient(135deg, #3781a3 0%, #4da0c6 100%)
 - linear-gradient(135deg, #4da0c6 0%, #3781a3 100%)
+- linear-gradient(135deg, #f1c831 0%, #e6be51 100%);
 - radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%)
 
 ## RGBA e Transparências
@@ -49,14 +53,17 @@ Este relatório apresenta todas as cores e variações utilizadas no sistema, ag
 - rgba(0, 25, 66, 0.05)
 - rgba(255, 255, 255, 0.2)
 - rgba(179, 29, 29, 0.05)
+- rgba(66, 144, 180, 0.3)
 - rgba(40, 167, 69, 0.3)
 - rgba(179, 29, 29, 0.3)
 - rgba(179, 29, 29, 0.4)
 
+
+
 ## Funções das Cores
 
 - **Backgrounds principais:** #f8f9fa, #e9ecef, #001942, #003366
-- **Botões de ação:** #28a745 (verde), #B31D1D (vermelho)
+- **Botões de ação:** #28a745 (verde), #B31D1D (vermelho), #003366 (azul escuro), #3781a3 (azul claro)
 - **Alertas/erros:** #dc3545, #B31D1D
 - **Textos secundários:** #6c757d, #ccc
 - **Bordas:** #e9ecef, #001942

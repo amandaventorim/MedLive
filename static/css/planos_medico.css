@@ -103,11 +103,12 @@
 }
 
 .plan-card.standard .plan-icon {
-    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
 }
 
 .plan-card.premium .plan-icon {
-    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    background: linear-gradient(135deg, #f1c831 0%, #e6be51 100%);
+
 }
 
 .plan-card.enterprise .plan-icon {

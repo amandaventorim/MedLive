@@ -175,22 +175,22 @@
 }
 
 .botao-secundario {
-    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    background: linear-gradient(135deg, #3781a3 0%, #4da0c6 100%);
     color: white;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 25, 66, 0.3);
+    box-shadow: 0 4px 15px rgba(66, 144, 180, 0.3);
     font-size: 0.9rem;
 }
 
 .botao-secundario:hover {
-    background: linear-gradient(135deg, #003366 0%, #001942 100%);
+    background: linear-gradient(135deg, #4da0c6 0%, #3781a3 100%);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 25, 66, 0.4);
+    box-shadow: 0 6px 20px rgba(66, 144, 180, 0.3);
 }
 
 .botao-sucesso {
@@ -279,6 +279,27 @@
     transform: translateY(2px);
 
 }
+
+.btn-cancelar{
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 25, 66, 0.4);
+    font-size: 0.9rem;
+}
+
+.btn-cancelar:hover{
+    background: linear-gradient(135deg, #003366 0%, #001942 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 25, 66, 0.4);
+}
+
+
 
 @media (max-width: 768px) {
     .secao-consultas {
