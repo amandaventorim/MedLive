@@ -48,8 +48,8 @@
 .cartao-plano.recomendado::before {
     content: 'RECOMENDADO';
     position: absolute;
-    top: 20px;
-    right: -30px;
+    top: 30px;
+    right: -40px;
     background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
     color: white;
     padding: 0.5rem 2rem;

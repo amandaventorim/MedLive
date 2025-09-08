@@ -72,8 +72,8 @@
 .plan-card.popular::before {
     content: 'MAIS POPULAR';
     position: absolute;
-    top: 20px;
-    right: -30px;
+    top: 30px;
+    right: -40px;
     background: #B31D1D;
     color: white;
     padding: 5px 40px;
