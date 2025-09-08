@@ -25,8 +25,13 @@ def inserir_paciente(paciente: Paciente) -> Optional[int]:
             paciente.email,
             paciente.senha,
             paciente.genero,
-            paciente.dataNascimento
-            ))
+            paciente.dataNascimento,
+            paciente.perfil,
+            paciente.foto,
+            paciente.token_redefinicao,
+            paciente.data_token,
+            paciente.data_cadastro
+        ))
         id_paciente = cursor.lastrowid 
 
         cursor.execute(INSERIR_PACIENTE, (

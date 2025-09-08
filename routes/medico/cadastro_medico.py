@@ -24,6 +24,8 @@ async def cadastrar_medico(
     crm: str = Form(...),
     statusProfissional: str = Form(...)
 ):
+    from util.security import criar_hash_senha
+    senha_hash = criar_hash_senha(senha)
     try:
         medico = Medico(
             idUsuario=None,
@@ -31,9 +33,14 @@ async def cadastrar_medico(
             nome=nome,
             cpf=cpf,
             email=email,
-            senha=senha,
+            senha=senha_hash,
             genero=genero,
             dataNascimento=dataNascimento,
+            perfil="medico",
+            foto=None,
+            token_redefinicao=None,
+            data_token=None,
+            data_cadastro=None,
             crm=crm,
             statusProfissional=statusProfissional
         )

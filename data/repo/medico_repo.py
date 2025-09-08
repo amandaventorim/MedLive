@@ -25,7 +25,12 @@ def inserir_medico(medico: Medico) -> Optional[int]:
             medico.email,
             medico.senha,
             medico.genero,
-            medico.dataNascimento
+            medico.dataNascimento,
+            medico.perfil,
+            medico.foto,
+            medico.token_redefinicao,
+            medico.data_token,
+            medico.data_cadastro
         ))
         id_medico = cursor.lastrowid  
 
