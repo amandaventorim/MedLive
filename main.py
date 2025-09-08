@@ -6,6 +6,7 @@ import uvicorn
 from starlette.middleware.sessions import SessionMiddleware
 import secrets
 
+
 app = FastAPI()
 
 # Gerar chave secreta (em produção, use variável de ambiente!)
@@ -26,12 +27,14 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
-
 if __name__ == "__main__":
     uvicorn.run(app="main:app", host="127.0.0.1", port=8000, reload=True)
 
 from routes import public
 app.include_router(public.router)
+
+from routes import auth_routes
+app.include_router(auth_routes.router)
 
 from routes.paciente import paciente_rotas, cadastro_paciente, login_paciente
 app.include_router(paciente_rotas.router)
@@ -43,3 +46,4 @@ app.include_router(cadastro_medico.router)
 
 from routes.admin import admin_rotas
 app.include_router(admin_rotas.router)
+
