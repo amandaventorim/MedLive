@@ -123,21 +123,23 @@
     box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
 }
 
-.btn-cancel {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+.btn-cancelar {
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
     color: white;
     border: none;
     border-radius: 20px;
     padding: 8px 20px;
     font-weight: 600;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 25, 66, 0.4);
 }
 
-.btn-cancel:hover {
-    background: linear-gradient(135deg, #c82333 0%, #dc3545 100%);
+.btn-cancelar:hover {
+    background: linear-gradient(135deg, #003366 0%, #001942 100%);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 25, 66, 0.4);
+
 }
 
 .btn-sair {

@@ -201,6 +201,13 @@
     transition: all 0.3s ease;
 }
 
+.btn-vermelho:hover{
+    background: linear-gradient(135deg, #8f1419 0%, #b31d1d 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(179, 29, 29, 0.3);
+}
+
 .health-tip-card {
     background: #d1ecf1;
     border-radius: 15px;
