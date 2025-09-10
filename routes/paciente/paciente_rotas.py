@@ -1,50 +1,77 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
+from util.auth_decorator import requer_autenticacao
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 @router.get("/dashboard_paciente")
-async def get_dashboard_paciente():
-    response = templates.TemplateResponse("/paciente/dashboard_paciente.html", {"request": {}})
-    return response
+@requer_autenticacao(["paciente"])
+async def get_dashboard_paciente(request: Request, usuario_logado: dict = None):
+    return templates.TemplateResponse("/paciente/dashboard_paciente.html", {
+        "request": request,
+        "usuario": usuario_logado
+    })
 
 @router.get("/cadastro_paciente")
-async def get_cadastro_paciente():
-    response = templates.TemplateResponse("/paciente/cadastro_paciente.html", {"request": {}})
-    return response
+async def get_cadastro_paciente(request: Request):
+    # Rota de cadastro deve ser pública
+    return templates.TemplateResponse("/paciente/cadastro_paciente.html", {
+        "request": request
+    })
 
 @router.get("/perfil_paciente")
-async def get_perfil_paciente():
-    response = templates.TemplateResponse("/paciente/perfil_paciente.html", {"request": {}})
-    return response
+@requer_autenticacao(["paciente"])
+async def get_perfil_paciente(request: Request, usuario_logado: dict = None):
+    return templates.TemplateResponse("/paciente/perfil_paciente.html", {
+        "request": request,
+        "usuario": usuario_logado
+    })
 
 @router.get("/minhas_consultas")
-async def get_minhas_consultas():
-    response = templates.TemplateResponse("/paciente/minhas_consultas.html", {"request": {}})
-    return response
+@requer_autenticacao(["paciente"])
+async def get_minhas_consultas(request: Request, usuario_logado: dict = None):
+    return templates.TemplateResponse("/paciente/minhas_consultas.html", {
+        "request": request,
+        "usuario": usuario_logado
+    })
 
 @router.get("/buscar_medicos")
-async def get_buscar_medicos():
-    response = templates.TemplateResponse("/paciente/buscar_medicos.html", {"request": {}})
-    return response
+@requer_autenticacao(["paciente"])
+async def get_buscar_medicos(request: Request, usuario_logado: dict = None):
+    return templates.TemplateResponse("/paciente/buscar_medicos.html", {
+        "request": request,
+        "usuario": usuario_logado
+    })
 
 @router.get("/agendar_consulta")
-async def get_agendar_consulta():
-    response = templates.TemplateResponse("/paciente/agendar_consulta.html", {"request": {}})
-    return response
+@requer_autenticacao(["paciente"])
+async def get_agendar_consulta(request: Request, usuario_logado: dict = None):
+    return templates.TemplateResponse("/paciente/agendar_consulta.html", {
+        "request": request,
+        "usuario": usuario_logado
+    })
 
 @router.get("/pagamento")
-async def get_pagamento():
-    response = templates.TemplateResponse("/paciente/pagamento.html", {"request": {}})
-    return response
+@requer_autenticacao(["paciente"])
+async def get_pagamento(request: Request, usuario_logado: dict = None):
+    return templates.TemplateResponse("/paciente/pagamento.html", {
+        "request": request,
+        "usuario": usuario_logado
+    })
 
 @router.get("/prontuario")
-async def get_prontuario():
-    response = templates.TemplateResponse("/paciente/prontuario.html", {"request": {}})
-    return response
+@requer_autenticacao(["paciente"])
+async def get_prontuario(request: Request, usuario_logado: dict = None):
+    return templates.TemplateResponse("/paciente/prontuario.html", {
+        "request": request,
+        "usuario": usuario_logado
+    })
 
 @router.get("/sala_espera")
-async def get_sala_espera():
-    response = templates.TemplateResponse("/paciente/sala_espera.html", {"request": {}})
-    return response
+@requer_autenticacao(["paciente"])
+async def get_sala_espera(request: Request, usuario_logado: dict = None):
+    return templates.TemplateResponse("/paciente/sala_espera.html", {
+        "request": request,
+        "usuario": usuario_logado
+    })
