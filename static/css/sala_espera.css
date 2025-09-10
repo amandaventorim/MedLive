@@ -124,8 +124,8 @@
 }
 
 .fila-item.proximo {
-    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(253, 126, 20, 0.1) 100%);
-    border: 2px solid rgba(255, 193, 7, 0.3);
+    background: #eef9fb;
+    border: 2px solid rgba(66, 144, 180, 0.3);
     animation: pulse 2s infinite;
 }
 

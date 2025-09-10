@@ -59,7 +59,7 @@
 }
 
 .stats-icon.warning {
-    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    background: linear-gradient(135deg, #4da0c6 0%, #3781a3 100%);
 }
 
 .stats-icon.danger {
@@ -227,7 +227,7 @@
 }
 
 .badge-plano {
-    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    background: linear-gradient(135deg, #4da0c6 0%, #3781a3 100%);
     color: white;
 }
 
@@ -245,9 +245,9 @@
 }
 
 .status-pendente {
-    background: rgba(255, 193, 7, 0.1);
-    color: #ffc107;
-    border: 1px solid rgba(255, 193, 7, 0.3);
+    background: #eef9fb;
+    color: #3781a3;
+    border: 1px solid rgba(66, 144, 180, 0.3);
 }
 
 .status-inativo {

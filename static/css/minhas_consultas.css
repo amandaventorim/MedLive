@@ -81,7 +81,7 @@
 
 .status-badge.completed {
     background: #d1ecf1;
-    color: #0c5460;
+    color: #3781a3;
 }
 
 .status-badge.cancelled {
@@ -90,20 +90,21 @@
 }
 
 .btn-join {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
     color: white;
     border: none;
     border-radius: 20px;
     padding: 8px 20px;
     font-weight: 600;
+    box-shadow: 0 4px 15px rgba(179, 29, 29, 0.3);
     transition: all 0.3s ease;
 }
 
 .btn-join:hover {
-    background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+    background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 4px 15px rgba(179, 29, 29, 0.3);
 }
 
 .btn-reschedule {
@@ -168,25 +169,47 @@
     transition: all 0.3s ease;
 }
 
-.btn-azul{
-    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+.btn-vermelho:hover {
+    background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(179, 29, 29, 0.3);
+}
+
+.btn-verde{
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
     color: white;
     border: none;
     border-radius: 20px;
     padding: 8px 20px;
     font-weight: 600;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
     transition: all 0.3s ease;
 }
 
+.btn-verde:hover {
+    background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
 .btn-azul-claro{
-    background: #d1ecf1;
-    color: #0c5460;
+    background: linear-gradient(135deg, #4da0c6 0%, #3781a3 100%);
+    color: white;
     border: none;
     border-radius: 20px;
     padding: 8px 20px;
     font-weight: 600;
-    transition: all 0.3s ease;
-    
+    box-shadow: 0 4px 15px rgba(66, 144, 180, 0.3);
+    transition: all 0.3s ease;    
+}
+
+.btn-azul-claro:hover {
+    background: linear-gradient(135deg, #3781a3 0%, #4da0c6 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(66, 144, 180, 0.3);
 }
 
 .consultation-time {

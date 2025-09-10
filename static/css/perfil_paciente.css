@@ -279,22 +279,22 @@
 }
 
 .status-concluido {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    background: linear-gradient(135deg, #4da0c6 0%, #3781a3 100%);
     color: white;
 }
 
 .status-agendado {
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
     color: white;
 }
 
 .status-cancelado {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
     color: white;
 }
 
 .contato-emergencia {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
     color: white;
     border-radius: 15px;
     padding: 1.5rem;
@@ -335,7 +335,7 @@
 }
 
 .alerta-saude {
-    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    background: #c82333;
     color: white;
     border-radius: 10px;
     padding: 1rem;
