@@ -23,10 +23,10 @@
                         </div>
                     </div>
                     <div class="col-md-9">
-                        <h1 class="mb-2">João Santos Silva</h1>
+                        <h1 class="mb-2">{{ usuario.nome }}</h1>
                         <p class="mb-2 opacity-75">
                             <i class="bi bi-calendar me-2"></i>
-                            35 anos • Nascido em 15/03/1989
+                            35 anos • Nascido em {{ usuario.dataNascimento }}
                         </p>
                         <p class="mb-3 opacity-75">
                             <i class="bi bi-geo-alt me-2"></i>
@@ -86,13 +86,13 @@
                             <div class="col-md-6">
                                 <div class="campo-perfil">
                                     <label class="label-campo">Nome Completo</label>
-                                    <div class="valor-campo" id="nome">João Santos Silva</div>
+                                    <div class="valor-campo" id="nome">{{ usuario.nome }}</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="campo-perfil">
                                     <label class="label-campo">Email</label>
-                                    <div class="valor-campo" id="email">jaoa.silva@email.com</div>
+                                    <div class="valor-campo" id="email">{{ usuario.email }}</div>
                                 </div>
                             </div>
                         </div>
