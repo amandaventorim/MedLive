@@ -150,10 +150,10 @@ def deletar_usuario(idUsuario: int) -> bool:
         cursor.execute(DELETAR_USUARIO, (idUsuario,))
         return cursor.rowcount > 0
 
-def obter_todos_por_perfil(perfil: str) -> list[Usuario]:
+def obter_todos_usuarios_por_perfil(perfil: str) -> list[Usuario]:
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute(OBTER_TODOS_USUARIOS_POR_PERFIL)
+        cursor.execute(OBTER_TODOS_USUARIOS_POR_PERFIL, (perfil,))
         rows = cursor.fetchall()
         usuarios = [
             Usuario(
@@ -171,3 +171,4 @@ def obter_todos_por_perfil(perfil: str) -> list[Usuario]:
                 data_cadastro=row["data_cadastro"])
             for row in rows if row["perfil"] == perfil]
         return usuarios
+

@@ -25,7 +25,13 @@ def inserir_administrador(administrador: Administrador) -> Optional[int]:
             administrador.email,
             administrador.senha,
             administrador.genero,
-            administrador.dataNascimento))
+            administrador.dataNascimento,
+            administrador.perfil,
+            administrador.foto,
+            administrador.token_redefinicao,
+            administrador.data_token,
+            administrador.data_cadastro
+        ))
         
         id_administrador = cursor.lastrowid  
 

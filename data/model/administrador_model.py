@@ -1,7 +1,7 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Optional
 from data.model.usuario_model import Usuario
-
 
 @dataclass
 class Administrador(Usuario):
-    idAdministrador: int
+    idAdministrador: Optional[int] = field(default=None)
