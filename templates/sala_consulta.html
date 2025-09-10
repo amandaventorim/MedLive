@@ -35,18 +35,22 @@
         <!-- Video Container -->
         <div class="video-container">
             <div class="main-video">
-                <div class="status-indicator" id="connectionStatus">
-                    <i class="bi bi-wifi"></i>Conectado
-                </div>
-                <div class="recording-indicator" id="recordingIndicator">
-                    <i class="bi bi-record-circle me-1"></i>Gravando
-                </div>
-                <div class="video-placeholder">
-                    <i class="bi bi-camera-video"></i>
-                    <h5>Aguardando vídeo do paciente...</h5>
-                    <p>A consulta iniciará quando o paciente entrar na sala</p>
-                </div>
-                <div class="participant-name">João Silva</div>
+                                <div class="status-indicator" id="connectionStatus">
+                                        <i class="bi bi-wifi"></i>Conectado
+                                </div>
+                                <div class="recording-indicator" id="recordingIndicator">
+                                        <i class="bi bi-record-circle me-1"></i>Gravando
+                                </div>
+                                <!-- Daily.co Video Container -->
+                                <div id="daily-video-container" style="width:100%;height:400px;background:#222;border-radius:15px;display:flex;align-items:center;justify-content:center;"></div>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        createDailyRoom(function(roomUrl) {
+                                            joinDailyRoom(roomUrl);
+                                        });
+                                    });
+                                </script>
+                                <div class="participant-name">João Silva</div>
             </div>
 
             <div class="sidebar">
@@ -254,6 +258,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/daily_video.js"></script>
     <script src="/static/js/sala_consulta.js"></script>
 </body>
 
