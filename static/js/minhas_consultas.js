@@ -159,7 +159,7 @@ function getActionButtons(consultation) {
                             <a href="/agendar_consulta" class="btn btn-verde" onclick="rescheduleConsultation(${consultation.id})">
                                 <i class="bi bi-arrow-repeat me-2"></i>Agendar Novamente
                             </a>
-                            <button class="btn btn-azul-claro" onclick="cancelConsultation(${consultation.id})">
+                            <button class="btn btn-azul-claro" onclick="viewDetails(${consultation.id})">
                                 <i class="bi  bi-calendar me-2"></i>Detalhes
                             </button>
                         </div>
