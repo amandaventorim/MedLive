@@ -287,25 +287,15 @@ function addStepClickListeners() {
 
 function confirmAppointment() {
     const termsAccepted = document.getElementById('termsAccepted').checked;
-
     if (!termsAccepted) {
         alert('Por favor, aceite os termos de uso para continuar.');
         return;
     }
-
-    const appointmentData = {
-        doctor: document.getElementById('summaryDoctor').textContent,
-        specialty: document.getElementById('summarySpecialty').textContent,
-        type: selectedConsultationType,
-        date: selectedDate,
-        time: selectedTime,
-        price: selectedPrice,
-        reason: document.getElementById('consultationReason').value,
-        symptoms: document.getElementById('symptoms').value
-    };
-
-    localStorage.setItem('appointmentData', JSON.stringify(appointmentData));
-    window.location.href = '/pagamento';
+    // Preenche os campos do formulário antes de enviar
+    document.getElementById('inputDate').value = selectedDate ? selectedDate.toISOString().split('T')[0] : '';
+    document.getElementById('inputTime').value = selectedTime;
+    document.getElementById('inputQueixa').value = document.getElementById('consultationReason').value;
+    document.getElementById('agendarForm').submit();
 }
 
 function toggleMobileMenu() {
@@ -314,4 +304,10 @@ function toggleMobileMenu() {
 }
 
 // Initialize page
-document.addEventListener('DOMContentLoaded', initializePage);
+document.addEventListener('DOMContentLoaded', function() {
+    initializePage();
+    document.getElementById('confirmButton').onclick = function(e) {
+        e.preventDefault();
+        confirmAppointment();
+    };
+});

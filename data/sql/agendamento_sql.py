@@ -10,8 +10,8 @@ FOREIGN KEY (idPaciente) REFERENCES paciente(idPaciente)
 """
 
 INSERIR_AGENDAMENTO = """
-INSERT INTO agendamento (idPaciente, status, dataAgendamento)
-VALUES (?, ?, ?)
+INSERT INTO agendamento (idPaciente, status, dataAgendamento, queixa, idMedico)
+VALUES (?, ?, ?, ?, ?)
 """
 
 OBTER_TODOS_AGENDAMENTOS = """

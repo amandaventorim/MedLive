@@ -7,4 +7,6 @@ class Agendamento:
     idPaciente: int
     status: str
     dataAgendamento: str
+    queixa: str = ""
+    idMedico: str = ""
     

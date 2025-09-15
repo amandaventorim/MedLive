@@ -21,7 +21,9 @@ def inserir_agendamento(agendamento: Agendamento) -> Optional[int]:
         cursor.execute(INSERIR_AGENDAMENTO, (
             agendamento.idPaciente,
             agendamento.status,
-            agendamento.dataAgendamento
+            agendamento.dataAgendamento,
+            agendamento.queixa,
+            agendamento.idMedico
         ))
         return cursor.lastrowid
 
