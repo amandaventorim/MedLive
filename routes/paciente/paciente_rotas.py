@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
 from util.auth_decorator import requer_autenticacao
+from fastapi.responses import JSONResponse
+from data.repo.medico_repo import obter_todos_medicos
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -75,3 +77,21 @@ async def get_sala_espera(request: Request, usuario_logado: dict = None):
         "request": request,
         "usuario": usuario_logado
     })
+
+# Rota API para retornar médicos cadastrados
+@router.get("/api/medicos")
+async def api_medicos():
+    medicos = obter_todos_medicos()
+    # Retorna apenas os campos relevantes para o frontend
+    medicos_dict = [
+        {
+            "id": m.idMedico,
+            "name": m.nome,
+            "specialty": getattr(m, "especialidade", ""),
+            "crm": m.crm,
+            "experience": getattr(m, "statusProfissional", ""),
+            "email": m.email
+        }
+        for m in medicos
+    ]
+    return JSONResponse(content=medicos_dict)

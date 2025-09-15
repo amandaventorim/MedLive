@@ -1,73 +1,21 @@
-const doctors = [
-    {
-        id: 1,
-        name: "Dr. Carlos Silva",
-        specialty: "Cardiologia",
-        rating: 4.8,
-        reviews: 127,
-        price: "R$ 150",
-        availability: "Hoje às 14:00",
-        crm: "CRM 12345",
-        experience: "15 anos"
-    },
-    {
-        id: 2,
-        name: "Dra. Ana Santos",
-        specialty: "Dermatologia",
-        rating: 4.9,
-        reviews: 89,
-        price: "R$ 120",
-        availability: "Amanhã às 09:00",
-        crm: "CRM 67890",
-        experience: "12 anos"
-    },
-    {
-        id: 3,
-        name: "Dr. Pedro Costa",
-        specialty: "Clínica Geral",
-        rating: 4.7,
-        reviews: 203,
-        price: "R$ 100",
-        availability: "Hoje às 16:30",
-        crm: "CRM 11111",
-        experience: "20 anos"
-    },
-    {
-        id: 4,
-        name: "Dra. Maria Oliveira",
-        specialty: "Pediatria",
-        rating: 4.9,
-        reviews: 156,
-        price: "R$ 130",
-        availability: "Amanhã às 10:00",
-        crm: "CRM 22222",
-        experience: "18 anos"
-    },
-    {
-        id: 5,
-        name: "Dra. Julia Ferreira",
-        specialty: "Ginecologia",
-        rating: 4.8,
-        reviews: 94,
-        price: "R$ 140",
-        availability: "Hoje às 15:00",
-        crm: "CRM 33333",
-        experience: "14 anos"
-    },
-    {
-        id: 6,
-        name: "Dr. Roberto Lima",
-        specialty: "Neurologia",
-        rating: 4.6,
-        reviews: 78,
-        price: "R$ 180",
-        availability: "Amanhã às 11:00",
-        crm: "CRM 44444",
-        experience: "22 anos"
-    }
-];
 
-let filteredDoctors = [...doctors];
+let doctors = [];
+let filteredDoctors = [];
+
+async function fetchDoctors() {
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    loadingSpinner.style.display = 'block';
+    try {
+        const response = await fetch('/api/medicos');
+        doctors = await response.json();
+        filteredDoctors = [...doctors];
+        renderDoctors(doctors);
+    } catch (error) {
+        console.error('Erro ao buscar médicos:', error);
+    } finally {
+        loadingSpinner.style.display = 'none';
+    }
+}
 
 function renderDoctors(doctorsToRender) {
     const doctorsList = document.getElementById('doctorsList');
@@ -181,5 +129,5 @@ document.getElementById('ratingFilter').addEventListener('change', applyFilters)
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function () {
-    renderDoctors(doctors);
+    fetchDoctors();
 });

@@ -16,7 +16,7 @@ SECRET_KEY = secrets.token_urlsafe(32)
 app.add_middleware(
     SessionMiddleware, 
     secret_key=SECRET_KEY,
-    max_age=3600,  # Sessão expira em 1 hora
+    max_age=28800,  # Sessão expira em 8 horas
     same_site="lax",
     https_only=False  # Em produção, mude para True com HTTPS
 )
@@ -36,10 +36,9 @@ app.include_router(public.router)
 from routes import auth_routes
 app.include_router(auth_routes.router)
 
-from routes.paciente import paciente_rotas, cadastro_paciente, login_paciente
+from routes.paciente import paciente_rotas, cadastro_paciente
 app.include_router(paciente_rotas.router)
 app.include_router(cadastro_paciente.router)
-app.include_router(login_paciente.router)
 from routes.medico import medico_rotas, cadastro_medico
 app.include_router(medico_rotas.router)
 app.include_router(cadastro_medico.router)

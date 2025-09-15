@@ -3,9 +3,12 @@ let currentStep = 1;
 function showStep(step) {
     const steps = document.querySelectorAll(".step-form");
     steps.forEach((el, index) => {
-        el.classList.remove("active");
         if (index === step - 1) {
             el.classList.add("active");
+            el.style.display = "block";
+        } else {
+            el.classList.remove("active");
+            el.style.display = "none";
         }
     });
 }

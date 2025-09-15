@@ -126,7 +126,6 @@
                                         id="documento_crm"
                                         name="documento_crm"
                                         accept=".pdf, .png, .jpg, .jpeg"
-                                        required
                                     >
                                 </div>
                                 <div class="mb-3">
@@ -146,6 +145,11 @@
                                     <button type="button" class="btn btn-secondary" onclick="prevStep()">Voltar</button>
                                     <button type="submit" class="btn btn-medlive">Criar conta</button>
                                 </div>
+                                {% if erro %}
+                                <div class="alert alert-danger mt-3" role="alert">
+                                    {{ erro }}
+                                </div>
+                                {% endif %}
                             </div>
                         </form>
                         
