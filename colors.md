@@ -11,6 +11,8 @@ Este relatório apresenta todas as cores e variações utilizadas no sistema, ag
 - **Azul Claro:**
   - #3781a3
   - #4da0c6
+  - #ccdff3 
+  - #eef9fb
 - **Cinza Claro:**
   - #f8f9fa
   - #e9ecef

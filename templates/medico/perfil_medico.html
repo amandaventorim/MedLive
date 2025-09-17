@@ -5,32 +5,7 @@
 <link rel="stylesheet" href="/static/css/perfil_medico.css">
 {% endblock %}
 
-<!-- Mensagens de feedback -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    if (urlParams.get('foto_sucesso') === '1') {
-        // Limpar parâmetro da URL sem mostrar mensagem
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
-    
-    if (urlParams.get('erro') === 'tipo_invalido') {
-        alert('Erro: Tipo de arquivo não permitido. Use apenas JPG, PNG ou WEBP.');
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
-    
-    if (urlParams.get('erro') === 'arquivo_muito_grande') {
-        alert('Erro: Arquivo muito grande. Tamanho máximo: 5MB.');
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
-    
-    if (urlParams.get('erro') === 'upload_falhou') {
-        alert('Erro: Falha no upload. Tente novamente.');
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
-});
-</script>
+
     
     <!-- Seção Principal -->
     <section class="secao-perfil">

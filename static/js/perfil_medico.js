@@ -1,3 +1,8 @@
+function toggleMobileMenu() {
+    const navbarNav = document.getElementById('navbarNav');
+    navbarNav.classList.toggle('show');
+}
+
 function editarSecao(secao) {
     console.log('Editando seção:', secao);
     // Aqui você pode implementar a lógica de edição inline
@@ -49,3 +54,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    if (urlParams.get('foto_sucesso') === '1') {
+        // Limpar parâmetro da URL sem mostrar mensagem
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    if (urlParams.get('erro') === 'tipo_invalido') {
+        alert('Erro: Tipo de arquivo não permitido. Use apenas JPG, PNG ou WEBP.');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    if (urlParams.get('erro') === 'arquivo_muito_grande') {
+        alert('Erro: Arquivo muito grande. Tamanho máximo: 5MB.');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    if (urlParams.get('erro') === 'upload_falhou') {
+        alert('Erro: Falha no upload. Tente novamente.');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+});
+

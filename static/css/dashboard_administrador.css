@@ -276,32 +276,32 @@
 }
 
 .btn-edit {
-    background: rgba(40, 167, 69, 0.1);
-    color: #28a745;
+    background: #eef9fb;
+    color: #3781a3;
 }
 
 .btn-edit:hover {
-    background: #28a745;
+    background: #3781a3;
     color: white;
 }
 
 .btn-view {
-    background: rgba(0, 123, 255, 0.1);
-    color: #007bff;
-}
-
-.btn-view:hover {
-    background: #007bff;
-    color: white;
-}
-
-.btn-delete {
     background: rgba(179, 29, 29, 0.1);
     color: #B31D1D;
 }
 
-.btn-delete:hover {
+.btn-view:hover {
     background: #B31D1D;
+    color: white;
+}
+
+.btn-delete {
+    background: #ccdff3;
+    color: #001942;
+}
+
+.btn-delete:hover {
+    background: #001942;
     color: white;
 }
 
@@ -435,5 +435,21 @@
 
 .text-azul {
     color: #001942 !important;
+}
+
+.btn-sair {
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    border: none;
+    border-radius: 0.8cap;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-sair:hover {
+    background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+    color: white;
+    transform: translateY(2px);
+
 }
 
