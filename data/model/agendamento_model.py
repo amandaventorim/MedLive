@@ -11,6 +11,4 @@ class Agendamento:
     horario: str
     status: str = "agendado"
     queixa: str = ""
-    preco: float = 0.0
-    dataInclusao: Optional[str] = None
     

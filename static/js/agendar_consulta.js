@@ -1,6 +1,4 @@
 let currentStep = 1;
-let selectedConsultationType = null;
-let selectedPrice = 0;
 let selectedDate = null;
 let selectedTime = null;
 let currentMonth = new Date();
@@ -35,23 +33,8 @@ function initializePage() {
 }
 
 function selectConsultationType(type, price) {
-    // Remove previous selection
-    document.querySelectorAll('.consultation-type-card').forEach(card => {
-        card.classList.remove('selected');
-    });
-
-    // Add selection to clicked card
-    event.currentTarget.classList.add('selected');
-
-    selectedConsultationType = type;
-    selectedPrice = price;
-
-    document.getElementById('summaryType').textContent = type === 'video' ? 'Videochamada' : 'Chat';
-    document.getElementById('summaryPrice').textContent = `R$ ${price.toFixed(2).replace('.', ',')}`;
-
-    setTimeout(() => {
-        nextStep();
-    }, 500);
+    // Função removida pois não há mais escolha de tipo de consulta
+    // O fluxo começa na escolha da data
 }
 
 function generateCalendar() {
@@ -192,20 +175,17 @@ function nextStep() {
     document.getElementById(`step${currentStep}`).classList.add('completed');
 
     if (currentStep === 1) {
-        document.getElementById('consultationTypeStep').style.display = 'none';
-        document.getElementById('dateSelectionStep').style.display = 'block';
-    } else if (currentStep === 2) {
         document.getElementById('dateSelectionStep').style.display = 'none';
         document.getElementById('timeSelectionStep').style.display = 'block';
         generateTimeSlots();
-    } else if (currentStep === 3) {
+    } else if (currentStep === 2) {
         document.getElementById('timeSelectionStep').style.display = 'none';
         document.getElementById('additionalInfoStep').style.display = 'block';
         document.getElementById('confirmButton').disabled = false;
     }
 
     currentStep++;
-    if (currentStep <= 4) {
+    if (currentStep <= 3) {
         document.getElementById(`step${currentStep}`).classList.add('active');
     }
 }
@@ -220,22 +200,19 @@ function goToStep(stepNumber) {
     updateStepIndicators(stepNumber);
 
     // Esconder todos os passos
-    document.getElementById('consultationTypeStep').style.display = 'none';
     document.getElementById('dateSelectionStep').style.display = 'none';
     document.getElementById('timeSelectionStep').style.display = 'none';
     document.getElementById('additionalInfoStep').style.display = 'none';
 
     // Mostrar o passo selecionado
     if (stepNumber === 1) {
-        document.getElementById('consultationTypeStep').style.display = 'block';
-    } else if (stepNumber === 2) {
         document.getElementById('dateSelectionStep').style.display = 'block';
-    } else if (stepNumber === 3) {
+    } else if (stepNumber === 2) {
         document.getElementById('timeSelectionStep').style.display = 'block';
         if (selectedDate) {
             generateTimeSlots();
         }
-    } else if (stepNumber === 4) {
+    } else if (stepNumber === 3) {
         document.getElementById('additionalInfoStep').style.display = 'block';
         document.getElementById('confirmButton').disabled = !isAllDataValid();
     }
@@ -248,18 +225,16 @@ function canGoToStep(stepNumber) {
         case 1:
             return true;
         case 2:
-            return selectedConsultationType !== null;
+            return selectedDate !== null;
         case 3:
-            return selectedConsultationType !== null && selectedDate !== null;
-        case 4:
-            return selectedConsultationType !== null && selectedDate !== null && selectedTime !== null;
+            return selectedDate !== null && selectedTime !== null;
         default:
             return false;
     }
 }
 
 function updateStepIndicators(activeStep) {
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 3; i++) {
         const stepElement = document.getElementById(`step${i}`);
         stepElement.classList.remove('active', 'completed');
         
@@ -272,13 +247,11 @@ function updateStepIndicators(activeStep) {
 }
 
 function isAllDataValid() {
-    return selectedConsultationType !== null && 
-           selectedDate !== null && 
-           selectedTime !== null;
+    return selectedDate !== null && selectedTime !== null;
 }
 
 function addStepClickListeners() {
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 3; i++) {
         const stepElement = document.getElementById(`step${i}`);
         stepElement.style.cursor = 'pointer';
         stepElement.addEventListener('click', () => goToStep(i));

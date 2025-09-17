@@ -25,17 +25,18 @@ async def agendar_consulta(
     date: str = Form(...),
     time: str = Form(...),
     queixa: str = Form(...),
+    idMedico: int = Form(...),
     usuario_logado: dict = None
 ):
-    status = "pendente"
-    # Cria e insere o agendamento
+    status = "agendado"
     agendamento = Agendamento(
         idAgendamento=None,
         idPaciente=usuario_logado["idPaciente"],
+        idMedico=idMedico,
+        dataAgendamento=date,
+        horario=time,
         status=status,
-        dataAgendamento=f"{date} {time}",
-        queixa=queixa,
-        idMedico=""  # Ajuste para buscar id do médico se necessário
+        queixa=queixa
     )
     agendamento_id = inserir_agendamento(agendamento)
     if agendamento_id:
