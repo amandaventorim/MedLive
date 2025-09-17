@@ -20,10 +20,12 @@ def inserir_agendamento(agendamento: Agendamento) -> Optional[int]:
         cursor = conn.cursor()
         cursor.execute(INSERIR_AGENDAMENTO, (
             agendamento.idPaciente,
-            agendamento.status,
+            agendamento.idMedico,
             agendamento.dataAgendamento,
+            agendamento.horario,
+            agendamento.status,
             agendamento.queixa,
-            agendamento.idMedico
+            agendamento.preco
         ))
         return cursor.lastrowid
 
@@ -37,8 +39,13 @@ def obter_todos_agendamentos() -> list[Agendamento]:
             Agendamento(
                 idAgendamento=row["idAgendamento"],
                 idPaciente=row["idPaciente"],
+                idMedico=row["idMedico"],
+                dataAgendamento=row["dataAgendamento"],
+                horario=row["horario"],
                 status=row["status"],
-                dataAgendamento=row["dataAgendamento"]
+                queixa=row["queixa"],
+                preco=row["preco"],
+                dataInclusao=row["dataInclusao"]
             )
             for row in rows
         ]
@@ -53,8 +60,13 @@ def obter_agendamentos_por_pagina(numero_pagina: int, tamanho_pagina: int) -> li
             Agendamento(
                 idAgendamento=row["idAgendamento"],
                 idPaciente=row["idPaciente"],
+                idMedico=row["idMedico"],
+                dataAgendamento=row["dataAgendamento"],
+                horario=row["horario"],
                 status=row["status"],
-                dataAgendamento=row["dataAgendamento"]
+                queixa=row["queixa"],
+                preco=row["preco"],
+                dataInclusao=row["dataInclusao"]
             )
             for row in rows
         ]
@@ -68,8 +80,13 @@ def obter_agendamento_por_id(idAgendamento: int) -> Optional[Agendamento]:
             return Agendamento(
                 idAgendamento=row["idAgendamento"],
                 idPaciente=row["idPaciente"],
+                idMedico=row["idMedico"],
+                dataAgendamento=row["dataAgendamento"],
+                horario=row["horario"],
                 status=row["status"],
-                dataAgendamento=row["dataAgendamento"]
+                queixa=row["queixa"],
+                preco=row["preco"],
+                dataInclusao=row["dataInclusao"]
             )
         return None
 
@@ -79,8 +96,12 @@ def atualizar_agendamento(agendamento: Agendamento) -> bool:
         cursor = conn.cursor()
         cursor.execute(UPDATE_AGENDAMENTO, (
             agendamento.idPaciente,
-            agendamento.status,
+            agendamento.idMedico,
             agendamento.dataAgendamento,
+            agendamento.horario,
+            agendamento.status,
+            agendamento.queixa,
+            agendamento.preco,
             agendamento.idAgendamento
         ))
         return cursor.rowcount > 0

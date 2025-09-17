@@ -37,7 +37,10 @@
                     <div class="user-link-wrapper position-relative">
                         <a class="nav-link fw-bold user-link-inner px-0" href="/perfil_medico">
                             <span class="icon-text-wrapper">
-                                <i class="bi bi-person-circle"></i>
+                                <img src="{{ usuario.foto if usuario.foto else '/static/img/user-default.png' }}" 
+                                     alt="Foto do perfil" 
+                                     class="user-avatar-navbar"
+                                     style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; backface-visibility: hidden; transform: translateZ(0);">
                                 <span class="ms-2">{{ usuario.nome }}</span>
                             </span>
                         </a>
