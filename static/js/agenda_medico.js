@@ -1,3 +1,8 @@
+function toggleMobileMenu() {
+    const navbarNav = document.getElementById('navbarNav');
+    navbarNav.classList.toggle('show');
+}
+
 function mesAnterior() {
             // Implementar lógica para mês anterior
             console.log('Mês anterior');
@@ -17,3 +22,4 @@ function mesAnterior() {
                 this.classList.add('selecionado');
             });
         });
+

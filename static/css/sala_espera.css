@@ -368,7 +368,7 @@
     transform: translateY(-2px);
 }
 
-.btn-outline-primary {
+.botao-teste {
     border: 2px solid #B31D1D;
     color: #B31D1D;
     border-radius: 10px;
@@ -377,7 +377,7 @@
     transition: all 0.3s ease;
 }
 
-.btn-outline-primary:hover {
+.botao-teste:hover {
     background: #B31D1D;
     border-color: #B31D1D;
     color: white;
