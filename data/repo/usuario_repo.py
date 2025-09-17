@@ -138,6 +138,13 @@ def atualizar_usuario(usuario: Usuario) -> bool:
             usuario.idUsuario))
         return cursor.rowcount > 0
     
+
+def atualizar_foto_usuario(idUsuario: int, caminho_foto: str) -> bool:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(UPDATE_FOTO_USUARIO, (caminho_foto, idUsuario))
+        return cursor.rowcount > 0
+
 def atualizar_senha_usuario(idUsuario: int, nova_senha: str) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()

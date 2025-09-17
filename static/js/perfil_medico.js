@@ -18,3 +18,34 @@ document.querySelectorAll('.switch-disponibilidade input').forEach(switch_ => {
         }
     });
 });
+
+
+
+// Preview de foto de perfil
+document.addEventListener('DOMContentLoaded', function() {
+    const fotoInput = document.getElementById('foto');
+    const fotoPreview = document.querySelector('#modalEditarFoto .foto-usuario');
+
+    if (fotoInput && fotoPreview) {
+        fotoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+
+            if (file) {
+                // Verificar se é uma imagem
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        // Atualizar preview no modal
+                        fotoPreview.src = e.target.result;
+                    };
+
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Por favor, selecione apenas arquivos de imagem.');
+                    fotoInput.value = '';
+                }
+            }
+        });
+    }
+});

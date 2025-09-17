@@ -6,6 +6,7 @@ jinja2
 Babel
 python-multipart
 itsdangerous
+pillow
 
 # Dependências de teste
 pytest

@@ -76,6 +76,11 @@ SET senha = ?
 WHERE idUsuario = ?
 """
 
+# Atualizar apenas a foto do usuário
+UPDATE_FOTO_USUARIO = """
+UPDATE usuario SET foto = ? WHERE idUsuario = ?
+"""
+
 DELETAR_USUARIO = """
 DELETE FROM usuario
 WHERE idUsuario = ?

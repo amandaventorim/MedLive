@@ -4,6 +4,33 @@
 {% block extra_css %}
 <link rel="stylesheet" href="/static/css/perfil_medico.css">
 {% endblock %}
+
+<!-- Mensagens de feedback -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    if (urlParams.get('foto_sucesso') === '1') {
+        // Limpar parâmetro da URL sem mostrar mensagem
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    if (urlParams.get('erro') === 'tipo_invalido') {
+        alert('Erro: Tipo de arquivo não permitido. Use apenas JPG, PNG ou WEBP.');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    if (urlParams.get('erro') === 'arquivo_muito_grande') {
+        alert('Erro: Arquivo muito grande. Tamanho máximo: 5MB.');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
+    if (urlParams.get('erro') === 'upload_falhou') {
+        alert('Erro: Falha no upload. Tente novamente.');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+});
+</script>
     
     <!-- Seção Principal -->
     <section class="secao-perfil">
@@ -14,7 +41,7 @@
                     <div class="col-md-3 text-center">
                         <div class="foto-perfil-container">
                             <div class="foto-perfil">
-                                <i class="bi bi-person-fill"></i>
+                                <img src="{{ usuario.foto if usuario.foto else '/static/img/user-default.png' }}" alt="Foto do perfil" class="foto-usuario">
                             </div>
                             <button class="botao-editar-foto" data-bs-toggle="modal" data-bs-target="#modalEditarFoto">
                                 <i class="bi bi-camera"></i>
@@ -410,16 +437,21 @@
                 </div>
                 <div class="modal-body text-center">
                     <div class="foto-perfil mx-auto mb-3" style="width: 120px; height: 120px; font-size: 3rem;">
-                        <i class="bi bi-person-fill"></i>
+                        <img src="{{ usuario.foto if usuario.foto else '/static/img/user-default.png' }}" alt="Foto do perfil" class="foto-usuario">
                     </div>
-                    <div class="mb-3">
-                        <input type="file" class="form-control campo-edicao" accept="image/*">
-                    </div>
-                    <p class="text-muted">Formatos aceitos: JPG, PNG, GIF (máx. 5MB)</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn botao-medlive">Salvar Foto</button>
+                    
+                    <form action="/perfil/alterar-foto" method="post" enctype="multipart/form-data" id="form-alterar-foto">
+                        <div class="mb-3">
+                            <label for="foto" class="form-label">Selecionar Nova Foto</label>
+                            <input type="file" class="form-control campo-edicao" id="foto" name="foto" accept="image/*" required>
+                        </div>
+                        <p class="text-muted">Formatos aceitos: JPG, PNG, GIF, WEBP (máx. 5MB)</p>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn botao-medlive">Salvar Foto</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -427,6 +459,8 @@
 
 {% block extra_js %}
 <script src="/static/js/perfil_medico.js"></script>
+
+
 {% endblock %}
 
 {% endblock %}
