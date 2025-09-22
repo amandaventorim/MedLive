@@ -20,4 +20,12 @@ async def get_cadastro_admin(request: Request, usuario_logado: dict = None):
         "request": request, 
         "usuario": usuario_logado
     })
+
+@router.get("/perfil_admin")
+@requer_autenticacao(["admin"])
+async def get_perfil_admin(request: Request, usuario_logado: dict = None):
+    return templates.TemplateResponse("/admin/perfil_admin.html", {
+        "request": request, 
+        "usuario": usuario_logado
+    })
     

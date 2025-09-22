@@ -1,0 +1,326 @@
+
+{% extends "base_admin.html" %}
+{% block conteudo %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/perfil_admin.css">
+
+{% endblock %}
+
+<section class="secao-perfil">
+        <div class="container">
+            <!-- Cabeçalho do Perfil -->
+            <div class="cabecalho-perfil">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-center">
+                        <div class="foto-perfil-container">
+                            <div class="foto-perfil">
+                                <img src="{{ usuario.foto if usuario.foto else '/static/img/user-default.png' }}" alt="Foto do perfil" class="foto-usuario">
+                            </div>
+                            <button class="botao-editar-foto" data-bs-toggle="modal" data-bs-target="#modalEditarFoto">
+                                <i class="bi bi-camera"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h1 class="mb-2">Luiz</h1>
+                        <p class="mb-2 opacity-75">
+                            <i class="bi bi-calendar me-2"></i>
+                            40 anos • Nascido em 
+                        </p>
+                        <p class="mb-3 opacity-75">
+                            <i class="bi bi-geo-alt me-2"></i>
+                            São Paulo, SP • 
+                            <i class="bi bi-person-check me-2"></i>
+                            Paciente desde Janeiro 2023
+                        </p>
+                        <div class="plano-ativo">
+                            <div class="plano-nome">
+                               
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <!-- Informações Pessoais -->
+                <div class="col-lg-8 mb-4">
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <span>
+                                <i class="bi bi-person icone-secao"></i>
+                                Informações Pessoais
+                            </span>
+                            <button class="btn botao-secundario btn-sm" onclick="editarSecao('pessoais')">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </button>
+                        </h3>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Nome Completo</label>
+                                    <div class="valor-campo" id="nome">Luiz Lopes </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Email</label>
+                                    <div class="valor-campo" id="email">luizlopes@gmail.com</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Telefone</label>
+                                    <div class="valor-campo" id="telefone">(27) 99940-0222</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Data de Nascimento</label>
+                                    <div class="valor-campo" id="nascimento">27/12/1985</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">CPF</label>
+                                    <div class="valor-campo" id="cpf">589.247.693-45</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Estado Civil</label>
+                                    <div class="valor-campo" id="estado_civil">Casado</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="campo-perfil">
+                            <label class="label-campo">Endereço</label>
+                            <div class="valor-campo" id="endereco">Rua Santos Dummont, 123 - Lusíadas, Vitória - ES, 01234-567</div>
+                        </div>
+                    </div>
+
+                   
+
+                   
+                    <!-- Histórico de Consultas -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <span>
+                                <i class="bi bi-clock-history icone-secao"></i>
+                                Atividades Recentes
+                            </span>
+                            <a href="/minhas_consultas" class="btn botao-secundario btn-sm">
+                                <i class="bi bi-eye me-1"></i>
+                                Ver Todas
+                            </a>
+                        </h3>
+
+                    
+
+					<div class="historico-item">
+						<div class="icone-historico">
+							<i class="bi bi-person-plus"></i>
+						</div>
+						<div class="info-historico">
+							<div class="titulo-historico">Novo Médico Cadastrado</div>
+							<div class="data-historico">20 de Setembro de 2025</div>
+						</div>
+						<span class="status-historico status-concluido">Concluído</span>
+					</div>
+
+					<div class="historico-item">
+						<div class="icone-historico">
+							<i class="bi bi-person-check"></i>
+						</div>
+						<div class="info-historico">
+							<div class="titulo-historico">Paciente Validado</div>
+							<div class="data-historico">18 de Setembro de 2025</div>
+						</div>
+						<span class="status-historico status-concluido">Concluído</span>
+					</div>
+
+					<div class="historico-item">
+						<div class="icone-historico">
+							<i class="bi bi-calendar-check"></i>
+						</div>
+						<div class="info-historico">
+							<div class="titulo-historico">Consulta Agendada</div>
+							<div class="data-historico">15 de Setembro de 2025</div>
+						</div>
+						<span class="status-historico status-concluido">Concluído</span>
+					</div>
+				</div>
+			</div>
+
+                <!-- Painel Lateral -->
+                <div class="col-lg-4">
+                    
+
+                    <!-- Configurações de Conta -->
+                    <div class="cartao-secao">
+                        <h3 class="titulo-secao">
+                            <i class="bi bi-gear icone-secao"></i>
+                            Configurações
+                        </h3>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn botao-medlive" data-bs-toggle="modal" data-bs-target="#modalAlterarSenha">
+                                <i class="bi bi-lock me-2"></i>
+                                Alterar Senha
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-bell me-2"></i>
+                                Notificações
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Privacidade
+                            </button>
+                            <button class="btn botao-secundario">
+                                <i class="bi bi-download me-2"></i>
+                                Exportar Dados
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Contatos de Emergência -->
+                    
+
+                        
+
+
+                    <!-- Ações Rápidas -->
+                    <div class="cartao-secao">
+					<h3 class="titulo-secao">
+						<i class="bi bi-lightning icone-secao"></i>
+						Ações Rápidas
+					</h3>
+
+					<div class="d-grid gap-2">
+						<a href="/admin/usuarios" class="btn botao-medlive">
+							<i class="bi bi-people me-2"></i>
+							Gerenciar Usuários
+						</a>
+						<a href="/admin/medicos" class="btn botao-secundario">
+							<i class="bi bi-person-badge me-2"></i>
+							Gerenciar Médicos
+						</a>
+						<a href="/admin/pacientes" class="btn botao-secundario">
+							<i class="bi bi-person me-2"></i>
+							Gerenciar Pacientes
+						</a>
+						<a href="/admin/consultas" class="btn botao-secundario">
+							<i class="bi bi-calendar-check me-2"></i>
+							Gerenciar Consultas
+						</a>
+					</div>
+				</div>
+
+
+                    <!-- Próximas Consultas -->
+                    
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Alterar Senha -->
+    <div class="modal fade" id="modalAlterarSenha" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-lock me-2"></i>
+                        Alterar Senha
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Senha Atual</label>
+                            <input type="password" class="form-control campo-edicao" placeholder="Digite sua senha atual">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nova Senha</label>
+                            <input type="password" class="form-control campo-edicao" placeholder="Digite a nova senha">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar Nova Senha</label>
+                            <input type="password" class="form-control campo-edicao" placeholder="Confirme a nova senha">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn botao-medlive">Alterar Senha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Foto -->
+    <div class="modal fade" id="modalEditarFoto" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-camera me-2"></i>
+                        Alterar Foto do Perfil
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="foto-perfil mx-auto mb-3" style="width: 120px; height: 120px; font-size: 3rem;">
+                        <img src="{{ usuario.foto if usuario.foto else '/static/img/user-default.png' }}" alt="Foto do perfil" class="foto-usuario">
+                    </div>
+                    
+                    <form action="/perfil/alterar-foto" method="post" enctype="multipart/form-data" id="form-alterar-foto">
+                        <div class="mb-3">
+                            <label for="foto" class="form-label">Selecionar Nova Foto</label>
+                            <input type="file" class="form-control campo-edicao" id="foto" name="foto" accept="image/*" required>
+                        </div>
+                        <p class="text-muted">Formatos aceitos: JPG, PNG, GIF, WEBP (máx. 5MB)</p>
+
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn botao-medlive">Salvar Foto</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% block extra_js %}
+<script src="/static/js/perfil_admin.js"></script>
+
+
+{% endblock %}
+
+
+{% endblock %}
+
+
+
