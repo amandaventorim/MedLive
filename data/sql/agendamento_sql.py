@@ -41,6 +41,17 @@ FROM agendamento
 WHERE idAgendamento = ?
 """
 
+OBTER_AGENDAMENTOS_POR_PACIENTE = """
+SELECT
+a.idAgendamento, a.idPaciente, a.idMedico, a.dataAgendamento, a.horario, a.status, a.queixa, a.preco, a.dataInclusao,
+u.nome as nomeMedico, m.crm, u.foto as fotoMedico
+FROM agendamento a
+JOIN usuario u ON a.idMedico = u.idUsuario
+JOIN medico m ON a.idMedico = m.idMedico
+WHERE a.idPaciente = ?
+ORDER BY a.dataAgendamento DESC, a.horario DESC
+"""
+
 UPDATE_AGENDAMENTO = """
 UPDATE agendamento
 SET idPaciente = ?, idMedico = ?, dataAgendamento = ?, horario = ?, status = ?, queixa = ?, preco = ?

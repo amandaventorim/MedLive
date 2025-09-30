@@ -95,6 +95,30 @@ def obter_agendamento_por_id(idAgendamento: int) -> Optional[Agendamento]:
         return None
 
 
+def obter_agendamentos_por_paciente(idPaciente: int) -> list[dict]:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(OBTER_AGENDAMENTOS_POR_PACIENTE, (idPaciente,))
+        rows = cursor.fetchall()
+        return [
+            {
+                "idAgendamento": row["idAgendamento"],
+                "idPaciente": row["idPaciente"],
+                "idMedico": row["idMedico"],
+                "dataAgendamento": row["dataAgendamento"],
+                "horario": row["horario"],
+                "status": row["status"],
+                "queixa": row["queixa"],
+                "preco": row["preco"],
+                "dataInclusao": row["dataInclusao"],
+                "nomeMedico": row["nomeMedico"],
+                "crm": row["crm"],
+                "fotoMedico": row["fotoMedico"]
+            }
+            for row in rows
+        ]
+
+
 def atualizar_agendamento(agendamento: Agendamento) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()

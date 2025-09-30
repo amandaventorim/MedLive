@@ -7,6 +7,15 @@
 
     <section class="consultations-section">
         <div class="container">
+            <!-- Mensagem de sucesso -->
+            {% if mensagem_sucesso %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                {{ mensagem_sucesso }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+            
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold text-azul">Minhas Consultas</h2>
                 <a href="/buscar_medicos" class="btn btn-vermelho">
@@ -53,25 +62,201 @@
             </div>
 
             <!-- Consultations List -->
-            <div id="consultationsList">
-                <!-- Consultations will be populated here -->
-            </div>
-
-            <!-- Empty State -->
-            <div class="empty-state" id="emptyState" style="display: none;">
-                <i class="bi bi-calendar-x"></i>
-                <h4>Nenhuma consulta encontrada</h4>
-                <p>Você ainda não possui consultas agendadas ou não há resultados para os filtros aplicados.</p>
-                <a href="/buscar_medicos" class="btn btn-primary">
-                    <i class="bi bi-search me-2"></i>Buscar Médicos
-                </a>
+            <div class="filter-card">
+                <div id="consultationsList">
+                    {% if consultas %}
+                        {% for consulta in consultas %}
+                            {% set status_map = {
+                                'agendado': 'upcoming',
+                                'hoje': 'today', 
+                                'realizada': 'completed',
+                                'cancelada': 'cancelled'
+                            } %}
+                            {% set status = status_map.get(consulta.status, 'upcoming') %}
+                            {% set status_text_map = {
+                                'upcoming': 'Agendada',
+                                'today': 'Hoje',
+                                'completed': 'Realizada', 
+                                'cancelled': 'Cancelada'
+                            } %}
+                            {% set status_text = status_text_map.get(status, 'Agendada') %}
+                            
+                            <div class="consultation-card {{ status }}">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <div class="d-flex align-items-center">
+                                            <div class="doctor-avatar">
+                                                {% if consulta.fotoMedico %}
+                                                    <img src="{{ consulta.fotoMedico }}" alt="Foto do Dr. {{ consulta.nomeMedico }}" 
+                                                         class="rounded-circle doctor-photo" 
+                                                         style="width: 60px; height: 60px; object-fit: cover;">
+                                                {% else %}
+                                                    <div class="avatar-initials">
+                                                        {% if consulta.nomeMedico %}
+                                                            {{ consulta.nomeMedico.split()[0][0] }}{{ consulta.nomeMedico.split()[-1][0] if consulta.nomeMedico.split()|length > 1 else '' }}
+                                                        {% else %}
+                                                            DR
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                    <div class="consultation-time">{{ consulta.dataAgendamento }} às {{ consulta.horario }}</div>
+                                                    <span class="status-badge {{ status }}">{{ status_text }}</span>
+                                                </div>
+                                                <h5 class="fw-bold text-azul mb-1">{{ consulta.nomeMedico or 'Dr. [Nome não disponível]' }}</h5>
+                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                    <span class="text-secondary">CRM: {{ consulta.crm or 'N/A' }}</span>
+                                                    <span class="consultation-type">Presencial</span>
+                                                </div>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="rating-stars">
+                                                        ★★★★★
+                                                        <span class="text-muted">5.0</span>
+                                                    </div>
+                                                    <span class="fw-bold text-success">R$ {{ "%.2f"|format(consulta.preco) if consulta.preco else '0,00' }}</span>
+                                                    {% if consulta.queixa %}
+                                                        <span class="text-muted">Motivo: {{ consulta.queixa }}</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        {% if status == 'today' %}
+                                            <div class="d-flex gap-2 justify-content-end flex-wrap">
+                                                <a href="/sala_espera" class="btn btn-join">
+                                                    <i class="bi bi-camera-video me-2"></i>Entrar
+                                                </a>
+                                                <a href="/agendar_consulta" class="btn btn-verde">
+                                                    <i class="bi bi-calendar me-2"></i>Reagendar
+                                                </a>
+                                            </div>
+                                        {% elif status == 'upcoming' %}
+                                            <div class="d-flex gap-2 justify-content-end flex-wrap">
+                                                <a href="/agendar_consulta" class="btn btn-verde">
+                                                    <i class="bi bi-calendar me-2"></i>Reagendar
+                                                </a>
+                                                <button class="btn btn-cancelar" data-consulta-id="{{ consulta.idAgendamento }}">
+                                                    <i class="bi bi-x-circle me-2"></i>Cancelar
+                                                </button>
+                                            </div>
+                                        {% elif status == 'completed' %}
+                                            <div class="d-flex gap-2 justify-content-end flex-wrap">
+                                                <a href="/agendar_consulta" class="btn btn-verde">
+                                                    <i class="bi bi-arrow-repeat me-2"></i>Agendar Novamente
+                                                </a>
+                                                <button class="btn btn-azul-claro" data-consulta-id="{{ consulta.idAgendamento }}">
+                                                    <i class="bi bi-calendar me-2"></i>Detalhes
+                                                </button>
+                                            </div>
+                                        {% elif status == 'cancelled' %}
+                                            <div class="d-flex gap-2 justify-content-end flex-wrap">
+                                                <a href="/agendar_consulta" class="btn btn-verde">
+                                                    <i class="bi bi-arrow-repeat me-2"></i>Agendar Novamente
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Estado vazio -->
+                        <div id="emptyState">
+                            <div class="text-center py-5">
+                                <i class="bi bi-calendar-x display-1 text-muted mb-3"></i>
+                                <h4 class="text-muted">Nenhuma consulta encontrada</h4>
+                                <p class="text-muted mb-4">Você ainda não possui consultas agendadas.</p>
+                                <a href="/buscar_medicos" class="btn btn-vermelho">
+                                    <i class="bi bi-plus-circle me-2"></i>Agendar Nova Consulta
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </section>
 
 
 {% block extra_js %}
-<script src="/static/js/minhas_consultas.js"></script>
+<!-- <script src="/static/js/minhas_consultas.js"></script> -->
+<script>
+// Event listeners para botões de ação
+document.addEventListener('DOMContentLoaded', function() {
+    // Botões de cancelar
+    document.querySelectorAll('.btn-cancelar[data-consulta-id]').forEach(button => {
+        button.addEventListener('click', function() {
+            const consultaId = this.getAttribute('data-consulta-id');
+            cancelConsultation(consultaId);
+        });
+    });
+    
+    // Botões de detalhes
+    document.querySelectorAll('.btn-azul-claro[data-consulta-id]').forEach(button => {
+        button.addEventListener('click', function() {
+            const consultaId = this.getAttribute('data-consulta-id');
+            viewDetails(consultaId);
+        });
+    });
+});
+
+// Funções básicas para interação com consultas
+function joinConsultation(id) {
+    window.location.href = '/sala_consulta?id=' + id;
+}
+
+function cancelConsultation(id) {
+    if (confirm('Tem certeza que deseja cancelar esta consulta?')) {
+        // Implementar cancelamento via API
+        fetch('/cancelar_consulta/' + id, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso) {
+                alert('Consulta cancelada com sucesso!');
+                location.reload();
+            } else {
+                alert('Erro ao cancelar consulta: ' + data.erro);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao cancelar consulta');
+        });
+    }
+}
+
+function viewDetails(id) {
+    window.location.href = '/detalhes_consulta/' + id;
+}
+
+function rescheduleConsultation(id) {
+    window.location.href = '/agendar_consulta?reagendar=' + id;
+}
+
+// Funções de filtro básicas podem ser implementadas aqui se necessário
+function filterConsultations(status) {
+    console.log('Filtrar por status:', status);
+    // Implementar filtro se necessário
+}
+
+function searchConsultations() {
+    console.log('Buscar consultas');
+    // Implementar busca se necessário
+}
+
+function filterBySpecialty() {
+    console.log('Filtrar por especialidade');
+    // Implementar filtro por especialidade se necessário
+}
+</script>
 {% endblock %}
 
 {% endblock %}

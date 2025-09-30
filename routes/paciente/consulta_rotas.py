@@ -274,6 +274,8 @@ async def api_horarios_disponiveis(
             content={"success": False, "message": "Erro interno do servidor"},
             status_code=500
         )
+
+@router.post("/agendar_consulta")
 @requer_autenticacao(["paciente"])
 async def agendar_consulta(
     request: Request,
@@ -393,7 +395,8 @@ async def agendar_consulta(
         agendamento_id = inserir_agendamento(agendamento)
         if agendamento_id:
             print(f"Agendamento criado com sucesso: ID {agendamento_id}")  # Log de sucesso
-            return RedirectResponse("/paciente/minhas_consultas", status_code=303)
+            # Redirecionar com mensagem de sucesso na URL
+            return RedirectResponse("/minhas_consultas?sucesso=agendamento", status_code=303)
         else:
             return templates.TemplateResponse("/paciente/agendar_consulta.html", {
                 "request": request,

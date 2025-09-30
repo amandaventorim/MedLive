@@ -3,6 +3,7 @@ from fastapi.templating import Jinja2Templates
 from util.auth_decorator import requer_autenticacao
 from fastapi.responses import JSONResponse
 from data.repo.medico_repo import obter_todos_medicos
+from data.repo.agendamento_repo import obter_agendamentos_por_paciente
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -32,10 +33,24 @@ async def get_perfil_paciente(request: Request, usuario_logado: dict = None):
 
 @router.get("/minhas_consultas")
 @requer_autenticacao(["paciente"])
-async def get_minhas_consultas(request: Request, usuario_logado: dict = None):
+async def get_minhas_consultas(request: Request, sucesso: str = None, usuario_logado: dict = None):
+    # Preparar mensagem de sucesso se houver
+    mensagem_sucesso = None
+    if sucesso == "agendamento":
+        mensagem_sucesso = "Consulta agendada com sucesso! Você receberá uma confirmação em breve."
+    
+    # Buscar agendamentos do paciente logado
+    consultas = []
+    try:
+        consultas = obter_agendamentos_por_paciente(usuario_logado["idUsuario"])
+    except Exception as e:
+        print(f"Erro ao buscar consultas do paciente {usuario_logado['idUsuario']}: {e}")
+    
     return templates.TemplateResponse("/paciente/minhas_consultas.html", {
         "request": request,
-        "usuario": usuario_logado
+        "usuario": usuario_logado,
+        "mensagem_sucesso": mensagem_sucesso,
+        "consultas": consultas
     })
 
 @router.get("/buscar_medicos")

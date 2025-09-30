@@ -2,6 +2,7 @@ let currentStep = 1;
 let selectedDate = null;
 let selectedTime = null;
 let currentMonth = new Date();
+let medicDisponibilidades = {}; // Cache das disponibilidades do médico
 
 const months = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -39,13 +40,71 @@ function initializePage() {
         document.getElementById('summaryDoctor').textContent = `Médico ID: ${idMedicoFromUrl}`;
     }
 
-    generateCalendar();
+    // Carregar disponibilidades do médico antes de gerar o calendário
+    carregarDisponibilidadesMedico().then(() => {
+        generateCalendar();
+    });
+    
     addStepClickListeners();
 }
 
 function selectConsultationType(type, price) {
     // Função removida pois não há mais escolha de tipo de consulta
     // O fluxo começa na escolha da data
+}
+
+async function carregarDisponibilidadesMedico() {
+    /**
+     * Carrega as disponibilidades do médico da API
+     */
+    const idMedico = document.getElementById('inputIdMedico').value;
+    
+    if (!idMedico) {
+        console.warn('ID do médico não encontrado');
+        return;
+    }
+
+    try {
+        console.log(`🔍 Carregando disponibilidades para médico ${idMedico}`);
+        
+        const response = await fetch(`/obter_disponibilidades_medico/${idMedico}`);
+        
+        if (!response.ok) {
+            throw new Error(`Erro na API: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            medicDisponibilidades = data.disponibilidades;
+            console.log('✅ Disponibilidades carregadas:', medicDisponibilidades);
+        } else {
+            console.error('❌ Erro ao carregar disponibilidades:', data.message);
+            medicDisponibilidades = {};
+        }
+        
+    } catch (error) {
+        console.error('❌ Erro ao carregar disponibilidades do médico:', error);
+        medicDisponibilidades = {};
+    }
+}
+
+function medicTrabalhaEm(diaSemana) {
+    /**
+     * Verifica se o médico trabalha em determinado dia da semana
+     * @param {number} diaSemana - Dia da semana (0=Domingo, 1=Segunda, ..., 6=Sábado)
+     * @returns {boolean} - true se o médico trabalha neste dia
+     */
+    // Converter dia JavaScript (0=Domingo) para dia do banco (1=Segunda, 7=Domingo)
+    let diaBanco;
+    if (diaSemana === 0) { // Domingo
+        diaBanco = 7;
+    } else { // Segunda a Sábado
+        diaBanco = diaSemana;
+    }
+    
+    // Verificar se existe disponibilidade para este dia
+    return medicDisponibilidades.hasOwnProperty(diaBanco);
 }
 
 function generateCalendar() {
@@ -89,6 +148,7 @@ function generateCalendar() {
         dayElement.textContent = day;
 
         const dayDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+        const diaSemana = dayDate.getDay(); // 0=Domingo, 1=Segunda, ..., 6=Sábado
 
         // Validações de data
         if (dayDate < today) {
@@ -97,12 +157,15 @@ function generateCalendar() {
         } else if (dayDate > limiteFuturo) {
             dayElement.classList.add('unavailable');
             dayElement.title = 'Data muito longe no futuro (máximo 6 meses)';
-        } else if (dayDate.getDay() === 0) { // Domingo
+        } else if (!medicTrabalhaEm(diaSemana)) {
+            // Verificar se o médico trabalha neste dia da semana
             dayElement.classList.add('unavailable');
-            dayElement.title = 'Não há atendimento aos domingos';
+            const nomeDia = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'][diaSemana];
+            dayElement.title = `Médico não trabalha ${nomeDia}s`;
         } else {
             dayElement.classList.add('available');
             dayElement.onclick = () => selectDate(day);
+            dayElement.title = 'Clique para selecionar esta data';
         }
 
         grid.appendChild(dayElement);
@@ -454,6 +517,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.style.borderColor = '#198754';
                 counter.style.color = '#198754';
             }
+        });
+    }
+
+    // Event listener para o formulário de agendamento
+    const agendarForm = document.getElementById('agendarForm');
+    if (agendarForm) {
+        agendarForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevenir envio automático
+            
+            // Chamar função de confirmação
+            const isValid = confirmAppointment();
+            if (isValid) {
+                // Se validação passou, enviar formulário
+                this.submit();
+            }
+        });
+    }
+
+    // Event listener para o botão de confirmação
+    const confirmButton = document.getElementById('confirmButton');
+    if (confirmButton) {
+        confirmButton.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevenir envio automático
+            
+            // Chamar função de confirmação
+            confirmAppointment();
         });
     }
 });
