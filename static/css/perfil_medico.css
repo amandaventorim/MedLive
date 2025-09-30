@@ -236,36 +236,72 @@
     transform: scale(1.05);
 }
 
+/* Estilos para horários de disponibilidade */
 .horario-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
+    margin-bottom: 0.5rem;
     background: #f8f9fa;
     border-radius: 10px;
-    margin-bottom: 0.75rem;
+    border: 2px solid transparent;
     transition: all 0.3s ease;
 }
 
 .horario-item:hover {
     background: white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-color: #e9ecef;
 }
 
 .dia-semana {
-    font-weight: 600;
+    font-weight: 700;
     color: #001942;
+    margin-bottom: 0.25rem;
 }
 
 .horario-periodo {
-    color: #6c757d;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.status-disponibilidade {
+    font-size: 1.2rem;
+}
+
+.status-disponibilidade .text-success {
+    color: #28a745 !important;
+}
+
+.status-disponibilidade .text-danger {
+    color: #dc3545 !important;
+}
+
+.horario-edit-item {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.horario-edit-item:hover {
+    background: white;
+    border-color: #e9ecef;
+}
+
+.horario-inputs {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e9ecef;
 }
 
 .switch-disponibilidade {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 50px;
+    height: 24px;
 }
 
 .switch-disponibilidade input {
@@ -283,52 +319,68 @@
     bottom: 0;
     background-color: #ccc;
     transition: .4s;
-    border-radius: 34px;
+    border-radius: 24px;
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
     background-color: white;
     transition: .4s;
     border-radius: 50%;
 }
 
-input:checked+.slider {
+input:checked + .slider {
     background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
 }
 
-input:checked+.slider:before {
+input:focus + .slider {
+    box-shadow: 0 0 1px #B31D1D;
+}
+
+input:checked + .slider:before {
     transform: translateX(26px);
 }
 
-.avaliacao-estrelas {
-    color: #ffc107;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+.especialidade-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .comentario-avaliacao {
+    padding: 1rem;
     background: #f8f9fa;
     border-radius: 10px;
-    padding: 1rem;
     margin-bottom: 1rem;
     border-left: 4px solid #B31D1D;
 }
 
 .autor-comentario {
-    font-weight: 600;
+    font-weight: 700;
     color: #001942;
     margin-bottom: 0.5rem;
 }
 
 .texto-comentario {
-    color: #6c757d;
-    line-height: 1.6;
+    color: #666;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.avaliacao-estrelas {
+    color: #ffc107;
+    font-size: 0.9rem;
 }
 
 @media (max-width: 768px) {
@@ -358,6 +410,20 @@ input:checked+.slider:before {
 
     .stat-numero {
         font-size: 2rem;
+    }
+
+    .horario-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .horario-edit-item .row {
+        margin: 0;
+    }
+    
+    .horario-edit-item .col-6 {
+        padding: 0 0.5rem;
     }
 }
 

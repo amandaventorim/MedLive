@@ -175,89 +175,263 @@
                         <h3 class="titulo-secao">
                             <span>
                                 <i class="bi bi-clock icone-secao"></i>
-                                Horários de Atendimento
+                                Disponibilidade para Consultas
                             </span>
-                            <button class="btn botao-secundario btn-sm" onclick="editarSecao('horarios')">
+                            <button class="btn botao-secundario btn-sm" onclick="editarDisponibilidade()">
                                 <i class="bi bi-pencil me-1"></i>
                                 Editar
                             </button>
                         </h3>
 
-                        <div class="horario-item">
-                            <div>
-                                <div class="dia-semana">Segunda-feira</div>
-                                <div class="horario-periodo">08:00 - 18:00</div>
+                        <div id="disponibilidade-view">
+                            <div class="horario-item" data-dia="1">
+                                <div>
+                                    <div class="dia-semana">Segunda-feira</div>
+                                    <div class="horario-periodo" id="periodo-segunda">Indisponível</div>
+                                </div>
+                                <div class="status-disponibilidade" id="status-segunda">
+                                    <i class="bi bi-x-circle text-danger"></i>
+                                </div>
                             </div>
-                            <label class="switch-disponibilidade">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
+
+                            <div class="horario-item" data-dia="2">
+                                <div>
+                                    <div class="dia-semana">Terça-feira</div>
+                                    <div class="horario-periodo" id="periodo-terca">Indisponível</div>
+                                </div>
+                                <div class="status-disponibilidade" id="status-terca">
+                                    <i class="bi bi-x-circle text-danger"></i>
+                                </div>
+                            </div>
+
+                            <div class="horario-item" data-dia="3">
+                                <div>
+                                    <div class="dia-semana">Quarta-feira</div>
+                                    <div class="horario-periodo" id="periodo-quarta">Indisponível</div>
+                                </div>
+                                <div class="status-disponibilidade" id="status-quarta">
+                                    <i class="bi bi-x-circle text-danger"></i>
+                                </div>
+                            </div>
+
+                            <div class="horario-item" data-dia="4">
+                                <div>
+                                    <div class="dia-semana">Quinta-feira</div>
+                                    <div class="horario-periodo" id="periodo-quinta">Indisponível</div>
+                                </div>
+                                <div class="status-disponibilidade" id="status-quinta">
+                                    <i class="bi bi-x-circle text-danger"></i>
+                                </div>
+                            </div>
+
+                            <div class="horario-item" data-dia="5">
+                                <div>
+                                    <div class="dia-semana">Sexta-feira</div>
+                                    <div class="horario-periodo" id="periodo-sexta">Indisponível</div>
+                                </div>
+                                <div class="status-disponibilidade" id="status-sexta">
+                                    <i class="bi bi-x-circle text-danger"></i>
+                                </div>
+                            </div>
+
+                            <div class="horario-item" data-dia="6">
+                                <div>
+                                    <div class="dia-semana">Sábado</div>
+                                    <div class="horario-periodo" id="periodo-sabado">Indisponível</div>
+                                </div>
+                                <div class="status-disponibilidade" id="status-sabado">
+                                    <i class="bi bi-x-circle text-danger"></i>
+                                </div>
+                            </div>
+
+                            <div class="horario-item" data-dia="7">
+                                <div>
+                                    <div class="dia-semana">Domingo</div>
+                                    <div class="horario-periodo" id="periodo-domingo">Indisponível</div>
+                                </div>
+                                <div class="status-disponibilidade" id="status-domingo">
+                                    <i class="bi bi-x-circle text-danger"></i>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="horario-item">
-                            <div>
-                                <div class="dia-semana">Terça-feira</div>
-                                <div class="horario-periodo">08:00 - 18:00</div>
-                            </div>
-                            <label class="switch-disponibilidade">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                        <!-- Formulário de Edição -->
+                        <div id="disponibilidade-edit" style="display: none;">
+                            <form id="form-disponibilidade">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="text-muted mb-3">
+                                            <i class="bi bi-info-circle me-2"></i>
+                                            Configure os dias e horários em que você está disponível para atender pacientes.
+                                        </p>
+                                    </div>
+                                </div>
 
-                        <div class="horario-item">
-                            <div>
-                                <div class="dia-semana">Quarta-feira</div>
-                                <div class="horario-periodo">08:00 - 18:00</div>
-                            </div>
-                            <label class="switch-disponibilidade">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                                <div class="horario-edit-item">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="fw-bold">Segunda-feira</label>
+                                        <label class="switch-disponibilidade">
+                                            <input type="checkbox" name="segunda_ativo" id="segunda_ativo">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="horario-inputs" id="horario-segunda" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label class="form-label">Início</label>
+                                                <input type="time" class="form-control campo-edicao" name="segunda_inicio" value="08:00">
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label">Fim</label>
+                                                <input type="time" class="form-control campo-edicao" name="segunda_fim" value="18:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="horario-item">
-                            <div>
-                                <div class="dia-semana">Quinta-feira</div>
-                                <div class="horario-periodo">08:00 - 18:00</div>
-                            </div>
-                            <label class="switch-disponibilidade">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                                <div class="horario-edit-item">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="fw-bold">Terça-feira</label>
+                                        <label class="switch-disponibilidade">
+                                            <input type="checkbox" name="terca_ativo" id="terca_ativo">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="horario-inputs" id="horario-terca" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label class="form-label">Início</label>
+                                                <input type="time" class="form-control campo-edicao" name="terca_inicio" value="08:00">
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label">Fim</label>
+                                                <input type="time" class="form-control campo-edicao" name="terca_fim" value="18:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="horario-item">
-                            <div>
-                                <div class="dia-semana">Sexta-feira</div>
-                                <div class="horario-periodo">08:00 - 16:00</div>
-                            </div>
-                            <label class="switch-disponibilidade">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                                <div class="horario-edit-item">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="fw-bold">Quarta-feira</label>
+                                        <label class="switch-disponibilidade">
+                                            <input type="checkbox" name="quarta_ativo" id="quarta_ativo">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="horario-inputs" id="horario-quarta" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label class="form-label">Início</label>
+                                                <input type="time" class="form-control campo-edicao" name="quarta_inicio" value="08:00">
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label">Fim</label>
+                                                <input type="time" class="form-control campo-edicao" name="quarta_fim" value="18:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="horario-item">
-                            <div>
-                                <div class="dia-semana">Sábado</div>
-                                <div class="horario-periodo">Indisponível</div>
-                            </div>
-                            <label class="switch-disponibilidade">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                                <div class="horario-edit-item">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="fw-bold">Quinta-feira</label>
+                                        <label class="switch-disponibilidade">
+                                            <input type="checkbox" name="quinta_ativo" id="quinta_ativo">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="horario-inputs" id="horario-quinta" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label class="form-label">Início</label>
+                                                <input type="time" class="form-control campo-edicao" name="quinta_inicio" value="08:00">
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label">Fim</label>
+                                                <input type="time" class="form-control campo-edicao" name="quinta_fim" value="18:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="horario-item">
-                            <div>
-                                <div class="dia-semana">Domingo</div>
-                                <div class="horario-periodo">Indisponível</div>
-                            </div>
-                            <label class="switch-disponibilidade">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
+                                <div class="horario-edit-item">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="fw-bold">Sexta-feira</label>
+                                        <label class="switch-disponibilidade">
+                                            <input type="checkbox" name="sexta_ativo" id="sexta_ativo">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="horario-inputs" id="horario-sexta" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label class="form-label">Início</label>
+                                                <input type="time" class="form-control campo-edicao" name="sexta_inicio" value="08:00">
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label">Fim</label>
+                                                <input type="time" class="form-control campo-edicao" name="sexta_fim" value="18:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="horario-edit-item">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="fw-bold">Sábado</label>
+                                        <label class="switch-disponibilidade">
+                                            <input type="checkbox" name="sabado_ativo" id="sabado_ativo">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="horario-inputs" id="horario-sabado" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label class="form-label">Início</label>
+                                                <input type="time" class="form-control campo-edicao" name="sabado_inicio" value="08:00">
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label">Fim</label>
+                                                <input type="time" class="form-control campo-edicao" name="sabado_fim" value="18:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="horario-edit-item">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="fw-bold">Domingo</label>
+                                        <label class="switch-disponibilidade">
+                                            <input type="checkbox" name="domingo_ativo" id="domingo_ativo">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="horario-inputs" id="horario-domingo" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label class="form-label">Início</label>
+                                                <input type="time" class="form-control campo-edicao" name="domingo_inicio" value="08:00">
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="form-label">Fim</label>
+                                                <input type="time" class="form-control campo-edicao" name="domingo_fim" value="18:00">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-2 mt-3">
+                                    <button type="button" class="btn botao-medlive" onclick="salvarDisponibilidade()">
+                                        <i class="bi bi-check me-1"></i>
+                                        Salvar Alterações
+                                    </button>
+                                    <button type="button" class="btn botao-secundario" onclick="cancelarEdicaoDisponibilidade()">
+                                        <i class="bi bi-x me-1"></i>
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
