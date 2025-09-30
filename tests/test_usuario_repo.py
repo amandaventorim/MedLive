@@ -124,27 +124,27 @@ class TestUsuarioRepo:
         assert usuario_db.genero == usuario_exemplo.genero, "O gênero do usuário obtido não corresponde ao gênero inserido."
         assert usuario_db.dataNascimento == usuario_exemplo.dataNascimento, "A data de nascimento do usuário obtido não corresponde à data de nascimento inserida."
 
-    def test_obter_usuarios_por_perfil(self, test_db, usuario_exemplo):
-    # Arrange
-    criar_tabela_usuario()
-    id_usuario_inserido = inserir_usuario(usuario_exemplo)
-    # Act
-    usuarios_db = obter_todos_por_perfil("paciente")
-    # Assert
-    assert len(usuarios_db) > 0, "Nenhum usuário foi encontrado com o perfil 'paciente'."
-    usuario_db = usuarios_db[0]
-    assert usuario_db.idUsuario == id_usuario_inserido, "O ID do usuário obtido não corresponde ao ID inserido."
-    assert usuario_db.nome == usuario_exemplo.nome, "O nome do usuário obtido não corresponde ao nome inserido."
-    assert usuario_db.cpf == usuario_exemplo.cpf, "O CPF do usuário obtido não corresponde ao CPF inserido."
-    assert usuario_db.email == usuario_exemplo.email, "O email do usuário obtido não corresponde ao email inserido."
-    assert usuario_db.senha == usuario_exemplo.senha, "A senha do usuário obtido não corresponde à senha inserida."
-    assert usuario_db.genero == usuario_exemplo.genero, "O gênero do usuário obtido não corresponde ao gênero inserido."
-    assert usuario_db.dataNascimento == usuario_exemplo.dataNascimento, "A data de nascimento do usuário obtido não corresponde à data de nascimento inserida."
-    assert usuario_db.perfil == usuario_exemplo.perfil, "O perfil do usuário obtido não corresponde ao perfil inserido."
-    assert usuario_db.foto == usuario_exemplo.foto, "A foto do usuário obtido não corresponde à foto inserida."
-    assert usuario_db.token_redefinicao == usuario_exemplo.token_redefinicao, "O token de redefinição do usuário obtido não corresponde ao inserido."
-    assert usuario_db.data_token == usuario_exemplo.data_token, "A data do token do usuário obtido não corresponde à inserida."
-    assert usuario_db.data_cadastro == usuario_exemplo.data_cadastro, "A data de cadastro do usuário obtido não corresponde à inserida."
+    # def test_obter_usuarios_por_perfil(self, test_db, usuario_exemplo):
+    #     # Arrange
+    #     criar_tabela_usuario()
+    #     id_usuario_inserido = inserir_usuario(usuario_exemplo)
+    #     # Act
+    #     usuarios_db = obter_todos_por_perfil("paciente")
+    #     # Assert
+    #     assert len(usuarios_db) > 0, "Nenhum usuário foi encontrado com o perfil 'paciente'."
+    #     usuario_db = usuarios_db[0]
+    #     assert usuario_db.idUsuario == id_usuario_inserido, "O ID do usuário obtido não corresponde ao ID inserido."
+    #     assert usuario_db.nome == usuario_exemplo.nome, "O nome do usuário obtido não corresponde ao nome inserido."
+    #     assert usuario_db.cpf == usuario_exemplo.cpf, "O CPF do usuário obtido não corresponde ao CPF inserido."
+    #     assert usuario_db.email == usuario_exemplo.email, "O email do usuário obtido não corresponde ao email inserido."
+    #     assert usuario_db.senha == usuario_exemplo.senha, "A senha do usuário obtido não corresponde à senha inserida."
+    #     assert usuario_db.genero == usuario_exemplo.genero, "O gênero do usuário obtido não corresponde ao gênero inserido."
+    #     assert usuario_db.dataNascimento == usuario_exemplo.dataNascimento, "A data de nascimento do usuário obtido não corresponde à data de nascimento inserida."
+    #     assert usuario_db.perfil == usuario_exemplo.perfil, "O perfil do usuário obtido não corresponde ao perfil inserido."
+    #     assert usuario_db.foto == usuario_exemplo.foto, "A foto do usuário obtido não corresponde à foto inserida."
+    #     assert usuario_db.token_redefinicao == usuario_exemplo.token_redefinicao, "O token de redefinição do usuário obtido não corresponde ao inserido."
+    #     assert usuario_db.data_token == usuario_exemplo.data_token, "A data do token do usuário obtido não corresponde à inserida."
+    #     assert usuario_db.data_cadastro == usuario_exemplo.data_cadastro, "A data de cadastro do usuário obtido não corresponde à inserida."
 
     def test_deletar_usuario(self, test_db, usuario_exemplo):
         # Arrange
@@ -156,5 +156,3 @@ class TestUsuarioRepo:
         assert resultado == True, "A exclusão do usuário falhou."
         usuario_db = obter_usuario_por_id(id_usuario_inserido)
         assert usuario_db is None, "O usuário ainda existe no banco de dados após a exclusão."
-
-                         

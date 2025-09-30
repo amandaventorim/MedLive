@@ -39,9 +39,10 @@ app.include_router(auth_routes.router)
 from routes import perfil_routes
 app.include_router(perfil_routes.router)
 
-from routes.paciente import paciente_rotas, cadastro_paciente
+from routes.paciente import paciente_rotas, cadastro_paciente, consulta_rotas
 app.include_router(paciente_rotas.router)
 app.include_router(cadastro_paciente.router)
+app.include_router(consulta_rotas.router)
 from routes.medico import medico_rotas, cadastro_medico
 app.include_router(medico_rotas.router)
 app.include_router(cadastro_medico.router)

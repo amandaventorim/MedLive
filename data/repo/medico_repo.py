@@ -107,6 +107,25 @@ def obter_medico_por_id(idMedico: int) -> Optional[Medico]:
         return None
 
 
+def obter_id_medico_por_usuario(idUsuario: int) -> Optional[int]:
+    """
+    Obtém o idMedico baseado no idUsuario
+    
+    Args:
+        idUsuario: ID do usuário na tabela usuario
+    
+    Returns:
+        idMedico se encontrado, None caso contrário
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT idMedico FROM medico WHERE idMedico = ?", (idUsuario,))
+        row = cursor.fetchone()
+        if row:
+            return row["idMedico"]
+        return None
+
+
 def atualizar_medico(medico: Medico) -> bool:
     if obter_medico_por_id(medico.idMedico):
         with get_connection() as conn:

@@ -3,6 +3,8 @@ from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 from data.repo.usuario_repo import obter_usuario_por_email
+from data.repo.paciente_repo import obter_id_paciente_por_usuario
+from data.repo.medico_repo import obter_id_medico_por_usuario
 from util.security import verificar_senha
 from util.auth_decorator import criar_sessao
 
@@ -41,6 +43,17 @@ async def post_login(
         "data_token": usuario.data_token,
         "data_cadastro": usuario.data_cadastro
     }
+    
+    # Adicionar IDs específicos baseados no perfil
+    if usuario.perfil == "paciente":
+        id_paciente = obter_id_paciente_por_usuario(usuario.idUsuario)
+        if id_paciente:
+            usuario_dict["idPaciente"] = id_paciente
+    elif usuario.perfil == "medico":
+        id_medico = obter_id_medico_por_usuario(usuario.idUsuario)
+        if id_medico:
+            usuario_dict["idMedico"] = id_medico
+    
     criar_sessao(request, usuario_dict)
 
     print("Redirecionando para /dashboard_paciente")

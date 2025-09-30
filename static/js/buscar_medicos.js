@@ -51,7 +51,7 @@ function renderDoctors(doctorsToRender) {
                             <small class="text-success">${doctor.availability}</small>
                         </div>
                         
-                        <a href="/agendar_consulta" class="btn btn-agendar" onclick="scheduleAppointment(${doctor.id})">
+                        <a href="/agendar_consulta?idMedico=${doctor.id}" class="btn btn-agendar" onclick="scheduleAppointment(${doctor.id})">
                             <i class="bi bi-calendar-plus me-2"></i>Agendar Consulta
                         </a>
                     </div>
@@ -107,7 +107,7 @@ function scheduleAppointment(doctorId) {
     const doctor = doctors.find(d => d.id === doctorId);
     if (doctor) {
         localStorage.setItem('selectedDoctor', JSON.stringify(doctor));
-        window.location.href = '/agendar_consulta';
+        window.location.href = `/agendar_consulta?idMedico=${doctorId}`;
     }
 }
 

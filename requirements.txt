@@ -1,4 +1,6 @@
-passlib[bcrypt]
+# Dependências de criptografia e hash - versões compatíveis
+bcrypt==4.1.3
+passlib==1.7.4
 python-jose[cryptography]
 fastapi[standard]
 uvicorn[standard]

@@ -46,13 +46,7 @@ async def get_buscar_medicos(request: Request, usuario_logado: dict = None):
         "usuario": usuario_logado
     })
 
-@router.get("/agendar_consulta")
-@requer_autenticacao(["paciente"])
-async def get_agendar_consulta(request: Request, usuario_logado: dict = None):
-    return templates.TemplateResponse("/paciente/agendar_consulta.html", {
-        "request": request,
-        "usuario": usuario_logado
-    })
+# Rota de agendar_consulta movida para consulta_rotas.py para evitar duplicação
 
 @router.get("/pagamento")
 @requer_autenticacao(["paciente"])

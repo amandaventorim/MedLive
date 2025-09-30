@@ -16,18 +16,22 @@ def criar_tabela_agendamento() -> bool:
 
 
 def inserir_agendamento(agendamento: Agendamento) -> Optional[int]:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute(INSERIR_AGENDAMENTO, (
-            agendamento.idPaciente,
-            agendamento.idMedico,
-            agendamento.dataAgendamento,
-            agendamento.horario,
-            agendamento.status,
-            agendamento.queixa,
-            agendamento.preco
-        ))
-        return cursor.lastrowid
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(INSERIR_AGENDAMENTO, (
+                agendamento.idPaciente,
+                agendamento.idMedico,
+                agendamento.dataAgendamento,
+                agendamento.horario,
+                agendamento.status,
+                agendamento.queixa,
+                agendamento.preco
+            ))
+            return cursor.lastrowid
+    except Exception as e:
+        print(f"Erro ao inserir agendamento: {e}")
+        return None
 
 
 def obter_todos_agendamentos() -> list[Agendamento]:

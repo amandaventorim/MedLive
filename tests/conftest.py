@@ -144,7 +144,16 @@ def consulta_exemplo():
 @pytest.fixture
 def agendamento_exemplo():
     from data.model.agendamento_model import Agendamento
-    agendamento = Agendamento(0, 0, "status exemplo", "2023-01-01")
+    agendamento = Agendamento(
+        idAgendamento=0,
+        idPaciente=0,
+        idMedico=0,
+        dataAgendamento="2023-01-01",
+        horario="09:00",
+        status="agendado",
+        queixa="Consulta de rotina",
+        preco=150.0
+    )
     return agendamento
 
 @pytest.fixture

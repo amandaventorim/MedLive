@@ -103,6 +103,25 @@ def obter_paciente_por_id(idPaciente: int) -> Optional[Paciente]:
         return None
 
 
+def obter_id_paciente_por_usuario(idUsuario: int) -> Optional[int]:
+    """
+    Obtém o idPaciente baseado no idUsuario
+    
+    Args:
+        idUsuario: ID do usuário na tabela usuario
+    
+    Returns:
+        idPaciente se encontrado, None caso contrário
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT idPaciente FROM paciente WHERE idPaciente = ?", (idUsuario,))
+        row = cursor.fetchone()
+        if row:
+            return row["idPaciente"]
+        return None
+
+
 def atualizar_paciente(paciente: Paciente) -> bool:
     if obter_paciente_por_id(paciente.idPaciente):
         with get_connection() as conn:
