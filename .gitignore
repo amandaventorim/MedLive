@@ -28,3 +28,5 @@ dist/
 *.pyc
 *.pyo
 *.pyd
+
+node_modules

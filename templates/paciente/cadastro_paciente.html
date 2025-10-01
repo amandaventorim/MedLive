@@ -10,6 +10,17 @@
 <div class="mb-4 text-center">
     <h3 class="mt-2 title-criar-conta">Criar conta</h3>
 </div>
+
+<!-- Exibir mensagens de erro -->
+{% if erro %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <strong>Erro de validação:</strong><br>
+    {{ erro }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
                         <form id="multiStepForm" action="/cadastro_paciente" method="POST">
                             <!-- Etapa 1 -->
                             <div class="step-form active" id="step1">
@@ -20,9 +31,11 @@
                                         class="form-control"
                                         id="nome"
                                         name="nome"
-                                        placeholder="Digite seu nome"
+                                        placeholder="Digite seu nome completo (nome e sobrenome)"
+                                        value="{{ dados.nome if dados else '' }}"
                                         required
                                     >
+                                    <small class="text-muted">Ex: João Silva Santos</small>
                                 </div>
                                 <div class="mb-3">
                                     <label for="cpf" class="form-label">CPF</label>
@@ -31,6 +44,8 @@
                                         class="form-control"
                                         id="cpf"
                                         name="cpf"
+                                        placeholder="000.000.000-00"
+                                        value="{{ dados.cpf if dados else '' }}"
                                         required
                                     >
                                 </div>
@@ -42,6 +57,7 @@
                                         id="email"
                                         name="email"
                                         placeholder="Digite seu email"
+                                        value="{{ dados.email if dados else '' }}"
                                         required
                                     >
                                 </div>

@@ -1,9 +1,12 @@
 from fastapi import APIRouter, Form, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
+from pydantic import ValidationError
 
 from data.repo.medico_repo import inserir_medico
 from data.model.medico_model import Medico
+from util.security import criar_hash_senha
+from dto import CriarMedicoDTO
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -25,33 +28,88 @@ async def cadastrar_medico(
     crm: str = Form(...),
     statusProfissional: str = Form(...)
 ):
+    # Guardar os dados originais do formulário para preservar em caso de erro
+    dados_formulario = {
+        "nome": nome,
+        "cpf": cpf,
+        "email": email,
+        "genero": genero,
+        "dataNascimento": dataNascimento,
+        "crm": crm,
+        "statusProfissional": statusProfissional
+    }
+    
     print("Recebendo dados do formulário de cadastro de médico...")
-    print(f"Nome: {nome}, CPF: {cpf}, Email: {email}, Gênero: {genero}, DataNascimento: {dataNascimento}, CRM: {crm}, Status: {statusProfissional}")
-    from util.security import criar_hash_senha
-    senha_hash = criar_hash_senha(senha)
-    print(f"Senha (hash): {senha_hash}")
+    print(f"Nome: {nome}, CPF: {cpf}, Email: {email}, CRM: {crm}")
+    
     try:
-        medico = Medico(
-            idUsuario=None,
-            idMedico=None,
+        # Validar dados com DTO
+        medico_dto = CriarMedicoDTO(
             nome=nome,
             cpf=cpf,
             email=email,
-            senha=senha_hash,
+            senha=senha,
             genero=genero,
             dataNascimento=dataNascimento,
+            crm=crm,
+            statusProfissional=statusProfissional
+        )
+        
+        # Criar hash da senha
+        senha_hash = criar_hash_senha(medico_dto.senha)
+        print(f"Senha (hash): {senha_hash}")
+        
+        # Criar objeto Medico usando dados validados do DTO
+        medico = Medico(
+            idUsuario=None,
+            idMedico=None,
+            nome=medico_dto.nome,
+            cpf=medico_dto.cpf,
+            email=medico_dto.email,
+            senha=senha_hash,
+            genero=medico_dto.genero,
+            dataNascimento=medico_dto.dataNascimento,
             perfil="medico",
             foto=None,
             token_redefinicao=None,
             data_token=None,
             data_cadastro=None,
-            crm=crm,
-            statusProfissional=statusProfissional
+            crm=medico_dto.crm,
+            statusProfissional=medico_dto.statusProfissional
         )
+        
+        # Processar cadastro
         print(f"Objeto Medico criado: {medico}")
         inserir_medico(medico)
         print("Médico inserido com sucesso no banco de dados.")
+        
+        # Sucesso - Redirecionar
         return RedirectResponse("/login", status_code=303)
+        
+    except ValidationError as e:
+        # Extrair mensagens de erro do Pydantic
+        erros = []
+        for erro in e.errors():
+            # Pegar apenas a mensagem customizada, removendo prefixos do Pydantic
+            mensagem = erro['msg']
+            # Se a mensagem começa com "Value error, ", remove esse prefixo
+            if mensagem.startswith("Value error, "):
+                mensagem = mensagem.replace("Value error, ", "")
+            erros.append(mensagem)
+        erro_msg = " | ".join(erros)
+        
+        # Retornar template com dados preservados e erro
+        return templates.TemplateResponse("/medico/cadastro_medico.html", {
+            "request": request,
+            "erro": erro_msg,
+            "dados": dados_formulario  # Preservar dados digitados
+        })
+        
     except Exception as e:
+        # Erro geral
         print("Erro ao cadastrar medico:", e)
-        return templates.TemplateResponse("/medico/cadastro_medico.html", {"request": request, "erro": "Erro ao cadastrar médico: " + str(e)})
+        return templates.TemplateResponse("/medico/cadastro_medico.html", {
+            "request": request,
+            "erro": "Erro ao cadastrar médico: " + str(e),
+            "dados": dados_formulario
+        })
