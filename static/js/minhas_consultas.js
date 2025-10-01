@@ -1,3 +1,8 @@
+function toggleMobileMenu() {
+    const navbarNav = document.getElementById('navbarNav');
+    navbarNav.classList.toggle('show');
+}
+
 const consultations = [
     {
         id: 1,
@@ -344,3 +349,75 @@ document.addEventListener('DOMContentLoaded', function () {
 
     renderConsultations(consultations);
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Botões de cancelar
+    document.querySelectorAll('.btn-cancelar[data-consulta-id]').forEach(button => {
+        button.addEventListener('click', function() {
+            const consultaId = this.getAttribute('data-consulta-id');
+            cancelConsultation(consultaId);
+        });
+    });
+    
+    // Botões de detalhes
+    document.querySelectorAll('.btn-azul-claro[data-consulta-id]').forEach(button => {
+        button.addEventListener('click', function() {
+            const consultaId = this.getAttribute('data-consulta-id');
+            viewDetails(consultaId);
+        });
+    });
+});
+
+// Funções básicas para interação com consultas
+function joinConsultation(id) {
+    window.location.href = '/sala_consulta?id=' + id;
+}
+
+function cancelConsultation(id) {
+    if (confirm('Tem certeza que deseja cancelar esta consulta?')) {
+        // Implementar cancelamento via API
+        fetch('/cancelar_consulta/' + id, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso) {
+                alert('Consulta cancelada com sucesso!');
+                location.reload();
+            } else {
+                alert('Erro ao cancelar consulta: ' + data.erro);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao cancelar consulta');
+        });
+    }
+}
+
+function viewDetails(id) {
+    window.location.href = '/detalhes_consulta/' + id;
+}
+
+function rescheduleConsultation(id) {
+    window.location.href = '/agendar_consulta?reagendar=' + id;
+}
+
+// Funções de filtro básicas podem ser implementadas aqui se necessário
+function filterConsultations(status) {
+    console.log('Filtrar por status:', status);
+    // Implementar filtro se necessário
+}
+
+function searchConsultations() {
+    console.log('Buscar consultas');
+    // Implementar busca se necessário
+}
+
+function filterBySpecialty() {
+    console.log('Filtrar por especialidade');
+    // Implementar filtro por especialidade se necessário
+}
