@@ -22,8 +22,8 @@ async def get_login(request: Request):
 @router.post("/login")
 async def post_login(
     request: Request,
-    email: str = Form(...),
-    senha: str = Form(...),
+    email: str = Form(),
+    senha: str = Form(),
     redirect: str = Form(None)
 ):
     # Guardar dados do formulário para preservar em caso de erro
@@ -91,22 +91,26 @@ async def post_login(
         # Extrair mensagens de erro do Pydantic
         erros = []
         for erro in e.errors():
+            campo = erro['loc'][0] if erro['loc'] else 'campo'
             mensagem = erro['msg']
-            if mensagem.startswith("Value error, "):
-                mensagem = mensagem.replace("Value error, ", "")
-            erros.append(mensagem)
+            erros.append(f"{campo.capitalize()}: {mensagem}")
+
         erro_msg = " | ".join(erros)
-        
+        # logger.warning(f"Erro de validação no cadastro: {erro_msg}")
+
+        # Retornar template com dados preservados e erro
         return templates.TemplateResponse("login.html", {
             "request": request,
             "erro": erro_msg,
-            "dados": dados_formulario
+            "dados": dados_formulario  # Preservar dados digitados
         })
-        
+
     except Exception as e:
+        # logger.error(f"Erro ao processar cadastro: {e}")
+
         return templates.TemplateResponse("login.html", {
             "request": request,
-            "erro": "Erro interno do servidor",
+            "erro": "Erro ao processar cadastro. Tente novamente.",
             "dados": dados_formulario
         })
 

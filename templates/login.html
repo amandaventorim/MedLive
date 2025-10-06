@@ -20,12 +20,18 @@
         {% endif %}
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+            <input type="email" class="form-control {% if erro and 'email' in erro.lower() %}is-invalid{% endif %}" id="email" name="email" value="{{ dados.email if dados else '' }}" required>
+            {% if erro and 'email' in erro.lower() %}
+            <div class="invalid-feedback">{{ erro }}</div>
+            {% endif %}
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label">Senha</label>
-            <input type="password" class="form-control" id="password" name="senha" required>
+            <input type="password" class="form-control {% if erro and 'senha' in erro.lower() %}is-invalid{% endif %}" id="password" name="senha" required>
+            {% if erro and 'senha' in erro.lower() %}
+            <div class="invalid-feedback">{{ erro }}</div>
+            {% endif %}
         </div>
 
         <!-- Funcionalidade 'lembre de mim' removida -->

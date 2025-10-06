@@ -124,15 +124,30 @@ class LoginUsuarioDTO(BaseDTO):
     Usado na autenticação.
     """
 
-    email: EmailStr = Field(
-        ...,
-        description="E-mail do usuário"
-    )
-    senha: str = Field(
-        ...,
-        min_length=1,
-        description="Senha do usuário"
-    )
+    email: str
+    senha: str
+
+    @field_validator('email')
+    @classmethod
+    def validar_email(cls, v: str) -> str:
+        if not '@' in v:
+            raise ValueError('Email deve conter "@"')
+        if not "." in v.split('@')[-1]:
+            raise ValueError('Email deve conter domínio válido após "@"')
+        validador = cls.validar_campo_wrapper(
+            lambda valor, campo: validar_texto_obrigatorio(valor, min_chars=5, max_chars=100),
+            "Email"
+        )
+        return validador(v)
+    
+    @field_validator('senha')
+    @classmethod
+    def validar_senha(cls, v: str) -> str:
+        validador = cls.validar_campo_wrapper(
+            lambda valor, campo: validar_senha(valor, min_chars=6, max_chars=128),
+            "Senha"
+        )
+        return validador(v)
 
     @classmethod
     def criar_exemplo_json(cls, **overrides) -> dict:
