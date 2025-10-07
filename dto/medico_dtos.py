@@ -63,6 +63,14 @@ class CriarMedicoDTO(CriarUsuarioDTO):
         
         return crm_limpo.upper()
 
+    @field_validator('statusProfissional', mode='before')
+    @classmethod
+    def normalizar_status_profissional(cls, v):
+        """Normaliza o status profissional para lowercase para aceitar diferentes casos"""
+        if isinstance(v, str):
+            return v.lower()
+        return v
+
     @classmethod
     def criar_exemplo_json(cls, **overrides) -> dict:
         """Exemplo de dados para documentação da API"""

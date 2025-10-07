@@ -66,6 +66,22 @@ class CriarUsuarioDTO(BaseDTO):
         description="Perfil do usuário no sistema"
     )
 
+    @field_validator('genero', mode='before')
+    @classmethod
+    def normalizar_genero(cls, v):
+        """Normaliza o gênero para lowercase para aceitar diferentes casos"""
+        if isinstance(v, str):
+            return v.lower()
+        return v
+
+    @field_validator('perfil', mode='before')
+    @classmethod
+    def normalizar_perfil(cls, v):
+        """Normaliza o perfil para lowercase para aceitar diferentes casos"""
+        if isinstance(v, str):
+            return v.lower()
+        return v
+
     @field_validator('nome')
     @classmethod
     def validar_nome(cls, v: str) -> str:
@@ -135,7 +151,7 @@ class LoginUsuarioDTO(BaseDTO):
         if not "." in v.split('@')[-1]:
             raise ValueError('Email deve conter domínio válido após "@"')
         validador = cls.validar_campo_wrapper(
-            lambda valor, campo: validar_texto_obrigatorio(valor, min_chars=5, max_chars=100),
+            lambda valor, campo: validar_texto_obrigatorio(valor, campo, min_chars=5, max_chars=100),
             "Email"
         )
         return validador(v)

@@ -79,11 +79,11 @@ async def post_login(
         print("Redirecionando para dashboard")
         # Redirecionar conforme perfil do usuário
         if usuario.perfil == "admin":
-            return RedirectResponse("/admin/dashboard", status_code=303)
+            return RedirectResponse("/dashboard_admin", status_code=303)
         elif usuario.perfil == "medico":
-            return RedirectResponse("/medico/dashboard", status_code=303)
+            return RedirectResponse("/dashboard_medico", status_code=303)
         elif usuario.perfil == "paciente":
-            return RedirectResponse("/paciente/dashboard", status_code=303)
+            return RedirectResponse("/dashboard_paciente", status_code=303)
         else:
             return RedirectResponse("/", status_code=303)
             

@@ -48,6 +48,7 @@
                                         value="{{ dados.cpf if dados else '' }}"
                                         required
                                     >
+                                    <small class="text-muted">Digite um CPF válido (ex: 123.456.789-09)</small>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
@@ -130,11 +131,10 @@
                                         name="genero"
                                         required
                                     >
-                                        <option value="" disabled selected>Selecione</option>
-                                        <option value="f">Feminino</option>
-                                        <option value="m">Masculino</option>
-                                        <option value="o">Outro</option>
-                                        <option value="sn">Prefiro não responder</option>
+                                        <option value="" disabled {% if not dados or not dados.genero %}selected{% endif %}>Selecione</option>
+                                        <option value="feminino" {% if dados and dados.genero == 'feminino' %}selected{% endif %}>Feminino</option>
+                                        <option value="masculino" {% if dados and dados.genero == 'masculino' %}selected{% endif %}>Masculino</option>
+                                        <option value="outros" {% if dados and dados.genero == 'outros' %}selected{% endif %}>Outros</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -144,8 +144,9 @@
                                         class="form-control"
                                         id="nasc"
                                         name="dataNascimento"
-                                        min="1979-01-01"
-                                        max="2007-01-01"
+                                        min="1905-01-01"
+                                        max="2009-12-31"
+                                        value="{{ dados.dataNascimento if dados else '' }}"
                                         required
                                     >
                                 </div>
@@ -163,8 +164,11 @@
                                         class="form-control"
                                         id="endereco"
                                         name="endereco"
+                                        placeholder="Digite seu endereço completo"
+                                        value="{{ dados.endereco if dados else '' }}"
                                         required
                                     >
+                                    <small class="text-muted">Mínimo 10 caracteres (ex: Rua A, 123 - SP)</small>
                                 </div>
                                 <div class="mb-3">
                                     <label for="convenio" class="form-label">Convênio</label>
