@@ -1,6 +1,6 @@
 describe('Cadastro de Medico', () => {
     it('Deve preencher o formulário e retornar uma mensagem de sucesso', () => {
-        cy.visit('http://localhost:3000/cadastro-medico')
+        cy.visit("http://127.0.0.1:8000/cadastro_medico")
         cy.get('input[name="nome"]').type('Dr. Carlos Souza')
         cy.get('input[name="email"]').type('carlos@gmail.com')
         cy.get('input[name="dataNascimento"]').type('1980-10-20')
@@ -15,4 +15,13 @@ describe('Cadastro de Medico', () => {
         cy.contains('Médico cadastrado com sucesso!').should('be.visible')
   })
 });
+
+describe("Login medico", () => {
+      it("Deve fazer login com sucesso e redirecionar para a página inicial", () => {
+        cy.visit("http://127.0.0.1:8000/login")
+        cy.get('input[name="email"]').type("carlos@gmail.com")
+        cy.get('input[name="senha"]').type("senhaSegura123")
+     })
+})
+
 
