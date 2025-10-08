@@ -1,9 +1,11 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Form
 from fastapi.templating import Jinja2Templates
 from util.auth_decorator import requer_autenticacao
 from fastapi.responses import JSONResponse
 from data.repo.medico_repo import obter_todos_medicos
 from data.repo.agendamento_repo import obter_agendamentos_por_paciente
+from data.repo.usuario_repo import atualizar_senha_usuario, obter_usuario_por_id
+from util.security import verificar_senha, criar_hash_senha
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -39,12 +41,21 @@ async def get_minhas_consultas(request: Request, sucesso: str = None, usuario_lo
     if sucesso == "agendamento":
         mensagem_sucesso = "Consulta agendada com sucesso! Você receberá uma confirmação em breve."
     
+    # Debug: Verificar qual usuário está logado
+    print(f"🔍 DEBUG - Usuário logado: ID={usuario_logado.get('idUsuario')}, Nome={usuario_logado.get('nome')}, Email={usuario_logado.get('email')}")
+    
     # Buscar agendamentos do paciente logado
     consultas = []
     try:
         consultas = obter_agendamentos_por_paciente(usuario_logado["idUsuario"])
+        print(f"🔍 DEBUG - Encontrados {len(consultas)} agendamentos para o paciente ID {usuario_logado['idUsuario']}")
+        
+        # Debug: Mostrar detalhes dos agendamentos encontrados
+        for i, consulta in enumerate(consultas):
+            print(f"  {i+1}. Médico: {consulta.get('nomeMedico')} | Data: {consulta.get('dataAgendamento')} | Horário: {consulta.get('horario')}")
+            
     except Exception as e:
-        print(f"Erro ao buscar consultas do paciente {usuario_logado['idUsuario']}: {e}")
+        print(f"❌ Erro ao buscar consultas do paciente {usuario_logado['idUsuario']}: {e}")
     
     return templates.TemplateResponse("/paciente/minhas_consultas.html", {
         "request": request,
@@ -104,3 +115,74 @@ async def api_medicos():
         for m in medicos
     ]
     return JSONResponse(content=medicos_dict)
+
+@router.post("/alterar_senha")
+@requer_autenticacao(["paciente"])
+async def alterar_senha_paciente(
+    request: Request,
+    senha_atual: str = Form(...),
+    nova_senha: str = Form(...),
+    confirmar_senha: str = Form(...),
+    usuario_logado: dict = None
+):
+    """
+    Altera a senha do paciente logado
+    """
+    try:
+        # Validações básicas
+        if not senha_atual or not nova_senha or not confirmar_senha:
+            return JSONResponse(
+                status_code=400,
+                content={"sucesso": False, "erro": "Todos os campos são obrigatórios"}
+            )
+        
+        if nova_senha != confirmar_senha:
+            return JSONResponse(
+                status_code=400,
+                content={"sucesso": False, "erro": "Nova senha e confirmação não coincidem"}
+            )
+        
+        if len(nova_senha) < 6:
+            return JSONResponse(
+                status_code=400,
+                content={"sucesso": False, "erro": "Nova senha deve ter pelo menos 6 caracteres"}
+            )
+        
+        # Buscar usuário atual no banco
+        usuario_db = obter_usuario_por_id(usuario_logado["idUsuario"])
+        if not usuario_db:
+            return JSONResponse(
+                status_code=404,
+                content={"sucesso": False, "erro": "Usuário não encontrado"}
+            )
+        
+        # Verificar se a senha atual está correta
+        if not verificar_senha(senha_atual, usuario_db.senha):
+            return JSONResponse(
+                status_code=400,
+                content={"sucesso": False, "erro": "Senha atual incorreta"}
+            )
+        
+        # Criar hash da nova senha
+        nova_senha_hash = criar_hash_senha(nova_senha)
+        
+        # Atualizar senha no banco
+        sucesso = atualizar_senha_usuario(usuario_logado["idUsuario"], nova_senha_hash)
+        
+        if sucesso:
+            return JSONResponse(
+                status_code=200,
+                content={"sucesso": True, "mensagem": "Senha alterada com sucesso!"}
+            )
+        else:
+            return JSONResponse(
+                status_code=500,
+                content={"sucesso": False, "erro": "Erro interno ao alterar senha"}
+            )
+            
+    except Exception as e:
+        print(f"❌ Erro ao alterar senha: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"sucesso": False, "erro": "Erro interno do servidor"}
+        )

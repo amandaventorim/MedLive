@@ -3,7 +3,32 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="/static/css/perfil_paciente.css">
-<link rel="stylesheet" href="">
+<style>
+/* Estilos para alteração de senha */
+.is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.text-danger {
+    font-size: 0.875rem;
+}
+
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+#btnAlterarSenha:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.alert {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+}
+</style>
 {% endblock %}
 
 
@@ -427,24 +452,32 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="formAlterarSenha">
                         <div class="mb-3">
                             <label class="form-label">Senha Atual</label>
-                            <input type="password" class="form-control campo-edicao" placeholder="Digite sua senha atual">
+                            <input type="password" id="senhaAtual" name="senha_atual" class="form-control campo-edicao" placeholder="Digite sua senha atual" required>
+                            <div class="text-danger mt-1" id="erroSenhaAtual" style="display: none;"></div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nova Senha</label>
-                            <input type="password" class="form-control campo-edicao" placeholder="Digite a nova senha">
+                            <input type="password" id="novaSenha" name="nova_senha" class="form-control campo-edicao" placeholder="Digite a nova senha (mínimo 6 caracteres)" required minlength="6">
+                            <div class="text-danger mt-1" id="erroNovaSenha" style="display: none;"></div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Confirmar Nova Senha</label>
-                            <input type="password" class="form-control campo-edicao" placeholder="Confirme a nova senha">
+                            <input type="password" id="confirmarSenha" name="confirmar_senha" class="form-control campo-edicao" placeholder="Confirme a nova senha" required>
+                            <div class="text-danger mt-1" id="erroConfirmarSenha" style="display: none;"></div>
                         </div>
+                        <div class="alert alert-danger mt-2" id="erroGeral" style="display: none;"></div>
+                        <div class="alert alert-success mt-2" id="sucessoSenha" style="display: none;"></div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn botao-medlive">Alterar Senha</button>
+                    <button type="button" class="btn botao-medlive" id="btnAlterarSenha">
+                        <span class="btn-text">Alterar Senha</span>
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    </button>
                 </div>
             </div>
         </div>

@@ -71,3 +71,176 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// ========== FUNCIONALIDADE DE ALTERAÇÃO DE SENHA ==========
+
+document.addEventListener('DOMContentLoaded', function() {
+    const btnAlterarSenha = document.getElementById('btnAlterarSenha');
+    const formAlterarSenha = document.getElementById('formAlterarSenha');
+    const modalAlterarSenha = document.getElementById('modalAlterarSenha');
+    
+    // Função para limpar mensagens de erro
+    function limparErros() {
+        document.querySelectorAll('.text-danger, .alert-danger, .alert-success').forEach(el => {
+            el.style.display = 'none';
+            el.textContent = '';
+        });
+        
+        // Remover classes de erro dos campos
+        document.querySelectorAll('.is-invalid').forEach(el => {
+            el.classList.remove('is-invalid');
+        });
+    }
+    
+    // Função para mostrar erro em campo específico
+    function mostrarErro(campoId, mensagem) {
+        const campo = document.getElementById(campoId);
+        const erro = document.getElementById(`erro${campoId.charAt(0).toUpperCase() + campoId.slice(1)}`);
+        
+        if (campo && erro) {
+            campo.classList.add('is-invalid');
+            erro.textContent = mensagem;
+            erro.style.display = 'block';
+        }
+    }
+    
+    // Função para mostrar erro geral
+    function mostrarErroGeral(mensagem) {
+        const erroGeral = document.getElementById('erroGeral');
+        if (erroGeral) {
+            erroGeral.textContent = mensagem;
+            erroGeral.style.display = 'block';
+        }
+    }
+    
+    // Função para mostrar sucesso
+    function mostrarSucesso(mensagem) {
+        const sucessoSenha = document.getElementById('sucessoSenha');
+        if (sucessoSenha) {
+            sucessoSenha.textContent = mensagem;
+            sucessoSenha.style.display = 'block';
+        }
+    }
+    
+    // Validação em tempo real
+    document.getElementById('novaSenha').addEventListener('input', function() {
+        const senha = this.value;
+        if (senha.length > 0 && senha.length < 6) {
+            mostrarErro('novaSenha', 'Senha deve ter pelo menos 6 caracteres');
+        } else {
+            document.getElementById('erroNovaSenha').style.display = 'none';
+            this.classList.remove('is-invalid');
+        }
+    });
+    
+    document.getElementById('confirmarSenha').addEventListener('input', function() {
+        const novaSenha = document.getElementById('novaSenha').value;
+        const confirmarSenha = this.value;
+        
+        if (confirmarSenha.length > 0 && novaSenha !== confirmarSenha) {
+            mostrarErro('confirmarSenha', 'As senhas não coincidem');
+        } else {
+            document.getElementById('erroConfirmarSenha').style.display = 'none';
+            this.classList.remove('is-invalid');
+        }
+    });
+    
+    // Limpar erros quando modal é aberto
+    modalAlterarSenha.addEventListener('show.bs.modal', function() {
+        limparErros();
+        formAlterarSenha.reset();
+    });
+    
+    // Evento de clique no botão alterar senha
+    btnAlterarSenha.addEventListener('click', async function() {
+        limparErros();
+        
+        // Obter valores dos campos
+        const senhaAtual = document.getElementById('senhaAtual').value.trim();
+        const novaSenha = document.getElementById('novaSenha').value.trim();
+        const confirmarSenha = document.getElementById('confirmarSenha').value.trim();
+        
+        // Validações client-side
+        let hasError = false;
+        
+        if (!senhaAtual) {
+            mostrarErro('senhaAtual', 'Campo obrigatório');
+            hasError = true;
+        }
+        
+        if (!novaSenha) {
+            mostrarErro('novaSenha', 'Campo obrigatório');
+            hasError = true;
+        } else if (novaSenha.length < 6) {
+            mostrarErro('novaSenha', 'Senha deve ter pelo menos 6 caracteres');
+            hasError = true;
+        }
+        
+        if (!confirmarSenha) {
+            mostrarErro('confirmarSenha', 'Campo obrigatório');
+            hasError = true;
+        } else if (novaSenha !== confirmarSenha) {
+            mostrarErro('confirmarSenha', 'As senhas não coincidem');
+            hasError = true;
+        }
+        
+        if (hasError) return;
+        
+        // Mostrar loading
+        const btnText = this.querySelector('.btn-text');
+        const spinner = this.querySelector('.spinner-border');
+        btnText.textContent = 'Alterando...';
+        spinner.classList.remove('d-none');
+        this.disabled = true;
+        
+        try {
+            // Preparar dados do formulário
+            const formData = new FormData();
+            formData.append('senha_atual', senhaAtual);
+            formData.append('nova_senha', novaSenha);
+            formData.append('confirmar_senha', confirmarSenha);
+            
+            // Enviar requisição
+            const response = await fetch('/alterar_senha', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.sucesso) {
+                mostrarSucesso(result.mensagem);
+                
+                // Fechar modal após 2 segundos
+                setTimeout(() => {
+                    const modal = bootstrap.Modal.getInstance(modalAlterarSenha);
+                    modal.hide();
+                    
+                    // Mostrar notificação de sucesso na página
+                    alert('Senha alterada com sucesso!');
+                }, 2000);
+                
+            } else {
+                // Verificar tipo de erro
+                if (result.erro.includes('atual incorreta')) {
+                    mostrarErro('senhaAtual', result.erro);
+                } else if (result.erro.includes('não coincidem')) {
+                    mostrarErro('confirmarSenha', result.erro);
+                } else if (result.erro.includes('6 caracteres')) {
+                    mostrarErro('novaSenha', result.erro);
+                } else {
+                    mostrarErroGeral(result.erro);
+                }
+            }
+            
+        } catch (error) {
+            console.error('Erro ao alterar senha:', error);
+            mostrarErroGeral('Erro de conexão. Tente novamente.');
+        } finally {
+            // Restaurar botão
+            btnText.textContent = 'Alterar Senha';
+            spinner.classList.add('d-none');
+            this.disabled = false;
+        }
+    });
+});
+

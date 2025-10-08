@@ -1,251 +1,173 @@
 let currentStep = 1;
-let emailVerified = false;
-let resendTimer = 0;
-let resendInterval;
 
 function showStep(step) {
     const steps = document.querySelectorAll(".step-form");
     steps.forEach((el, index) => {
-        el.classList.remove("active");
+        if (index === step - 1) {
+            el.classList.add("active");
+            el.style.display = "block";
+        } else {
+            el.classList.remove("active");
+            el.style.display = "none";
+        }
     });
+}
+
+// ====== FUNÇÕES DE VALIDAÇÃO ======
+
+function validarCPF(cpf) {
+    cpf = cpf.replace(/[^\d]/g, '');
+    if (cpf.length !== 11) return false;
+    if (/^(\d)\1{10}$/.test(cpf)) return false;
     
-    // Map step numbers to step IDs
-    const stepIds = ['step1', 'stepEmailVerification', 'step2', 'step3'];
-    const targetStep = document.getElementById(stepIds[step - 1]);
-    if (targetStep) {
-        targetStep.classList.add("active");
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+        soma += parseInt(cpf.charAt(i)) * (10 - i);
+    }
+    let resto = 11 - (soma % 11);
+    let dv1 = (resto < 2) ? 0 : resto;
+    
+    soma = 0;
+    for (let i = 0; i < 10; i++) {
+        soma += parseInt(cpf.charAt(i)) * (11 - i);
+    }
+    resto = 11 - (soma % 11);
+    let dv2 = (resto < 2) ? 0 : resto;
+    
+    return (parseInt(cpf.charAt(9)) === dv1 && parseInt(cpf.charAt(10)) === dv2);
+}
+
+function validarEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
+function validarNome(nome) {
+    return nome && nome.trim().length >= 2 && nome.trim().includes(' ');
+}
+
+function mostrarErro(campo, mensagem) {
+    const erroAnterior = campo.parentNode.querySelector('.error-message');
+    if (erroAnterior) {
+        erroAnterior.remove();
+    }
+    
+    campo.classList.remove('is-valid');
+    campo.classList.add('is-invalid');
+    
+    const erro = document.createElement('div');
+    erro.className = 'error-message text-danger small mt-1';
+    erro.textContent = mensagem;
+    
+    campo.parentNode.appendChild(erro);
+}
+
+function limparErro(campo) {
+    campo.classList.remove('is-invalid');
+    campo.classList.add('is-valid');
+    const erro = campo.parentNode.querySelector('.error-message');
+    if (erro) {
+        erro.remove();
     }
 }
 
-function nextStep() {
-    if (currentStep === 1) {
-        // Skip email verification step if email is already verified
-        if (emailVerified) {
-            currentStep = 3; // Go to step2 (which is now step 3 in our numbering)
-        } else {
-            currentStep = 2; // Go to email verification
-        }
-    } else if (currentStep === 2) {
-        // From email verification to step2
-        currentStep = 3;
-    } else if (currentStep === 3) {
-        // From step2 to step3
-        currentStep = 4;
+function validarEtapa1() {
+    let valido = true;
+    
+    const nome = document.getElementById('nome');
+    if (!validarNome(nome.value)) {
+        mostrarErro(nome, 'Digite o nome completo');
+        valido = false;
+    } else {
+        limparErro(nome);
     }
     
-    if (currentStep <= 4) {
+    const email = document.getElementById('email');
+    if (!validarEmail(email.value)) {
+        mostrarErro(email, 'Digite um email válido');
+        valido = false;
+    } else {
+        limparErro(email);
+    }
+    
+    return valido;
+}
+
+function validarEtapa2() {
+    let valido = true;
+    
+    const cpf = document.getElementById('cpf');
+    if (!validarCPF(cpf.value)) {
+        mostrarErro(cpf, 'CPF inválido');
+        valido = false;
+    } else {
+        limparErro(cpf);
+    }
+    
+    return valido;
+}
+
+function nextStep() {
+    let podeAvancar = false;
+    
+    if (currentStep === 1) {
+        podeAvancar = validarEtapa1();
+    } else if (currentStep === 2) {
+        podeAvancar = validarEtapa2();
+    }
+    
+    if (podeAvancar && currentStep < 3) {
+        currentStep++;
         showStep(currentStep);
     }
 }
 
 function prevStep() {
-    if (currentStep === 4) {
-        // From step3 to step2
-        currentStep = 3;
-    } else if (currentStep === 3) {
-        // From step2 to email verification or step1
-        currentStep = emailVerified ? 1 : 2;
-    } else if (currentStep === 2) {
-        // From email verification to step1
-        currentStep = 1;
-    }
-    
-    if (currentStep >= 1) {
+    if (currentStep > 1) {
+        currentStep--;
         showStep(currentStep);
     }
 }
 
-function sendEmailVerification() {
-    const email = document.getElementById('email').value;
-    
-    if (!email) {
-        showAlert('Por favor, digite um email válido.', 'danger');
-        return;
-    }
-    
-    if (!isValidEmail(email)) {
-        showAlert('Por favor, digite um email válido.', 'danger');
-        return;
-    }
-    
-    // Show loading
-    const btn = event.target;
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Enviando...';
-    btn.disabled = true;
-    
-    // Simulate API call to send verification email
-    setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-        
-        // Update email display
-        document.getElementById('emailDisplay').textContent = email;
-        
-        // Go to email verification step
-        currentStep = 2;
-        showStep(currentStep);
-        
-        // Start resend timer
-        startResendTimer();
-        
-        showAlert('Código de verificação enviado para seu email!', 'success');
-    }, 2000);
-}
-
-function verifyEmailCode() {
-    const code = document.getElementById('verificationCode').value;
-    
-    if (!code || code.length !== 6) {
-        showAlert('Por favor, digite um código de 6 dígitos.', 'danger');
-        return;
-    }
-    
-    // Show loading
-    const btn = event.target;
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Verificando...';
-    btn.disabled = true;
-    
-    // Simulate API call to verify code
-    setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-        
-        // For demo purposes, accept any 6-digit code
-        // In real implementation, validate with backend
-        if (code.match(/^\d{6}$/)) {
-            emailVerified = true;
-            clearInterval(resendInterval);
-            showAlert('Email verificado com sucesso!', 'success');
-            
-            // Continue to next step
-            setTimeout(() => {
-                nextStep();
-            }, 1000);
-        } else {
-            showAlert('Código inválido. Tente novamente.', 'danger');
-        }
-    }, 1500);
-}
-
-function resendEmailCode() {
-    if (resendTimer > 0) return;
-    
-    const btn = document.getElementById('resendEmailBtn');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Reenviando...';
-    btn.disabled = true;
-    
-    // Simulate API call
-    setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-        
-        showAlert('Código reenviado com sucesso!', 'success');
-        startResendTimer();
-        
-        // Clear the verification code input
-        document.getElementById('verificationCode').value = '';
-    }, 1500);
-}
-
-function goBackToEmailEdit() {
-    // Reset email verification status
-    emailVerified = false;
-    clearInterval(resendInterval);
-    
-    // Go back to step 1
-    currentStep = 1;
-    showStep(currentStep);
-    
-    // Clear verification code
-    document.getElementById('verificationCode').value = '';
-}
-
-function startResendTimer() {
-    resendTimer = 60;
-    const resendBtn = document.getElementById('resendEmailBtn');
-    
-    resendInterval = setInterval(() => {
-        resendTimer--;
-        if (resendTimer > 0) {
-            resendBtn.innerHTML = `<i class="fas fa-redo me-2"></i>Reenviar (${resendTimer}s)`;
-            resendBtn.disabled = true;
-        } else {
-            resendBtn.innerHTML = '<i class="fas fa-redo me-2"></i>Reenviar';
-            resendBtn.disabled = false;
-            clearInterval(resendInterval);
-        }
-    }, 1000);
-}
-
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-function showAlert(message, type) {
-    // Remove existing alerts
-    const existingAlerts = document.querySelectorAll('.alert-custom');
-    existingAlerts.forEach(alert => alert.remove());
-    
-    // Create new alert
-    const alert = document.createElement('div');
-    alert.className = `alert alert-${type} alert-custom mt-3`;
-    alert.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>${message}`;
-    
-    // Add to active form
-    const activeForm = document.querySelector('.step-form.active');
-    if (activeForm) {
-        activeForm.appendChild(alert);
-        
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-            if (alert.parentNode) {
-                alert.remove();
-            }
-        }, 5000);
-    }
-}
-
-// Form validation before submission
-document.getElementById('multiStepForm').addEventListener('submit', function(e) {
-    if (!emailVerified) {
-        e.preventDefault();
-        showAlert('Por favor, verifique seu email antes de continuar.', 'warning');
-        return false;
-    }
-});
-
-// Auto-format verification code input
+// Validação em tempo real
 document.addEventListener('DOMContentLoaded', function() {
-    const verificationCodeInput = document.getElementById('verificationCode');
-    
-    if (verificationCodeInput) {
-        // Only allow numbers
-        verificationCodeInput.addEventListener('input', function(e) {
-            this.value = this.value.replace(/[^0-9]/g, '');
-            
-            // Auto-verify when 6 digits are entered
-            if (this.value.length === 6) {
-                setTimeout(() => {
-                    verifyEmailCode();
-                }, 500);
-            }
+    const cpfInput = document.getElementById('cpf');
+    if (cpfInput) {
+        cpfInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            e.target.value = value;
         });
         
-        // Prevent paste of non-numeric content
-        verificationCodeInput.addEventListener('paste', function(e) {
-            e.preventDefault();
-            const paste = (e.clipboardData || window.clipboardData).getData('text');
-            const numericPaste = paste.replace(/[^0-9]/g, '').substring(0, 6);
-            this.value = numericPaste;
-            
-            if (numericPaste.length === 6) {
-                setTimeout(() => {
-                    verifyEmailCode();
-                }, 500);
+        cpfInput.addEventListener('blur', function() {
+            if (this.value && !validarCPF(this.value)) {
+                mostrarErro(this, 'CPF inválido');
+            } else if (this.value) {
+                limparErro(this);
+            }
+        });
+    }
+    
+    const emailInput = document.getElementById('email');
+    if (emailInput) {
+        emailInput.addEventListener('blur', function() {
+            if (this.value && !validarEmail(this.value)) {
+                mostrarErro(this, 'Email inválido');
+            } else if (this.value) {
+                limparErro(this);
+            }
+        });
+    }
+    
+    const nomeInput = document.getElementById('nome');
+    if (nomeInput) {
+        nomeInput.addEventListener('blur', function() {
+            if (!validarNome(this.value)) {
+                mostrarErro(this, 'Digite o nome completo');
+            } else {
+                limparErro(this);
             }
         });
     }

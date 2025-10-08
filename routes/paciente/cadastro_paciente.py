@@ -69,6 +69,18 @@ async def cadastrar_paciente(
                 }
             )
         
+        # Verificar se CPF já existe
+        if usuario_repo.obter_usuario_por_cpf(paciente_dto.cpf):
+            print(f"DEBUG: CPF já existe no banco: {paciente_dto.cpf}")
+            return templates.TemplateResponse(
+                "/paciente/cadastro_paciente.html",
+                {
+                    "request": request, 
+                    "erro": "CPF já cadastrado",
+                    "dados": dados_formulario
+                }
+            )
+        
         # Criar hash da senha
         senha_hash = criar_hash_senha(paciente_dto.senha)
 

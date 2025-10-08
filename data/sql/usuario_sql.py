@@ -49,6 +49,14 @@ FROM usuario
 WHERE email = ?
 """
 
+# SQL para obter usuário por CPF
+OBTER_USUARIO_POR_CPF = """
+SELECT
+idUsuario, nome, cpf, email, senha, genero, dataNascimento, perfil, foto, token_redefinicao, data_token, data_cadastro
+FROM usuario
+WHERE cpf = ?
+"""
+
 # SQL para obter usuário por senha
 OBTER_USUARIO_POR_SENHA = """
 SELECT

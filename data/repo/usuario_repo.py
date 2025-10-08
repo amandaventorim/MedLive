@@ -120,6 +120,37 @@ def obter_usuario_por_email(email: str) -> Optional[Usuario]:
                 data_cadastro=row["data_cadastro"]
             )
         return None
+
+def obter_usuario_por_cpf(cpf: str) -> Optional[Usuario]:
+    """
+    Busca um usuário pelo CPF
+    
+    Args:
+        cpf: CPF a ser pesquisado
+    
+    Returns:
+        Usuario se encontrado, None caso contrário
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(OBTER_USUARIO_POR_CPF, (cpf,))
+        row = cursor.fetchone()
+        if row:
+            return Usuario(
+                idUsuario=row["idUsuario"],
+                nome=row["nome"],
+                cpf=row["cpf"],
+                email=row["email"],
+                senha=row["senha"],
+                genero=row["genero"],
+                dataNascimento=row["dataNascimento"],
+                perfil=row["perfil"],
+                foto=row["foto"],
+                token_redefinicao=row["token_redefinicao"],
+                data_token=row["data_token"],
+                data_cadastro=row["data_cadastro"]
+            )
+        return None
     
 def atualizar_usuario(usuario: Usuario) -> bool:
     with get_connection() as conn:
