@@ -13,24 +13,24 @@
     </div>
 
     <form id="loginForm" action="/login" method="post">
-        {% if erro %}
+        {% if erros and "GERAL" in erros.keys(): %}
         <div class="alert alert-danger" role="alert">
-            {{ erro }}
+            {{ erros["GERAL"] }}
         </div>
         {% endif %}
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control {% if erro and 'email' in erro.lower() %}is-invalid{% endif %}" id="email" name="email" value="{{ dados.email if dados else '' }}" required>
-            {% if erro and 'email' in erro.lower() %}
-            <div class="invalid-feedback">{{ erro }}</div>
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control {% if erros and 'EMAIL' in erros.keys() %}is-invalid{% endif %}" id="email" name="email" value="{{ dados.email if dados else '' }}" required>
+            {% if erros and 'EMAIL' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['EMAIL'] }}</div>
             {% endif %}
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label">Senha</label>
-            <input type="password" class="form-control {% if erro and 'senha' in erro.lower() %}is-invalid{% endif %}" id="password" name="senha" required>
-            {% if erro and 'senha' in erro.lower() %}
-            <div class="invalid-feedback">{{ erro }}</div>
+            <input type="password" class="form-control {% if erros and 'SENHA' in erros.keys() %}is-invalid{% endif %}" id="password" name="senha" required>
+            {% if erros and 'SENHA' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['SENHA'] }}</div>
             {% endif %}
         </div>
 

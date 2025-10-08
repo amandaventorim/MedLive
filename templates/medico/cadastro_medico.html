@@ -8,154 +8,192 @@
 <div class="mb-4 text-center">
     <h3 class="mt-2 title-criar-conta">Criar conta</h3>
 </div>
-                        <form
-                            id="multiStepForm"
-                            action="/cadastro_medico"
-                            method="POST"
-                            enctype="multipart/form-data"
-                        >
-                            <!-- Etapa 1: Dados Pessoais -->
-                            <div class="step-form active" id="step1">
-                                <div class="mb-3">
-                                    <label for="nome" class="form-label">Nome</label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="nome"
-                                        name="nome"
-                                        required
-                                    >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input
-                                        type="email"
-                                        class="form-control"
-                                        id="email"
-                                        name="email"
-                                        required
-                                    >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nasc" class="form-label">Data de Nascimento</label>
-                                    <input
-                                        type="date"
-                                        class="form-control"
-                                        id="nasc"
-                                        name="dataNascimento"
-                                        min="1905-01-01"
-                                        max="2009-12-31"
-                                        value="{{ dados.dataNascimento if dados else '' }}"
-                                        required
-                                    >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="genero" class="form-label">Gênero</label>
-                                    <select
-                                        class="form-select"
-                                        id="genero"
-                                        name="genero"
-                                        required
-                                    >
-                                        <option value="" disabled {% if not dados or not dados.genero %}selected{% endif %}>Selecione</option>
-                                        <option value="feminino" {% if dados and dados.genero == 'feminino' %}selected{% endif %}>Feminino</option>
-                                        <option value="masculino" {% if dados and dados.genero == 'masculino' %}selected{% endif %}>Masculino</option>
-                                        <option value="outros" {% if dados and dados.genero == 'outros' %}selected{% endif %}>Outros</option>
-                                    </select>
-                                </div>
-                                <div class="d-grid">
-                                    <button type="button" class="btn btn-medlive" onclick="nextStep()">Continuar</button>
-                                </div>
-                            </div>
-                            <!-- Etapa 2: CPF e Senha -->
-                            <div class="step-form" id="step2">
-                                <div class="mb-3">
-                                    <label for="cpf" class="form-label">CPF</label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="cpf"
-                                        name="cpf"
-                                        placeholder="000.000.000-00"
-                                        value="{{ dados.cpf if dados else '' }}"
-                                        required
-                                    >
-                                    <small class="text-muted">Digite um CPF válido (ex: 123.456.789-09)</small>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="senha" class="form-label">Senha</label>
-                                    <input
-                                        type="password"
-                                        class="form-control"
-                                        id="senha"
-                                        name="senha"
-                                        required
-                                    >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confisenha" class="form-label">Confirmar senha</label>
-                                    <input
-                                        type="password"
-                                        class="form-control"
-                                        id="confisenha"
-                                        name="confisenha"
-                                        required
-                                    >
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Voltar</button>
-                                    <button type="button" class="btn btn-medlive" onclick="nextStep()">Continuar</button>
-                                </div>
-                            </div>
-                            <!-- Etapa 3: Informações Profissionais -->
-                            <div class="step-form" id="step3">
-                                <div class="mb-3">
-                                    <label for="crm" class="form-label">CRM</label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="crm"
-                                        name="crm"
-                                        placeholder="Ex: 1111"
-                                        required
-                                    >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="documento_crm" class="form-label">Comprovante do CRM (PDF ou imagem)</label>
-                                    <input
-                                        type="file"
-                                        class="form-control"
-                                        id="documento_crm"
-                                        name="documento_crm"
-                                        accept=".pdf, .png, .jpg, .jpeg"
-                                    >
-                                </div>
-                                <div class="mb-3">
-                                    <label for="statusprofissional" class="form-label">Status Profissional</label>
-                                    <select
-                                        class="form-select"
-                                        id="statusprofissional"
-                                        name="statusProfissional"
-                                        required
-                                    >
-                                        <option value="" disabled {% if not dados or not dados.statusProfissional %}selected{% endif %}>Selecione</option>
-                                        <option value="ativo" {% if dados and dados.statusProfissional == 'ativo' %}selected{% endif %}>Ativo</option>
-                                        <option value="inativo" {% if dados and dados.statusProfissional == 'inativo' %}selected{% endif %}>Inativo</option>
-                                        <option value="licenca" {% if dados and dados.statusProfissional == 'licenca' %}selected{% endif %}>Licença</option>
-                                        <option value="afastado" {% if dados and dados.statusProfissional == 'afastado' %}selected{% endif %}>Afastado</option>
-                                    </select>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Voltar</button>
-                                    <button type="submit" class="btn btn-medlive">Criar conta</button>
-                                </div>
-                                {% if erro %}
-                                <div class="alert alert-danger mt-3" role="alert">
-                                    {{ erro }}
-                                </div>
-                                {% endif %}
-                            </div>
-                        </form>
+
+<form
+    id="multiStepForm"
+    action="/cadastro_medico"
+    method="POST"
+    enctype="multipart/form-data"
+>
+     {% if erros and "GERAL" in erros.keys(): %}
+        <div class="alert alert-danger" role="alert">
+            {{ erros["GERAL"] }}
+        </div>
+    {% endif %}
+    <!-- Etapa 1: Dados Pessoais -->
+    <div class="step-form active" id="step1">
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input
+                type="text"
+                class="form-control {% if erros and 'NOME' in erros.keys() %}is-invalid{% endif %}"
+                id="nome"
+                name="nome"
+                value="{{ dados.nome if dados else '' }}"
+                required
+            >
+            {% if erros and 'NOME' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['NOME'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input
+                type="email"
+                class="form-control {% if erros and 'EMAIL' in erros.keys() %}is-invalid{% endif %}"
+                id="email"
+                name="email"
+                value="{{ dados.email if dados else '' }}"
+                required
+            >
+            {% if erros and 'EMAIL' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['EMAIL'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="nasc" class="form-label">Data de Nascimento</label>
+            <input
+                type="date"
+                class="form-control {% if erros and 'DATANASCIMENTO' in erros.keys() %}is-invalid{% endif %}"
+                id="nasc"
+                name="dataNascimento"
+                min="1905-01-01"
+                max="2009-12-31"
+                value="{{ dados.dataNascimento if dados else '' }}"
+                required
+            >
+            {% if erros and 'DATANASCIMENTO' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['DATANASCIMENTO'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="genero" class="form-label">Gênero</label>
+            <select
+                class="form-select {% if erros and 'GENERO' in erros.keys() %}is-invalid{% endif %}"
+                id="genero"
+                name="genero"
+                required
+            >
+                <option value="" disabled {% if not dados or not dados.genero %}selected{% endif %}>Selecione</option>
+                <option value="feminino" {% if dados and dados.genero == 'feminino' %}selected{% endif %}>Feminino</option>
+                <option value="masculino" {% if dados and dados.genero == 'masculino' %}selected{% endif %}>Masculino</option>
+                <option value="outros" {% if dados and dados.genero == 'outros' %}selected{% endif %}>Outros</option>
+            </select>
+            {% if erros and 'GENERO' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['GENERO'] }}</div>
+            {% endif %}
+        </div>
+        <div class="d-grid">
+            <button type="button" class="btn btn-medlive" onclick="nextStep()">Continuar</button>
+        </div>
+    </div>
+    <!-- Etapa 2: CPF e Senha -->
+    <div class="step-form" id="step2">
+        <div class="mb-3">
+            <label for="cpf" class="form-label">CPF</label>
+            <input
+                type="text"
+                class="form-control {% if erros and 'CPF' in erros.keys() %}is-invalid{% endif %}"
+                id="cpf"
+                name="cpf"
+                placeholder="000.000.000-00"
+                value="{{ dados.cpf if dados else '' }}"
+                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                title="Formato: 000.000.000-00"
+                required
+            >
+            <small class="text-muted">Digite um CPF válido (ex: 123.456.789-09)</small>
+            {% if erros and 'CPF' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['CPF'] }}</div>
+            {% endif %}
+
+        </div>
+        <div class="mb-3">
+            <label for="senha" class="form-label">Senha</label>
+            <input
+                type="password"
+                class="form-control {% if erros and 'SENHA' in erros.keys() %}is-invalid{% endif %}"
+                id="senha"
+                name="senha"
+                required
+            >
+            {% if erros and 'SENHA' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['SENHA'] }}</div>
+            {% endif %}
+
+        </div>
+        <div class="mb-3">
+            <label for="confisenha" class="form-label">Confirmar senha</label>
+            <input
+                type="password"
+                class="form-control {% if erros and 'CONFISENHA' in erros.keys() %}is-invalid{% endif %}"
+                id="confisenha"
+                name="confisenha"
+                required
+            >
+            {% if erros and 'CONFISENHA' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['CONFISENHA'] }}</div>
+            {% endif %}
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+            <button type="button" class="btn btn-medlive" onclick="nextStep()">Continuar</button>
+        </div>
+    </div>
+    <!-- Etapa 3: Informações Profissionais -->
+    <div class="step-form" id="step3">
+        <div class="mb-3">
+            <label for="crm" class="form-label">CRM</label>
+            <input
+                type="text"
+                class="form-control {% if erros and 'CRM' in erros.keys() %}is-invalid{% endif %}"
+                id="crm"
+                name="crm"
+                placeholder="Ex: 1111"
+                required
+            >
+            {% if erros and 'CRM' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['CRM'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="documento_crm" class="form-label">Comprovante do CRM (PDF ou imagem)</label>
+            <input
+                type="file"
+                class="form-control {% if erros and 'DOCUMENTOCRM' in erros.keys() %}is-invalid{% endif %}"
+                id="documento_crm"
+                name="documento_crm"
+                accept=".pdf, .png, .jpg, .jpeg"
+            >
+            {% if erros and 'DOCUMENTOCRM' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['DOCUMENTOCRM'] }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="statusprofissional" class="form-label">Status Profissional</label>
+            <select
+                class="form-select {% if erros and 'STATUSPROFISSIONAL' in erros.keys() %}is-invalid{% endif %}"
+                id="statusprofissional"
+                name="statusProfissional"
+                required
+            >
+                <option value="" disabled {% if not dados or not dados.statusProfissional %}selected{% endif %}>Selecione</option>
+                <option value="ativo" {% if dados and dados.statusProfissional == 'ativo' %}selected{% endif %}>Ativo</option>
+                <option value="inativo" {% if dados and dados.statusProfissional == 'inativo' %}selected{% endif %}>Inativo</option>
+                <option value="licenca" {% if dados and dados.statusProfissional == 'licenca' %}selected{% endif %}>Licença</option>
+                <option value="afastado" {% if dados and dados.statusProfissional == 'afastado' %}selected{% endif %}>Afastado</option>
+            </select>
+            {% if erros and 'STATUSPROFISSIONAL' in erros.keys() %}
+            <div class="invalid-feedback">{{ erros['STATUSPROFISSIONAL'] }}</div>
+            {% endif %}
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">Voltar</button>
+            <button type="submit" class="btn btn-medlive">Criar conta</button>
+        </div>
+       
+    </div>
+</form>
                         
 <script src="/static/js/cadastro_medico.js"></script>
 {% endblock %}

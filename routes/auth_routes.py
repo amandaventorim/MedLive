@@ -47,7 +47,7 @@ async def post_login(
                 "login.html",
                 {
                     "request": request, 
-                    "erro": "Email ou senha inválidos",
+                    "erros": {"GERAL": "Credenciais inválidas!"},
                     "dados": dados_formulario
                 }
             )
@@ -89,19 +89,19 @@ async def post_login(
             
     except ValidationError as e:
         # Extrair mensagens de erro do Pydantic
-        erros = []
+        erros = dict()
         for erro in e.errors():
             campo = erro['loc'][0] if erro['loc'] else 'campo'
             mensagem = erro['msg']
-            erros.append(f"{campo.capitalize()}: {mensagem}")
+            erros[campo.upper()] = mensagem.replace('Value error, ', '')
 
-        erro_msg = " | ".join(erros)
+        # erro_msg = " | ".join(erros)
         # logger.warning(f"Erro de validação no cadastro: {erro_msg}")
 
         # Retornar template com dados preservados e erro
         return templates.TemplateResponse("login.html", {
             "request": request,
-            "erro": erro_msg,
+            "erros": erros,
             "dados": dados_formulario  # Preservar dados digitados
         })
 
@@ -110,7 +110,7 @@ async def post_login(
 
         return templates.TemplateResponse("login.html", {
             "request": request,
-            "erro": "Erro ao processar cadastro. Tente novamente.",
+            "erros": {"GERAL": "Ocorreu um erro ao processar o login. Tente novamente mais tarde."},
             "dados": dados_formulario
         })
 
@@ -120,6 +120,7 @@ async def post_login(
 async def logout(request: Request):
     request.session.clear()
     return RedirectResponse("/", status_code=303)
+
 
 
 
