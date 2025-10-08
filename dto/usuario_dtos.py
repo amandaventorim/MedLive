@@ -95,7 +95,8 @@ class CriarUsuarioDTO(BaseDTO):
     @classmethod
     def validar_cpf_campo(cls, v: str) -> str:
         validador = cls.validar_campo_wrapper(
-            lambda valor, campo: validar_cpf(valor),
+            lambda valor, campo: vali
+            dar_cpf(valor),
             "CPF"
         )
         return validador(v)

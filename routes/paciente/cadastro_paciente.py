@@ -112,25 +112,23 @@ async def cadastrar_paciente(
         return RedirectResponse("/login", status_code=303)
         
     except ValidationError as e:
-        print(f"DEBUG: Erro de validação capturado")
         # Extrair mensagens de erro do Pydantic
-        erros = []
+        erros = dict()
         for erro in e.errors():
             # Pegar apenas a mensagem customizada, removendo prefixos do Pydantic
+            campo = erro['loc'][0] if erro['loc'] else 'campo'
             mensagem = erro['msg']
+            erros[campo.upper()] = mensagem.replace('Value error, ', '')
             # Se a mensagem começa com "Value error, ", remove esse prefixo
-            if mensagem.startswith("Value error, "):
-                mensagem = mensagem.replace("Value error, ", "")
-            erros.append(mensagem)
-            print(f"DEBUG: Erro de validação - Campo: {erro.get('loc', [''])[0]}, Mensagem: {mensagem}")
-        
-        erro_msg = " | ".join(erros)
-        print(f"DEBUG: Retornando template com erro: {erro_msg}")
+        #     if mensagem.startswith("Value error, "):
+        #         mensagem = mensagem.replace("Value error, ", "")
+        #     erros.append(mensagem)
+        # erro_msg = " | ".join(erros)
         
         # Retornar template com dados preservados e erro
-        return templates.TemplateResponse("/paciente/cadastro_paciente.html", {
+        return templates.TemplateResponse("/medico/cadastro_medico.html", {
             "request": request,
-            "erro": erro_msg,
+            "erros": erros,
             "dados": dados_formulario  # Preservar dados digitados
         })
         
@@ -139,6 +137,6 @@ async def cadastrar_paciente(
         print("Erro ao cadastrar paciente:", e)
         return templates.TemplateResponse("/paciente/cadastro_paciente.html", {
             "request": request,
-            "erro": "Erro ao processar cadastro. Tente novamente.",
+            "erros": "Erro ao processar cadastro. Tente novamente.",
             "dados": dados_formulario
         })

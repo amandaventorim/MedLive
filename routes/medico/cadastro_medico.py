@@ -115,20 +115,22 @@ async def cadastrar_medico(
         
     except ValidationError as e:
         # Extrair mensagens de erro do Pydantic
-        erros = []
+        erros = dict()
         for erro in e.errors():
             # Pegar apenas a mensagem customizada, removendo prefixos do Pydantic
+            campo = erro['loc'][0] if erro['loc'] else 'campo'
             mensagem = erro['msg']
+            erros[campo.upper()] = mensagem.replace('Value error, ', '')
             # Se a mensagem começa com "Value error, ", remove esse prefixo
-            if mensagem.startswith("Value error, "):
-                mensagem = mensagem.replace("Value error, ", "")
-            erros.append(mensagem)
-        erro_msg = " | ".join(erros)
+        #     if mensagem.startswith("Value error, "):
+        #         mensagem = mensagem.replace("Value error, ", "")
+        #     erros.append(mensagem)
+        # erro_msg = " | ".join(erros)
         
         # Retornar template com dados preservados e erro
         return templates.TemplateResponse("/medico/cadastro_medico.html", {
             "request": request,
-            "erro": erro_msg,
+            "erros": erros,
             "dados": dados_formulario  # Preservar dados digitados
         })
         
@@ -137,6 +139,6 @@ async def cadastrar_medico(
         print("Erro ao cadastrar medico:", e)
         return templates.TemplateResponse("/medico/cadastro_medico.html", {
             "request": request,
-            "erro": "Erro ao cadastrar médico: " + str(e),
+            "erros": "Erro ao cadastrar médico: " + str(e),
             "dados": dados_formulario
         })
