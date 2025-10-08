@@ -1,16 +1,30 @@
 let currentStep = 1;
 
 function showStep(step) {
-    const steps = document.querySelectorAll(".step-form");
-    steps.forEach((el, index) => {
-        if (index === step - 1) {
-            el.classList.add("active");
-            el.style.display = "block";
-        } else {
-            el.classList.remove("active");
-            el.style.display = "none";
-        }
+    // Ocultar todas as etapas
+    const allSteps = document.querySelectorAll(".step-form");
+    allSteps.forEach(el => {
+        el.classList.remove("active");
+        el.style.display = "none";
     });
+    
+    // Mostrar a etapa correta baseada no número
+    let targetStepId;
+    if (step === 1) {
+        targetStepId = "step1";
+    } else if (step === 2) {
+        targetStepId = "step2";
+    } else if (step === 3) {
+        targetStepId = "step3";
+    }
+    
+    if (targetStepId) {
+        const targetStep = document.getElementById(targetStepId);
+        if (targetStep) {
+            targetStep.classList.add("active");
+            targetStep.style.display = "block";
+        }
+    }
 }
 
 // ====== FUNÇÕES DE VALIDAÇÃO ======
@@ -46,6 +60,25 @@ function validarNome(nome) {
     return nome && nome.trim().length >= 2 && nome.trim().includes(' ');
 }
 
+function validarSenha(senha) {
+    // Verifica se a senha existe
+    if (!senha || senha.trim() === '') {
+        return { valido: false, mensagem: 'Senha é obrigatória' };
+    }
+    
+    // Verifica se a senha tem pelo menos 6 caracteres
+    if (senha.length < 6) {
+        return { valido: false, mensagem: 'A senha deve ter pelo menos 6 caracteres' };
+    }
+    
+    // Verifica se a senha não excede 128 caracteres
+    if (senha.length > 128) {
+        return { valido: false, mensagem: 'A senha deve ter no máximo 128 caracteres' };
+    }
+    
+    return { valido: true, mensagem: '' };
+}
+
 function mostrarErro(campo, mensagem) {
     const erroAnterior = campo.parentNode.querySelector('.error-message');
     if (erroAnterior) {
@@ -75,19 +108,48 @@ function validarEtapa1() {
     let valido = true;
     
     const nome = document.getElementById('nome');
+    if (!nome) {
+        return false;
+    }
     if (!validarNome(nome.value)) {
-        mostrarErro(nome, 'Digite o nome completo');
+        mostrarErro(nome, 'Digite o nome completo (nome e sobrenome)');
         valido = false;
     } else {
         limparErro(nome);
     }
     
     const email = document.getElementById('email');
+    if (!email) {
+        return false;
+    }
     if (!validarEmail(email.value)) {
         mostrarErro(email, 'Digite um email válido');
         valido = false;
     } else {
         limparErro(email);
+    }
+    
+    const cpf = document.getElementById('cpf');
+    if (!cpf) {
+        return false;
+    }
+    if (!validarCPF(cpf.value)) {
+        mostrarErro(cpf, 'Digite um CPF válido');
+        valido = false;
+    } else {
+        limparErro(cpf);
+    }
+    
+    const senha = document.getElementById('senha');
+    if (!senha) {
+        return false;
+    }
+    const resultadoSenha = validarSenha(senha.value);
+    if (!resultadoSenha.valido) {
+        mostrarErro(senha, resultadoSenha.mensagem);
+        valido = false;
+    } else {
+        limparErro(senha);
     }
     
     return valido;
@@ -96,12 +158,20 @@ function validarEtapa1() {
 function validarEtapa2() {
     let valido = true;
     
-    const cpf = document.getElementById('cpf');
-    if (!validarCPF(cpf.value)) {
-        mostrarErro(cpf, 'CPF inválido');
+    const genero = document.getElementById('genero');
+    if (!genero || !genero.value) {
+        mostrarErro(genero, 'Selecione o gênero');
         valido = false;
     } else {
-        limparErro(cpf);
+        limparErro(genero);
+    }
+    
+    const dataNasc = document.getElementById('nasc');
+    if (!dataNasc || !dataNasc.value) {
+        mostrarErro(dataNasc, 'Selecione a data de nascimento');
+        valido = false;
+    } else {
+        limparErro(dataNasc);
     }
     
     return valido;
@@ -171,4 +241,47 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    const senhaInput = document.getElementById('senha');
+    if (senhaInput) {
+        senhaInput.addEventListener('blur', function() {
+            const resultado = validarSenha(this.value);
+            if (!resultado.valido) {
+                mostrarErro(this, resultado.mensagem);
+            } else {
+                limparErro(this);
+            }
+        });
+        
+        // Validação em tempo real - só mostra erro se a senha for muito longa
+        senhaInput.addEventListener('input', function() {
+            const resultado = validarSenha(this.value);
+            // Só mostra erro imediatamente se a senha exceder o limite máximo
+            if (this.value && this.value.length > 128) {
+                mostrarErro(this, 'A senha deve ter no máximo 128 caracteres');
+            } else if (this.value && resultado.valido) {
+                limparErro(this);
+            }
+        });
+    }
 });
+
+// Funções temporárias para a etapa de verificação de email (não implementadas)
+function goBackToEmailEdit() {
+    console.log('goBackToEmailEdit não implementada');
+    // Por enquanto, volta para a etapa 1
+    currentStep = 1;
+    showStep(currentStep);
+}
+
+function resendEmailCode() {
+    console.log('resendEmailCode não implementada');
+    // Placeholder para reenvio de código
+}
+
+function verifyEmailCode() {
+    console.log('verifyEmailCode não implementada');
+    // Por enquanto, avança para a próxima etapa
+    currentStep = 2;
+    showStep(currentStep);
+}

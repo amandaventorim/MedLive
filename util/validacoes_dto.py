@@ -557,3 +557,80 @@ VALIDADOR_TELEFONE = ValidadorWrapper.criar_validador(validar_telefone, "Telefon
 VALIDADOR_SENHA = ValidadorWrapper.criar_validador(validar_senha, "Senha")
 VALIDADOR_EMAIL = ValidadorWrapper.criar_validador_opcional(lambda v, c: v, "Email")  # Pydantic já valida
 VALIDADOR_DATA_NASCIMENTO = ValidadorWrapper.criar_validador_opcional(validar_data_nascimento, "Data de nascimento", idade_minima=16)
+
+
+# =====================================================
+# VALIDAÇÕES DE UNICIDADE (BANCO DE DADOS)
+# =====================================================
+
+def validar_email_unico(email: str) -> str:
+    """
+    Valida se email não está cadastrado no sistema.
+    
+    Args:
+        email: Email a ser validado
+        
+    Returns:
+        Email validado
+        
+    Raises:
+        ValidacaoError: Se email já estiver cadastrado
+    """
+    from data.repo.usuario_repo import obter_usuario_por_email
+    
+    if not email:
+        raise ValidacaoError('Email é obrigatório')
+        
+    usuario_existente = obter_usuario_por_email(email)
+    if usuario_existente:
+        raise ValidacaoError('Este email já está cadastrado no sistema')
+        
+    return email
+
+
+def validar_cpf_unico(cpf: str) -> str:
+    """
+    Valida se CPF não está cadastrado no sistema.
+    
+    Args:
+        cpf: CPF a ser validado (já deve estar limpo/validado)
+        
+    Returns:
+        CPF validado
+        
+    Raises:
+        ValidacaoError: Se CPF já estiver cadastrado
+    """
+    from data.repo.usuario_repo import obter_usuario_por_cpf
+    
+    if not cpf:
+        raise ValidacaoError('CPF é obrigatório')
+        
+    usuario_existente = obter_usuario_por_cpf(cpf)
+    if usuario_existente:
+        raise ValidacaoError('Este CPF já está cadastrado no sistema')
+        
+    return cpf
+
+
+def validar_duplicatas_usuario(email: str, cpf: str) -> tuple[str, str]:
+    """
+    Valida email e CPF únicos de uma só vez.
+    
+    Args:
+        email: Email a ser validado
+        cpf: CPF a ser validado (já deve estar limpo/validado)
+        
+    Returns:
+        Tupla (email, cpf) validados
+        
+    Raises:
+        ValidacaoError: Se email ou CPF já estiverem cadastrados
+    """
+    # Validar email único
+    validar_email_unico(email)
+    
+    # Validar CPF único  
+    validar_cpf_unico(cpf)
+    
+    return email, cpf

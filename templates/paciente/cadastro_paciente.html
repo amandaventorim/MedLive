@@ -21,6 +21,15 @@
 </div>
 {% endif %}
 
+{% if erros and "GERAL" in erros.keys() %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <strong>Erro:</strong><br>
+    {{ erros["GERAL"] }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
                         <form id="multiStepForm" action="/cadastro_paciente" method="POST">
                             <!-- Etapa 1 -->
                             <div class="step-form active" id="step1">
@@ -86,7 +95,7 @@
                                 </div>
                                 
                                 <div class="d-grid">
-                                    <button type="button" class="btn btn-medlive" onclick="sendEmailVerification()">Continuar</button>
+                                    <button type="button" class="btn btn-medlive" onclick="nextStep()">Continuar</button>
                                 </div>
                             </div>
                             <!-- Etapa 1.5: Verificação de Email -->
@@ -201,6 +210,7 @@
                                         class="form-control {% if erros and 'CONVENIO' in erros.keys() %}is-invalid{% endif %}"
                                         id="convenio"
                                         name="convenio"
+                                        value="{{ dados.convenio if dados else '' }}"
                                         required
                                     >
                                     {% if erros and 'CONVENIO' in erros.keys() %}

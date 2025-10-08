@@ -16,8 +16,11 @@
     enctype="multipart/form-data"
 >
      {% if erros and "GERAL" in erros.keys(): %}
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Erro:</strong><br>
             {{ erros["GERAL"] }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
     <!-- Etapa 1: Dados Pessoais -->
@@ -150,6 +153,7 @@
                 id="crm"
                 name="crm"
                 placeholder="Ex: 1111"
+                value="{{ dados.crm if dados else '' }}"
                 required
             >
             {% if erros and 'CRM' in erros.keys() %}

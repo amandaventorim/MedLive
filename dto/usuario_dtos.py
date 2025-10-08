@@ -95,8 +95,7 @@ class CriarUsuarioDTO(BaseDTO):
     @classmethod
     def validar_cpf_campo(cls, v: str) -> str:
         validador = cls.validar_campo_wrapper(
-            lambda valor, campo: vali
-            dar_cpf(valor),
+            lambda valor, campo: validar_cpf(valor),
             "CPF"
         )
         return validador(v)
@@ -147,6 +146,8 @@ class LoginUsuarioDTO(BaseDTO):
     @field_validator('email')
     @classmethod
     def validar_email(cls, v: str) -> str:
+        if not v:
+            raise ValueError('Email é obrigatório')
         if not '@' in v:
             raise ValueError('Email deve conter "@"')
         if not "." in v.split('@')[-1]:
@@ -160,6 +161,8 @@ class LoginUsuarioDTO(BaseDTO):
     @field_validator('senha')
     @classmethod
     def validar_senha(cls, v: str) -> str:
+        if not v:
+            raise ValueError('Senha é obrigatória')
         validador = cls.validar_campo_wrapper(
             lambda valor, campo: validar_senha(valor, min_chars=6, max_chars=128),
             "Senha"

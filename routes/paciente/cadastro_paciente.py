@@ -7,6 +7,7 @@ from data.repo import usuario_repo
 from data.repo.paciente_repo import inserir_paciente
 from data.model.paciente_model import Paciente
 from util.security import criar_hash_senha
+from util.validacoes_dto import ValidacaoError
 from dto import CriarPacienteDTO
 
 router = APIRouter()
@@ -57,29 +58,9 @@ async def cadastrar_paciente(
         
         print(f"DEBUG: DTO criado com sucesso - Nome validado: {paciente_dto.nome}")
         
-        # Verificar se email já existe
-        if usuario_repo.obter_usuario_por_email(paciente_dto.email):
-            print(f"DEBUG: Email já existe no banco: {paciente_dto.email}")
-            return templates.TemplateResponse(
-                "/paciente/cadastro_paciente.html",
-                {
-                    "request": request, 
-                    "erro": "Email já cadastrado",
-                    "dados": dados_formulario
-                }
-            )
-        
-        # Verificar se CPF já existe
-        if usuario_repo.obter_usuario_por_cpf(paciente_dto.cpf):
-            print(f"DEBUG: CPF já existe no banco: {paciente_dto.cpf}")
-            return templates.TemplateResponse(
-                "/paciente/cadastro_paciente.html",
-                {
-                    "request": request, 
-                    "erro": "CPF já cadastrado",
-                    "dados": dados_formulario
-                }
-            )
+        # Validar se email e CPF já existem usando funções de validação
+        from util.validacoes_dto import validar_duplicatas_usuario
+        validar_duplicatas_usuario(str(paciente_dto.email), paciente_dto.cpf)
         
         # Criar hash da senha
         senha_hash = criar_hash_senha(paciente_dto.senha)
@@ -118,18 +99,27 @@ async def cadastrar_paciente(
             # Pegar apenas a mensagem customizada, removendo prefixos do Pydantic
             campo = erro['loc'][0] if erro['loc'] else 'campo'
             mensagem = erro['msg']
-            erros[campo.upper()] = mensagem.replace('Value error, ', '')
-            # Se a mensagem começa com "Value error, ", remove esse prefixo
-        #     if mensagem.startswith("Value error, "):
-        #         mensagem = mensagem.replace("Value error, ", "")
-        #     erros.append(mensagem)
-        # erro_msg = " | ".join(erros)
+            campo_upper = campo.upper()
+            mensagem_limpa = mensagem.replace('Value error, ', '')
+            erros[campo_upper] = mensagem_limpa
+            print(f"DEBUG: Erro - Campo: '{campo}' -> '{campo_upper}', Mensagem: '{mensagem_limpa}'")
+        
+        print(f"DEBUG: Dicionário de erros final: {erros}")
         
         # Retornar template com dados preservados e erro
-        return templates.TemplateResponse("/medico/cadastro_medico.html", {
+        return templates.TemplateResponse("/paciente/cadastro_paciente.html", {
             "request": request,
             "erros": erros,
             "dados": dados_formulario  # Preservar dados digitados
+        })
+        
+    except (ValueError, ValidacaoError) as e:
+        # Erro de validação de duplicatas (email ou CPF já cadastrados)
+        print(f"DEBUG: Erro de duplicata: {str(e)}")
+        return templates.TemplateResponse("/paciente/cadastro_paciente.html", {
+            "request": request,
+            "erros": {"GERAL": str(e)},
+            "dados": dados_formulario
         })
         
     except Exception as e:
@@ -137,6 +127,6 @@ async def cadastrar_paciente(
         print("Erro ao cadastrar paciente:", e)
         return templates.TemplateResponse("/paciente/cadastro_paciente.html", {
             "request": request,
-            "erros": "Erro ao processar cadastro. Tente novamente.",
+            "erros": {"GERAL": "Erro ao processar cadastro. Tente novamente."},
             "dados": dados_formulario
         })

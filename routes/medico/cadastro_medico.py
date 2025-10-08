@@ -7,6 +7,7 @@ from data.repo.medico_repo import inserir_medico
 from data.repo import usuario_repo
 from data.model.medico_model import Medico
 from util.security import criar_hash_senha
+from util.validacoes_dto import ValidacaoError
 from dto import CriarMedicoDTO
 
 router = APIRouter()
@@ -58,29 +59,9 @@ async def cadastrar_medico(
         
         print(f"DEBUG: DTO criado com sucesso - Nome validado: {medico_dto.nome}")
         
-        # Verificar se email já existe
-        if usuario_repo.obter_usuario_por_email(medico_dto.email):
-            print(f"DEBUG: Email já existe no banco: {medico_dto.email}")
-            return templates.TemplateResponse(
-                "/medico/cadastro_medico.html",
-                {
-                    "request": request, 
-                    "erro": "Email já cadastrado",
-                    "dados": dados_formulario
-                }
-            )
-        
-        # Verificar se CPF já existe
-        if usuario_repo.obter_usuario_por_cpf(medico_dto.cpf):
-            print(f"DEBUG: CPF já existe no banco: {medico_dto.cpf}")
-            return templates.TemplateResponse(
-                "/medico/cadastro_medico.html",
-                {
-                    "request": request, 
-                    "erro": "CPF já cadastrado",
-                    "dados": dados_formulario
-                }
-            )
+        # Validar se email e CPF já existem usando funções de validação
+        from util.validacoes_dto import validar_duplicatas_usuario
+        validar_duplicatas_usuario(str(medico_dto.email), medico_dto.cpf)
         
         # Criar hash da senha
         senha_hash = criar_hash_senha(medico_dto.senha)
@@ -132,6 +113,15 @@ async def cadastrar_medico(
             "request": request,
             "erros": erros,
             "dados": dados_formulario  # Preservar dados digitados
+        })
+        
+    except (ValueError, ValidacaoError) as e:
+        # Erro de validação de duplicatas (email ou CPF já cadastrados)
+        print(f"DEBUG: Erro de duplicata: {str(e)}")
+        return templates.TemplateResponse("/medico/cadastro_medico.html", {
+            "request": request,
+            "erros": {"GERAL": str(e)},
+            "dados": dados_formulario
         })
         
     except Exception as e:

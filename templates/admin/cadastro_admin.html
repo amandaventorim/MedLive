@@ -11,6 +11,26 @@
 <div class="mb-4 text-center">
     <h3 class="mt-2 title-criar-conta">Criar conta</h3>
 </div>
+
+<!-- Exibir mensagens de erro -->
+{% if erro %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <strong>Erro de validação:</strong><br>
+    {{ erro }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+{% if erros and "GERAL" in erros.keys() %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <strong>Erro:</strong><br>
+    {{ erros["GERAL"] }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
                         <form id="multiStepForm" action="dashboard_adm.html" method="POST">
                             <!-- Etapa 1: Dados Pessoais -->
                             <div class="step-form active" id="step1">
