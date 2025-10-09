@@ -5,6 +5,7 @@ from typing import List, Optional
 from datetime import datetime
 from util.auth_decorator import requer_autenticacao
 from data.repo.disponibilidade_medico_repo import *
+from data.repo.agendamento_repo import obter_agendamentos_por_medico, obter_agendamentos_por_medico_simples
 from data.model.disponibilidade_medico_model import DisponibilidadeMedico
 
 router = APIRouter()
@@ -29,10 +30,49 @@ async def get_agenda_medico(request: Request, usuario_logado: dict = None):
 @router.get("/consultas_medico")
 @requer_autenticacao(["medico"])
 async def get_consultas_medico(request: Request, usuario_logado: dict = None):
-    return templates.TemplateResponse("/medico/consultas_medico.html", {
-        "request": request,
-        "usuario": usuario_logado
-    })
+    try:
+        # Primeiro tenta a função com JOINs
+        agendamentos = obter_agendamentos_por_medico(usuario_logado["idUsuario"])
+        
+        # Se não funcionar, tenta a versão simples
+        if not agendamentos:
+            agendamentos = obter_agendamentos_por_medico_simples(usuario_logado["idUsuario"])
+        
+        # Calcular estatísticas baseadas nos dados reais
+        hoje = datetime.now()
+        mes_atual = hoje.strftime("%Y-%m")
+        data_hoje = hoje.strftime("%Y-%m-%d")
+        
+        total_mes = len([a for a in agendamentos if a["dataAgendamento"].startswith(mes_atual)])
+        agendamentos_hoje = len([a for a in agendamentos if a["dataAgendamento"] == data_hoje])
+        em_andamento = len([a for a in agendamentos if a["status"] == "em_andamento"])
+        agendadas = len([a for a in agendamentos if a["status"] == "agendado"])
+        
+        return templates.TemplateResponse("/medico/consultas_medico.html", {
+            "request": request,
+            "usuario": usuario_logado,
+            "agendamentos": agendamentos,
+            "estatisticas": {
+                "total_mes": total_mes,
+                "hoje": agendamentos_hoje,
+                "em_andamento": em_andamento,
+                "agendadas": agendadas
+            }
+        })
+    except Exception as e:
+        print(f"Erro ao carregar consultas do médico: {e}")
+        # Retorna página vazia em caso de erro
+        return templates.TemplateResponse("/medico/consultas_medico.html", {
+            "request": request,
+            "usuario": usuario_logado,
+            "agendamentos": [],
+            "estatisticas": {
+                "total_mes": 0,
+                "hoje": 0,
+                "em_andamento": 0,
+                "agendadas": 0
+            }
+        })
 
 @router.get("/pacientes_medico")
 @requer_autenticacao(["medico"])

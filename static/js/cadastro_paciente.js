@@ -12,6 +12,8 @@ function showStep(step) {
     let targetStepId;
     if (step === 1) {
         targetStepId = "step1";
+    } else if (step === 1.5) {
+        targetStepId = "stepEmailVerification";
     } else if (step === 2) {
         targetStepId = "step2";
     } else if (step === 3) {
@@ -177,24 +179,93 @@ function validarEtapa2() {
     return valido;
 }
 
+function validarEndereco(endereco) {
+    return endereco && endereco.trim().length >= 10;
+}
+
+function validarConvenio(convenio) {
+    return convenio && convenio.trim().length >= 2;
+}
+
+function validarEtapa3() {
+    let valido = true;
+    
+    const endereco = document.getElementById('endereco');
+    if (!endereco) {
+        return false;
+    }
+    if (!validarEndereco(endereco.value)) {
+        mostrarErro(endereco, 'Digite um endereço completo (mínimo 10 caracteres)');
+        valido = false;
+    } else {
+        limparErro(endereco);
+    }
+    
+    const convenio = document.getElementById('convenio');
+    if (!convenio) {
+        return false;
+    }
+    if (!validarConvenio(convenio.value)) {
+        mostrarErro(convenio, 'Digite o nome do convênio');
+        valido = false;
+    } else {
+        limparErro(convenio);
+    }
+    
+    return valido;
+}
+
 function nextStep() {
     let podeAvancar = false;
     
     if (currentStep === 1) {
         podeAvancar = validarEtapa1();
+        if (podeAvancar) {
+            // Após validar a etapa 1, vai para verificação de email
+            currentStep = 1.5;
+            showStep(currentStep);
+            
+            // Exibir o email na tela de verificação
+            const email = document.getElementById('email').value;
+            const emailDisplay = document.getElementById('emailDisplay');
+            if (emailDisplay) {
+                emailDisplay.textContent = email;
+            }
+            
+            // TODO: Aqui deveria enviar o código de verificação por email
+            console.log('Enviando código de verificação para:', email);
+        }
     } else if (currentStep === 2) {
         podeAvancar = validarEtapa2();
-    }
-    
-    if (podeAvancar && currentStep < 3) {
-        currentStep++;
-        showStep(currentStep);
+        if (podeAvancar && currentStep < 3) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    } else if (currentStep === 3) {
+        podeAvancar = validarEtapa3();
+        if (podeAvancar) {
+            // TODO: Enviar dados finais para o servidor
+            console.log('Enviando dados finais...');
+            // Simulação de envio bem-sucedido
+            setTimeout(() => {
+                alert('Cadastro concluído com sucesso!');
+                // Redirecionar ou fechar modal, etc.
+            }, 1000);
+        }
     }
 }
 
 function prevStep() {
-    if (currentStep > 1) {
-        currentStep--;
+    if (currentStep === 1.5) {
+        // Da verificação de email volta para etapa 1
+        currentStep = 1;
+        showStep(currentStep);
+    } else if (currentStep === 2) {
+        // Da etapa 2 volta para verificação de email (se implementada) ou etapa 1
+        currentStep = 1.5;
+        showStep(currentStep);
+    } else if (currentStep === 3) {
+        currentStep = 2;
         showStep(currentStep);
     }
 }
@@ -264,24 +335,110 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Validação para endereço
+    const enderecoInput = document.getElementById('endereco');
+    if (enderecoInput) {
+        enderecoInput.addEventListener('blur', function() {
+            if (!validarEndereco(this.value)) {
+                mostrarErro(this, 'Digite um endereço completo (mínimo 10 caracteres)');
+            } else {
+                limparErro(this);
+            }
+        });
+        
+        // Validação em tempo real para endereço
+        enderecoInput.addEventListener('input', function() {
+            if (this.value && this.value.length >= 10) {
+                limparErro(this);
+            }
+        });
+    }
+    
+    // Validação para convênio
+    const convenioInput = document.getElementById('convenio');
+    if (convenioInput) {
+        convenioInput.addEventListener('blur', function() {
+            if (!validarConvenio(this.value)) {
+                mostrarErro(this, 'Digite o nome do convênio');
+            } else {
+                limparErro(this);
+            }
+        });
+        
+        // Validação em tempo real para convênio
+        convenioInput.addEventListener('input', function() {
+            if (this.value && this.value.length >= 2) {
+                limparErro(this);
+            }
+        });
+    }
 });
 
-// Funções temporárias para a etapa de verificação de email (não implementadas)
+// Funções para a etapa de verificação de email
 function goBackToEmailEdit() {
-    console.log('goBackToEmailEdit não implementada');
-    // Por enquanto, volta para a etapa 1
+    // Volta para a etapa 1 para editar o email
     currentStep = 1;
     showStep(currentStep);
 }
 
 function resendEmailCode() {
-    console.log('resendEmailCode não implementada');
-    // Placeholder para reenvio de código
+    const email = document.getElementById('email').value;
+    console.log('Reenviando código de verificação para:', email);
+    
+    // Desabilitar botão temporariamente
+    const resendBtn = document.getElementById('resendEmailBtn');
+    if (resendBtn) {
+        resendBtn.disabled = true;
+        resendBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Reenviando...';
+        
+        // Reabilitar após 30 segundos
+        setTimeout(() => {
+            resendBtn.disabled = false;
+            resendBtn.innerHTML = '<i class="fas fa-redo me-2"></i>Reenviar';
+        }, 30000);
+    }
+    
+    // TODO: Implementar chamada para backend para reenviar código
 }
 
 function verifyEmailCode() {
-    console.log('verifyEmailCode não implementada');
-    // Por enquanto, avança para a próxima etapa
+    const code = document.getElementById('verificationCode').value;
+    
+    if (!code || code.length !== 6) {
+        mostrarErro(document.getElementById('verificationCode'), 'Digite o código de 6 dígitos');
+        return;
+    }
+    
+    console.log('Verificando código:', code);
+    
+    // TODO: Implementar verificação do código no backend
+    // Por enquanto, simula sucesso e avança para etapa 2
+    limparErro(document.getElementById('verificationCode'));
     currentStep = 2;
     showStep(currentStep);
 }
+
+// Função para validar o formulário antes do submit
+function validarFormularioCompleto() {
+    // Primeiro verifica se está na etapa 3
+    if (currentStep !== 3) {
+        return false;
+    }
+    
+    // Valida a etapa 3
+    return validarEtapa3();
+}
+
+// Adicionar event listener para o formulário
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('multiStepForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            if (!validarFormularioCompleto()) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
+});

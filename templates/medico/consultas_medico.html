@@ -32,25 +32,25 @@
                 <div class="row">
                     <div class="col-md-3 col-6 mb-3 mb-md-0">
                         <div class="stat-card">
-                            <div class="stat-numero">24</div>
+                            <div class="stat-numero">{{ estatisticas.total_mes }}</div>
                             <div class="stat-label">Total do Mês</div>
                         </div>
                     </div>
                     <div class="col-md-3 col-6 mb-3 mb-md-0">
                         <div class="stat-card">
-                            <div class="stat-numero">3</div>
+                            <div class="stat-numero">{{ estatisticas.hoje }}</div>
                             <div class="stat-label">Hoje</div>
                         </div>
                     </div>
                     <div class="col-md-3 col-6 mb-3 mb-md-0">
                         <div class="stat-card">
-                            <div class="stat-numero">2</div>
+                            <div class="stat-numero">{{ estatisticas.em_andamento }}</div>
                             <div class="stat-label">Em Andamento</div>
                         </div>
                     </div>
                     <div class="col-md-3 col-6">
                         <div class="stat-card">
-                            <div class="stat-numero">5</div>
+                            <div class="stat-numero">{{ estatisticas.agendadas }}</div>
                             <div class="stat-label">Agendadas</div>
                         </div>
                     </div>
@@ -92,221 +92,109 @@
             <!-- Lista de Consultas -->
             <div class="row">
                 <div class="col-12">
-                    <!-- Consulta 1 - Em Andamento -->
-                    <div class="cartao-consulta em-andamento">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <span class="status-consulta status-em-andamento">Em Andamento</span>
-                            <span class="label-detalhe">Hoje - 10:00</span>
-                        </div>
-                        
-                        <div class="info-paciente">
-                            <div class="avatar-paciente">
-                                <i class="bi bi-person-fill"></i>
+                    {% if agendamentos %}
+                        {% for agendamento in agendamentos %}
+                        <!-- Consulta {{ loop.index }} -->
+                        <div class="cartao-consulta {{ agendamento.status.replace('_', '-') }}">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                {% if agendamento.status == 'agendado' %}
+                                    <span class="status-consulta status-agendada">Agendada</span>
+                                {% elif agendamento.status == 'em_andamento' %}
+                                    <span class="status-consulta status-em-andamento">Em Andamento</span>
+                                {% elif agendamento.status == 'concluida' %}
+                                    <span class="status-consulta status-concluida">Concluída</span>
+                                {% elif agendamento.status == 'cancelada' %}
+                                    <span class="status-consulta status-cancelada">Cancelada</span>
+                                {% else %}
+                                    <span class="status-consulta">{{ agendamento.status.title() }}</span>
+                                {% endif %}
+                                <span class="label-detalhe">{{ agendamento.dataAgendamento }} - {{ agendamento.horario }}</span>
                             </div>
-                            <div class="dados-paciente">
-                                <h5>Ana Lucia Santos</h5>
-                                <div class="info-adicional">
-                                    <span><i class="bi bi-telephone me-1"></i>(11) 99999-9999</span> |
-                                    <span><i class="bi bi-envelope me-1"></i>ana.santos@email.com</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="detalhes-consulta">
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Tipo:</span>
-                                <span class="valor-detalhe">Consulta de Rotina</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Modalidade:</span>
-                                <span class="valor-detalhe">Telemedicina</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Duração:</span>
-                                <span class="valor-detalhe">30 minutos</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Observações:</span>
-                                <span class="valor-detalhe">Paciente relata dores de cabeça frequentes</span>
-                            </div>
-                        </div>
-
-                        <div class="acoes-consulta">
-                            <a href="/sala_consulta" class="btn botao-medlive">
-                                <i class="bi bi-camera-video me-1"></i>
-                                Entrar na Sala
-                            </a>
                             
-                            <button class="btn botao-sucesso">
-                                <i class="bi bi-check-circle me-1"></i>
-                                Finalizar
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Consulta 2 - Agendada -->
-                    <div class="cartao-consulta agendada">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <span class="status-consulta status-agendada">Agendada</span>
-                            <span class="label-detalhe">Hoje - 14:30</span>
-                        </div>
-                        
-                        <div class="info-paciente">
-                            <div class="avatar-paciente">
-                                <i class="bi bi-person-fill"></i>
-                            </div>
-                            <div class="dados-paciente">
-                                <h5>Carlos Mendes Silva</h5>
-                                <div class="info-adicional">
-                                    <span><i class="bi bi-telephone me-1"></i>(11) 88888-8888</span> |
-                                    <span><i class="bi bi-envelope me-1"></i>carlos.mendes@email.com</span>
+                            <div class="info-paciente">
+                                <div class="avatar-paciente">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                                <div class="dados-paciente">
+                                    <h5>{{ agendamento.nomePaciente }}</h5>
+                                    <div class="info-adicional">
+                                        {% if agendamento.emailPaciente %}
+                                        <span><i class="bi bi-envelope me-1"></i>{{ agendamento.emailPaciente }}</span>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="detalhes-consulta">
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Tipo:</span>
-                                <span class="valor-detalhe">Consulta Urgente</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Modalidade:</span>
-                                <span class="valor-detalhe">Telemedicina</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Duração:</span>
-                                <span class="valor-detalhe">45 minutos</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Observações:</span>
-                                <span class="valor-detalhe">Paciente com sintomas de gripe</span>
-                            </div>
-                        </div>
-
-                        <div class="acoes-consulta">
-                            <a href="/sala_consulta" class="btn botao-medlive">
-                                <i class="bi bi-camera-video me-1"></i>
-                                Iniciar Consulta
-                            </a>
-                            <button class="btn botao-secundario">
-                                <i class="bi bi-pencil me-1"></i>
-                                Editar
-                            </button>
-                            <button class="btn btn-cancelar">
-                                <i class="bi bi-x-circle me-1"></i>
-                                Cancelar
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Consulta 3 - Concluída -->
-                    <div class="cartao-consulta concluida">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <span class="status-consulta status-concluida">Concluída</span>
-                            <span class="label-detalhe">Ontem - 16:00</span>
-                        </div>
-                        
-                        <div class="info-paciente">
-                            <div class="avatar-paciente">
-                                <i class="bi bi-person-fill"></i>
-                            </div>
-                            <div class="dados-paciente">
-                                <h5>Maria Fernanda Costa</h5>
-                                <div class="info-adicional">
-                                    <span><i class="bi bi-telephone me-1"></i>(11) 77777-7777</span> |
-                                    <span><i class="bi bi-envelope me-1"></i>maria.costa@email.com</span>
+                            <div class="detalhes-consulta">
+                                {% if agendamento.queixa %}
+                                <div class="item-detalhe">
+                                    <span class="label-detalhe">Queixa:</span>
+                                    <span class="valor-detalhe">{{ agendamento.queixa }}</span>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="detalhes-consulta">
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Tipo:</span>
-                                <span class="valor-detalhe">Retorno</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Modalidade:</span>
-                                <span class="valor-detalhe">Telemedicina</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Duração:</span>
-                                <span class="valor-detalhe">25 minutos</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Resultado:</span>
-                                <span class="valor-detalhe">Paciente apresentou melhora significativa</span>
-                            </div>
-                        </div>
-
-                        <div class="acoes-consulta">
-                            <a href="/consultas_medico" class="btn botao-medlive">
-                                <i class="bi bi-calendar-plus me-1"></i>
-                                Agendar Retorno
-                            </a>
-                        </div>
-                    </div>
-
-                                
-                            </a>
-                    <!-- Consulta 4 - Agendada -->
-                    <div class="cartao-consulta agendada">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <span class="status-consulta status-agendada">Agendada</span>
-                            <span class="label-detalhe">Amanhã - 09:00</span>
-                        </div>
-                        
-                        <div class="info-paciente">
-                            <div class="avatar-paciente">
-                                <i class="bi bi-person-fill"></i>
-                            </div>
-                            <div class="dados-paciente">
-                                <h5>Roberto Silva Santos</h5>
-                                <div class="info-adicional">
-                                    <span><i class="bi bi-telephone me-1"></i>(11) 66666-6666</span> |
-                                    <span><i class="bi bi-envelope me-1"></i>roberto.silva@email.com</span>
+                                {% endif %}
+                                <div class="item-detalhe">
+                                    <span class="label-detalhe">Modalidade:</span>
+                                    <span class="valor-detalhe">Telemedicina</span>
                                 </div>
+                                {% if agendamento.convenio %}
+                                <div class="item-detalhe">
+                                    <span class="label-detalhe">Convênio:</span>
+                                    <span class="valor-detalhe">{{ agendamento.convenio }}</span>
+                                </div>
+                                {% endif %}
+                                {% if agendamento.preco %}
+                                <div class="item-detalhe">
+                                    <span class="label-detalhe">Valor:</span>
+                                    <span class="valor-detalhe">R$ {{ "%.2f"|format(agendamento.preco) }}</span>
+                                </div>
+                                {% endif %}
                             </div>
-                        </div>
 
-                        <div class="detalhes-consulta">
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Tipo:</span>
-                                <span class="valor-detalhe">Primeira Consulta</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Modalidade:</span>
-                                <span class="valor-detalhe">Telemedicina</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Duração:</span>
-                                <span class="valor-detalhe">60 minutos</span>
-                            </div>
-                            <div class="item-detalhe">
-                                <span class="label-detalhe">Observações:</span>
-                                <span class="valor-detalhe">Paciente novo, avaliação geral</span>
+                            <div class="acoes-consulta">
+                                {% if agendamento.status == 'agendado' %}
+                                    <a href="/sala_consulta" class="btn botao-medlive">
+                                        <i class="bi bi-camera-video me-1"></i>
+                                        Iniciar Consulta
+                                    </a>
+                                    <button class="btn botao-secundario">
+                                        <i class="bi bi-pencil me-1"></i>
+                                        Editar
+                                    </button>
+                                    <button class="btn btn-cancelar">
+                                        <i class="bi bi-x-circle me-1"></i>
+                                        Cancelar
+                                    </button>
+                                {% elif agendamento.status == 'em_andamento' %}
+                                    <a href="/sala_consulta" class="btn botao-medlive">
+                                        <i class="bi bi-camera-video me-1"></i>
+                                        Entrar na Sala
+                                    </a>
+                                    <button class="btn botao-sucesso">
+                                        <i class="bi bi-check-circle me-1"></i>
+                                        Finalizar
+                                    </button>
+                                {% elif agendamento.status == 'concluida' %}
+                                    <a href="/consultas_medico" class="btn botao-medlive">
+                                        <i class="bi bi-calendar-plus me-1"></i>
+                                        Agendar Retorno
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
-
-                        <div class="acoes-consulta">
-                            <a href="/sala_consulta" class="btn botao-medlive">
-                                <i class="bi bi-camera-video me-1"></i>
-                                Iniciar Consulta
-                            </a>
-                            <button class="btn botao-secundario">
-                                <i class="bi bi-pencil me-1"></i>
-                                Editar
-                            </button>
-                            <button class="btn btn-cancelar">
-                                <i class="bi bi-x-circle me-1"></i>
-                                Cancelar
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="bi bi-calendar-x" style="font-size: 4rem; color: #6c757d;"></i>
+                            <h4 class="mt-3 text-muted">Nenhuma consulta encontrada</h4>
+                            <p class="text-muted">Você ainda não possui consultas agendadas.</p>
+                            <button class="btn botao-medlive mt-3" data-bs-toggle="modal" data-bs-target="#modalNovaConsulta">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                Agendar Nova Consulta
                             </button>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
-
-            <!-- Paginação -->
-            
         </div>
     </section>
 

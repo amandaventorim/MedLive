@@ -119,6 +119,72 @@ def obter_agendamentos_por_paciente(idPaciente: int) -> list[dict]:
         ]
 
 
+def obter_agendamentos_por_medico(idMedico: int) -> list[dict]:
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(OBTER_AGENDAMENTOS_POR_MEDICO, (idMedico,))
+            rows = cursor.fetchall()
+            
+            if not rows:
+                return []
+                
+            return [
+                {
+                    "idAgendamento": row["idAgendamento"],
+                    "idPaciente": row["idPaciente"],
+                    "idMedico": row["idMedico"],
+                    "dataAgendamento": row["dataAgendamento"],
+                    "horario": row["horario"],
+                    "status": row["status"],
+                    "queixa": row["queixa"] if row["queixa"] else "",
+                    "preco": row["preco"] if row["preco"] else 0.0,
+                    "dataInclusao": row["dataInclusao"],
+                    "nomePaciente": row["nomePaciente"],
+                    "endereco": row["endereco"] if row["endereco"] else "",
+                    "convenio": row["convenio"] if row["convenio"] else "",
+                    "emailPaciente": row["emailPaciente"] if row["emailPaciente"] else ""
+                }
+                for row in rows
+            ]
+    except Exception as e:
+        print(f"Erro ao obter agendamentos por médico {idMedico}: {e}")
+        return []
+
+
+def obter_agendamentos_por_medico_simples(idMedico: int) -> list[dict]:
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(OBTER_AGENDAMENTOS_POR_MEDICO_SIMPLES, (idMedico,))
+            rows = cursor.fetchall()
+            
+            if not rows:
+                return []
+                
+            return [
+                {
+                    "idAgendamento": row["idAgendamento"],
+                    "idPaciente": row["idPaciente"],
+                    "idMedico": row["idMedico"],
+                    "dataAgendamento": row["dataAgendamento"],
+                    "horario": row["horario"],
+                    "status": row["status"],
+                    "queixa": row["queixa"] if row["queixa"] else "",
+                    "preco": row["preco"] if row["preco"] else 0.0,
+                    "dataInclusao": row["dataInclusao"],
+                    "nomePaciente": "Paciente",  # Placeholder
+                    "endereco": "",  # Placeholder
+                    "convenio": "",  # Placeholder
+                    "emailPaciente": ""  # Placeholder
+                }
+                for row in rows
+            ]
+    except Exception as e:
+        print(f"Erro ao obter agendamentos simples por médico {idMedico}: {e}")
+        return []
+
+
 def atualizar_agendamento(agendamento: Agendamento) -> bool:
     with get_connection() as conn:
         cursor = conn.cursor()
