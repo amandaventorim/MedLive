@@ -471,3 +471,18 @@
     }
 }
 
+.btn-sair {
+    background: linear-gradient(135deg, #B31D1D 0%, #8f1419 100%);
+    color: white;
+    border: none;
+    border-radius: 0.8cap;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-sair:hover {
+    background: linear-gradient(135deg, #8f1419 0%, #B31D1D 100%);
+    color: white;
+    transform: translateY(2px);
+
+}

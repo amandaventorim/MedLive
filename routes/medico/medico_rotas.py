@@ -110,11 +110,16 @@ async def get_cadastro_medico(request: Request):
     })
 
 @router.get("/pagamento_plano")
-async def get_pagamento_plano(request: Request):
-    # Rota de pagamento pode ser pública para permitir cadastro
-    return templates.TemplateResponse("/medico/pagamento_plano.html", {
-        "request": request
-    })
+@requer_autenticacao(["medico"])
+async def get_pagamento_plano(request: Request, usuario_logado: dict = None):
+    try:
+        return templates.TemplateResponse("medico/pagamento_plano.html", {
+            "request": request,
+            "usuario": usuario_logado
+        })
+    except Exception as e:
+        print(f"Erro na rota pagamento_plano: {e}")
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
 @router.get("/sala_consulta")
 @requer_autenticacao(["medico", "paciente"])

@@ -48,11 +48,11 @@
 }
 
 .cartao-consulta.agendada {
-    border-left-color: #28a745;
+    border-left-color: #3781a3;
 }
 
 .cartao-consulta.em-andamento {
-    border-left-color: #3781a3;
+    border-left-color: #28a745;
 }
 
 .cartao-consulta.concluida {
