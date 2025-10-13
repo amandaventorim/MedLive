@@ -134,3 +134,18 @@ def requer_autenticacao(perfis_autorizados: List[str] = None):
 
 # Importação necessária para funções assíncronas
 import asyncio
+
+
+# Dependência para uso direto em endpoints FastAPI
+def get_current_user(request: Request):
+    """
+    Dependência do FastAPI para obter o usuário atual
+    Pode ser usada diretamente em endpoints com Depends()
+    """
+    usuario = obter_usuario_logado(request)
+    if not usuario:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Usuário não autenticado"
+        )
+    return usuario

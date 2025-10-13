@@ -18,11 +18,23 @@
         <!-- Header -->
         <div class="room-header">
             <div class="room-info">
-                <div class="participant-avatar">JS</div>
-                <div>
-                    <h6 class="mb-0">Consulta com João Silva</h6>
-                    <small class="text-light">Cardiologia • Videochamada</small>
-                </div>
+                {% if paciente %}
+                    <div class="participant-avatar">{{ paciente.nome[:2].upper() }}</div>
+                    <div>
+                        <h6 class="mb-0">Consulta com {{ paciente.nome }}</h6>
+                        {% if medico %}
+                            <small class="text-light">{{ medico.especialidade or 'Medicina Geral' }} • Videochamada</small>
+                        {% else %}
+                            <small class="text-light">Videochamada</small>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="participant-avatar">CO</div>
+                    <div>
+                        <h6 class="mb-0">Sala de Consulta</h6>
+                        <small class="text-light">Videochamada</small>
+                    </div>
+                {% endif %}
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="timer" id="consultationTimer">00:00</div>
@@ -50,7 +62,7 @@
                                         });
                                     });
                                 </script>
-                                <div class="participant-name">João Silva</div>
+                                <div class="participant-name">{{ paciente.nome if paciente else 'Paciente' }}</div>
             </div>
 
             <div class="sidebar">
@@ -58,7 +70,11 @@
                 <div class="participant-video">
                     <div class="video-placeholder" style="color: #999;">
                         <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-                        <div style="font-size: 0.8rem;">Dr. Carlos Silva</div>
+                        {% if usuario.tipo == 'medico' or usuario.perfil == 'medico' %}
+                            <div style="font-size: 0.8rem;">Dr. {{ usuario.nome }}</div>
+                        {% else %}
+                            <div style="font-size: 0.8rem;">{{ usuario.nome }}</div>
+                        {% endif %}
                     </div>
                     <div class="participant-name">Você</div>
                 </div>
@@ -128,7 +144,7 @@
             <form id="prescriptionForm">
                 <div class="mb-3">
                     <label class="form-label">Paciente</label>
-                    <input type="text" class="form-control" value="João Silva" readonly>
+                    <input type="text" class="form-control" value="{{ paciente.nome if paciente else 'Paciente' }}" readonly>
                 </div>
                 
                 <div class="mb-3">
@@ -333,7 +349,7 @@
             <form id="certificateForm">
                 <div class="mb-3">
                     <label class="form-label">Paciente</label>
-                    <input type="text" class="form-control" value="João Silva" readonly>
+                    <input type="text" class="form-control" value="{{ paciente.nome if paciente else 'Paciente' }}" readonly>
                 </div>
                 
                 <div class="mb-3">
@@ -383,6 +399,26 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/js/sala_consulta.js"></script>
+    
+    <!-- Dados da consulta para JavaScript -->
+    <script>
+        // Dados passados do backend
+        window.consultationData = {
+            roomId: "{{ room_id or '' }}",
+            agendamentoId: "{{ agendamento_id or '' }}",
+            userType: "{{ usuario.tipo if usuario else '' }}" || "{{ usuario.perfil if usuario else '' }}",
+            userId: "{{ usuario.idUsuario if usuario else '' }}",
+            userName: "{{ usuario.nome if usuario else '' }}",
+            pacienteNome: "{{ paciente.nome if paciente else '' }}",
+            medicoNome: "{{ medico.nome if medico else '' }}",
+            especialidade: "{{ medico.especialidade if medico else '' }}"
+        };
+        
+        // Conectar ao WebSocket se dados estiverem disponíveis
+        if (window.consultationData.userId && window.consultationData.userType) {
+            connectToConsultationWebSocket();
+        }
+    </script>
 </body>
 
 </html>

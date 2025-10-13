@@ -1,0 +1,369 @@
+/* Estilos para o sistema de notificações de videoconferência */
+
+/* Notificações de consulta para pacientes */
+.consultation-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: 2px solid #001942;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 25, 66, 0.3);
+    z-index: 10000;
+    min-width: 380px;
+    max-width: 480px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: slideInBounce 0.5s ease-out forwards;
+}
+
+.consultation-notification.notification-show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.consultation-notification.notification-fade-out {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+@keyframes slideInBounce {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    60% {
+        opacity: 1;
+        transform: translateX(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.notification-content {
+    padding: 20px;
+}
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    color: #001942;
+    font-weight: 600;
+    font-size: 1.1rem;
+    position: relative;
+}
+
+.notification-header i:first-child {
+    font-size: 1.4rem;
+    color: #00a8ff;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.btn-close-notification {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6c757d;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-close-notification:hover {
+    background: #f8f9fa;
+    color: #dc3545;
+}
+
+.notification-body {
+    margin-bottom: 15px;
+    color: #495057;
+    line-height: 1.5;
+}
+
+.notification-body p {
+    margin-bottom: 8px;
+}
+
+.notification-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.notification-actions .btn {
+    flex: 1;
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+}
+
+.notification-actions .btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    color: white;
+}
+
+.notification-actions .btn-success:hover {
+    background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.notification-actions .btn-secondary {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+}
+
+.notification-actions .btn-secondary:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+    color: #495057;
+}
+
+/* Notificações simples para pacientes */
+.patient-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border-left: 4px solid #17a2b8;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    padding: 12px 16px;
+    min-width: 280px;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.patient-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.patient-notification-success {
+    border-left-color: #28a745;
+    color: #155724;
+}
+
+.patient-notification-error {
+    border-left-color: #dc3545;
+    color: #721c24;
+}
+
+.patient-notification-warning {
+    border-left-color: #ffc107;
+    color: #856404;
+}
+
+.patient-notification-info {
+    border-left-color: #17a2b8;
+    color: #0c5460;
+}
+
+/* Status de conexão */
+.connection-status {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(10px);
+}
+
+.connection-status-warning {
+    background: rgba(255, 193, 7, 0.9);
+    color: #856404;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.connection-status-error {
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+/* Notificações para médicos */
+.medlive-notification {
+    border-radius: 8px !important;
+    font-weight: 500;
+}
+
+.medlive-notification .btn-close {
+    filter: none;
+    opacity: 0.7;
+}
+
+.medlive-notification .btn-close:hover {
+    opacity: 1;
+}
+
+/* Status badges para agendamentos */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-agendado {
+    background: #e3f2fd;
+    color: #1565c0;
+    border: 1px solid #bbdefb;
+}
+
+.status-em_andamento {
+    background: #e8f5e8;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+    animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+    }
+}
+
+.status-finalizado {
+    background: #f3e5f5;
+    color: #7b1fa2;
+    border: 1px solid #e1bee7;
+}
+
+.status-cancelado {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+/* Botões de ação para consultas */
+.btn-iniciar-consulta {
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.btn-iniciar-consulta:hover {
+    transform: translateY(-1px);
+}
+
+.btn-iniciar-consulta.btn-primary:hover {
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-iniciar-consulta.btn-success:hover {
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .consultation-notification {
+        left: 10px;
+        right: 10px;
+        min-width: auto;
+        max-width: none;
+        top: 10px;
+    }
+    
+    .patient-notification {
+        left: 10px;
+        right: 10px;
+        min-width: auto;
+        bottom: 10px;
+    }
+    
+    .connection-status {
+        left: 10px;
+        right: 10px;
+        transform: none;
+    }
+}
+
+/* Animações para interações */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+    20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+.notification-shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Estilos para dark mode (se implementado) */
+@media (prefers-color-scheme: dark) {
+    .consultation-notification,
+    .patient-notification {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-color: #4a5568;
+    }
+    
+    .notification-header {
+        color: #e2e8f0;
+    }
+    
+    .notification-body {
+        color: #cbd5e0;
+    }
+    
+    .btn-close-notification {
+        color: #a0aec0;
+    }
+    
+    .btn-close-notification:hover {
+        background: #4a5568;
+        color: #fc8181;
+    }
+    
+    .notification-actions .btn-secondary {
+        background: #4a5568;
+        border-color: #2d3748;
+        color: #e2e8f0;
+    }
+    
+    .notification-actions .btn-secondary:hover {
+        background: #2d3748;
+        color: #f7fafc;
+    }
+}

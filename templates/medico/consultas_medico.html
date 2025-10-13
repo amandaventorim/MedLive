@@ -95,18 +95,18 @@
                     {% if agendamentos %}
                         {% for agendamento in agendamentos %}
                         <!-- Consulta {{ loop.index }} -->
-                        <div class="cartao-consulta {{ agendamento.status.replace('_', '-') }}">
+                        <div class="cartao-consulta {{ agendamento.status.replace('_', '-') }}" data-agendamento-id="{{ agendamento.idAgendamento }}">
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 {% if agendamento.status == 'agendado' %}
-                                    <span class="status-consulta status-agendada">Agendada</span>
+                                    <span class="status-badge status-agendado">Agendada</span>
                                 {% elif agendamento.status == 'em_andamento' %}
-                                    <span class="status-consulta status-em-andamento">Em Andamento</span>
+                                    <span class="status-badge status-em_andamento">Em Andamento</span>
                                 {% elif agendamento.status == 'concluida' %}
-                                    <span class="status-consulta status-concluida">Concluída</span>
+                                    <span class="status-badge status-finalizado">Concluída</span>
                                 {% elif agendamento.status == 'cancelada' %}
-                                    <span class="status-consulta status-cancelada">Cancelada</span>
+                                    <span class="status-badge status-cancelado">Cancelada</span>
                                 {% else %}
-                                    <span class="status-consulta">{{ agendamento.status.title() }}</span>
+                                    <span class="status-badge">{{ agendamento.status.title() }}</span>
                                 {% endif %}
                                 <span class="label-detalhe">{{ agendamento.dataAgendamento }} - {{ agendamento.horario }}</span>
                             </div>
@@ -152,10 +152,10 @@
 
                             <div class="acoes-consulta">
                                 {% if agendamento.status == 'agendado' %}
-                                    <a href="/sala_consulta" class="btn botao-medlive">
+                                    <button class="btn botao-medlive btn-iniciar-consulta" data-agendamento-id="{{ agendamento.idAgendamento }}">
                                         <i class="bi bi-camera-video me-1"></i>
                                         Iniciar Consulta
-                                    </a>
+                                    </button>
                                     <button class="btn botao-secundario">
                                         <i class="bi bi-pencil me-1"></i>
                                         Editar
@@ -165,10 +165,10 @@
                                         Cancelar
                                     </button>
                                 {% elif agendamento.status == 'em_andamento' %}
-                                    <a href="/sala_consulta" class="btn botao-medlive">
+                                    <button class="btn botao-medlive btn-iniciar-consulta" data-agendamento-id="{{ agendamento.idAgendamento }}">
                                         <i class="bi bi-camera-video me-1"></i>
                                         Entrar na Sala
-                                    </a>
+                                    </button>
                                     <button class="btn botao-sucesso">
                                         <i class="bi bi-check-circle me-1"></i>
                                         Finalizar

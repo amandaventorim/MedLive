@@ -206,3 +206,18 @@ def deletar_agendamento(idAgendamento: int) -> bool:
         cursor = conn.cursor()
         cursor.execute(DELETAR_AGENDAMENTO, (idAgendamento,))
         return cursor.rowcount > 0
+
+
+def atualizar_status_agendamento(idAgendamento: int, novo_status: str, room_id: str = None) -> bool:
+    """Atualiza o status de um agendamento e opcionalmente adiciona room_id"""
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            # Se temos room_id, vamos precisar de uma coluna para armazená-lo
+            # Por ora, vamos apenas atualizar o status
+            cursor.execute("UPDATE Agendamento SET status = ? WHERE idAgendamento = ?", 
+                         (novo_status, idAgendamento))
+            return cursor.rowcount > 0
+    except Exception as e:
+        print(f"Erro ao atualizar status do agendamento: {e}")
+        return False

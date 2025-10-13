@@ -118,11 +118,31 @@ async def get_pagamento_plano(request: Request):
 
 @router.get("/sala_consulta")
 @requer_autenticacao(["medico", "paciente"])
-async def get_sala_consulta(request: Request, usuario_logado: dict = None):
+async def get_sala_consulta(request: Request, room_id: str = None, agendamento_id: str = None, usuario_logado: dict = None):
     # Sala de consulta acessível para médicos e pacientes
+    # Buscar dados do agendamento se fornecido
+    agendamento = None
+    medico = None
+    paciente = None
+    
+    if agendamento_id:
+        from data.repo.agendamento_repo import obter_agendamento_por_id
+        from data.repo.medico_repo import obter_medico_por_id
+        from data.repo.paciente_repo import obter_paciente_por_id
+        
+        agendamento = obter_agendamento_por_id(int(agendamento_id))
+        if agendamento:
+            medico = obter_medico_por_id(agendamento.idMedico)
+            paciente = obter_paciente_por_id(agendamento.idPaciente)
+    
     return templates.TemplateResponse("/sala_consulta.html", {
         "request": request,
-        "usuario": usuario_logado
+        "usuario": usuario_logado,
+        "room_id": room_id,
+        "agendamento_id": agendamento_id,
+        "agendamento": agendamento,
+        "medico": medico,
+        "paciente": paciente
     })
 
 @router.post("/salvar_disponibilidade")

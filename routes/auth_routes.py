@@ -58,6 +58,7 @@ async def post_login(
             "cpf": usuario.cpf,
             "email": usuario.email,
             "perfil": usuario.perfil,
+            "tipo": usuario.perfil,  # Adicionar campo tipo para compatibilidade
             "foto": usuario.foto,
             "token_redefinicao": usuario.token_redefinicao,
             "data_token": usuario.data_token,
