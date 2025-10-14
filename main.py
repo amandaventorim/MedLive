@@ -325,3 +325,9 @@ async def info_sala(request: Request, room_id: str):
         "timestamp": datetime.now().isoformat()
     }
 
+# Endpoint para teste de WebSocket
+@app.get("/test-websocket")
+async def test_websocket_page(request: Request):
+    """Página de teste para WebSocket em produção"""
+    return templates.TemplateResponse("test_websocket.html", {"request": request})
+

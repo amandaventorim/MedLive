@@ -17,14 +17,37 @@ function getWebSocketURL(path) {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     let host = window.location.host;
     
+    console.log('[WebSocket Util] === DETALHES DE CONFIGURAÇÃO ===');
+    console.log('[WebSocket Util] Hostname:', window.location.hostname);
+    console.log('[WebSocket Util] Protocol:', window.location.protocol);
+    console.log('[WebSocket Util] Port:', window.location.port);
+    console.log('[WebSocket Util] Host original:', window.location.host);
+    console.log('[WebSocket Util] É local?', isLocal);
+    
     // Para desenvolvimento local, garantir que usa a porta 8000
-    if (isLocal && !window.location.port) {
-        host = `${window.location.hostname}:8000`;
-    } else if (isLocal && window.location.port && window.location.port !== '8000') {
-        // Se está local mas usando uma porta diferente (ex: proxy), usar 8000 para WebSocket
-        host = `${window.location.hostname}:8000`;
+    if (isLocal) {
+        if (!window.location.port) {
+            host = `${window.location.hostname}:8000`;
+            console.log('[WebSocket Util] Ambiente local sem porta - usando 8000');
+        } else if (window.location.port !== '8000') {
+            // Se está local mas usando uma porta diferente (ex: proxy), usar 8000 para WebSocket
+            host = `${window.location.hostname}:8000`;
+            console.log('[WebSocket Util] Ambiente local com porta diferente - forçando 8000');
+        } else {
+            console.log('[WebSocket Util] Ambiente local já na porta 8000');
+        }
+    } else {
+        console.log('[WebSocket Util] Ambiente hospedado - usando host atual');
+        
+        // Para produção, verificar se precisa de porta específica
+        if (window.location.protocol === 'https:' && !window.location.port) {
+            // HTTPS sem porta específica - usar host atual
+            console.log('[WebSocket Util] HTTPS sem porta - usando host padrão');
+        } else if (window.location.protocol === 'http:' && !window.location.port) {
+            // HTTP sem porta específica - usar host atual  
+            console.log('[WebSocket Util] HTTP sem porta - usando host padrão');
+        }
     }
-    // Para produção (hospedado), usar o host atual sem modificação
     
     // Garantir que o path comece com '/'
     if (!path.startsWith('/')) {
@@ -33,10 +56,11 @@ function getWebSocketURL(path) {
     
     const wsUrl = `${protocol}//${host}${path}`;
     
-    console.log('[WebSocket Util] Ambiente detectado:', isLocal ? 'Local' : 'Hospedado');
-    console.log('[WebSocket Util] Host original:', window.location.host);
-    console.log('[WebSocket Util] Host usado:', host);
-    console.log('[WebSocket Util] URL gerada:', wsUrl);
+    console.log('[WebSocket Util] Protocolo WS:', protocol);
+    console.log('[WebSocket Util] Host final:', host);
+    console.log('[WebSocket Util] Path:', path);
+    console.log('[WebSocket Util] URL final:', wsUrl);
+    console.log('[WebSocket Util] =====================================');
     
     return wsUrl;
 }

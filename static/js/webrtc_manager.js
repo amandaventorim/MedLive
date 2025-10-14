@@ -110,14 +110,18 @@ class WebRTCManager {
                      window.WebSocketUtil.getURL(wsPath) : 
                      this.getFallbackWebSocketURL(wsPath);
         
+        console.log('[DEBUG] Tentando conectar WebSocket...');
         console.log('[DEBUG] Room ID:', this.roomId);
         console.log('[DEBUG] User Type:', this.userType);
         console.log('[DEBUG] User ID:', this.userId);
+        console.log('[DEBUG] URL gerada:', wsUrl);
+        console.log('[DEBUG] Protocolo atual da página:', window.location.protocol);
+        console.log('[DEBUG] Host atual da página:', window.location.host);
         
         this.websocket = new WebSocket(wsUrl);
         
         this.websocket.onopen = () => {
-            console.log('WebSocket conectado');
+            console.log('[DEBUG] ✅ WebSocket conectado com sucesso!');
             this.isConnected = true;
             this.showNotification('Conectado à sala de videoconferência', 'success');
         };
@@ -127,25 +131,41 @@ class WebRTCManager {
                 const message = JSON.parse(event.data);
                 this.handleWebSocketMessage(message);
             } catch (error) {
-                console.error('Erro ao processar mensagem WebSocket:', error);
+                console.error('[DEBUG] ❌ Erro ao processar mensagem WebSocket:', error);
             }
         };
         
-        this.websocket.onclose = () => {
-            console.log('WebSocket desconectado');
+        this.websocket.onclose = (event) => {
+            console.log('[DEBUG] ⚠️ WebSocket desconectado');
+            console.log('[DEBUG] Código de fechamento:', event.code);
+            console.log('[DEBUG] Razão:', event.reason);
+            console.log('[DEBUG] Fechamento limpo:', event.wasClean);
+            
             this.isConnected = false;
             this.showNotification('Desconectado da sala', 'warning');
             
-            // Tentar reconectar após 3 segundos
-            setTimeout(() => {
-                if (this.roomId) {
-                    this.connectWebSocket();
-                }
-            }, 3000);
+            // Tentar reconectar após 3 segundos apenas se não foi fechamento intencional
+            if (event.code !== 1000) {
+                setTimeout(() => {
+                    if (this.roomId) {
+                        console.log('[DEBUG] Tentando reconectar...');
+                        this.connectWebSocket();
+                    }
+                }, 3000);
+            }
         };
         
         this.websocket.onerror = (error) => {
-            console.error('Erro no WebSocket:', error);
+            console.error('[DEBUG] ❌ Erro no WebSocket:', error);
+            console.error('[DEBUG] Estado do WebSocket:', this.websocket.readyState);
+            console.error('[DEBUG] URL que falhou:', wsUrl);
+            
+            // Verificar se é problema de protocolo
+            if (wsUrl.startsWith('wss://') && window.location.protocol === 'http:') {
+                console.error('[DEBUG] ⚠️ POSSÍVEL PROBLEMA: Tentando WSS em página HTTP');
+            } else if (wsUrl.startsWith('ws://') && window.location.protocol === 'https:') {
+                console.error('[DEBUG] ⚠️ POSSÍVEL PROBLEMA: Tentando WS em página HTTPS');
+            }
         };
     }
     
