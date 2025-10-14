@@ -95,7 +95,7 @@
                     {% if agendamentos %}
                         {% for agendamento in agendamentos %}
                         <!-- Consulta {{ loop.index }} -->
-                        <div class="cartao-consulta {{ agendamento.status.replace('_', '-') }}" data-agendamento-id="{{ agendamento.idAgendamento }}">
+                        <div class="cartao-consulta {{ agendamento.status.replace('_', '-') }}" data-agendamento-id="{{ agendamento.idAgendamento }}" data-data="{{ agendamento.dataAgendamento }}" data-horario="{{ agendamento.horario }}" data-queixa="{{ agendamento.queixa if agendamento.queixa else '' }}">
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 {% if agendamento.status == 'agendado' %}
                                     <span class="status-badge status-agendado">Agendada</span>
@@ -156,11 +156,11 @@
                                         <i class="bi bi-camera-video me-1"></i>
                                         Iniciar Consulta
                                     </button>
-                                    <button class="btn botao-secundario">
+                                    <button class="btn botao-secundario" data-agendamento-id="{{ agendamento.idAgendamento }}">
                                         <i class="bi bi-pencil me-1"></i>
                                         Editar
                                     </button>
-                                    <button class="btn btn-cancelar">
+                                    <button class="btn btn-cancelar" data-agendamento-id="{{ agendamento.idAgendamento }}">
                                         <i class="bi bi-x-circle me-1"></i>
                                         Cancelar
                                     </button>
@@ -215,6 +215,8 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Paciente</label>
                                 <select class="form-select campo-busca">
+
+    
                                     <option value="">Selecione o paciente</option>
                                     <option value="1">Ana Lucia Santos</option>
                                     <option value="2">Carlos Mendes Silva</option>
@@ -290,5 +292,38 @@
 {% endblock %}
 
 {% endblock %}
+
+<!-- Modal Editar Consulta (posicionado fora dos formulários) -->
+<div class="modal fade" id="modalEditarConsulta" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                <h5 class="modal-title"><i class="bi bi-pencil me-2"></i>Editar Consulta</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarConsulta">
+                    <input type="hidden" id="editarAgendamentoId">
+                    <div class="mb-3">
+                        <label class="form-label">Data</label>
+                        <input type="date" id="editarData" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Horário</label>
+                        <input type="time" id="editarHorario" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Queixa / Observações</label>
+                        <textarea id="editarQueixa" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn botao-secundario me-2" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn botao-medlive">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 

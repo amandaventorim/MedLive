@@ -230,6 +230,108 @@ function setupConsultationButtons() {
                 showNotification('ID do agendamento não encontrado', 'error');
             }
         }
+        // Botão cancelar (médico)
+        if (event.target.matches('.btn-cancelar') || event.target.closest('.btn-cancelar')) {
+            const button = event.target.closest('.btn-cancelar');
+            const agendamentoId = button.getAttribute('data-agendamento-id');
+            if (!agendamentoId) return; // Alguns botões de filtro também usam .btn-cancelar
+
+            if (!confirm('Tem certeza que deseja cancelar esta consulta?')) return;
+        // Botão editar (médico)
+        if (event.target.matches('.botao-secundario') || event.target.closest('.botao-secundario')) {
+            const button = event.target.closest('.botao-secundario');
+            const agendamentoId = button.getAttribute('data-agendamento-id');
+            if (!agendamentoId) return; // Ignora botões genéricos
+
+            // Buscar dados do cartão
+            const card = document.querySelector(`[data-agendamento-id="${agendamentoId}"]`);
+            if (!card) return;
+
+            const data = card.getAttribute('data-data') || '';
+            const horario = card.getAttribute('data-horario') || '';
+            const queixa = card.getAttribute('data-queixa') || '';
+
+            // Preencher modal
+            document.getElementById('editarAgendamentoId').value = agendamentoId;
+            document.getElementById('editarData').value = data;
+            document.getElementById('editarHorario').value = horario;
+            document.getElementById('editarQueixa').value = queixa;
+
+            // Abrir modal (Bootstrap)
+            const editarModalEl = document.getElementById('modalEditarConsulta');
+            const editarModal = new bootstrap.Modal(editarModalEl);
+            editarModal.show();
+        }
+
+            // Envia requisição ao servidor para cancelar
+
+// Handler para submeter o formulário de edição
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('formEditarConsulta');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const agendamentoId = document.getElementById('editarAgendamentoId').value;
+        const data = document.getElementById('editarData').value;
+        const horario = document.getElementById('editarHorario').value;
+        const queixa = document.getElementById('editarQueixa').value;
+
+        fetch(`/atualizar_consulta/${agendamentoId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ dataAgendamento: data, horario: horario, queixa: queixa })
+        })
+        .then(res => res.json())
+        .then(resp => {
+            if (resp.sucesso) {
+                showNotification('Consulta atualizada com sucesso', 'success');
+                // Atualiza atributos do cartão e texto exibido
+                const card = document.querySelector(`[data-agendamento-id="${agendamentoId}"]`);
+                if (card) {
+                    card.setAttribute('data-data', data);
+                    card.setAttribute('data-horario', horario);
+                    card.setAttribute('data-queixa', queixa);
+                    const label = card.querySelector('.label-detalhe');
+                    if (label) label.textContent = `${data} - ${horario}`;
+                    const valorQueixa = card.querySelector('.detalhes-consulta .valor-detalhe');
+                    if (valorQueixa) valorQueixa.textContent = queixa;
+                }
+                // Fechar modal
+                const editarModalEl = document.getElementById('modalEditarConsulta');
+                const editarModal = bootstrap.Modal.getInstance(editarModalEl);
+                if (editarModal) editarModal.hide();
+            } else {
+                showNotification(resp.erro || 'Erro ao atualizar consulta', 'error');
+            }
+        })
+        .catch(err => {
+            console.error('Erro ao atualizar consulta:', err);
+            showNotification('Erro de conexão ao atualizar consulta', 'error');
+        });
+    });
+});
+            fetch(`/cancelar_consulta/${agendamentoId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.sucesso) {
+                    showNotification('Consulta cancelada com sucesso', 'success');
+                    // Atualiza UI localmente
+                    updateConsultationStatus(agendamentoId, 'cancelado');
+                } else {
+                    showNotification(data.erro || 'Erro ao cancelar consulta', 'error');
+                }
+            })
+            .catch(err => {
+                console.error('Erro ao cancelar consulta:', err);
+                showNotification('Erro de conexão ao cancelar consulta', 'error');
+            });
+        }
     });
 }
 

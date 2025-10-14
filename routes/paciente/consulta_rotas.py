@@ -2,7 +2,8 @@ from fastapi import APIRouter, Request, Form, Depends, Body, Query
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from util.auth_decorator import requer_autenticacao
-from data.repo.agendamento_repo import inserir_agendamento
+from data.repo.agendamento_repo import inserir_agendamento, obter_agendamento_por_id, atualizar_status_agendamento
+from data.repo.agendamento_repo import atualizar_agendamento
 from data.repo.paciente_repo import obter_id_paciente_por_usuario
 from data.repo.medico_repo import obter_medico_por_id
 from data.repo.disponibilidade_medico_repo import obter_disponibilidades_por_medico
@@ -433,3 +434,72 @@ async def agendar_consulta(
             "idMedico": idMedico if 'idMedico' in locals() else None,
             "erro": "Erro interno no sistema. Tente novamente mais tarde ou entre em contato com o suporte."
         })
+
+
+# Rota para atualizar uma consulta (edição)
+@router.post("/atualizar_consulta/{agendamento_id}")
+@requer_autenticacao()
+async def atualizar_consulta(request: Request, agendamento_id: int, usuario_logado: dict = None):
+    try:
+        payload = await request.json()
+        data = payload.get('dataAgendamento')
+        horario = payload.get('horario')
+        queixa = payload.get('queixa', '')
+
+        agendamento = obter_agendamento_por_id(agendamento_id)
+        if not agendamento:
+            return JSONResponse({"sucesso": False, "erro": "Agendamento não encontrado."}, status_code=404)
+
+        # Permissão: paciente dono ou médico responsável
+        usuario = usuario_logado
+        user_id = usuario.get('idUsuario')
+        paciente_id = usuario.get('idPaciente')
+
+        if not ((hasattr(agendamento, 'idMedico') and agendamento.idMedico == user_id) or (hasattr(agendamento, 'idPaciente') and agendamento.idPaciente == paciente_id)):
+            return JSONResponse({"sucesso": False, "erro": "Você não tem permissão para editar esta consulta."}, status_code=403)
+
+        # Atualizar campos no model
+        agendamento.dataAgendamento = data
+        agendamento.horario = horario
+        agendamento.queixa = queixa
+
+        atualizado = atualizar_agendamento(agendamento)
+        if atualizado:
+            return JSONResponse({"sucesso": True})
+        else:
+            return JSONResponse({"sucesso": False, "erro": "Falha ao atualizar agendamento."}, status_code=500)
+
+    except Exception as e:
+        print(f"Erro ao atualizar consulta {agendamento_id}: {e}")
+        return JSONResponse({"sucesso": False, "erro": str(e)}, status_code=500)
+
+
+# Rota para cancelar consulta (chamada via JS em minhas_consultas.js)
+@router.post("/cancelar_consulta/{agendamento_id}")
+@requer_autenticacao(["paciente"])
+async def cancelar_consulta(request: Request, agendamento_id: int, usuario_logado: dict = None):
+    try:
+        # Buscar agendamento
+        agendamento = obter_agendamento_por_id(agendamento_id)
+        if not agendamento:
+            return JSONResponse({"sucesso": False, "erro": "Agendamento não encontrado."}, status_code=404)
+
+        # Validar proprietário (paciente dono do agendamento)
+        paciente_sessao = usuario_logado.get("idPaciente") or usuario_logado.get("idUsuario")
+        if agendamento.idPaciente != paciente_sessao:
+            return JSONResponse({"sucesso": False, "erro": "Você não tem permissão para cancelar esta consulta."}, status_code=403)
+
+        # Só permitir cancelamento se estiver em um estado cancelável
+        if agendamento.status in ["concluida", "cancelada", "em_andamento"]:
+            return JSONResponse({"sucesso": False, "erro": f"Consulta não pode ser cancelada (status: {agendamento.status})."}, status_code=400)
+
+        # Atualizar status
+        atualizado = atualizar_status_agendamento(agendamento_id, "cancelada")
+        if atualizado:
+            return JSONResponse({"sucesso": True})
+        else:
+            return JSONResponse({"sucesso": False, "erro": "Falha ao atualizar status no banco de dados."}, status_code=500)
+
+    except Exception as e:
+        print(f"Erro ao cancelar consulta {agendamento_id}: {e}")
+        return JSONResponse({"sucesso": False, "erro": str(e)}, status_code=500)

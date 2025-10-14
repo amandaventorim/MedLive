@@ -1,3 +1,8 @@
+function toggleMobileMenu() {
+    const navbarNav = document.getElementById('navbarNav');
+    navbarNav.classList.toggle('show');
+}
+
 document.querySelectorAll('.cartao-metodo').forEach(cartao => {
     cartao.addEventListener('click', function () {
         // Remover classe ativo de todos

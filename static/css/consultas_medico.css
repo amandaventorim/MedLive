@@ -39,7 +39,7 @@
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     margin-bottom: 1.5rem;
     transition: all 0.3s ease;
-    border-left: 4px solid #B31D1D;
+    border-left: 4px solid #3781a3;
 }
 
 .cartao-consulta:hover {
@@ -298,7 +298,6 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 25, 66, 0.4);
 }
-
 
 
 @media (max-width: 768px) {
