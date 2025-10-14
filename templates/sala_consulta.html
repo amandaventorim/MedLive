@@ -47,36 +47,43 @@
         <!-- Video Container -->
         <div class="video-container">
             <div class="main-video">
-                                <div class="status-indicator" id="connectionStatus">
-                                        <i class="bi bi-wifi"></i>Conectado
-                                </div>
-                                <div class="recording-indicator" id="recordingIndicator">
-                                        <i class="bi bi-record-circle me-1"></i>Gravando
-                                </div>
-                                <!-- Daily.co Video Container -->
-                                <div id="daily-video-container" style="width:100%;height:400px;background:#222;border-radius:15px;display:flex;align-items:center;justify-content:center;"></div>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        createDailyRoom(function(roomUrl) {
-                                            joinDailyRoom(roomUrl);
-                                        });
-                                    });
-                                </script>
-                                <div class="participant-name">{{ paciente.nome if paciente else 'Paciente' }}</div>
+                <div class="status-indicator" id="connectionStatus">
+                    <i class="bi bi-wifi"></i>Conectando...
+                </div>
+                <div class="recording-indicator" id="recordingIndicator" style="display: none;">
+                    <i class="bi bi-record-circle me-1"></i>Gravando
+                </div>
+                
+                <!-- Container para vídeos remotos -->
+                <div id="remoteVideos" class="remote-videos-container">
+                    <!-- Vídeos dos outros participantes serão adicionados aqui -->
+                    <div class="no-participants" id="waitingMessage">
+                        <i class="bi bi-person-plus" style="font-size: 3rem; color: #666;"></i>
+                        <p style="color: #666; margin-top: 1rem;">Aguardando outros participantes...</p>
+                    </div>
+                </div>
+                
+                <div class="participants-info">
+                    <i class="bi bi-people me-1"></i>
+                    <span id="participantsCount">1</span> participante(s)
+                    <button onclick="debugSalaInfo()" style="margin-left: 10px; font-size: 0.7rem;" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-bug"></i> Debug
+                    </button>
+                </div>
             </div>
 
             <div class="sidebar">
                 <!-- Self Video -->
                 <div class="participant-video">
-                    <div class="video-placeholder" style="color: #999;">
-                        <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
+                    <video id="localVideo" autoplay muted playsinline class="local-video-element"></video>
+                    <div class="video-overlay">
                         {% if usuario.tipo == 'medico' or usuario.perfil == 'medico' %}
-                            <div style="font-size: 0.8rem;">Dr. {{ usuario.nome }}</div>
+                            <div class="participant-name">Dr. {{ usuario.nome }}</div>
                         {% else %}
-                            <div style="font-size: 0.8rem;">{{ usuario.nome }}</div>
+                            <div class="participant-name">{{ usuario.nome }}</div>
                         {% endif %}
+                        <div class="participant-label">Você</div>
                     </div>
-                    <div class="participant-name">Você</div>
                 </div>
 
                 <!-- Tools -->
@@ -398,7 +405,81 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/webrtc_manager.js"></script>
     <script src="/static/js/sala_consulta.js"></script>
+    
+    <!-- Estilos específicos para WebRTC -->
+    <style>
+        .remote-videos-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            border-radius: 15px;
+            position: relative;
+            min-height: 400px;
+        }
+        
+        .remote-video {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .local-video-element {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #000;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+        }
+        
+        .participant-name {
+            font-weight: bold;
+        }
+        
+        .participant-label {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        
+        .participants-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+        
+        .no-participants {
+            text-align: center;
+            color: #666;
+        }
+        
+        .participant-video {
+            position: relative;
+        }
+    </style>
     
     <!-- Dados da consulta para JavaScript -->
     <script>
@@ -414,10 +495,129 @@
             especialidade: "{{ medico.especialidade if medico else '' }}"
         };
         
-        // Conectar ao WebSocket se dados estiverem disponíveis
-        if (window.consultationData.userId && window.consultationData.userType) {
-            connectToConsultationWebSocket();
+        // Debug: Mostrar dados no console
+        console.log('[DEBUG] Dados da consulta:', window.consultationData);
+        
+        // Inicializar WebRTC quando a página carregar
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('[DEBUG] Inicializando sala de consulta...');
+            console.log('[DEBUG] URL atual:', window.location.href);
+            
+            // Verificar se todos os dados necessários estão presentes
+            console.log('[DEBUG] Verificando dados necessários:');
+            console.log('- roomId:', window.consultationData.roomId || 'VAZIO');
+            console.log('- userId:', window.consultationData.userId || 'VAZIO');
+            console.log('- userType:', window.consultationData.userType || 'VAZIO');
+            
+            if (window.consultationData.roomId && window.consultationData.userId && window.consultationData.userType) {
+                console.log('[DEBUG] Todos os dados estão presentes, iniciando WebRTC...');
+                
+                // Conectar ao WebSocket original se disponível
+                if (typeof connectToConsultationWebSocket === 'function') {
+                    connectToConsultationWebSocket();
+                }
+                
+                // Inicializar WebRTC
+                const success = await window.webrtcManager.initialize(
+                    window.consultationData.roomId,
+                    window.consultationData.userId,
+                    window.consultationData.userType
+                );
+                
+                if (success) {
+                    console.log('[DEBUG] WebRTC inicializado com sucesso');
+                    document.getElementById('connectionStatus').innerHTML = '<i class="bi bi-wifi"></i>Conectado';
+                } else {
+                    console.error('[DEBUG] Falha ao inicializar WebRTC');
+                    document.getElementById('connectionStatus').innerHTML = '<i class="bi bi-wifi-off"></i>Erro de conexão';
+                }
+            } else {
+                console.error('[DEBUG] Dados da consulta incompletos ou não disponíveis');
+                console.error('- Faltando roomId:', !window.consultationData.roomId);
+                console.error('- Faltando userId:', !window.consultationData.userId);
+                console.error('- Faltando userType:', !window.consultationData.userType);
+                
+                document.getElementById('connectionStatus').innerHTML = '<i class="bi bi-wifi-off"></i>Dados insuficientes';
+            }
+        });
+        
+        // Sobrescrever funções de controle para usar WebRTC
+        function toggleMic() {
+            const enabled = window.webrtcManager.toggleMicrophone();
+            const button = document.getElementById('micButton');
+            const icon = button.querySelector('i');
+            
+            if (enabled) {
+                button.classList.remove('muted');
+                icon.className = 'bi bi-mic';
+                button.title = 'Silenciar Microfone';
+            } else {
+                button.classList.add('muted');
+                icon.className = 'bi bi-mic-mute';
+                button.title = 'Ativar Microfone';
+            }
         }
+        
+        function toggleCamera() {
+            const enabled = window.webrtcManager.toggleCamera();
+            const button = document.getElementById('cameraButton');
+            const icon = button.querySelector('i');
+            
+            if (enabled) {
+                button.classList.remove('off');
+                icon.className = 'bi bi-camera-video';
+                button.title = 'Desativar Câmera';
+            } else {
+                button.classList.add('off');
+                icon.className = 'bi bi-camera-video-off';
+                button.title = 'Ativar Câmera';
+            }
+        }
+        
+        // Função de debug para verificar informações da sala
+        async function debugSalaInfo() {
+            console.log('[DEBUG] Verificando informações da sala...');
+            
+            try {
+                const response = await fetch(`/sala-info/${window.consultationData.roomId}`);
+                const data = await response.json();
+                
+                console.log('[DEBUG] Informações da sala:', data);
+                
+                // Mostrar em uma janela de alerta também
+                const info = `
+                    Room ID: ${data.room_id}
+                    Usuário atual: ${data.current_user.name} (${data.current_user.type})
+                    Usuários na sala: ${data.users_in_room.join(', ')}
+                    Total de usuários: ${data.total_users}
+                    
+                    Agendamento ID: ${data.agendamento?.id || 'N/A'}
+                    Médico ID: ${data.agendamento?.medico_id || 'N/A'}
+                    Paciente ID: ${data.agendamento?.paciente_id || 'N/A'}
+                `;
+                
+                alert('Debug da Sala:\n' + info);
+                
+                // Também verificar estado do WebRTC
+                if (window.webrtcManager) {
+                    console.log('[DEBUG] Estado do WebRTC:');
+                    console.log('- Conectado:', window.webrtcManager.isConnected);
+                    console.log('- Conexões peer:', window.webrtcManager.peerConnections.size);
+                    console.log('- Streams remotos:', window.webrtcManager.remoteStreams.size);
+                }
+                
+            } catch (error) {
+                console.error('[DEBUG] Erro ao buscar informações da sala:', error);
+                alert('Erro ao buscar informações da sala: ' + error.message);
+            }
+        }
+        
+        // Limpeza ao sair
+        window.addEventListener('beforeunload', function() {
+            if (window.webrtcManager) {
+                window.webrtcManager.cleanup();
+            }
+        });
     </script>
 </body>
 

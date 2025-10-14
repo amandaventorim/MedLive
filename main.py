@@ -6,6 +6,8 @@ import uvicorn
 from starlette.middleware.sessions import SessionMiddleware
 import secrets
 import time
+import json
+from datetime import datetime
 from util.websocket_manager import manager
 from util.auth_decorator import get_current_user, obter_usuario_logado
 from data.repo.agendamento_repo import obter_agendamento_por_id, atualizar_status_agendamento
@@ -64,6 +66,59 @@ async def websocket_endpoint(websocket: WebSocket, user_type: str, user_id: str)
             # Aqui você pode processar mensagens do cliente se necessário
             print(f"Mensagem recebida de {user_type} {user_id}: {data}")
     except WebSocketDisconnect:
+        manager.disconnect(user_id, user_type)
+
+# WebSocket para videoconferência
+@app.websocket("/ws/video/{room_id}/{user_type}/{user_id}")
+async def video_websocket_endpoint(websocket: WebSocket, room_id: str, user_type: str, user_id: str):
+    # Aceitar conexão WebSocket primeiro
+    await websocket.accept()
+    print(f"[SERVER] WebSocket aceito para {user_type} {user_id} na sala {room_id}")
+    
+    try:
+        print(f"[SERVER] Tentando conectar WebSocket de vídeo: {user_type} {user_id} na sala {room_id}")
+        
+        # Conectar à sala de vídeo (agora que já aceitamos a conexão)
+        await manager.join_video_room_already_connected(websocket, room_id, user_id, user_type)
+        print(f"[SERVER] WebSocket de vídeo conectado com sucesso: {user_type} {user_id}")
+    except Exception as e:
+        print(f"[SERVER] Erro ao conectar WebSocket de vídeo: {e}")
+        import traceback
+        traceback.print_exc()
+        await websocket.close(code=1000, reason=f"Erro na conexão: {str(e)}")
+        return
+    try:
+        while True:
+            data = await websocket.receive_text()
+            try:
+                message = json.loads(data)
+                message_type = message.get("type")
+                
+                if message_type == "webrtc_signal":
+                    # Encaminhar sinalização WebRTC para o usuário de destino
+                    target_user = message.get("target_user")
+                    if target_user:
+                        signal_data = message.get("signal_data", {})
+                        sender_key = f"{user_type}_{user_id}"
+                        await manager.forward_webrtc_signal(room_id, sender_key, target_user, signal_data)
+                
+                elif message_type == "chat_message":
+                    # Encaminhar mensagem de chat para todos na sala
+                    chat_message = {
+                        "type": "chat_message",
+                        "from_user": f"{user_type}_{user_id}",
+                        "message": message.get("message", ""),
+                        "timestamp": datetime.now().isoformat()
+                    }
+                    await manager.broadcast_to_room(room_id, chat_message, exclude_user=f"{user_type}_{user_id}")
+                
+                print(f"Mensagem processada na sala {room_id} de {user_type} {user_id}: {message_type}")
+                
+            except json.JSONDecodeError:
+                print(f"Erro ao decodificar JSON de {user_type} {user_id}: {data}")
+                
+    except WebSocketDisconnect:
+        await manager.leave_video_room(room_id, user_id, user_type)
         manager.disconnect(user_id, user_type)
 
 # Endpoint para iniciar consulta
@@ -209,4 +264,64 @@ async def verificar_sala_videoconferencia(request: Request, room_id: str):
     except Exception as e:
         print(f"Erro ao verificar sala: {e}")
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
+# Endpoint para debug - verificar estado das salas
+@app.get("/debug/video-rooms")
+async def debug_video_rooms():
+    """Endpoint para debug - mostra estado atual das salas de vídeo"""
+    rooms_info = {}
+    for room_id, users in manager.video_rooms.items():
+        rooms_info[room_id] = {
+            "users": list(users.keys()),
+            "count": len(users)
+        }
+    
+    return {
+        "total_rooms": len(manager.video_rooms),
+        "rooms": rooms_info,
+        "connected_users": manager.get_connected_users()
+    }
+
+# Endpoint para mostrar informações da sala atual
+@app.get("/sala-info/{room_id}")
+async def info_sala(request: Request, room_id: str):
+    """Mostra informações sobre a sala de videoconferência"""
+    current_user = obter_usuario_logado(request)
+    if not current_user:
+        return {"error": "Usuário não autenticado"}
+    
+    # Verificar se a sala existe
+    room_users = []
+    if room_id in manager.video_rooms:
+        room_users = list(manager.video_rooms[room_id].keys())
+    
+    # Extrair informações do agendamento se possível
+    parts = room_id.split("_")
+    agendamento_info = None
+    if len(parts) >= 2 and parts[0] == "consulta":
+        try:
+            agendamento_id = int(parts[1])
+            agendamento = obter_agendamento_por_id(agendamento_id)
+            if agendamento:
+                agendamento_info = {
+                    "id": agendamento.idAgendamento,
+                    "medico_id": agendamento.idMedico,
+                    "paciente_id": agendamento.idPaciente,
+                    "status": agendamento.status
+                }
+        except:
+            pass
+    
+    return {
+        "room_id": room_id,
+        "current_user": {
+            "id": current_user.get("idUsuario"),
+            "name": current_user.get("nome"),
+            "type": current_user.get("tipo") or current_user.get("perfil")
+        },
+        "users_in_room": room_users,
+        "total_users": len(room_users),
+        "agendamento": agendamento_info,
+        "timestamp": datetime.now().isoformat()
+    }
 
