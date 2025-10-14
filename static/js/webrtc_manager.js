@@ -66,6 +66,7 @@ class WebRTCManager {
     
     async getUserMedia() {
         try {
+            console.log('[DEBUG] Solicitando acesso à câmera e microfone...');
             this.localStream = await navigator.mediaDevices.getUserMedia({
                 video: {
                     width: { ideal: 1280 },
@@ -77,8 +78,15 @@ class WebRTCManager {
                 }
             });
             
+            console.log('[DEBUG] Mídia local obtida:', {
+                videoTracks: this.localStream.getVideoTracks().length,
+                audioTracks: this.localStream.getAudioTracks().length,
+                streamId: this.localStream.id
+            });
+            
             if (this.localVideo) {
                 this.localVideo.srcObject = this.localStream;
+                console.log('[DEBUG] Stream local atribuído ao elemento de vídeo');
             }
             
             console.log('Mídia local obtida com sucesso');
@@ -96,10 +104,12 @@ class WebRTCManager {
     }
     
     connectWebSocket() {
-        const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const wsUrl = `${protocol}//${location.host}/ws/video/${this.roomId}/${this.userType}/${this.userId}`;
+        // Usar o utilitário WebSocket para configuração automática
+        const wsPath = `/ws/video/${this.roomId}/${this.userType}/${this.userId}`;
+        const wsUrl = window.WebSocketUtil ? 
+                     window.WebSocketUtil.getURL(wsPath) : 
+                     this.getFallbackWebSocketURL(wsPath);
         
-        console.log('[DEBUG] Conectando WebSocket:', wsUrl);
         console.log('[DEBUG] Room ID:', this.roomId);
         console.log('[DEBUG] User Type:', this.userType);
         console.log('[DEBUG] User ID:', this.userId);
@@ -188,17 +198,40 @@ class WebRTCManager {
         
         // Adicionar stream local
         if (this.localStream) {
+            console.log(`[DEBUG] Adicionando tracks ao peer ${remoteUserId}:`, {
+                videoTracks: this.localStream.getVideoTracks().length,
+                audioTracks: this.localStream.getAudioTracks().length
+            });
+            
             this.localStream.getTracks().forEach(track => {
+                console.log(`[DEBUG] Adicionando track: ${track.kind} (enabled: ${track.enabled})`);
                 peerConnection.addTrack(track, this.localStream);
             });
+        } else {
+            console.warn(`[DEBUG] Nenhum stream local disponível para ${remoteUserId}`);
         }
         
         // Listener para stream remoto
         peerConnection.ontrack = (event) => {
-            console.log('Stream remoto recebido de', remoteUserId);
+            console.log(`[DEBUG] Stream remoto recebido de ${remoteUserId}:`, {
+                streams: event.streams.length,
+                track: event.track.kind,
+                trackEnabled: event.track.enabled
+            });
+            
             const remoteStream = event.streams[0];
-            this.remoteStreams.set(remoteUserId, remoteStream);
-            this.displayRemoteStream(remoteUserId, remoteStream);
+            if (remoteStream) {
+                console.log(`[DEBUG] Stream remoto details:`, {
+                    streamId: remoteStream.id,
+                    videoTracks: remoteStream.getVideoTracks().length,
+                    audioTracks: remoteStream.getAudioTracks().length
+                });
+                
+                this.remoteStreams.set(remoteUserId, remoteStream);
+                this.displayRemoteStream(remoteUserId, remoteStream);
+            } else {
+                console.warn(`[DEBUG] Nenhum stream recebido de ${remoteUserId}`);
+            }
         };
         
         // Listener para candidatos ICE
@@ -226,51 +259,63 @@ class WebRTCManager {
         // Criar oferta se necessário
         if (createOffer) {
             try {
+                console.log(`[DEBUG] Criando oferta para ${remoteUserId}`);
                 const offer = await peerConnection.createOffer();
                 await peerConnection.setLocalDescription(offer);
+                
+                console.log(`[DEBUG] Oferta criada e definida localmente para ${remoteUserId}`);
                 
                 this.sendWebRTCSignal(remoteUserId, {
                     type: 'offer',
                     offer: offer
                 });
             } catch (error) {
-                console.error('Erro ao criar oferta:', error);
+                console.error(`[DEBUG] Erro ao criar oferta para ${remoteUserId}:`, error);
             }
         }
     }
     
     async handleWebRTCSignal(fromUser, signalData) {
-        console.log(`Sinal WebRTC de ${fromUser}:`, signalData.type);
+        console.log(`[DEBUG] Sinal WebRTC de ${fromUser}: ${signalData.type}`);
         
         const peerConnection = this.peerConnections.get(fromUser);
         if (!peerConnection) {
-            console.error(`Conexão peer não encontrada para ${fromUser}`);
+            console.error(`[DEBUG] Conexão peer não encontrada para ${fromUser}`);
             return;
         }
         
         try {
             switch (signalData.type) {
                 case 'offer':
+                    console.log(`[DEBUG] Processando oferta de ${fromUser}`);
                     await peerConnection.setRemoteDescription(signalData.offer);
+                    console.log(`[DEBUG] Descrição remota definida para ${fromUser}`);
+                    
                     const answer = await peerConnection.createAnswer();
                     await peerConnection.setLocalDescription(answer);
+                    console.log(`[DEBUG] Resposta criada e definida localmente para ${fromUser}`);
                     
                     this.sendWebRTCSignal(fromUser, {
                         type: 'answer',
                         answer: answer
                     });
+                    console.log(`[DEBUG] Resposta enviada para ${fromUser}`);
                     break;
                     
                 case 'answer':
+                    console.log(`[DEBUG] Processando resposta de ${fromUser}`);
                     await peerConnection.setRemoteDescription(signalData.answer);
+                    console.log(`[DEBUG] Descrição remota (resposta) definida para ${fromUser}`);
                     break;
                     
                 case 'ice-candidate':
+                    console.log(`[DEBUG] Adicionando candidato ICE de ${fromUser}`);
                     await peerConnection.addIceCandidate(signalData.candidate);
+                    console.log(`[DEBUG] Candidato ICE adicionado para ${fromUser}`);
                     break;
             }
         } catch (error) {
-            console.error(`Erro ao processar sinal WebRTC de ${fromUser}:`, error);
+            console.error(`[DEBUG] Erro ao processar sinal WebRTC de ${fromUser}:`, error);
         }
     }
     
@@ -287,9 +332,12 @@ class WebRTCManager {
     }
     
     displayRemoteStream(userId, stream) {
+        console.log(`[DEBUG] Exibindo stream remoto para ${userId}`);
+        
         // Remover vídeo existente se houver
         const existingVideo = document.getElementById(`remote-${userId}`);
         if (existingVideo) {
+            console.log(`[DEBUG] Removendo vídeo existente para ${userId}`);
             existingVideo.remove();
         }
         
@@ -298,12 +346,39 @@ class WebRTCManager {
         videoElement.id = `remote-${userId}`;
         videoElement.autoplay = true;
         videoElement.playsInline = true;
+        videoElement.muted = false; // Remote video should not be muted
         videoElement.srcObject = stream;
         videoElement.className = 'remote-video';
+        
+        // Adicionar listeners para debug
+        videoElement.onloadedmetadata = () => {
+            console.log(`[DEBUG] Metadata carregada para vídeo ${userId}:`, {
+                videoWidth: videoElement.videoWidth,
+                videoHeight: videoElement.videoHeight,
+                duration: videoElement.duration
+            });
+        };
+        
+        videoElement.onplay = () => {
+            console.log(`[DEBUG] Vídeo ${userId} começou a reproduzir`);
+        };
+        
+        videoElement.onerror = (error) => {
+            console.error(`[DEBUG] Erro no vídeo ${userId}:`, error);
+        };
         
         // Adicionar ao container
         if (this.remoteVideosContainer) {
             this.remoteVideosContainer.appendChild(videoElement);
+            console.log(`[DEBUG] Vídeo remoto adicionado ao DOM para ${userId}`);
+            
+            // Esconder mensagem de espera
+            const waitingMessage = document.getElementById('waitingMessage');
+            if (waitingMessage) {
+                waitingMessage.style.display = 'none';
+            }
+        } else {
+            console.error(`[DEBUG] Container de vídeos remotos não encontrado`);
         }
         
         console.log(`Vídeo remoto adicionado para ${userId}`);
@@ -397,6 +472,56 @@ class WebRTCManager {
         }
         
         this.isConnected = false;
+    }
+    
+    debugConnectionStates() {
+        console.log('[DEBUG] === ESTADO DAS CONEXÕES WEBRTC ===');
+        console.log('Local Stream:', {
+            exists: !!this.localStream,
+            videoTracks: this.localStream ? this.localStream.getVideoTracks().length : 0,
+            audioTracks: this.localStream ? this.localStream.getAudioTracks().length : 0
+        });
+        
+        console.log('Peer Connections:', this.peerConnections.size);
+        for (const [userId, pc] of this.peerConnections) {
+            console.log(`  ${userId}:`, {
+                connectionState: pc.connectionState,
+                iceConnectionState: pc.iceConnectionState,
+                signalingState: pc.signalingState,
+                localDescription: !!pc.localDescription,
+                remoteDescription: !!pc.remoteDescription
+            });
+        }
+        
+        console.log('Remote Streams:', this.remoteStreams.size);
+        for (const [userId, stream] of this.remoteStreams) {
+            console.log(`  ${userId}:`, {
+                streamId: stream.id,
+                videoTracks: stream.getVideoTracks().length,
+                audioTracks: stream.getAudioTracks().length
+            });
+        }
+        console.log('===========================================');
+    }
+    
+    getFallbackWebSocketURL(path) {
+        // Fallback case if websocket_util.js isn't loaded
+        const isLocal = location.hostname === '127.0.0.1' || 
+                       location.hostname === 'localhost' || 
+                       location.hostname.startsWith('192.168.') ||
+                       location.hostname.startsWith('10.') ||
+                       location.hostname.startsWith('172.');
+        
+        const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        let host = location.host;
+        
+        if (isLocal && !location.port) {
+            host = `${location.hostname}:8000`;
+        } else if (isLocal && location.port && location.port !== '8000') {
+            host = `${location.hostname}:8000`;
+        }
+        
+        return `${protocol}//${host}${path}`;
     }
 }
 

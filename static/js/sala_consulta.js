@@ -521,8 +521,25 @@ function connectToConsultationWebSocket() {
     }
     
     const { userId, userType } = window.consultationData;
+    
+    // Detectar se está rodando localmente ou hospedado
+    const isLocal = window.location.hostname === '127.0.0.1' || 
+                   window.location.hostname === 'localhost' || 
+                   window.location.hostname.startsWith('192.168.') ||
+                   window.location.hostname.startsWith('10.') ||
+                   window.location.hostname.startsWith('172.');
+    
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}/ws/${userType}/${userId}`;
+    let host = window.location.host;
+    
+    // Para desenvolvimento local, garantir que usa a porta 8000
+    if (isLocal && !window.location.port) {
+        host = `${window.location.hostname}:8000`;
+    } else if (isLocal && window.location.port && window.location.port !== '8000') {
+        host = `${window.location.hostname}:8000`;
+    }
+    
+    const wsUrl = `${protocol}//${host}/ws/${userType}/${userId}`;
     
     console.log('Conectando ao WebSocket da consulta:', wsUrl);
     

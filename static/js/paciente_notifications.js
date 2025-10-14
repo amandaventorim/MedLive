@@ -10,9 +10,28 @@ class PatientNotificationManager {
     }
 
     connect() {
-        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const wsUrl = `${protocol}//${window.location.host}/ws/paciente/${this.userId}`;
+        // Detectar se está rodando localmente ou hospedado
+        const isLocal = window.location.hostname === '127.0.0.1' || 
+                       window.location.hostname === 'localhost' || 
+                       window.location.hostname.startsWith('192.168.') ||
+                       window.location.hostname.startsWith('10.') ||
+                       window.location.hostname.startsWith('172.');
         
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        let host = window.location.host;
+        
+        // Para desenvolvimento local, garantir que usa a porta 8000
+        if (isLocal && !window.location.port) {
+            host = `${window.location.hostname}:8000`;
+        } else if (isLocal && window.location.port && window.location.port !== '8000') {
+            // Se está local mas usando uma porta diferente, usar 8000 para WebSocket
+            host = `${window.location.hostname}:8000`;
+        }
+        
+        const wsUrl = `${protocol}//${host}/ws/paciente/${this.userId}`;
+        
+        console.log('Ambiente detectado:', isLocal ? 'Local' : 'Hospedado');
+        console.log('Host usado para WebSocket:', host);
         console.log('Conectando ao sistema de notificações...', wsUrl);
         
         this.websocket = new WebSocket(wsUrl);

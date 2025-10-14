@@ -66,8 +66,11 @@
                 <div class="participants-info">
                     <i class="bi bi-people me-1"></i>
                     <span id="participantsCount">1</span> participante(s)
-                    <button onclick="debugSalaInfo()" style="margin-left: 10px; font-size: 0.7rem;" class="btn btn-outline-light btn-sm">
+                    <button onclick="debugSalaInfo()" style="margin-left: 5px; font-size: 0.7rem;" class="btn btn-outline-light btn-sm">
                         <i class="bi bi-bug"></i> Debug
+                    </button>
+                    <button onclick="debugWebRTC()" style="margin-left: 5px; font-size: 0.7rem;" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-camera-video"></i> WebRTC
                     </button>
                 </div>
             </div>
@@ -574,6 +577,48 @@
             }
         }
         
+        // Função de debug específica para WebRTC
+        function debugWebRTC() {
+            console.log('[DEBUG] === DEBUG WEBRTC ===');
+            
+            if (window.webrtcManager) {
+                // Debug detalhado
+                window.webrtcManager.debugConnectionStates();
+                
+                // Verificar elementos DOM
+                const localVideo = document.getElementById('localVideo');
+                const remoteVideos = document.getElementById('remoteVideos');
+                
+                console.log('[DEBUG] Elementos DOM:');
+                console.log('- Local video element:', !!localVideo);
+                console.log('- Remote videos container:', !!remoteVideos);
+                
+                if (localVideo) {
+                    console.log('- Local video src:', !!localVideo.srcObject);
+                    console.log('- Local video dimensions:', localVideo.videoWidth, 'x', localVideo.videoHeight);
+                }
+                
+                if (remoteVideos) {
+                    const remoteVideoElements = remoteVideos.querySelectorAll('video');
+                    console.log('- Remote video elements count:', remoteVideoElements.length);
+                    
+                    remoteVideoElements.forEach((video, index) => {
+                        console.log(`  Remote video ${index}:`, {
+                            id: video.id,
+                            src: !!video.srcObject,
+                            dimensions: video.videoWidth + 'x' + video.videoHeight,
+                            paused: video.paused,
+                            muted: video.muted
+                        });
+                    });
+                }
+                
+                alert('Debug WebRTC executado - verifique o console para detalhes');
+            } else {
+                alert('WebRTC Manager não encontrado');
+            }
+        }
+        
         // Função de debug para verificar informações da sala
         async function debugSalaInfo() {
             console.log('[DEBUG] Verificando informações da sala...');
@@ -604,6 +649,9 @@
                     console.log('- Conectado:', window.webrtcManager.isConnected);
                     console.log('- Conexões peer:', window.webrtcManager.peerConnections.size);
                     console.log('- Streams remotos:', window.webrtcManager.remoteStreams.size);
+                    
+                    // Debug detalhado das conexões
+                    window.webrtcManager.debugConnectionStates();
                 }
                 
             } catch (error) {
