@@ -26,23 +26,22 @@
                     <div class="col-md-9">
                         <h1 class="mb-2">{{ usuario.nome }}</h1>
                         <p class="mb-2 opacity-75">
-                            <i class="bi bi-mortarboard me-2"></i>
-                            Cardiologista • CRM 123456-SP
+                            <i class="bi bi-card-text me-2"></i>
+                            CRM: {{ medico.crm if medico else 'Não informado' }}
                         </p>
                         <p class="mb-3 opacity-75">
-                            <i class="bi bi-geo-alt me-2"></i>
-                            São Paulo, SP • 
+                            <i class="bi bi-envelope me-2"></i>
+                            {{ usuario.email }}
+                            <br>
                             <i class="bi bi-calendar me-2"></i>
-                            Membro desde Janeiro 2020
+                            Nascido em {{ medico.dataNascimento if medico else usuario.dataNascimento }}
                         </p>
-                        <div class="avaliacao-estrelas">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-                            <span class="ms-2 text-white">4.8 (127 avaliações)</span>
-                        </div>
+                        {% if medico and medico.statusProfissional %}
+                        <p class="mb-2 opacity-75">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Status: {{ medico.statusProfissional }}
+                        </p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -100,21 +99,21 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="campo-perfil">
-                                    <label class="label-campo">Telefone</label>
-                                    <div class="valor-campo" id="telefone">(11) 99999-9999</div>
+                                    <label class="label-campo">CPF</label>
+                                    <div class="valor-campo" id="cpf">{{ medico.cpf if medico else 'Não informado' }}</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="campo-perfil">
                                     <label class="label-campo">Data de Nascimento</label>
-                                    <div class="valor-campo" id="nascimento">15/03/1985</div>
+                                    <div class="valor-campo" id="nascimento">{{ medico.dataNascimento if medico else 'Não informado' }}</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="campo-perfil">
-                            <label class="label-campo">Endereço</label>
-                            <div class="valor-campo" id="endereco">Rua das Flores, 123 - Vila Madalena, São Paulo - SP</div>
+                            <label class="label-campo">Gênero</label>
+                            <div class="valor-campo" id="genero">{{ medico.genero if medico else 'Não informado' }}</div>
                         </div>
                     </div>
 
@@ -135,37 +134,14 @@
                             <div class="col-md-6">
                                 <div class="campo-perfil">
                                     <label class="label-campo">CRM</label>
-                                    <div class="valor-campo" id="crm">123456-SP</div>
+                                    <div class="valor-campo" id="crm">{{ medico.crm if medico else 'Não informado' }}</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="campo-perfil">
-                                    <label class="label-campo">Especialidade Principal</label>
-                                    <div class="valor-campo" id="especialidade">Cardiologia</div>
+                                    <label class="label-campo">Status Profissional</label>
+                                    <div class="valor-campo" id="status">{{ medico.statusProfissional if medico and medico.statusProfissional else 'Não informado' }}</div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="campo-perfil">
-                            <label class="label-campo">Formação Acadêmica</label>
-                            <div class="valor-campo" id="formacao">Medicina - USP (2015) • Residência em Cardiologia - InCor (2018)</div>
-                        </div>
-
-                        <div class="campo-perfil">
-                            <label class="label-campo">Especialidades</label>
-                            <div>
-                                <span class="especialidade-tag">Cardiologia</span>
-                                <span class="especialidade-tag">Ecocardiografia</span>
-                                <span class="especialidade-tag">Medicina Preventiva</span>
-                                <span class="especialidade-tag">Telemedicina</span>
-                            </div>
-                        </div>
-
-                        <div class="campo-perfil">
-                            <label class="label-campo">Biografia Profissional</label>
-                            <div class="valor-campo" id="biografia">
-                                Cardiologista com mais de 5 anos de experiência em diagnóstico e tratamento de doenças cardiovasculares. 
-                                Especialista em ecocardiografia e medicina preventiva, com foco em telemedicina e atendimento humanizado.
                             </div>
                         </div>
                     </div>

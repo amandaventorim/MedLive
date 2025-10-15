@@ -28,9 +28,15 @@ async def get_cadastro_paciente(request: Request):
 @router.get("/perfil_paciente")
 @requer_autenticacao(["paciente"])
 async def get_perfil_paciente(request: Request, usuario_logado: dict = None):
+    from data.repo.paciente_repo import obter_paciente_por_id
+    
+    # Buscar informações completas do paciente
+    paciente = obter_paciente_por_id(usuario_logado["idUsuario"])
+    
     return templates.TemplateResponse("/paciente/perfil_paciente.html", {
         "request": request,
-        "usuario": usuario_logado
+        "usuario": usuario_logado,
+        "paciente": paciente
     })
 
 @router.get("/minhas_consultas")
