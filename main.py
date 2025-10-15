@@ -168,6 +168,53 @@ async def iniciar_consulta(request: Request, agendamento_id: str):
         print(f"Erro ao iniciar consulta: {e}")
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
+# Endpoint para finalizar consulta
+@app.post("/consulta/{agendamento_id}/finalizar")
+async def finalizar_consulta(request: Request, agendamento_id: str):
+    try:
+        # Obter usuário atual da sessão
+        current_user = obter_usuario_logado(request)
+        if not current_user:
+            raise HTTPException(status_code=401, detail="Usuário não autenticado")
+        
+        # Verificar se é médico
+        user_type = current_user.get("tipo") or current_user.get("perfil")
+        if user_type != "medico":
+            raise HTTPException(status_code=403, detail="Apenas médicos podem finalizar consultas")
+        
+        # Buscar dados do agendamento
+        agendamento = obter_agendamento_por_id(int(agendamento_id))
+        if not agendamento:
+            raise HTTPException(status_code=404, detail="Agendamento não encontrado")
+        
+        # Verificar se o médico é o responsável pela consulta
+        if agendamento.idMedico != current_user.get("idUsuario"):
+            raise HTTPException(status_code=403, detail="Você não tem permissão para finalizar esta consulta")
+        
+        # Atualizar status do agendamento para "concluida"
+        sucesso = atualizar_status_agendamento(int(agendamento_id), "concluida")
+        
+        if sucesso:
+            # Notificar o paciente que a consulta foi finalizada
+            await manager.notify_patient_consultation_ended(
+                patient_id=str(agendamento.idPaciente),
+                consultation_id=agendamento_id,
+                doctor_name=current_user.get("nome")
+            )
+            
+            return {
+                "message": "Consulta finalizada com sucesso",
+                "agendamento_id": agendamento_id
+            }
+        else:
+            raise HTTPException(status_code=500, detail="Erro ao atualizar status da consulta")
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Erro ao finalizar consulta: {e}")
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
 # Endpoint para entrar na sala de videoconferência (usando sala_consulta.html existente)
 @app.get("/videoconferencia/{room_id}")
 async def entrar_videoconferencia(request: Request, room_id: str):

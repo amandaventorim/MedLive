@@ -196,6 +196,16 @@ class ConnectionManager:
         }
         return await self.send_notification(patient_id, "paciente", message)
 
+    async def notify_patient_consultation_ended(self, patient_id: str, consultation_id: str, doctor_name: str):
+        message = {
+            "type": "consultation_ended",
+            "consultation_id": consultation_id,
+            "doctor_name": doctor_name,
+            "message": f"Sua consulta com Dr(a). {doctor_name} foi finalizada.",
+            "timestamp": datetime.now().isoformat()
+        }
+        return await self.send_notification(patient_id, "paciente", message)
+
     async def notify_doctor_patient_joined(self, doctor_id: str, patient_name: str, room_id: str):
         message = {
             "type": "patient_joined",

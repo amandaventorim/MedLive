@@ -216,6 +216,47 @@ function playNotificationSound() {
     }
 }
 
+// Função para finalizar consulta
+async function finalizarConsulta(agendamentoId) {
+    try {
+        // Confirmar ação
+        if (!confirm('Deseja realmente finalizar esta consulta?')) {
+            return;
+        }
+
+        // Mostrar loading
+        showNotification('Finalizando consulta...', 'info');
+        
+        const response = await fetch(`/consulta/${agendamentoId}/finalizar`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            // Mostrar confirmação
+            showNotification('Consulta finalizada com sucesso!', 'success');
+            
+            // Atualizar status na interface
+            updateConsultationStatus(agendamentoId, 'concluida');
+            
+            // Recarregar página após 2 segundos
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+            
+        } else {
+            showNotification(data.detail || 'Erro ao finalizar consulta', 'error');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        showNotification('Erro de conexão ao finalizar consulta', 'error');
+    }
+}
+
 // Função para adicionar event listeners aos botões de iniciar consulta
 function setupConsultationButtons() {
     document.addEventListener('click', function(event) {
@@ -226,6 +267,19 @@ function setupConsultationButtons() {
             
             if (agendamentoId) {
                 iniciarConsulta(agendamentoId);
+            } else {
+                showNotification('ID do agendamento não encontrado', 'error');
+            }
+        }
+        
+        // Botão finalizar consulta
+        if (event.target.matches('.btn-finalizar-consulta') || event.target.closest('.btn-finalizar-consulta')) {
+            event.preventDefault();
+            const button = event.target.closest('.btn-finalizar-consulta');
+            const agendamentoId = button.getAttribute('data-agendamento-id');
+            
+            if (agendamentoId) {
+                finalizarConsulta(agendamentoId);
             } else {
                 showNotification('ID do agendamento não encontrado', 'error');
             }
@@ -349,4 +403,5 @@ document.addEventListener('DOMContentLoaded', function() {
 // Exportar funções para uso global
 window.MedLive = window.MedLive || {};
 window.MedLive.iniciarConsulta = iniciarConsulta;
+window.MedLive.finalizarConsulta = finalizarConsulta;
 window.MedLive.showNotification = showNotification;
