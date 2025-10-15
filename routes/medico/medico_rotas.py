@@ -85,12 +85,18 @@ async def get_pacientes_medico(request: Request, usuario_logado: dict = None):
 @router.get("/perfil_medico")
 @requer_autenticacao(["medico"])
 async def get_perfil_medico(request: Request, usuario_logado: dict = None):
+    from data.repo.medico_repo import obter_medico_por_id
+    
+    # Buscar informações completas do médico
+    medico = obter_medico_por_id(usuario_logado["idUsuario"])
+    
     # Buscar disponibilidades do médico
     disponibilidades = obter_disponibilidades_por_medico(usuario_logado["idUsuario"])
     
     return templates.TemplateResponse("/medico/perfil_medico.html", {
         "request": request,
         "usuario": usuario_logado,
+        "medico": medico,
         "disponibilidades": disponibilidades
     })
 
