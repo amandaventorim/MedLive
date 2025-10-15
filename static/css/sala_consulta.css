@@ -54,6 +54,7 @@ body {
     gap: 1rem;
     padding: 1rem;
     height: calc(100vh - 140px);
+    overflow-y: scroll;
 }
 
 .main-video {
