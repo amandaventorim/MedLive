@@ -30,7 +30,7 @@
 }
 
 .consultation-card.upcoming {
-    border-left: 5px solid #28a745;
+    border-left: 5px solid #3781a3;
 }
 
 .consultation-card.today {
@@ -90,8 +90,8 @@
 }
 
 .status-badge.upcoming {
-    background: #d4edda;
-    color: #155724;
+   background: #d1ecf1;
+    color: #3781a3;
 }
 
 .status-badge.today {
@@ -100,9 +100,10 @@
 }
 
 .status-badge.completed {
-    background: #d1ecf1;
-    color: #3781a3;
+    background: #d4edda;
+    color: #155724;
 }
+
 
 .status-badge.cancelled {
     background: #f5c6cb;
