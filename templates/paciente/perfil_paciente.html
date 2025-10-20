@@ -24,11 +24,10 @@
                     </div>
                     <div class="col-md-9">
                         <h1 class="mb-2">{{ usuario.nome }}</h1>
-                        <p class="mb-2 opacity-75">
+                        <p class="mb-3 opacity-75">
                             <i class="bi bi-calendar me-2"></i>
                             Nascido em {{ paciente.dataNascimento if paciente else usuario.dataNascimento }}
-                        </p>
-                        <p class="mb-3 opacity-75">
+                            <br>
                             <i class="bi bi-envelope me-2"></i>
                             {{ usuario.email }}
                             {% if paciente and paciente.convenio %}
@@ -45,15 +44,15 @@
             <!-- Estatísticas -->
             <div class="estatisticas-paciente">
                 <div class="stat-card">
-                    <div class="stat-numero">12</div>
+                    <div class="stat-numero">0</div>
                     <div class="stat-label">Consultas Realizadas</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-numero">3</div>
+                    <div class="stat-numero">0</div>
                     <div class="stat-label">Médicos Consultados</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-numero">8</div>
+                    <div class="stat-numero">0</div>
                     <div class="stat-label">Receitas Emitidas</div>
                 </div>
                 

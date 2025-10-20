@@ -25,22 +25,22 @@
                     </div>
                     <div class="col-md-9">
                         <h1 class="mb-2">{{ usuario.nome }}</h1>
-                        <p class="mb-2 opacity-75">
+                        
+                        <p class="mb-3 opacity-75">
                             <i class="bi bi-card-text me-2"></i>
                             CRM: {{ medico.crm if medico else 'Não informado' }}
-                        </p>
-                        <p class="mb-3 opacity-75">
+                            <br>
                             <i class="bi bi-envelope me-2"></i>
                             {{ usuario.email }}
                             <br>
                             <i class="bi bi-calendar me-2"></i>
                             Nascido em {{ medico.dataNascimento if medico else usuario.dataNascimento }}
-                        </p>
-                        {% if medico and medico.statusProfissional %}
-                        <p class="mb-2 opacity-75">
+                            <br>
                             <i class="bi bi-check-circle me-2"></i>
                             Status: {{ medico.statusProfissional }}
                         </p>
+                        {% if medico and medico.statusProfissional %}
+                       
                         {% endif %}
                     </div>
                 </div>
@@ -49,19 +49,19 @@
             <!-- Estatísticas -->
             <div class="estatisticas-medico">
                 <div class="stat-card">
-                    <div class="stat-numero">1,247</div>
+                    <div class="stat-numero">0</div>
                     <div class="stat-label">Consultas Realizadas</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-numero">89</div>
+                    <div class="stat-numero">0</div>
                     <div class="stat-label">Pacientes Ativos</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-numero">4.8</div>
+                    <div class="stat-numero">0</div>
                     <div class="stat-label">Avaliação Média</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-numero">5</div>
+                    <div class="stat-numero">0</div>
                     <div class="stat-label">Anos de Experiência</div>
                 </div>
             </div>
