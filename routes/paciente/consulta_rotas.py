@@ -70,9 +70,7 @@ def validar_horario_agendamento(horario_str: str) -> tuple[bool, str]:
         if minuto not in [0, 30]:
             return False, "Horários disponíveis apenas de 30 em 30 minutos (ex: 08:00, 08:30)."
         
-        # Horário de almoço: 12:00 às 14:00
-        if 12 <= hora < 14:
-            return False, "Horário de almoço (12:00 às 13:59) não disponível para consultas."
+        # Observação: não bloquear horário de almoço aqui — permitir todos os horários dentro do expediente
             
         return True, ""
         
