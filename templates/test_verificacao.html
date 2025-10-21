@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - Verificação de Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #001942;
+            text-align: center;
+        }
+        .test-section {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #001942;
+        }
+        .endpoint {
+            background: #001942;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        .button {
+            background: linear-gradient(135deg, #001942 0%, #003366 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .button:hover {
+            opacity: 0.9;
+        }
+        .result {
+            background: white;
+            border: 2px solid #dee2e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            min-height: 50px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            border-color: #28a745;
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            border-color: #dc3545;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        input {
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            width: 300px;
+            font-size: 14px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px 0;
+            font-weight: bold;
+            color: #001942;
+        }
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #0c5460;
+        }
+        .code-display {
+            font-size: 32px;
+            text-align: center;
+            letter-spacing: 10px;
+            color: #001942;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste de Verificação de Email</h1>
+        
+        <div class="info">
+            <strong>📌 Instruções:</strong><br>
+            1. Digite um email de teste<br>
+            2. Clique em "Gerar Código"<br>
+            3. Copie o código exibido<br>
+            4. Clique em "Verificar Código"<br>
+            5. Teste também cenários de erro (código errado, etc.)
+        </div>
+
+        <!-- TESTE 1: Gerar Código -->
+        <div class="test-section">
+            <h2>🎲 Teste 1: Gerar Código</h2>
+            <p>Simula o envio do código de verificação</p>
+            
+            <label for="email1">Email:</label>
+            <input type="email" id="email1" placeholder="seu@email.com" value="teste@demo.com">
+            
+            <br><br>
+            <button class="button" onclick="gerarCodigo()">Gerar Código</button>
+            
+            <div class="endpoint">
+                POST /gerar_codigo_verificacao<br>
+                Body: { "email": "..." }
+            </div>
+            
+            <div id="resultado1" class="result">Aguardando...</div>
+            <div id="codigoDisplay" class="code-display" style="display: none;"></div>
+        </div>
+
+        <!-- TESTE 2: Verificar Código -->
+        <div class="test-section">
+            <h2>✅ Teste 2: Verificar Código</h2>
+            <p>Valida o código digitado pelo usuário</p>
+            
+            <label for="email2">Email:</label>
+            <input type="email" id="email2" placeholder="seu@email.com" value="teste@demo.com">
+            
+            <label for="codigo">Código (6 dígitos):</label>
+            <input type="text" id="codigo" placeholder="123456" maxlength="6">
+            
+            <br><br>
+            <button class="button" onclick="verificarCodigo()">Verificar Código</button>
+            <button class="button" style="background: #6c757d;" onclick="testarCodigoErrado()">Testar Código Errado</button>
+            
+            <div class="endpoint">
+                POST /verificar_codigo<br>
+                Body: { "email": "...", "codigo": "..." }
+            </div>
+            
+            <div id="resultado2" class="result">Aguardando...</div>
+        </div>
+
+        <!-- TESTE 3: Cenários de Erro -->
+        <div class="test-section">
+            <h2>⚠️ Teste 3: Cenários de Erro</h2>
+            <p>Testa validações e limites de segurança</p>
+            
+            <button class="button" onclick="testarTentativasExcedidas()">5 Tentativas Erradas</button>
+            <button class="button" onclick="testarCodigoInexistente()">Código Inexistente</button>
+            
+            <div id="resultado3" class="result">Clique em um botão para testar</div>
+        </div>
+
+        <!-- TESTE 4: Fluxo Completo -->
+        <div class="test-section">
+            <h2>🔄 Teste 4: Fluxo Completo</h2>
+            <p>Simula o fluxo completo do usuário</p>
+            
+            <button class="button" onclick="fluxoCompleto()">Executar Fluxo Completo</button>
+            
+            <div id="resultado4" class="result">Aguardando...</div>
+        </div>
+    </div>
+
+    <script>
+        let codigoGerado = null;
+
+        async function gerarCodigo() {
+            const email = document.getElementById('email1').value;
+            const resultado = document.getElementById('resultado1');
+            const codigoDisplay = document.getElementById('codigoDisplay');
+            
+            if (!email) {
+                resultado.className = 'result error';
+                resultado.textContent = 'Por favor, digite um email';
+                return;
+            }
+
+            resultado.textContent = '⏳ Gerando código...';
+            resultado.className = 'result';
+
+            try {
+                const response = await fetch('/gerar_codigo_verificacao', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    codigoGerado = data.demo_code;
+                    resultado.className = 'result success';
+                    resultado.textContent = `✅ Código gerado com sucesso!\n\nResposta da API:\n${JSON.stringify(data, null, 2)}`;
+                    
+                    // Exibir código em destaque
+                    codigoDisplay.textContent = data.demo_code;
+                    codigoDisplay.style.display = 'block';
+                    
+                    // Preencher automaticamente nos campos de teste
+                    document.getElementById('email2').value = email;
+                    document.getElementById('codigo').value = data.demo_code;
+                } else {
+                    resultado.className = 'result error';
+                    resultado.textContent = `❌ Erro:\n${JSON.stringify(data, null, 2)}`;
+                    codigoDisplay.style.display = 'none';
+                }
+            } catch (error) {
+                resultado.className = 'result error';
+                resultado.textContent = `❌ Erro de conexão:\n${error.message}`;
+                codigoDisplay.style.display = 'none';
+            }
+        }
+
+        async function verificarCodigo() {
+            const email = document.getElementById('email2').value;
+            const codigo = document.getElementById('codigo').value;
+            const resultado = document.getElementById('resultado2');
+
+            if (!email || !codigo) {
+                resultado.className = 'result error';
+                resultado.textContent = 'Por favor, preencha email e código';
+                return;
+            }
+
+            resultado.textContent = '⏳ Verificando código...';
+            resultado.className = 'result';
+
+            try {
+                const response = await fetch('/verificar_codigo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, codigo: codigo })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    resultado.className = 'result success';
+                    resultado.textContent = `✅ ${data.message}\n\nResposta da API:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultado.className = 'result error';
+                    resultado.textContent = `❌ ${data.message}\n\nResposta da API:\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultado.className = 'result error';
+                resultado.textContent = `❌ Erro de conexão:\n${error.message}`;
+            }
+        }
+
+        async function testarCodigoErrado() {
+            document.getElementById('codigo').value = '000000';
+            await verificarCodigo();
+        }
+
+        async function testarTentativasExcedidas() {
+            const resultado = document.getElementById('resultado3');
+            resultado.textContent = '⏳ Testando 5 tentativas erradas...\n';
+            resultado.className = 'result';
+
+            const email = 'teste-tentativas@demo.com';
+            
+            // Primeiro gerar um código
+            await fetch('/gerar_codigo_verificacao', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            });
+
+            // Tentar 5 vezes com código errado
+            for (let i = 1; i <= 5; i++) {
+                const response = await fetch('/verificar_codigo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, codigo: '000000' })
+                });
+                const data = await response.json();
+                resultado.textContent += `\nTentativa ${i}: ${data.message}`;
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            resultado.className = 'result error';
+        }
+
+        async function testarCodigoInexistente() {
+            const resultado = document.getElementById('resultado3');
+            resultado.textContent = '⏳ Testando código inexistente...';
+            resultado.className = 'result';
+
+            try {
+                const response = await fetch('/verificar_codigo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email: 'nao-existe@demo.com', 
+                        codigo: '999999' 
+                    })
+                });
+                const data = await response.json();
+                resultado.className = 'result error';
+                resultado.textContent = `❌ ${data.message}\n\nResposta:\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultado.className = 'result error';
+                resultado.textContent = `❌ Erro: ${error.message}`;
+            }
+        }
+
+        async function fluxoCompleto() {
+            const resultado = document.getElementById('resultado4');
+            const email = 'fluxo-completo@demo.com';
+            
+            resultado.textContent = '🔄 Iniciando fluxo completo...\n';
+            resultado.className = 'result';
+
+            // Passo 1: Gerar código
+            resultado.textContent += '\n1️⃣ Gerando código...';
+            const genResponse = await fetch('/gerar_codigo_verificacao', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            });
+            const genData = await genResponse.json();
+            resultado.textContent += ` ✅ Código: ${genData.demo_code}`;
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Passo 2: Verificar código correto
+            resultado.textContent += '\n\n2️⃣ Verificando código correto...';
+            const verResponse = await fetch('/verificar_codigo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, codigo: genData.demo_code })
+            });
+            const verData = await verResponse.json();
+            resultado.textContent += ` ✅ ${verData.message}`;
+
+            resultado.className = 'result success';
+            resultado.textContent += '\n\n🎉 Fluxo completo executado com sucesso!';
+        }
+    </script>
+</body>
+</html>

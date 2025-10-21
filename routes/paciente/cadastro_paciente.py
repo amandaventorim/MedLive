@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Form, Request
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, JSONResponse
 from pydantic import ValidationError
+import random
+from datetime import datetime, timedelta
 
 from data.repo import usuario_repo
 from data.repo.paciente_repo import inserir_paciente
@@ -13,10 +15,92 @@ from dto import CriarPacienteDTO
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
+# Armazenamento temporário de códigos de verificação (em produção, use Redis ou banco)
+verification_codes = {}
+
 @router.get("/cadastro_paciente")
 async def get_cadastro_paciente(request: Request):
     response = templates.TemplateResponse("/paciente/cadastro_paciente.html", {"request": request})
     return response
+
+@router.post("/gerar_codigo_verificacao")
+async def gerar_codigo_verificacao(request: Request):
+    """Gera um código de verificação de 6 dígitos para o email"""
+    try:
+        data = await request.json()
+        email = data.get("email")
+        
+        if not email:
+            return JSONResponse({"success": False, "message": "Email não fornecido"}, status_code=400)
+        
+        # Gerar código de 6 dígitos
+        codigo = str(random.randint(100000, 999999))
+        
+        # Armazenar código com timestamp (expira em 10 minutos)
+        expiracao = datetime.now() + timedelta(minutes=10)
+        verification_codes[email] = {
+            "codigo": codigo,
+            "expiracao": expiracao,
+            "tentativas": 0
+        }
+        
+        print(f"[DEMO] Código de verificação gerado para {email}: {codigo}")
+        
+        # Para demonstração, retornar o código (em produção, enviaria por email)
+        return JSONResponse({
+            "success": True,
+            "message": "Código gerado com sucesso",
+            "demo_code": codigo  # APENAS PARA DEMONSTRAÇÃO
+        })
+        
+    except Exception as e:
+        print(f"Erro ao gerar código: {e}")
+        return JSONResponse({"success": False, "message": "Erro ao gerar código"}, status_code=500)
+
+@router.post("/verificar_codigo")
+async def verificar_codigo(request: Request):
+    """Verifica se o código de verificação está correto"""
+    try:
+        data = await request.json()
+        email = data.get("email")
+        codigo = data.get("codigo")
+        
+        if not email or not codigo:
+            return JSONResponse({"success": False, "message": "Email ou código não fornecido"}, status_code=400)
+        
+        # Verificar se existe código para este email
+        if email not in verification_codes:
+            return JSONResponse({"success": False, "message": "Código não encontrado ou expirado"}, status_code=400)
+        
+        dados_verificacao = verification_codes[email]
+        
+        # Verificar se o código expirou
+        if datetime.now() > dados_verificacao["expiracao"]:
+            del verification_codes[email]
+            return JSONResponse({"success": False, "message": "Código expirado. Solicite um novo código"}, status_code=400)
+        
+        # Verificar número de tentativas (máximo 5)
+        if dados_verificacao["tentativas"] >= 5:
+            del verification_codes[email]
+            return JSONResponse({"success": False, "message": "Número máximo de tentativas excedido"}, status_code=400)
+        
+        # Verificar se o código está correto
+        if dados_verificacao["codigo"] == codigo:
+            # Código correto - limpar da memória
+            del verification_codes[email]
+            return JSONResponse({"success": True, "message": "Email verificado com sucesso!"})
+        else:
+            # Código incorreto - incrementar tentativas
+            verification_codes[email]["tentativas"] += 1
+            tentativas_restantes = 5 - verification_codes[email]["tentativas"]
+            return JSONResponse({
+                "success": False,
+                "message": f"Código incorreto. Você tem {tentativas_restantes} tentativa(s) restante(s)"
+            }, status_code=400)
+        
+    except Exception as e:
+        print(f"Erro ao verificar código: {e}")
+        return JSONResponse({"success": False, "message": "Erro ao verificar código"}, status_code=500)
 
 @router.post("/cadastro_paciente")
 async def cadastrar_paciente(

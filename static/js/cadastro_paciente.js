@@ -232,8 +232,8 @@ function nextStep() {
                 emailDisplay.textContent = email;
             }
             
-            // TODO: Aqui deveria enviar o código de verificação por email
-            console.log('Enviando código de verificação para:', email);
+            // Enviar código de verificação
+            enviarCodigoVerificacao(email);
         }
     } else if (currentStep === 2) {
         podeAvancar = validarEtapa2();
@@ -376,13 +376,103 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Funções para a etapa de verificação de email
+async function enviarCodigoVerificacao(email) {
+    try {
+        const response = await fetch('/gerar_codigo_verificacao', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: email })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('✅ Código de verificação enviado!');
+            
+            // APENAS PARA DEMONSTRAÇÃO - Mostrar o código na tela
+            if (data.demo_code) {
+                mostrarCodigoDemo(data.demo_code);
+            }
+        } else {
+            alert('Erro ao enviar código: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Erro ao enviar código:', error);
+        alert('Erro ao enviar código de verificação. Tente novamente.');
+    }
+}
+
+function mostrarCodigoDemo(codigo) {
+    // Limpar alertas anteriores
+    const alertasAntigos = document.querySelectorAll('#stepEmailVerification .alert-warning');
+    alertasAntigos.forEach(alerta => alerta.remove());
+    
+    // Criar elemento para mostrar o código (apenas para demonstração)
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-warning mb-2';
+    alertDiv.style.cssText = 'padding: 0.5rem 0.75rem; font-size: 0.85rem;';
+    alertDiv.innerHTML = `
+        <div class="d-flex align-items-center justify-content-between gap-2">
+            <span>
+                <i class="fas fa-info-circle"></i>
+                <strong>Demo:</strong> <strong style="color: #001942; font-size: 1rem;">${codigo}</strong>
+            </span>
+            <button class="btn btn-sm btn-outline-dark py-0 px-2" onclick="copiarCodigo('${codigo}')" style="font-size: 0.75rem;" type="button">
+                <i class="fa fa-copy"></i>
+            </button>
+        </div>
+    `;
+    
+    // Inserir antes dos botões
+    const verificationSection = document.querySelector('#stepEmailVerification .verification-section');
+    const botoesDiv = verificationSection.querySelector('.d-flex.justify-content-between');
+    verificationSection.insertBefore(alertDiv, botoesDiv);
+}
+
+function copiarCodigo(codigo) {
+    // Preencher automaticamente o campo
+    const campoVerificacao = document.getElementById('verificationCode');
+    if (campoVerificacao) {
+        campoVerificacao.value = codigo;
+        campoVerificacao.focus();
+        
+        // Feedback visual no botão
+        const botoes = document.querySelectorAll('#stepEmailVerification .alert-warning .btn');
+        botoes.forEach(btn => {
+            const iconeOriginal = btn.innerHTML;
+            btn.innerHTML = '<i class="fa fa-check"></i>';
+            btn.classList.add('btn-success');
+            btn.classList.remove('btn-outline-dark');
+            
+            setTimeout(() => {
+                btn.innerHTML = iconeOriginal;
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-outline-dark');
+            }, 1500);
+        });
+    }
+    
+    // Copiar para área de transferência silenciosamente
+    try {
+        navigator.clipboard.writeText(codigo);
+    } catch (err) {
+        console.log('Código preenchido no campo');
+    }
+}
+
 function goBackToEmailEdit() {
     // Volta para a etapa 1 para editar o email
     currentStep = 1;
     showStep(currentStep);
+    
+    // Limpar mensagens de erro e código demo
+    const alertas = document.querySelectorAll('#stepEmailVerification .alert-warning');
+    alertas.forEach(alerta => alerta.remove());
 }
 
-function resendEmailCode() {
+async function resendEmailCode() {
     const email = document.getElementById('email').value;
     console.log('Reenviando código de verificação para:', email);
     
@@ -392,31 +482,77 @@ function resendEmailCode() {
         resendBtn.disabled = true;
         resendBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Reenviando...';
         
+        // Limpar alertas antigos
+        const alertas = document.querySelectorAll('#stepEmailVerification .alert-warning');
+        alertas.forEach(alerta => alerta.remove());
+        
+        // Enviar novo código
+        await enviarCodigoVerificacao(email);
+        
         // Reabilitar após 30 segundos
         setTimeout(() => {
             resendBtn.disabled = false;
             resendBtn.innerHTML = '<i class="fas fa-redo me-2"></i>Reenviar';
         }, 30000);
     }
-    
-    // TODO: Implementar chamada para backend para reenviar código
 }
 
-function verifyEmailCode() {
+async function verifyEmailCode() {
     const code = document.getElementById('verificationCode').value;
+    const email = document.getElementById('email').value;
     
     if (!code || code.length !== 6) {
         mostrarErro(document.getElementById('verificationCode'), 'Digite o código de 6 dígitos');
         return;
     }
     
-    console.log('Verificando código:', code);
+    // Mostrar loading
+    const verifyBtn = event.target;
+    const btnTextoOriginal = verifyBtn.innerHTML;
+    verifyBtn.disabled = true;
+    verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Verificando...';
     
-    // TODO: Implementar verificação do código no backend
-    // Por enquanto, simula sucesso e avança para etapa 2
-    limparErro(document.getElementById('verificationCode'));
-    currentStep = 2;
-    showStep(currentStep);
+    try {
+        const response = await fetch('/verificar_codigo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                email: email,
+                codigo: code 
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Código correto - avançar para etapa 2
+            limparErro(document.getElementById('verificationCode'));
+            
+            // Mostrar mensagem de sucesso
+            const successDiv = document.createElement('div');
+            successDiv.className = 'alert alert-success';
+            successDiv.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + data.message;
+            document.querySelector('#stepEmailVerification .verification-section').prepend(successDiv);
+            
+            // Avançar após 1 segundo
+            setTimeout(() => {
+                currentStep = 2;
+                showStep(currentStep);
+            }, 1000);
+        } else {
+            // Código incorreto
+            mostrarErro(document.getElementById('verificationCode'), data.message);
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = btnTextoOriginal;
+        }
+    } catch (error) {
+        console.error('Erro ao verificar código:', error);
+        mostrarErro(document.getElementById('verificationCode'), 'Erro ao verificar código. Tente novamente.');
+        verifyBtn.disabled = false;
+        verifyBtn.innerHTML = btnTextoOriginal;
+    }
 }
 
 // Função para validar o formulário antes do submit

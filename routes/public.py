@@ -24,3 +24,7 @@ async def get_esqueceu_senha(request: Request):
 async def get_cadastro(request: Request):
     return templates.TemplateResponse("cadastro_anterior.html", {"request": request})
 
+@router.get("/test_verificacao")
+async def get_test_verificacao(request: Request):
+    return templates.TemplateResponse("test_verificacao.html", {"request": request})
+

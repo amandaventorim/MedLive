@@ -33,8 +33,94 @@
 .verification-section {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     border-radius: 15px;
-    padding: 2rem;
+    padding: 1.5rem;
     margin-bottom: 1rem;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* Container para o alerta de demonstração */
+#stepEmailVerification .alert-warning {
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.85rem !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Ajustar tamanho do código demo */
+#stepEmailVerification .alert-warning strong {
+    font-size: 1rem !important;
+}
+
+/* Botão de copiar compacto */
+#stepEmailVerification .alert-warning .btn {
+    padding: 0.1rem 0.4rem !important;
+    font-size: 0.75rem !important;
+}
+
+/* Reduzir espaçamento dos alertas */
+#stepEmailVerification .alert-info {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+/* Ajustar botões para não quebrar linha */
+#stepEmailVerification .d-flex {
+    gap: 0.5rem;
+}
+
+#stepEmailVerification .btn {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    white-space: nowrap;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 576px) {
+    .verification-section {
+        padding: 1rem;
+    }
+    
+    #stepEmailVerification .btn {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.6rem;
+    }
+    
+    #verificationCode {
+        font-size: 1.2rem !important;
+        letter-spacing: 0.3rem !important;
+    }
+}
+
+/* Estilo para o alerta de demonstração do código */
+.alert-warning {
+    animation: fadeInDown 0.5s ease-in-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-success {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .btn-cadastrar {
