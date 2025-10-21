@@ -149,11 +149,12 @@
     background: linear-gradient(135deg, #001942 0%, #003366 100%);
     color: white;
     border: none;
-    border-radius: 20px;
-    padding: 8px 20px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 25, 66, 0.4);
+    font-size: 0.9rem;
 }
 
 .btn-cancelar:hover {
@@ -201,12 +202,14 @@
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
     color: white;
     border: none;
-    border-radius: 20px;
-    padding: 8px 20px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
     font-weight: 600;
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
     transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    font-size: 0.9rem;
 }
+
 
 .btn-verde:hover {
     background: linear-gradient(135deg, #20c997 0%, #28a745 100%);

@@ -163,7 +163,7 @@
         <div class="mb-3">
             <label for="convenio" class="form-label">Convênio</label>
             <input type="text" class="form-control {% if erros and 'CONVENIO' in erros.keys() %}is-invalid{% endif %}"
-                id="convenio" name="convenio" value="{{ dados.convenio if dados else '' }}" required>
+                id="convenio" name="convenio" value="{{ dados.convenio if dados else '' }}" placeholder="Digite seu convênio" required>
             {% if erros and 'CONVENIO' in erros.keys() %}
             <div class="invalid-feedback">{{ erros['CONVENIO'] }}</div>
             {% endif %}

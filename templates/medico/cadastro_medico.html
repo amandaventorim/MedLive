@@ -33,6 +33,7 @@
                 id="nome"
                 name="nome"
                 value="{{ dados.nome if dados else '' }}"
+                placeholder="Digite seu nome completo (nome e sobrenome)"
                 required
             >
             {% if erros and 'NOME' in erros.keys() %}
@@ -47,6 +48,7 @@
                 id="email"
                 name="email"
                 value="{{ dados.email if dados else '' }}"
+                placeholder="Digite seu email"
                 required
             >
             {% if erros and 'EMAIL' in erros.keys() %}
