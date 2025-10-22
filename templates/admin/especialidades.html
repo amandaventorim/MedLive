@@ -1,0 +1,219 @@
+{% extends "base_admin.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/dashboard_administrador.css">
+<style>
+    .especialidade-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+    }
+    
+    .especialidade-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        transform: translateY(-2px);
+    }
+    
+    .especialidade-nome {
+        color: #001942;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .especialidade-descricao {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .btn-excluir {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-excluir:hover {
+        background: #c82333;
+        transform: scale(1.05);
+    }
+    
+    .form-cadastro {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+    }
+    
+    .alert-custom {
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .btn-voltar {
+        background: linear-gradient(135deg, #001942 0%, #003366 100%);
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .btn-voltar:hover {
+        background: linear-gradient(135deg, #003366 0%, #004488 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 25, 66, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<section class="dashboard-section">
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold text-azul mb-1">
+                    <i class="bi bi-clipboard2-pulse me-2"></i>Gerenciar Especialidades
+                </h2>
+                <p class="text-muted">Cadastre e gerencie as especialidades médicas disponíveis no sistema</p>
+            </div>
+            <a href="/dashboard_admin" class="btn-voltar">
+                <i class="bi bi-arrow-left me-2"></i>Voltar ao Dashboard
+            </a>
+        </div>
+
+        <!-- Alertas -->
+        {% if request.query_params.get('success') %}
+        <div class="alert alert-success alert-custom alert-dismissible fade show">
+            <i class="bi bi-check-circle me-2"></i>
+            <strong>Sucesso!</strong> Especialidade cadastrada com sucesso.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+
+        {% if request.query_params.get('erro') or erro %}
+        <div class="alert alert-danger alert-custom alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <strong>Erro!</strong> {{ erro or "Não foi possível processar a solicitação." }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+
+        <!-- Formulário de Cadastro -->
+        <div class="form-cadastro">
+            <h4 class="fw-bold text-azul mb-3">
+                <i class="bi bi-plus-circle me-2"></i>Cadastrar Nova Especialidade
+            </h4>
+            
+            <form action="/cadastrar_especialidade" method="POST">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="nome" class="form-label fw-bold">Nome da Especialidade</label>
+                            <input type="text" class="form-control" id="nome" name="nome" 
+                                   placeholder="Ex: Cardiologia" required maxlength="100">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="descricao" class="form-label fw-bold">Descrição</label>
+                            <input type="text" class="form-control" id="descricao" name="descricao" 
+                                   placeholder="Ex: Especialidade focada em doenças do coração" required maxlength="255">
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100 mb-3">
+                            <i class="bi bi-plus-lg me-2"></i>Cadastrar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Lista de Especialidades -->
+        <div class="especialidades-lista">
+            <h4 class="fw-bold text-azul mb-3">
+                <i class="bi bi-list-ul me-2"></i>Especialidades Cadastradas ({{ especialidades|length }})
+            </h4>
+
+            {% if especialidades %}
+                <div class="row">
+                    {% for esp in especialidades %}
+                    <div class="col-md-6 mb-3">
+                        <div class="especialidade-card">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <div class="especialidade-nome">
+                                        <i class="bi bi-heart-pulse me-2"></i>{{ esp.nome }}
+                                    </div>
+                                    <div class="especialidade-descricao">
+                                        {{ esp.descricao }}
+                                    </div>
+                                </div>
+                                <button class="btn btn-excluir" 
+                                        data-id="{{ esp.idEspecialidade }}" 
+                                        data-nome="{{ esp.nome }}"
+                                        onclick="excluirEspecialidade(this)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info alert-custom">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Nenhuma especialidade cadastrada ainda. Cadastre a primeira especialidade usando o formulário acima.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+async function excluirEspecialidade(button) {
+    const id = button.getAttribute('data-id');
+    const nome = button.getAttribute('data-nome');
+    
+    if (!confirm(`Tem certeza que deseja excluir a especialidade "${nome}"?\n\nMédicos com esta especialidade ficarão sem especialidade atribuída.`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/excluir_especialidade/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('Especialidade excluída com sucesso!');
+            window.location.reload();
+        } else {
+            alert('Erro ao excluir especialidade: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao excluir especialidade. Tente novamente.');
+    }
+}
+</script>
+{% endblock %}

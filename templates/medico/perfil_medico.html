@@ -131,19 +131,61 @@
                         </h3>
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="campo-perfil">
                                     <label class="label-campo">CRM</label>
                                     <div class="valor-campo" id="crm">{{ medico.crm if medico else 'Não informado' }}</div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="campo-perfil">
+                                    <label class="label-campo">Especialidade</label>
+                                    <div class="valor-campo" id="especialidade-display">
+                                        {% if especialidade_atual %}
+                                            {% for esp in especialidades %}
+                                                {% if esp.idEspecialidade == especialidade_atual %}
+                                                    <span class="badge bg-primary">{{ esp.nome }}</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <span class="text-muted">Não selecionada</span>
+                                        {% endif %}
+                                    </div>
+                                    <form action="/atualizar_especialidade" method="POST" class="mt-2">
+                                        <select class="form-select form-select-sm" name="idEspecialidade" onchange="this.form.submit()">
+                                            <option value="" disabled {% if not especialidade_atual %}selected{% endif %}>Selecione uma especialidade</option>
+                                            {% for esp in especialidades %}
+                                                <option value="{{ esp.idEspecialidade }}" {% if esp.idEspecialidade == especialidade_atual %}selected{% endif %}>
+                                                    {{ esp.nome }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="campo-perfil">
                                     <label class="label-campo">Status Profissional</label>
                                     <div class="valor-campo" id="status">{{ medico.statusProfissional if medico and medico.statusProfissional else 'Não informado' }}</div>
                                 </div>
                             </div>
                         </div>
+
+                        {% if request.query_params.get('success') == 'especialidade' %}
+                        <div class="alert alert-success alert-dismissible fade show mt-3">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Especialidade atualizada com sucesso!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endif %}
+
+                        {% if request.query_params.get('erro') == 'especialidade' %}
+                        <div class="alert alert-danger alert-dismissible fade show mt-3">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            Erro ao atualizar especialidade. Tente novamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endif %}
                     </div>
 
                     <!-- Horários de Atendimento -->

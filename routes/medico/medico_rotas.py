@@ -86,6 +86,8 @@ async def get_pacientes_medico(request: Request, usuario_logado: dict = None):
 @requer_autenticacao(["medico"])
 async def get_perfil_medico(request: Request, usuario_logado: dict = None):
     from data.repo.medico_repo import obter_medico_por_id
+    from data.repo.especialidade_repo import obter_todas_especialidades
+    from data.repo.medico_especialidade_repo import obter_especialidade_por_medico
     
     # Buscar informações completas do médico
     medico = obter_medico_por_id(usuario_logado["idUsuario"])
@@ -93,12 +95,52 @@ async def get_perfil_medico(request: Request, usuario_logado: dict = None):
     # Buscar disponibilidades do médico
     disponibilidades = obter_disponibilidades_por_medico(usuario_logado["idUsuario"])
     
+    # Buscar todas as especialidades disponíveis
+    especialidades = obter_todas_especialidades()
+    
+    # Buscar especialidade atual do médico
+    especialidade_medico = obter_especialidade_por_medico(usuario_logado["idUsuario"])
+    
     return templates.TemplateResponse("/medico/perfil_medico.html", {
         "request": request,
         "usuario": usuario_logado,
         "medico": medico,
-        "disponibilidades": disponibilidades
+        "disponibilidades": disponibilidades,
+        "especialidades": especialidades,
+        "especialidade_atual": especialidade_medico.idEspecialidade if especialidade_medico else None
     })
+
+@router.post("/atualizar_especialidade")
+@requer_autenticacao(["medico"])
+async def atualizar_especialidade_medico(
+    request: Request,
+    idEspecialidade: int = Form(...),
+    usuario_logado: dict = None
+):
+    from data.repo.medico_especialidade_repo import atualizar_ou_inserir_especialidade_medico
+    
+    try:
+        sucesso = atualizar_ou_inserir_especialidade_medico(
+            usuario_logado["idUsuario"], 
+            idEspecialidade
+        )
+        
+        if sucesso:
+            return RedirectResponse(
+                url="/perfil_medico?success=especialidade", 
+                status_code=303
+            )
+        else:
+            return RedirectResponse(
+                url="/perfil_medico?erro=especialidade", 
+                status_code=303
+            )
+    except Exception as e:
+        print(f"Erro ao atualizar especialidade: {e}")
+        return RedirectResponse(
+            url="/perfil_medico?erro=especialidade", 
+            status_code=303
+        )
 
 @router.get("/planos_medico")
 @requer_autenticacao(["medico"])

@@ -84,3 +84,8 @@ def deletar_especialidade(idEspecialidade: int) -> bool:
         cursor = conn.cursor()
         cursor.execute(DELETAR_ESPECIALIDADE, (idEspecialidade,))
         return cursor.rowcount > 0
+
+
+def excluir_especialidade(idEspecialidade: int) -> bool:
+    """Alias para deletar_especialidade"""
+    return deletar_especialidade(idEspecialidade)

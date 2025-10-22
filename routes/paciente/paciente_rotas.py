@@ -107,19 +107,36 @@ async def get_sala_espera(request: Request, usuario_logado: dict = None):
 # Rota API para retornar médicos cadastrados
 @router.get("/api/medicos")
 async def api_medicos():
+    from data.repo.medico_especialidade_repo import obter_especialidade_por_medico
+    from data.repo.especialidade_repo import obter_especialidade_por_id
+    
     medicos = obter_todos_medicos()
     # Retorna apenas os campos relevantes para o frontend
-    medicos_dict = [
-        {
+    medicos_dict = []
+    
+    for m in medicos:
+        # Buscar especialidade do médico
+        medico_esp = obter_especialidade_por_medico(m.idMedico)
+        especialidade_nome = ""
+        
+        if medico_esp:
+            especialidade = obter_especialidade_por_id(medico_esp.idEspecialidade)
+            if especialidade:
+                especialidade_nome = especialidade.nome
+        
+        medicos_dict.append({
             "id": m.idMedico,
             "name": m.nome,
-            "specialty": getattr(m, "especialidade", ""),
+            "specialty": especialidade_nome or "Não especificada",
             "crm": m.crm,
             "experience": getattr(m, "statusProfissional", ""),
-            "email": m.email
-        }
-        for m in medicos
-    ]
+            "email": m.email,
+            "rating": 4.5,  # Valor padrão
+            "reviews": 0,  # Valor padrão
+            "price": "R$ 150,00",  # Valor padrão
+            "availability": "Disponível"  # Valor padrão
+        })
+    
     return JSONResponse(content=medicos_dict)
 
 @router.post("/alterar_senha")

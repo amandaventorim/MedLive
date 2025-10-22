@@ -82,3 +82,43 @@ def deletar_medico_especialidade(idMedico: int, idEspecialidade: int) -> bool:
         cursor = conn.cursor()
         cursor.execute(DELETAR_MEDICO_ESPECIALIDADE, (idMedico, idEspecialidade))
         return cursor.rowcount > 0
+
+
+def obter_especialidade_por_medico(idMedico: int) -> Optional[MedicoEspecialidade]:
+    """Retorna a especialidade do médico (assumindo que cada médico tem apenas uma)"""
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM medico_especialidade WHERE idMedico = ?", (idMedico,))
+        row = cursor.fetchone()
+        if row:
+            return MedicoEspecialidade(
+                idMedico=row["idMedico"],
+                idEspecialidade=row["idEspecialidade"],
+                dataHabilitacao=row["dataHabilitacao"])
+        return None
+
+
+def atualizar_ou_inserir_especialidade_medico(idMedico: int, idEspecialidade: int) -> bool:
+    """Atualiza ou insere a especialidade do médico (garante que tenha apenas uma)"""
+    from datetime import datetime
+    
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        
+        # Remove especialidade anterior, se existir
+        cursor.execute("DELETE FROM medico_especialidade WHERE idMedico = ?", (idMedico,))
+        
+        # Insere a nova especialidade
+        data_atual = datetime.now().strftime("%Y-%m-%d")
+        novo = MedicoEspecialidade(
+            idMedico=idMedico,
+            idEspecialidade=idEspecialidade,
+            dataHabilitacao=data_atual
+        )
+        
+        cursor.execute(INSERIR_MEDICO_ESPECIALIDADE, (
+            novo.idMedico,
+            novo.idEspecialidade,
+            novo.dataHabilitacao))
+        
+        return cursor.rowcount > 0
