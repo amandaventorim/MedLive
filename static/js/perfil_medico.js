@@ -451,14 +451,17 @@ function aplicarIconesModalEspecialidade() {
     });
 }
 
-// Fun��o para aplicar �cone no perfil
+// Função para aplicar ícone no perfil
 function aplicarIconePerfilEspecialidade() {
-    const icones = document.querySelectorAll('.esp-icon-perfil');
+    const icones = document.querySelectorAll('.esp-icon-perfil, .esp-icon-perfil-destaque');
     icones.forEach(icone => {
         const especialidade = icone.getAttribute('data-especialidade');
         if (especialidade) {
             const iconeClass = getIconeEspecialidade(especialidade);
-            icone.className = 'bi esp-icon-perfil ' + iconeClass;
+            const baseClass = icone.classList.contains('esp-icon-perfil-destaque') 
+                ? 'bi esp-icon-perfil-destaque' 
+                : 'bi esp-icon-perfil';
+            icone.className = baseClass + ' ' + iconeClass;
         }
     });
 }

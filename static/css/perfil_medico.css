@@ -445,7 +445,7 @@ input:checked + .slider:before {
 
 
 
-/* Estilos para seleção de especialidade */
+/* Estilos para seleï¿½ï¿½o de especialidade */
 .especialidade-badge-perfil {
     display: inline-flex;
     align-items: center;
@@ -537,3 +537,64 @@ input:checked + .slider:before {
     opacity: 1;
     color: white;
 }
+
+/* Estilos para a seÃ§Ã£o dedicada de especialidade */
+.especialidade-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.especialidade-atual {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    min-height: 80px;
+    align-items: center;
+}
+
+.especialidade-badge-perfil-destaque {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 40px;
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    color: white;
+    border-radius: 50px;
+    box-shadow: 0 8px 25px rgba(0, 25, 66, 0.2);
+    transition: all 0.3s ease;
+}
+
+.especialidade-badge-perfil-destaque:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 25, 66, 0.3);
+}
+
+.especialidade-badge-perfil-destaque i {
+    font-size: 2.5rem;
+}
+
+.especialidade-badge-perfil-destaque .especialidade-nome {
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+.especialidade-vazia {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 30px;
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 15px;
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.especialidade-vazia i {
+    font-size: 1.5rem;
+}
+

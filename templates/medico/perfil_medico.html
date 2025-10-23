@@ -131,39 +131,41 @@
                         </h3>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="campo-perfil">
                                     <label class="label-campo">CRM</label>
                                     <div class="valor-campo" id="crm">{{ medico.crm if medico else 'Não informado' }}</div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="campo-perfil">
-                                    <label class="label-campo">Especialidade</label>
-                                    <div class="valor-campo" id="especialidade-display">
-                                        {% if especialidade_atual %}
-                                            {% for esp in especialidades %}
-                                                {% if esp.idEspecialidade == especialidade_atual %}
-                                                    <div class="especialidade-badge-perfil">
-                                                        <i class="bi esp-icon-perfil" data-especialidade="{{ esp.nome }}"></i>
-                                                        <span>{{ esp.nome }}</span>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% else %}
-                                            <span class="text-muted">Não selecionada</span>
-                                        {% endif %}
-                                    </div>
-                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#modalEspecialidade">
-                                        <i class="bi bi-pencil"></i> Alterar Especialidade
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="campo-perfil">
                                     <label class="label-campo">Status Profissional</label>
                                     <div class="valor-campo" id="status">{{ medico.statusProfissional if medico and medico.statusProfissional else 'Não informado' }}</div>
                                 </div>
+                            </div>
+                        </div>
+                        
+                        <div class="campo-perfil">
+                            <label class="label-campo">Especialidade</label>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="valor-campo" id="especialidade-display">
+                                    {% if especialidade_atual %}
+                                        {% for esp in especialidades %}
+                                            {% if esp.idEspecialidade == especialidade_atual %}
+                                                <div class="especialidade-badge-perfil">
+                                                    <i class="bi esp-icon-perfil" data-especialidade="{{ esp.nome }}"></i>
+                                                    <span>{{ esp.nome }}</span>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <span class="text-muted">Não selecionada</span>
+                                    {% endif %}
+                                </div>
+                                <button type="button" class="btn btn-sm botao-secundario" data-bs-toggle="modal" data-bs-target="#modalEspecialidade">
+                                    <i class="bi bi-pencil me-1"></i>
+                                    Alterar Especialidade
+                                </button>
                             </div>
                         </div>
 
