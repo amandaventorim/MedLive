@@ -143,7 +143,8 @@ def obter_agendamentos_por_medico(idMedico: int) -> list[dict]:
                     "nomePaciente": row["nomePaciente"],
                     "endereco": row["endereco"] if row["endereco"] else "",
                     "convenio": row["convenio"] if row["convenio"] else "",
-                    "emailPaciente": row["emailPaciente"] if row["emailPaciente"] else ""
+                    "emailPaciente": row["emailPaciente"] if row["emailPaciente"] else "",
+                    "fotoPaciente": row["fotoPaciente"] if row["fotoPaciente"] else None
                 }
                 for row in rows
             ]

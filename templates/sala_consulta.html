@@ -19,7 +19,14 @@
         <div class="room-header">
             <div class="room-info">
                 {% if paciente %}
-                    <div class="participant-avatar">{{ paciente.nome[:2].upper() }}</div>
+                    <div class="participant-avatar">
+                        {% if usuario.foto %}
+                            <img src="{{ usuario.foto }}" alt="{{ usuario.nome }}" 
+                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        {% else %}
+                            {{ paciente.nome[:2].upper() }}
+                        {% endif %}
+                    </div>
                     <div>
                         <h6 class="mb-0">Consulta com {{ paciente.nome }}</h6>
                         {% if medico %}
@@ -29,7 +36,14 @@
                         {% endif %}
                     </div>
                 {% else %}
-                    <div class="participant-avatar">CO</div>
+                    <div class="participant-avatar">
+                        {% if usuario.foto %}
+                            <img src="{{ usuario.foto }}" alt="{{ usuario.nome }}" 
+                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        {% else %}
+                            {{ usuario.nome[:2].upper() if usuario else 'CO' }}
+                        {% endif %}
+                    </div>
                     <div>
                         <h6 class="mb-0">Sala de Consulta</h6>
                         <small class="text-light">Videochamada</small>

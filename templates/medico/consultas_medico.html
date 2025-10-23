@@ -113,7 +113,12 @@
                             
                             <div class="info-paciente">
                                 <div class="avatar-paciente">
-                                    <i class="bi bi-person-fill"></i>
+                                    {% if agendamento.fotoPaciente %}
+                                        <img src="{{ agendamento.fotoPaciente }}" alt="{{ agendamento.nomePaciente }}" 
+                                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                                    {% else %}
+                                        <i class="bi bi-person-fill"></i>
+                                    {% endif %}
                                 </div>
                                 <div class="dados-paciente">
                                     <h5>{{ agendamento.nomePaciente }}</h5>

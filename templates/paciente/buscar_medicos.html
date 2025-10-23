@@ -1,11 +1,10 @@
 {% extends "base_paciente.html" %}
-{% block conteudo %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="/static/css/buscar_medicos.css">
+<link rel="stylesheet" href="/static/css/buscar_medicos.css?v=2">
 {% endblock %}
-    
-   
+
+{% block conteudo %}
     <br>
     <br>
 
@@ -40,78 +39,46 @@
         <div class="container">
             <h3 class="text-center mb-5 text-azul fw-bold">Buscar por Especialidade</h3>
             <div class="row g-4">
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="specialty-card" onclick="filterBySpecialty('Cardiologia')">
-                        <div class="specialty-icon">
-                            <i class="bi bi-heart-pulse"></i>
+                {% if especialidades %}
+                    {% for esp in especialidades %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="specialty-card" onclick="filterBySpecialty('{{ esp.nome }}')">
+                            <div class="specialty-icon">
+                                {% if esp.nome.lower() == 'cardiologia' %}
+                                    <i class="bi bi-heart-pulse"></i>
+                                {% elif esp.nome.lower() == 'dermatologia' %}
+                                    <i class="bi bi-person-check"></i>
+                                {% elif esp.nome.lower() == 'ortopedia' %}
+                                    <i class="bi bi-bandaid"></i>
+                                {% elif esp.nome.lower() == 'pediatria' %}
+                                    <i class="bi bi-emoji-smile"></i>
+                                {% elif esp.nome.lower() == 'ginecologia' %}
+                                    <i class="bi bi-gender-female"></i>
+                                {% elif esp.nome.lower() == 'oftalmologia' %}
+                                    <i class="bi bi-eye"></i>
+                                {% elif esp.nome.lower() == 'psiquiatria' %}
+                                    <i class="bi bi-brain"></i>
+                                {% elif esp.nome.lower() == 'neurologia' %}
+                                    <i class="bi bi-activity"></i>
+                                {% elif 'clinica geral' in esp.nome.lower() or 'clínica geral' in esp.nome.lower() %}
+                                    <i class="bi bi-clipboard-heart"></i>
+                                {% else %}
+                                    <i class="bi bi-heart-pulse"></i>
+                                {% endif %}
+                            </div>
+                            <h5 class="text-center fw-bold text-azul">{{ esp.nome }}</h5>
+                            <p class="text-center text-secondary small">{{ esp.descricao[:30] }}{% if esp.descricao|length > 30 %}...{% endif %}</p>
                         </div>
-                        <h5 class="text-center fw-bold text-azul">Cardiologia</h5>
-                        <p class="text-center text-secondary small">Cuidados com o coração</p>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="specialty-card" onclick="filterBySpecialty('Dermatologia')">
-                        <div class="specialty-icon">
-                            <i class="bi bi-person-check"></i>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12">
+                        <div class="alert alert-info text-center">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Nenhuma especialidade cadastrada ainda.
                         </div>
-                        <h5 class="text-center fw-bold text-azul">Dermatologia</h5>
-                        <p class="text-center text-secondary small">Cuidados com a pele</p>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="specialty-card" onclick="filterBySpecialty('Clínica Geral')">
-                        <div class="specialty-icon">
-                            <i class="bi bi-hospital"></i>
-                        </div>
-                        <h5 class="text-center fw-bold text-azul">Clínica Geral</h5>
-                        <p class="text-center text-secondary small">Atendimento geral</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="specialty-card" onclick="filterBySpecialty('Pediatria')">
-                        <div class="specialty-icon">
-                            <i class="bi bi-emoji-smile"></i>
-                        </div>
-                        <h5 class="text-center fw-bold text-azul">Pediatria</h5>
-                        <p class="text-center text-secondary small">Cuidados infantis</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="specialty-card" onclick="filterBySpecialty('Ginecologia')">
-                        <div class="specialty-icon">
-                            <i class="bi bi-gender-female"></i>
-                        </div>
-                        <h5 class="text-center fw-bold text-azul">Ginecologia</h5>
-                        <p class="text-center text-secondary small">Saúde da mulher</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="specialty-card" onclick="filterBySpecialty('Neurologia')">
-                        <div class="specialty-icon">
-                            <i class="bi bi-hammer"></i>
-                        </div>
-                        <h5 class="text-center fw-bold text-azul">Neurologia</h5>
-                        <p class="text-center text-secondary small">Sistema nervoso</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="specialty-card" onclick="filterBySpecialty('Ortopedia')">
-                        <div class="specialty-icon">
-                            <i class="bi bi-bandaid"></i>
-                        </div>
-                        <h5 class="text-center fw-bold text-azul">Ortopedia</h5>
-                        <p class="text-center text-secondary small">Ossos e articulações</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="specialty-card" onclick="filterBySpecialty('Psiquiatria')">
-                        <div class="specialty-icon">
-                            <i class="bi bi-chat-heart"></i>
-                        </div>
-                        <h5 class="text-center fw-bold text-azul">Psiquiatria</h5>
-                        <p class="text-center text-secondary small">Saúde mental</p>
-                    </div>
-                </div>
+                {% endif %}
             </div>
         </div>
     </section>
@@ -182,13 +149,10 @@
         </div>
     </section>
 
-    
-    
-
-{% block extra_js %}
-<script src="/static/js/buscar_medicos.js"></script>
 {% endblock %}
 
+{% block extra_js %}
+<script src="/static/js/buscar_medicos.js?v=2"></script>
 {% endblock %}
 
 

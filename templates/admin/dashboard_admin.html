@@ -199,7 +199,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="especialidade-card">
                             <div class="especialidade-icon">
-                                <i class="bi bi-heart-pulse"></i>
+                                <i class="esp-icon-dashboard" data-especialidade="{{ esp.nome }}"></i>
                             </div>
                             <h5>{{ esp.nome }}</h5>
                             <p class="text-muted">{{ esp.descricao[:50] }}{% if esp.descricao|length > 50 %}...{% endif %}</p>

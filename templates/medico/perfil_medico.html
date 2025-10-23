@@ -144,23 +144,19 @@
                                         {% if especialidade_atual %}
                                             {% for esp in especialidades %}
                                                 {% if esp.idEspecialidade == especialidade_atual %}
-                                                    <span class="badge bg-primary">{{ esp.nome }}</span>
+                                                    <div class="especialidade-badge-perfil">
+                                                        <i class="bi esp-icon-perfil" data-especialidade="{{ esp.nome }}"></i>
+                                                        <span>{{ esp.nome }}</span>
+                                                    </div>
                                                 {% endif %}
                                             {% endfor %}
                                         {% else %}
                                             <span class="text-muted">Não selecionada</span>
                                         {% endif %}
                                     </div>
-                                    <form action="/atualizar_especialidade" method="POST" class="mt-2">
-                                        <select class="form-select form-select-sm" name="idEspecialidade" onchange="this.form.submit()">
-                                            <option value="" disabled {% if not especialidade_atual %}selected{% endif %}>Selecione uma especialidade</option>
-                                            {% for esp in especialidades %}
-                                                <option value="{{ esp.idEspecialidade }}" {% if esp.idEspecialidade == especialidade_atual %}selected{% endif %}>
-                                                    {{ esp.nome }}
-                                                </option>
-                                            {% endfor %}
-                                        </select>
-                                    </form>
+                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#modalEspecialidade">
+                                        <i class="bi bi-pencil"></i> Alterar Especialidade
+                                    </button>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -586,6 +582,49 @@
                 <div class="modal-footer">
                     <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn botao-medlive">Alterar Senha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Alterar Especialidade -->
+    <div class="modal fade" id="modalEspecialidade" tabindex="-1" aria-labelledby="modalEspecialidadeLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #001942 0%, #003366 100%); color: white;">
+                    <h5 class="modal-title" id="modalEspecialidadeLabel">
+                        <i class="bi bi-stethoscope me-2"></i>Selecionar Especialidade
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        {% for esp in especialidades %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card-especialidade-selecao {% if esp.idEspecialidade == especialidade_atual %}selecionada{% endif %}" 
+                                 data-id-especialidade="{{ esp.idEspecialidade }}"
+                                 data-nome-especialidade="{{ esp.nome }}">
+                                <div class="esp-icon-container">
+                                    <i class="bi esp-icon-modal" data-especialidade="{{ esp.nome }}"></i>
+                                </div>
+                                <div class="esp-nome">{{ esp.nome }}</div>
+                                <div class="esp-check">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <form id="formEspecialidade" action="/atualizar_especialidade" method="POST">
+                        <input type="hidden" name="idEspecialidade" id="idEspecialidadeSelecionada">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn botao-secundario" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn botao-medlive" onclick="confirmarEspecialidade()">
+                        <i class="bi bi-check"></i> Confirmar
+                    </button>
                 </div>
             </div>
         </div>

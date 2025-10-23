@@ -444,3 +444,96 @@ input:checked + .slider:before {
 }
 
 
+
+/* Estilos para seleção de especialidade */
+.especialidade-badge-perfil {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    color: white;
+    border-radius: 25px;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.especialidade-badge-perfil i {
+    font-size: 1.2rem;
+}
+
+.card-especialidade-selecao {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-especialidade-selecao:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 25, 66, 0.15);
+    border-color: #003366;
+}
+
+.card-especialidade-selecao.selecionada {
+    background: linear-gradient(135deg, #001942 0%, #003366 100%);
+    color: white;
+    border-color: #003366;
+}
+
+.card-especialidade-selecao.selecionada .esp-nome {
+    color: white;
+}
+
+.esp-icon-container {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.card-especialidade-selecao.selecionada .esp-icon-container {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.esp-icon-modal {
+    font-size: 2rem;
+    color: #003366;
+    transition: all 0.3s ease;
+}
+
+.card-especialidade-selecao.selecionada .esp-icon-modal {
+    color: white;
+}
+
+.esp-nome {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #001942;
+    margin-bottom: 0;
+}
+
+.esp-check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #28a745;
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card-especialidade-selecao.selecionada .esp-check {
+    opacity: 1;
+    color: white;
+}

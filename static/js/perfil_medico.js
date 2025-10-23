@@ -396,3 +396,103 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
+// Fun��o para mapear especialidades para �cones
+function getIconeEspecialidade(nomeEspecialidade) {
+    const iconMap = {
+        'cardiologia': 'bi-heart-pulse',
+        'dermatologia': 'bi-person-check',
+        'ortopedia': 'bi-bandaid',
+        'pediatria': 'bi-emoji-smile',
+        'ginecologia': 'bi-gender-female',
+        'oftalmologia': 'bi-eye',
+        'psiquiatria': 'bi-brain',
+        'neurologia': 'bi-activity',
+        'endocrinologia': 'bi-droplet',
+        'urologia': 'bi-clipboard-pulse',
+        'otorrinolaringologia': 'bi-headphones',
+        'gastroenterologia': 'bi-virus',
+        'pneumologia': 'bi-wind',
+        'reumatologia': 'bi-person-wheelchair',
+        'nefrologia': 'bi-diagram-3',
+        'oncologia': 'bi-shield-plus',
+        'hematologia': 'bi-heart',
+        'infectologia': 'bi-shield-check',
+        'geriatria': 'bi-person-walking',
+        'anestesiologia': 'bi-capsule',
+        'radiologia': 'bi-radioactive',
+        'patologia': 'bi-clipboard-data',
+        'medicina de emerg�ncia': 'bi-hospital',
+        'medicina do trabalho': 'bi-briefcase',
+        'medicina esportiva': 'bi-lightning',
+        'nutrologia': 'bi-egg-fried',
+        'cirurgia geral': 'bi-scissors',
+        'cl�nica geral': 'bi-clipboard-heart'
+    };
+    const nome = nomeEspecialidade.toLowerCase().trim();
+    return iconMap[nome] || 'bi-heart-pulse';
+}
+
+// Aplicar �cones quando a p�gina carregar
+document.addEventListener('DOMContentLoaded', function() {
+    aplicarIconesModalEspecialidade();
+    aplicarIconePerfilEspecialidade();
+});
+
+// Fun��o para aplicar �cones no modal de especialidades
+function aplicarIconesModalEspecialidade() {
+    const icones = document.querySelectorAll('.esp-icon-modal');
+    icones.forEach(icone => {
+        const especialidade = icone.getAttribute('data-especialidade');
+        if (especialidade) {
+            const iconeClass = getIconeEspecialidade(especialidade);
+            icone.className = 'bi esp-icon-modal ' + iconeClass;
+        }
+    });
+}
+
+// Fun��o para aplicar �cone no perfil
+function aplicarIconePerfilEspecialidade() {
+    const icones = document.querySelectorAll('.esp-icon-perfil');
+    icones.forEach(icone => {
+        const especialidade = icone.getAttribute('data-especialidade');
+        if (especialidade) {
+            const iconeClass = getIconeEspecialidade(especialidade);
+            icone.className = 'bi esp-icon-perfil ' + iconeClass;
+        }
+    });
+}
+
+// Função para selecionar especialidade
+let especialidadeSelecionadaId = null;
+
+// Adicionar event listeners aos cards de especialidade
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.card-especialidade-selecao').forEach(card => {
+        card.addEventListener('click', function() {
+            const idEspecialidade = this.getAttribute('data-id-especialidade');
+            const nomeEspecialidade = this.getAttribute('data-nome-especialidade');
+            
+            // Remover seleção anterior
+            document.querySelectorAll('.card-especialidade-selecao').forEach(c => {
+                c.classList.remove('selecionada');
+            });
+            
+            // Adicionar seleção à especialidade clicada
+            this.classList.add('selecionada');
+            
+            // Armazenar ID da especialidade selecionada
+            especialidadeSelecionadaId = idEspecialidade;
+        });
+    });
+});
+
+// Fun��o para confirmar especialidade
+function confirmarEspecialidade() {
+    if (especialidadeSelecionadaId) {
+        document.getElementById('idEspecialidadeSelecionada').value = especialidadeSelecionadaId;
+        document.getElementById('formEspecialidade').submit();
+    } else {
+        alert('Por favor, selecione uma especialidade.');
+    }
+}

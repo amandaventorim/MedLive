@@ -77,6 +77,11 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 25, 66, 0.3);
     }
+    
+    .especialidade-icon-inline {
+        margin-right: 0.5rem;
+        font-size: 1.2rem;
+    }
 </style>
 {% endblock %}
 
@@ -158,7 +163,7 @@
                             <div class="d-flex justify-content-between align-items-start">
                                 <div class="flex-grow-1">
                                     <div class="especialidade-nome">
-                                        <i class="bi bi-heart-pulse me-2"></i>{{ esp.nome }}
+                                        <i class="especialidade-icon-inline" data-especialidade="{{ esp.nome }}"></i>{{ esp.nome }}
                                     </div>
                                     <div class="especialidade-descricao">
                                         {{ esp.descricao }}
@@ -186,6 +191,51 @@
 </section>
 
 <script>
+// Mapeamento de especialidades para ícones do Bootstrap Icons
+function getIconeEspecialidade(nomeEspecialidade) {
+    const nome = nomeEspecialidade.toLowerCase().trim();
+    
+    const iconMap = {
+        'cardiologia': 'bi-heart-pulse',
+        'dermatologia': 'bi-person-check',
+        'clínica geral': 'bi-hospital',
+        'clinica geral': 'bi-hospital',
+        'pediatria': 'bi-emoji-smile',
+        'ginecologia': 'bi-gender-female',
+        'neurologia': 'bi-hammer',
+        'ortopedia': 'bi-bandaid',
+        'psiquiatria': 'bi-chat-heart',
+        'oftalmologia': 'bi-eye',
+        'otorrinolaringologia': 'bi-ear',
+        'urologia': 'bi-droplet',
+        'gastroenterologia': 'bi-brightness-high',
+        'endocrinologia': 'bi-activity',
+        'pneumologia': 'bi-lungs',
+        'nefrologia': 'bi-water',
+        'reumatologia': 'bi-person-arms-up',
+        'oncologia': 'bi-shield-plus',
+        'hematologia': 'bi-heart',
+        'infectologia': 'bi-bug',
+        'geriatria': 'bi-person-walking',
+        'anestesiologia': 'bi-hourglass-split',
+        'radiologia': 'bi-camera',
+        'cirurgia geral': 'bi-scissors',
+        'medicina do trabalho': 'bi-briefcase'
+    };
+    
+    return iconMap[nome] || 'bi-heart-pulse'; // Ícone padrão
+}
+
+// Aplicar ícones quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    const icones = document.querySelectorAll('.especialidade-icon-inline');
+    icones.forEach(icone => {
+        const nomeEspecialidade = icone.getAttribute('data-especialidade');
+        const classIcone = getIconeEspecialidade(nomeEspecialidade);
+        icone.className = `bi ${classIcone} especialidade-icon-inline`;
+    });
+});
+
 async function excluirEspecialidade(button) {
     const id = button.getAttribute('data-id');
     const nome = button.getAttribute('data-nome');

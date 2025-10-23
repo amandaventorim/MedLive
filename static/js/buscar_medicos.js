@@ -8,6 +8,7 @@ async function fetchDoctors() {
     try {
         const response = await fetch('/api/medicos');
         doctors = await response.json();
+        console.log('Médicos recebidos da API:', doctors);
         filteredDoctors = [...doctors];
         renderDoctors(doctors);
     } catch (error) {
@@ -33,7 +34,10 @@ function renderDoctors(doctorsToRender) {
                 <div class="col-lg-4 col-md-6">
                     <div class="doctor-card">
                         <div class="doctor-avatar">
-                            ${doctor.name.split(' ').map(n => n[0]).join('')}
+                            ${doctor.foto 
+                                ? `<img src="${doctor.foto}" alt="${doctor.name}" class="doctor-photo">` 
+                                : doctor.name.split(' ').map(n => n[0]).join('')
+                            }
                         </div>
                         <h5 class="text-center fw-bold text-azul">${doctor.name}</h5>
                         <p class="text-center text-secondary mb-2">${doctor.specialty}</p>
@@ -129,5 +133,54 @@ document.getElementById('ratingFilter').addEventListener('change', applyFilters)
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function () {
+    aplicarIconesEspecialidades();
     fetchDoctors();
 });
+
+// Função para mapear especialidades para ícones
+function getIconeEspecialidade(nomeEspecialidade) {
+    const iconMap = {
+        'cardiologia': 'bi-heart-pulse',
+        'dermatologia': 'bi-person-check',
+        'ortopedia': 'bi-bandaid',
+        'pediatria': 'bi-emoji-smile',
+        'ginecologia': 'bi-gender-female',
+        'oftalmologia': 'bi-eye',
+        'psiquiatria': 'bi-brain',
+        'neurologia': 'bi-activity',
+        'endocrinologia': 'bi-droplet',
+        'urologia': 'bi-clipboard-pulse',
+        'otorrinolaringologia': 'bi-headphones',
+        'gastroenterologia': 'bi-virus',
+        'pneumologia': 'bi-wind',
+        'reumatologia': 'bi-person-wheelchair',
+        'nefrologia': 'bi-diagram-3',
+        'oncologia': 'bi-shield-plus',
+        'hematologia': 'bi-heart',
+        'infectologia': 'bi-shield-check',
+        'geriatria': 'bi-person-walking',
+        'anestesiologia': 'bi-capsule',
+        'radiologia': 'bi-radioactive',
+        'patologia': 'bi-clipboard-data',
+        'medicina de emergência': 'bi-hospital',
+        'medicina do trabalho': 'bi-briefcase',
+        'medicina esportiva': 'bi-lightning',
+        'nutrologia': 'bi-egg-fried',
+        'cirurgia geral': 'bi-scissors',
+        'clínica geral': 'bi-clipboard-heart'
+    };
+    const nome = nomeEspecialidade.toLowerCase().trim();
+    return iconMap[nome] || 'bi-heart-pulse';
+}
+
+// Função para aplicar ícones às especialidades
+function aplicarIconesEspecialidades() {
+    const icones = document.querySelectorAll('.esp-icon-busca');
+    icones.forEach(icone => {
+        const especialidade = icone.getAttribute('data-especialidade');
+        if (especialidade) {
+            const iconeClass = getIconeEspecialidade(especialidade);
+            icone.classList.add(iconeClass);
+        }
+    });
+}

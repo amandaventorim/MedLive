@@ -40,4 +40,51 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!secaoAtiva) {
         mostrarSecao('medicos');
     }
+    
+    // Aplicar ícones nas especialidades
+    aplicarIconesEspecialidades();
 });
+
+// Mapeamento de especialidades para ícones do Bootstrap Icons
+function getIconeEspecialidade(nomeEspecialidade) {
+    const nome = nomeEspecialidade.toLowerCase().trim();
+    
+    const iconMap = {
+        'cardiologia': 'bi-heart-pulse',
+        'dermatologia': 'bi-person-check',
+        'clínica geral': 'bi-hospital',
+        'clinica geral': 'bi-hospital',
+        'pediatria': 'bi-emoji-smile',
+        'ginecologia': 'bi-gender-female',
+        'neurologia': 'bi-hammer',
+        'ortopedia': 'bi-bandaid',
+        'psiquiatria': 'bi-brain',
+        'oftalmologia': 'bi-eye',
+        'otorrinolaringologia': 'bi-ear',
+        'urologia': 'bi-droplet',
+        'gastroenterologia': 'bi-brightness-high',
+        'endocrinologia': 'bi-activity',
+        'pneumologia': 'bi-lungs',
+        'nefrologia': 'bi-water',
+        'reumatologia': 'bi-person-arms-up',
+        'oncologia': 'bi-shield-plus',
+        'hematologia': 'bi-heart',
+        'infectologia': 'bi-bug',
+        'geriatria': 'bi-person-walking',
+        'anestesiologia': 'bi-hourglass-split',
+        'radiologia': 'bi-camera',
+        'cirurgia geral': 'bi-scissors',
+        'medicina do trabalho': 'bi-briefcase'
+    };
+    
+    return iconMap[nome] || 'bi-heart-pulse'; // Ícone padrão
+}
+
+function aplicarIconesEspecialidades() {
+    const icones = document.querySelectorAll('.esp-icon-dashboard');
+    icones.forEach(icone => {
+        const nomeEspecialidade = icone.getAttribute('data-especialidade');
+        const classIcone = getIconeEspecialidade(nomeEspecialidade);
+        icone.className = `bi ${classIcone}`;
+    });
+}

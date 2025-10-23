@@ -73,9 +73,15 @@ async def get_minhas_consultas(request: Request, sucesso: str = None, usuario_lo
 @router.get("/buscar_medicos")
 @requer_autenticacao(["paciente"])
 async def get_buscar_medicos(request: Request, usuario_logado: dict = None):
+    from data.repo.especialidade_repo import obter_todas_especialidades
+    
+    # Buscar especialidades reais do banco
+    especialidades = obter_todas_especialidades()
+    
     return templates.TemplateResponse("/paciente/buscar_medicos.html", {
         "request": request,
-        "usuario": usuario_logado
+        "usuario": usuario_logado,
+        "especialidades": especialidades
     })
 
 # Rota de agendar_consulta movida para consulta_rotas.py para evitar duplicação
@@ -109,6 +115,7 @@ async def get_sala_espera(request: Request, usuario_logado: dict = None):
 async def api_medicos():
     from data.repo.medico_especialidade_repo import obter_especialidade_por_medico
     from data.repo.especialidade_repo import obter_especialidade_por_id
+    from data.repo.usuario_repo import obter_usuario_por_id
     
     medicos = obter_todos_medicos()
     # Retorna apenas os campos relevantes para o frontend
@@ -124,6 +131,10 @@ async def api_medicos():
             if especialidade:
                 especialidade_nome = especialidade.nome
         
+        # Buscar dados do usuário para pegar a foto
+        usuario = obter_usuario_por_id(m.idMedico)
+        foto_url = usuario.foto if usuario and usuario.foto else None
+        
         medicos_dict.append({
             "id": m.idMedico,
             "name": m.nome,
@@ -131,6 +142,7 @@ async def api_medicos():
             "crm": m.crm,
             "experience": getattr(m, "statusProfissional", ""),
             "email": m.email,
+            "foto": foto_url,
             "rating": 4.5,  # Valor padrão
             "reviews": 0,  # Valor padrão
             "price": "R$ 150,00",  # Valor padrão
