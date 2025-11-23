@@ -383,7 +383,10 @@ async function enviarCodigoVerificacao(email) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email: email })
+            body: JSON.stringify({ 
+                email: email,
+                nome: document.getElementById('nome').value || 'Usuário'
+            })
         });
         
         const data = await response.json();
@@ -391,10 +394,8 @@ async function enviarCodigoVerificacao(email) {
         if (data.success) {
             console.log('✅ Código de verificação enviado!');
             
-            // APENAS PARA DEMONSTRAÇÃO - Mostrar o código na tela
-            if (data.demo_code) {
-                mostrarCodigoDemo(data.demo_code);
-            }
+            // Mostrar mensagem de sucesso
+            mostrarMensagemEnvio(email);
         } else {
             alert('Erro ao enviar código: ' + data.message);
         }
@@ -404,62 +405,29 @@ async function enviarCodigoVerificacao(email) {
     }
 }
 
-function mostrarCodigoDemo(codigo) {
+function mostrarMensagemEnvio(email) {
     // Limpar alertas anteriores
-    const alertasAntigos = document.querySelectorAll('#stepEmailVerification .alert-warning');
+    const alertasAntigos = document.querySelectorAll('#stepEmailVerification .alert-success, #stepEmailVerification .alert-warning');
     alertasAntigos.forEach(alerta => alerta.remove());
     
-    // Criar elemento para mostrar o código (apenas para demonstração)
+    // Criar elemento para mostrar a mensagem de sucesso
     const alertDiv = document.createElement('div');
-    alertDiv.className = 'alert alert-warning mb-2';
-    alertDiv.style.cssText = 'padding: 0.5rem 0.75rem; font-size: 0.85rem;';
+    alertDiv.className = 'alert alert-success mb-3';
     alertDiv.innerHTML = `
-        <div class="d-flex align-items-center justify-content-between gap-2">
-            <span>
-                <i class="fas fa-info-circle"></i>
-                <strong>Demo:</strong> <strong style="color: #001942; font-size: 1rem;">${codigo}</strong>
-            </span>
-            <button class="btn btn-sm btn-outline-dark py-0 px-2" onclick="copiarCodigo('${codigo}')" style="font-size: 0.75rem;" type="button">
-                <i class="fa fa-copy"></i>
-            </button>
+        <div class="d-flex align-items-start gap-2">
+            <i class="bi bi-envelope-check" style="font-size: 1.5rem;"></i>
+            <div>
+                <strong>Email enviado com sucesso!</strong>
+                <p class="mb-0 mt-1">Enviamos um código de verificação de 6 dígitos para <strong>${email}</strong></p>
+                <small class="text-muted">O código é válido por 5 minutos. Verifique sua caixa de entrada e spam.</small>
+            </div>
         </div>
     `;
     
     // Inserir antes dos botões
     const verificationSection = document.querySelector('#stepEmailVerification .verification-section');
-    const botoesDiv = verificationSection.querySelector('.d-flex.justify-content-between');
-    verificationSection.insertBefore(alertDiv, botoesDiv);
-}
-
-function copiarCodigo(codigo) {
-    // Preencher automaticamente o campo
-    const campoVerificacao = document.getElementById('verificationCode');
-    if (campoVerificacao) {
-        campoVerificacao.value = codigo;
-        campoVerificacao.focus();
-        
-        // Feedback visual no botão
-        const botoes = document.querySelectorAll('#stepEmailVerification .alert-warning .btn');
-        botoes.forEach(btn => {
-            const iconeOriginal = btn.innerHTML;
-            btn.innerHTML = '<i class="fa fa-check"></i>';
-            btn.classList.add('btn-success');
-            btn.classList.remove('btn-outline-dark');
-            
-            setTimeout(() => {
-                btn.innerHTML = iconeOriginal;
-                btn.classList.remove('btn-success');
-                btn.classList.add('btn-outline-dark');
-            }, 1500);
-        });
-    }
-    
-    // Copiar para área de transferência silenciosamente
-    try {
-        navigator.clipboard.writeText(codigo);
-    } catch (err) {
-        console.log('Código preenchido no campo');
-    }
+    const inputGroup = verificationSection.querySelector('.input-group');
+    verificationSection.insertBefore(alertDiv, inputGroup);
 }
 
 function goBackToEmailEdit() {

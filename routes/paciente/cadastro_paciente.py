@@ -10,6 +10,7 @@ from data.repo.paciente_repo import inserir_paciente
 from data.model.paciente_model import Paciente
 from util.security import criar_hash_senha
 from util.validacoes_dto import ValidacaoError
+from util.email_service import email_service
 from dto import CriarPacienteDTO
 
 router = APIRouter()
@@ -25,10 +26,11 @@ async def get_cadastro_paciente(request: Request):
 
 @router.post("/gerar_codigo_verificacao")
 async def gerar_codigo_verificacao(request: Request):
-    """Gera um código de verificação de 6 dígitos para o email"""
+    """Gera um código de verificação de 6 dígitos e envia por email"""
     try:
         data = await request.json()
         email = data.get("email")
+        nome = data.get("nome", "Usuário")
         
         if not email:
             return JSONResponse({"success": False, "message": "Email não fornecido"}, status_code=400)
@@ -36,22 +38,46 @@ async def gerar_codigo_verificacao(request: Request):
         # Gerar código de 6 dígitos
         codigo = str(random.randint(100000, 999999))
         
-        # Armazenar código com timestamp (expira em 10 minutos)
-        expiracao = datetime.now() + timedelta(minutes=10)
+        # Armazenar código com timestamp (expira em 5 minutos)
+        expiracao = datetime.now() + timedelta(minutes=5)
         verification_codes[email] = {
             "codigo": codigo,
             "expiracao": expiracao,
             "tentativas": 0
         }
         
-        print(f"[DEMO] Código de verificação gerado para {email}: {codigo}")
+        print(f"[VERIFICAÇÃO] Código gerado para {email}: {codigo}")
         
-        # Para demonstração, retornar o código (em produção, enviaria por email)
-        return JSONResponse({
-            "success": True,
-            "message": "Código gerado com sucesso",
-            "demo_code": codigo  # APENAS PARA DEMONSTRAÇÃO
-        })
+        # Enviar email com o código
+        try:
+            email_enviado = email_service.enviar_codigo_verificacao(
+                para_email=email,
+                para_nome=nome,
+                codigo=codigo
+            )
+            
+            if email_enviado:
+                return JSONResponse({
+                    "success": True,
+                    "message": "Código de verificação enviado para seu email"
+                })
+            else:
+                # Se falhar no envio, remover código gerado
+                del verification_codes[email]
+                return JSONResponse({
+                    "success": False,
+                    "message": "Erro ao enviar email. Verifique seu endereço de email e tente novamente."
+                }, status_code=500)
+                
+        except Exception as e:
+            print(f"Erro ao enviar email: {e}")
+            # Se falhar no envio, remover código gerado
+            if email in verification_codes:
+                del verification_codes[email]
+            return JSONResponse({
+                "success": False,
+                "message": "Erro ao enviar email de verificação. Tente novamente."
+            }, status_code=500)
         
     except Exception as e:
         print(f"Erro ao gerar código: {e}")

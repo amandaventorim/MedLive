@@ -1,4 +1,5 @@
 // Sistema de notificações em tempo real para pacientes
+// Versão: 2.0 - Botão vermelho para entrar na consulta
 
 class PatientNotificationManager {
     constructor(userId) {
@@ -125,7 +126,7 @@ class PatientNotificationManager {
                     </small>
                 </div>
                 <div class="notification-actions">
-                    <button class="btn btn-success btn-sm" onclick="joinVideoCall('${data.room_id}')">
+                    <button class="btn btn-danger btn-sm" onclick="joinVideoCall('${data.room_id}')">
                         <i class="bi bi-camera-video me-1"></i>
                         Entrar na Consulta
                     </button>
@@ -136,14 +137,6 @@ class PatientNotificationManager {
                 </div>
             </div>
         `;
-        
-        // Auto-remover após 60 segundos para consultas
-        setTimeout(() => {
-            if (notification.parentElement) {
-                notification.classList.add('notification-fade-out');
-                setTimeout(() => notification.remove(), 500);
-            }
-        }, 60000);
         
         // Animação de entrada
         setTimeout(() => {

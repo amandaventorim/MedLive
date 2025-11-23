@@ -8,10 +8,13 @@ import secrets
 import time
 import json
 from datetime import datetime
+from dotenv import load_dotenv
 from util.websocket_manager import manager
 from util.auth_decorator import get_current_user, obter_usuario_logado
 from data.repo.agendamento_repo import obter_agendamento_por_id, atualizar_status_agendamento
 
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv()
 
 app = FastAPI()
 

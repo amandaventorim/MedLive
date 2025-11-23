@@ -222,3 +222,63 @@ def atualizar_status_agendamento(idAgendamento: int, novo_status: str, room_id: 
     except Exception as e:
         print(f"Erro ao atualizar status do agendamento: {e}")
         return False
+
+
+def obter_proximos_agendamentos_paciente(idPaciente: int, limite: int = 10) -> list[dict]:
+    """Obtém os próximos agendamentos do paciente ordenados por data"""
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(OBTER_PROXIMOS_AGENDAMENTOS_PACIENTE, (idPaciente, limite))
+            rows = cursor.fetchall()
+            
+            if not rows:
+                return []
+                
+            return [
+                {
+                    "idAgendamento": row["idAgendamento"],
+                    "idPaciente": row["idPaciente"],
+                    "idMedico": row["idMedico"],
+                    "dataAgendamento": row["dataAgendamento"],
+                    "horario": row["horario"],
+                    "status": row["status"],
+                    "queixa": row["queixa"] if row["queixa"] else "",
+                    "preco": row["preco"] if row["preco"] else 0.0,
+                    "dataInclusao": row["dataInclusao"],
+                    "nomeMedico": row["nomeMedico"],
+                    "crm": row["crm"],
+                    "fotoMedico": row["fotoMedico"] if row["fotoMedico"] else None,
+                    "especialidade": row["especialidade"] if row["especialidade"] else "Não informada"
+                }
+                for row in rows
+            ]
+    except Exception as e:
+        print(f"Erro ao obter próximos agendamentos: {e}")
+        return []
+
+
+def contar_consultas_realizadas_paciente(idPaciente: int) -> int:
+    """Conta o número de consultas realizadas pelo paciente"""
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CONTAR_CONSULTAS_REALIZADAS_PACIENTE, (idPaciente,))
+            row = cursor.fetchone()
+            return row["total"] if row else 0
+    except Exception as e:
+        print(f"Erro ao contar consultas realizadas: {e}")
+        return 0
+
+
+def contar_consultas_agendadas_paciente(idPaciente: int) -> int:
+    """Conta o número de consultas agendadas do paciente"""
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(CONTAR_CONSULTAS_AGENDADAS_PACIENTE, (idPaciente,))
+            row = cursor.fetchone()
+            return row["total"] if row else 0
+    except Exception as e:
+        print(f"Erro ao contar consultas agendadas: {e}")
+        return 0

@@ -115,8 +115,8 @@ class ConnectionManager:
                     "room_id": room_id
                 })
                 
-                # Remover sala se vazia
-                if not self.video_rooms[room_id]:
+                # Remover sala se vazia (verificar se ainda existe)
+                if room_id in self.video_rooms and not self.video_rooms[room_id]:
                     del self.video_rooms[room_id]
                 
                 print(f"Usuario {user_type} {user_id} saiu da sala {room_id}")

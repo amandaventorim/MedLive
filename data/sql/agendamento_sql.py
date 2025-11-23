@@ -81,3 +81,31 @@ DELETAR_AGENDAMENTO = """
 DELETE FROM agendamento
 WHERE idAgendamento = ?
 """
+
+OBTER_PROXIMOS_AGENDAMENTOS_PACIENTE = """
+SELECT
+a.idAgendamento, a.idPaciente, a.idMedico, a.dataAgendamento, a.horario, a.status, a.queixa, a.preco, a.dataInclusao,
+u.nome as nomeMedico, m.crm, u.foto as fotoMedico, e.nome as especialidade
+FROM agendamento a
+JOIN usuario u ON a.idMedico = u.idUsuario
+JOIN medico m ON a.idMedico = m.idMedico
+LEFT JOIN medico_especialidade me ON m.idMedico = me.idMedico
+LEFT JOIN especialidade e ON me.idEspecialidade = e.idEspecialidade
+WHERE a.idPaciente = ? 
+AND a.status IN ('agendado', 'confirmado')
+AND (a.dataAgendamento > date('now') OR (a.dataAgendamento = date('now') AND a.horario >= time('now', 'localtime')))
+ORDER BY a.dataAgendamento ASC, a.horario ASC
+LIMIT ?
+"""
+
+CONTAR_CONSULTAS_REALIZADAS_PACIENTE = """
+SELECT COUNT(*) as total
+FROM agendamento
+WHERE idPaciente = ? AND status = 'realizada'
+"""
+
+CONTAR_CONSULTAS_AGENDADAS_PACIENTE = """
+SELECT COUNT(*) as total
+FROM agendamento
+WHERE idPaciente = ? AND status IN ('agendado', 'confirmado')
+"""
