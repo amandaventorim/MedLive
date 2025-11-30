@@ -436,12 +436,6 @@ function confirmAppointment() {
         return false;
     }
     
-    // 7. Validar que não é domingo
-    if (selectedDate.getDay() === 0) {
-        alert('Não há atendimento aos domingos. Por favor, selecione outra data.');
-        return false;
-    }
-    
     // ===== PREENCHIMENTO DOS CAMPOS =====
     
     try {

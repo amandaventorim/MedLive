@@ -36,10 +36,6 @@ def validar_data_agendamento(data_str: str) -> tuple[bool, str, datetime]:
         limite_futuro = hoje + timedelta(days=180)
         if data_agendamento > limite_futuro:
             return False, "Não é possível agendar consultas com mais de 6 meses de antecedência.", None
-        
-        # Verificar se não é domingo (dia 6 = domingo)
-        if data_agendamento.weekday() == 6:
-            return False, "Não é possível agendar consultas aos domingos.", None
             
         return True, "", data_agendamento
         
@@ -61,10 +57,6 @@ def validar_horario_agendamento(horario_str: str) -> tuple[bool, str]:
     # Converter para objeto time para validação
     try:
         hora, minuto = map(int, horario_str.split(':'))
-        
-        # Horários de funcionamento: 08:00 às 18:00
-        if hora < 8 or hora >= 18:
-            return False, "Horário deve estar entre 08:00 e 17:59."
         
         # Apenas horários de 30 em 30 minutos
         if minuto not in [0, 30]:
@@ -394,6 +386,77 @@ async def agendar_consulta(
         agendamento_id = inserir_agendamento(agendamento)
         if agendamento_id:
             print(f"Agendamento criado com sucesso: ID {agendamento_id}")  # Log de sucesso
+            
+            # ===== CRIAR NOTIFICAÇÃO DE CONFIRMAÇÃO =====
+            try:
+                from data.repo.notificacao_repo import criar_notificacao_confirmacao_consulta
+                
+                # Calcular se o agendamento é para as próximas 24-48h
+                data_agendamento = datetime.strptime(f"{date} {time}", "%Y-%m-%d %H:%M")
+                agora = datetime.now()
+                diferenca_horas = (data_agendamento - agora).total_seconds() / 3600
+                
+                # Se a consulta é nas próximas 48h, criar notificação imediatamente
+                if 0 < diferenca_horas <= 48:
+                    # Buscar dados do médico
+                    from data.repo.medico_repo import obter_medico_por_id
+                    medico = obter_medico_por_id(idMedico)
+                    nome_medico = medico.nome if medico else "Dr. Desconhecido"
+                    
+                    notificacao_id = criar_notificacao_confirmacao_consulta(
+                        id_paciente=id_paciente,
+                        nome_medico=nome_medico,
+                        data_consulta=date,
+                        horario=time,
+                        agendamento_id=agendamento_id
+                    )
+                    
+                    if notificacao_id:
+                        print(f"Notificação de confirmação criada: ID {notificacao_id}")
+                        
+                        # Enviar notificação via WebSocket
+                        try:
+                            from util.websocket_manager import manager
+                            await manager.notify_appointment_confirmation_needed(
+                                patient_id=str(id_paciente),
+                                agendamento_id=agendamento_id,
+                                data_consulta=date,
+                                horario_consulta=time
+                            )
+                            print(f"Notificação WebSocket enviada para paciente ID {id_paciente}")
+                        except Exception as ws_e:
+                            print(f"Erro ao enviar WebSocket de confirmação: {ws_e}")
+                    else:
+                        print("Erro ao criar notificação de confirmação")
+                else:
+                    print(f"Agendamento para {diferenca_horas:.1f}h no futuro - notificação será criada automaticamente")
+                    
+            except Exception as e:
+                print(f"Erro ao criar notificação de confirmação: {e}")
+                # Não falhar o agendamento por causa da notificação
+            
+            # ===== NOTIFICAR O MÉDICO =====
+            try:
+                from util.websocket_manager import manager
+                from data.repo.medico_repo import obter_medico_por_id
+                
+                # Buscar dados do médico
+                medico = obter_medico_por_id(idMedico)
+                if medico:
+                    # Enviar notificação para o médico
+                    await manager.notify_new_appointment(
+                        doctor_id=str(idMedico),
+                        patient_name=usuario_logado.get("nome", "Paciente"),
+                        appointment_date=date,
+                        appointment_time=time,
+                        appointment_id=agendamento_id
+                    )
+                    print(f"Notificação enviada para médico ID {idMedico}")
+                
+            except Exception as e:
+                print(f"Erro ao enviar notificação para médico: {e}")
+                # Não falhar o agendamento por causa da notificação
+            
             # Redirecionar com mensagem de sucesso na URL
             return RedirectResponse("/minhas_consultas?sucesso=agendamento", status_code=303)
         else:

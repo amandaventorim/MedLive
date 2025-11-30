@@ -35,6 +35,31 @@
                 </ul>
 
                 <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 navbar-actions">
+                    <!-- Ícone de Notificações -->
+                    <div class="notifications-wrapper position-relative">
+                        <button class="btn btn-notifications" id="notificationsButton" type="button">
+                            <i class="bi bi-bell"></i>
+                            <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                        </button>
+                        
+                        <!-- Dropdown de Notificações -->
+                        <div class="notifications-dropdown" id="notificationsDropdown" style="display: none;">
+                            <div class="notifications-header">
+                                <h6 class="mb-0">Notificações</h6>
+                                <button class="btn btn-sm btn-link" onclick="markAllAsRead()">Marcar todas como lida</button>
+                            </div>
+                            <div class="notifications-list" id="notificationsList">
+                                <div class="text-center text-muted p-3">
+                                    <i class="bi bi-bell-slash"></i>
+                                    <p class="mb-0">Nenhuma notificação</p>
+                                </div>
+                            </div>
+                            <div class="notifications-footer">
+                                <a href="#" class="btn btn-sm btn-primary w-100">Ver todas</a>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="user-link-wrapper position-relative">
                         <a class="nav-link fw-bold user-link-inner px-0" href="/perfil_paciente">
                             <span class="icon-text-wrapper">
@@ -58,11 +83,17 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/notification_system.js"></script>
     <script src="/static/js/paciente_notifications.js?v=2.0"></script>
     {% if usuario %}
     <script>
         // ID do paciente para WebSocket
         const pacienteId = "{{ usuario.idUsuario }}";
+        
+        // Inicializar sistema de notificações
+        document.addEventListener('DOMContentLoaded', function() {
+            window.notificationSystem = new NotificationSystem(pacienteId, 'paciente');
+        });
     </script>
     {% endif %}
     {% block extra_js %}{% endblock %}

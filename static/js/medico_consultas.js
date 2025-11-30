@@ -184,11 +184,34 @@ function connectToWebSocket(medicoId) {
 
 // Função para tratar notificações recebidas pelo médico
 function handleDoctorNotification(data) {
-    if (data.type === 'patient_joined') {
-        showNotification(data.message, 'info');
+    console.log('Notificação recebida pelo médico:', data);
+    
+    // Enviar para o sistema de notificações persistentes
+    if (typeof window.handleWebSocketNotification === 'function') {
+        window.handleWebSocketNotification(data);
+    }
+    
+    switch (data.type) {
+        case 'novo_agendamento':
+            showNotification(`Nova consulta agendada: ${data.patient_name} - ${data.appointment_date} às ${data.appointment_time}`, 'success');
+            playNotificationSound();
+            break;
         
-        // Opcionalmente, tocar um som
-        playNotificationSound();
+        case 'resposta_confirmacao':
+            const confirmou = data.confirmou ? 'CONFIRMOU' : 'NÃO CONFIRMOU';
+            const tipo = data.confirmou ? 'success' : 'warning';
+            showNotification(`${data.paciente} ${confirmou} presença para consulta`, tipo);
+            playNotificationSound();
+            break;
+        
+        case 'patient_joined':
+            showNotification(data.message, 'info');
+            playNotificationSound();
+            break;
+        
+        default:
+            // Outros tipos são tratados pelo sistema persistente
+            console.log('Tipo de notificação para sistema persistente:', data.type);
     }
 }
 

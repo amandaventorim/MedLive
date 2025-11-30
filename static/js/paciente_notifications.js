@@ -76,9 +76,19 @@ class PatientNotificationManager {
     }
 
     handleNotification(data) {
+        console.log('Notificação recebida:', data);
+        
+        // Enviar para o sistema de notificações persistentes se disponível
+        if (typeof window.handleWebSocketNotification === 'function') {
+            window.handleWebSocketNotification(data);
+        }
+        
         switch (data.type) {
             case 'consultation_started':
                 this.showConsultationNotification(data);
+                break;
+            case 'confirmacao_consulta':
+                // Será tratada pelo sistema persistente
                 break;
             default:
                 console.log('Tipo de notificação desconhecido:', data.type);

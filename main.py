@@ -59,6 +59,10 @@ app.include_router(cadastro_medico.router)
 from routes.admin import admin_rotas
 app.include_router(admin_rotas.router)
 
+# Incluir rotas de notificações
+from routes import notifications_routes
+app.include_router(notifications_routes.router)
+
 # WebSocket endpoints
 @app.websocket("/ws/{user_type}/{user_id}")
 async def websocket_endpoint(websocket: WebSocket, user_type: str, user_id: str):

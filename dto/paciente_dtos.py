@@ -267,11 +267,6 @@ class AgendarConsultaDTO(BaseDTO):
         except ValueError:
             raise ValueError('Horário inválido')
         
-        # Validar horário comercial (8:00 às 18:00)
-        hora = int(v.split(':')[0])
-        if hora < 8 or hora >= 18:
-            raise ValueError('Horário deve estar entre 08:00 e 18:00')
-        
         return v
 
     @field_validator('observacoes')
