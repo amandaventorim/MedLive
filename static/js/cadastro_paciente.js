@@ -419,7 +419,7 @@ function mostrarMensagemEnvio(email) {
             <div>
                 <strong>Email enviado com sucesso!</strong>
                 <p class="mb-0 mt-1">Enviamos um código de verificação de 6 dígitos para <strong>${email}</strong></p>
-                <small class="text-muted">O código é válido por 5 minutos. Verifique sua caixa de entrada e spam.</small>
+                <small class="text-muted">O código é válido por 5 minutos.</small>
             </div>
         </div>
     `;

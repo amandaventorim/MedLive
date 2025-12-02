@@ -154,6 +154,17 @@
             <h4 class="fw-bold text-azul mb-3">
                 <i class="bi bi-list-ul me-2"></i>Especialidades Cadastradas ({{ especialidades|length }})
             </h4>
+            
+            <!-- DEBUG: Mostrar especialidades recebidas -->
+            {% if especialidades %}
+                <!-- DEBUG INFO -->
+                <div class="alert alert-info mb-3" style="font-size: 0.9rem;">
+                    <strong>🔧 DEBUG:</strong> Recebidas {{ especialidades|length }} especialidades:
+                    {% for esp in especialidades %}
+                        <br>• [ID:{{ esp.idEspecialidade }}] "{{ esp.nome }}" - {{ esp.descricao }}
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             {% if especialidades %}
                 <div class="row">

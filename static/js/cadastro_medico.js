@@ -58,7 +58,7 @@ function validarEmail(email) {
 function validarIdade(dataNascimento) {
     const hoje = new Date();
     const nascimento = new Date(dataNascimento);
-    const idade = hoje.getFullYear() - nascimento.getFullYear();
+    let idade = hoje.getFullYear() - nascimento.getFullYear();
     const diferenca = hoje.getMonth() - nascimento.getMonth();
     
     if (diferenca < 0 || (diferenca === 0 && hoje.getDate() < nascimento.getDate())) {

@@ -56,6 +56,10 @@ async def get_gerenciar_especialidades(request: Request, usuario_logado: dict = 
     """Página para gerenciar especialidades médicas"""
     try:
         especialidades = obter_todas_especialidades()
+        print(f"[DEBUG] Total de especialidades encontradas: {len(especialidades)}")
+        for esp in especialidades:
+            print(f"[DEBUG] - ID:{esp.idEspecialidade} | Nome:'{esp.nome}' | Desc:'{esp.descricao}'")
+        
         return templates.TemplateResponse("/admin/especialidades.html", {
             "request": request,
             "usuario": usuario_logado,
@@ -63,6 +67,8 @@ async def get_gerenciar_especialidades(request: Request, usuario_logado: dict = 
         })
     except Exception as e:
         print(f"Erro ao obter especialidades: {e}")
+        import traceback
+        traceback.print_exc()
         return templates.TemplateResponse("/admin/especialidades.html", {
             "request": request,
             "usuario": usuario_logado,
