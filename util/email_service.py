@@ -4,17 +4,26 @@ from typing import Optional
 
 class EmailService:
     def __init__(self):
+        # Carregar variáveis de ambiente
+        from dotenv import load_dotenv
+        load_dotenv()
+        
         self.api_key = os.getenv('RESEND_API_KEY')
         self.from_email = os.getenv('RESEND_FROM_EMAIL', 'noreply@seudominio.com')
-        self.from_name = os.getenv('RESEND_FROM_NAME', 'Sistema')
+        self.from_name = os.getenv('RESEND_FROM_NAME', 'MedLive Sistema')
+        self.debug = os.getenv('EMAIL_DEBUG', 'true').lower() == 'true'
 
         # Configura a API key do Resend
         if self.api_key:
             resend.api_key = self.api_key
-            print(f"✅ Resend configurado com sucesso")
-            print(f"   From: {self.from_name} <{self.from_email}>")
+            if self.debug:
+                print(f"✅ Resend configurado com sucesso")
+                print(f"   API Key: {self.api_key[:10]}...")
+                print(f"   From: {self.from_name} <{self.from_email}>")
         else:
-            print("⚠️  RESEND_API_KEY não encontrada no .env")
+            print("❌ RESEND_API_KEY não encontrada!")
+            print("💡 Configure no arquivo .env: RESEND_API_KEY=sua_chave_aqui")
+            print("💡 Obtenha sua chave em: https://resend.com/api-keys")
 
     def enviar_email(
         self,
@@ -25,8 +34,15 @@ class EmailService:
         texto: Optional[str] = None
     ) -> bool:
         """Envia e-mail via Resend.com"""
+        if self.debug:
+            print(f"\n📧 Tentando enviar email:")
+            print(f"   Para: {para_email}")
+            print(f"   Assunto: {assunto}")
+            print(f"   From: {self.from_name} <{self.from_email}>")
+        
         if not self.api_key:
-            print("RESEND_API_KEY não configurada")
+            print("❌ RESEND_API_KEY não configurada")
+            print("💡 Configure sua chave do Resend no arquivo .env")
             return False
 
         params = {
@@ -35,13 +51,25 @@ class EmailService:
             "subject": assunto,
             "html": html
         }
+        
+        if self.debug:
+            print(f"📤 Enviando via Resend API...")
 
         try:
             email = resend.Emails.send(params)  # type: ignore[arg-type]
-            print(f"E-mail enviado para {para_email} - ID: {email.get('id', 'N/A')}")
+            email_id = email.get('id', 'N/A')
+            print(f"✅ Email enviado com sucesso!")
+            print(f"   ID: {email_id}")
+            print(f"   Para: {para_email}")
             return True
         except Exception as e:
-            print(f"Erro ao enviar e-mail: {e}")
+            print(f"❌ Erro ao enviar email:")
+            print(f"   Erro: {str(e)}")
+            print(f"   Tipo: {type(e).__name__}")
+            if 'unauthorized' in str(e).lower():
+                print("💡 Verifique se sua RESEND_API_KEY está correta")
+            elif 'domain' in str(e).lower():
+                print(f"💡 Verifique se o domínio '{self.from_email.split('@')[1]}' está verificado no Resend")
             return False
 
     def enviar_recuperacao_senha(self, para_email: str, para_nome: str, token: str) -> bool:
